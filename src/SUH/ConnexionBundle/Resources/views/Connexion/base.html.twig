@@ -41,9 +41,25 @@
 
           <div class="row">
               <div class="col-md-3">
-                <a href="{{path('suh_choix_homepage')}}">
+                <div class="col-md-12">
+                <a href="{{path('suh_choix_homepage')}}" >
                     <img id="logo" alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
                 </a>
+                </div>
+                <div class="col-md-6">
+                  <a href="{{path('suh_contrat_homepage')}}" class="col-md-offset-5">
+                      <span class="btn btn-primary">
+                          Contrat
+                      </span>
+                  </a>
+                </div>
+                <div class="col-md-6">
+                <a href="{{path('suh_gestion_homepage')}}">
+                      <span class="btn btn-success" >
+                          Gestion
+                      </span>
+                  </a>
+                </div>
               </div>
               <div class="col-md-9">
                   {% block menu %}
