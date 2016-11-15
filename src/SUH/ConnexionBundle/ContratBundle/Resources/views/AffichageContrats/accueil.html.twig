@@ -1,0 +1,40 @@
+{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
+
+{% block title %} {{parent()}} - Accueil {% endblock %}
+
+{% block body %}
+    <body>
+        <section id="containerFluidBody" class="container-fluid">
+            <div class="row">
+                <div id="divListe" class="col-md-2">
+                    <div id="recherche" class="row">
+                        <div class="form-group">
+                            <form class="input-group" action="{{ path('suh_get_etudiant_nomEtPrenom') }}" method="GET">
+                                <input name="chaine" class="form-control" type="text" placeholder="Rechercher...">
+                                <span class="input-group-btn">
+                                    <button type="submit" href="#" class="btn btn-md btn-primary"> <span class="glyphicon glyphicon-zoom-in"></span></button>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                           
+                    <div id="gestionEtudiants" class="row">
+
+                        <a id="ajout" href="" class="btn btn-md btn-primary col-md-4" > <span class="glyphicon glyphicon-plus"></span></a>
+
+                        <a id="ajout" href="{{path('suh_contrat_addEtudiantAidant')}}" class="btn btn-md btn-primary col-md-4" > <span class="glyphicon glyphicon-plus"></span></a>
+
+                        <a id="modification" class="btn btn-md btn-primary col-md-4"> <span class="glyphicon glyphicon-pencil"></span></a>
+                        <a id="suppression" class="btn btn-md btn-primary col-md-4" onclick=""> <span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </div>  
+                   
+                <div id="affichage" class="col-md-10">
+                    
+                </div>
+                
+            </div>
+        </section>      
+        <br/><br/>
+    </body>
+{% endblock %}

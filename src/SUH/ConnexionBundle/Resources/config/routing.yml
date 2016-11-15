@@ -1,0 +1,3 @@
+suh_choix_homepage:
+    path:     /
+    defaults: { _controller: SUHConnexionBundle:Connexion:index }

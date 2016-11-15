@@ -1,0 +1,56 @@
+# you can read more about security in the related section of the documentation
+# http://symfony.com/doc/current/book/security.html
+security:
+    # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        SUH\ConnexionBundle\Entity\User: plaintext
+
+    # http://symfony.com/doc/current/book/security.html#hierarchical-roles
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        #ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory:
+            memory:
+                users:
+                    user:  { password: pass, roles: [ 'ROLE_USER' ] }
+                    admin: { password: pass, roles: [ 'ROLE_ADMIN' ] }
+        mesUtilisateurs:
+            entity: { class: SUH\ConnexionBundle\Entity\User, property: username }
+
+    # the main part of the security, where you can set up firewalls
+    # for specific sections of your app
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        # the login page has to be accessible for everybody
+        #demo_login:
+        #    pattern:  ^/demo/secured/login$
+        #    security: false
+        
+        parefeuConnexion:
+            pattern: ^/login$
+            anonymous: true
+            
+        parefeuSuh:
+            pattern: ^/
+            anonymous: false
+            provider: in_memory
+            form-login:
+                login_path: login
+                check_path: login_check
+            logout:
+                path: logout
+                target: /login
+        
+
+    # with these settings you can restrict or allow access for different parts
+    # of your application based on roles, ip, host or methods
+    # http://symfony.com/doc/current/cookbook/security/access_control.html
+    access_control:
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

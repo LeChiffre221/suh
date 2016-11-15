@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    {% block head %}
+    <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/bootstrap.min.css')}}" type="text/css"/>
+
+    <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/accueil.css')}}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/jquery-ui.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/jquery.dynatable.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/formValidation.min.css') }}"/>
+
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.min.js')}}"/></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery-ui.min.js')}}"/></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/bootstrap.min.js')}}"/></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.steps.min.js')}}"/></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/boutonsGestionEtudiant.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/confirmations.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.dynatable.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/moment.js')}}"></script>
+
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.validate.js')}}"></script>
+
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/additional-methods.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/formValidation.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/fr_FR.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/autreBootstrap/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/messages_fr.min.js')}}"></script>
+
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jspdf.min.js')}}"/></script>
+    {% endblock %}
+    <title>{% block title %} Header {% endblock %}</title>
+    </head>
+    <!-- HEADER : logo SUH + navbar (accueil, statistiques, deconnexion -->
+
+    <header>
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-3">
+
+                    <img id="logo" alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </header>
+
+            <!-- FIN HEADER -->
+
+            {% block body %}
+
+            {% endblock %}
+            </html>
+

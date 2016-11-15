@@ -1,0 +1,77 @@
+{% extends "SUHGestionBundle:AffichageEtudiants:base.html.twig" %}
+
+{% block title %} {{parent()}} - Ajout d'un étudiant {% endblock %}
+
+{% block body %}
+
+<div id="parentContent" style="margin-top:80px" class="col-md-12" >
+    <div style="margin-bottom: 50px;"></div>
+    <div id="content"></div>
+</div>
+
+<script>
+
+$( document ).ready(function() 
+{
+  var fenetre = '<div class="row col-md-12" style="margin-top:50px;"><div class="col-md-12"> <span style="padding:40px;" onclick="reeinscription();" class="btn btn-primary col-md-5">Réinscription</span> <span class="col-md-2"></span> <a href="{{path("suh_gestion_addEtudiant")}}"> <span class="btn btn-success col-md-5" style="padding:40px;">Nouvel étudiant</span></a></div></div>';
+
+  $('#content').append(fenetre);
+});
+
+function reeinscription()
+{
+	$('#content').empty();
+
+  var year = $('#selectYear').val();     
+
+  $.ajax({
+    type: "POST",
+    url: "{{ path('get_student_last_years') }}",
+    data: {
+     year: year
+    },
+    success: function(data, dataType)
+    {
+        var monthNames = [01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12];
+
+        var html = '<table class="table" id="myTable"><thead><tr><td>Nom</td><td>Prénom</td><td>Date de naissance</td><td></td></tr></thead><tbody>';
+        if(data[0].length != 0)
+        {
+          for(var etudiant in data[0])
+          {
+            var url = '{{ path("suh_gestion_addEtudiant", {'id': 'id_etudiant'}) }}'; 
+            url = url.replace("id_etudiant", data[0][etudiant].id);
+
+            var date = 'inconnu';
+            if(data[0][etudiant].dateNaissance) 
+            { 
+               d = new Date(moment(data[0][etudiant].dateNaissance.date).format('MMM d YY'));
+
+               console.log(d);  
+
+               date = d.getDate() + '/' + monthNames[d.getMonth()] + '/' + d.getFullYear();
+            }
+
+            html += '<tr><td>' + data[0][etudiant].listEtudiantInformations[0].etudiantInformations.nom + '</td><td>' + data[0][etudiant].listEtudiantInformations[0].etudiantInformations.prenom + '</td><td>' + date + '</td><td><a href=\'' + url + ' \'> <i class="glyphicon glyphicon-plus-sign" style="color:green; font-size:20px;"></i></a></td></tr>';
+          }
+        }
+
+        html += '</tbody></table>';
+        $('#content').append(html);
+        $('#parentContent').css('background-color','white');
+
+        $('#myTable').dynatable();
+        $('#dynatable-per-page-myTable').addClass('form-control').css('width','80px').css('display','inline-block');
+        $('#dynatable-query-search-myTable').addClass('form-control').css('display','inline-block').css('width','160px');
+    },
+
+    error: function(XMLHttpRequest, textStatus, errorThrown)
+    {
+        alert('Impossible. Il y a une erreur.');
+    }
+  });  
+}
+
+</script>
+
+{% endblock %}

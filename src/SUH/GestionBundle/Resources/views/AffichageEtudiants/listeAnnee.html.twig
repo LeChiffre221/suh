@@ -1,0 +1,24 @@
+<select id="selectYear" class="form-control" style="margin-left:10px; margin-top:10px;">
+
+    {% set tabYears = ['2015-2016', '2014-2015', '2013-2014', '2012-2013','2011-2012'] %}
+
+    {% if app.session.get('filter')['year'] is defined %}
+        {% set filter = app.session.get('filter') %}
+        {% set year = filter['year'] %}
+
+    {% else %}
+        {% set year = 0 %}
+    {% endif %}
+
+    {% for y in listYears %}
+
+        {% if y.anneeUniversitaire == year %}
+            <option value="{{ y.anneeUniversitaire }}" selected>{{ y.anneeUniversitaire }}</option>
+
+        {% else %}
+            <option value="{{ y.anneeUniversitaire }}">{{ y.anneeUniversitaire }}</option>
+        {% endif %}
+
+    {% endfor %}
+
+</select>

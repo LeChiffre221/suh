@@ -1,0 +1,111 @@
+<div id="recap" class="col-md-12">
+  <div class="col-md-2"></div> 
+  <div style="text-align:center;" class="col-md-8 alert bg-primary">{{ recapView }}</div>
+  <div class="col-md-2"></div>
+</div>
+<div id='tab_results' style="text-align:center;"></div>
+
+<script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart']
+            }]
+          }">
+</script>
+
+<script type="text/javascript">
+  google.setOnLoadCallback(drawChart);
+  var tab = {{ tab|json_encode|raw }};
+  var datas = [['Année scolaire','Nombre étudiants']];
+
+  var tabView = '<div id="tabPDF"><table style="width:65%; margin: 0 auto; background-color:white;" class="table table-bordered"><thead><tr>';
+  for(var l in tab)
+  {
+    tabView += '<th style="text-align:center;">' + l + '</th>';
+    datas.push([l,tab[l]])
+  }
+  tabView += '</tr></thead><tbody><tr>';
+  for(var l in tab)
+  {
+    tabView += '<td>' + tab[l] + '</td>';
+  }
+  tabView += '</tr></tbody></table>';
+
+  tabView += '</div>';
+
+  $('#tab_results').append(tabView);
+
+  function drawChart() 
+  {
+    var data = google.visualization.arrayToDataTable(datas);
+    var options = {
+      title: '',
+      legend: { position: 'none' },
+      vAxis: {title: 'Etudiants', format: 'decimal', viewWindowMode: "explicit", viewWindow:{min: 0}},
+      hAxis : {title: 'Année scolaire'},
+    };
+
+    var chart_div = document.getElementById('chart_div');
+    var chart = new google.visualization.LineChart(chart_div);
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+    	$("#saveChart").attr("href", chart.getImageURI())
+    });
+    chart.draw(data, options);
+  }
+
+  function pdfToHTML()
+  {
+    var pdf = new jsPDF('p', 'pt', 'letter');
+    var dataURL;
+    var canvas = document.createElement('CANVAS');
+
+    base_image = new Image();
+    base_image.src = '{{asset("bundles/suhGestion/images/logo_suh_noir.png")}}';
+    context = canvas.getContext('2d');
+    base_image.onload = function()
+    {
+      context.drawImage(base_image, 0, 0);
+      source = $('#tabPDF')[0];
+      pdf.text(270, 30, 'Statistique :');
+      pdf.text(230, 400, 'Détail de la statistique :');
+
+      pdf.setFontSize(10);
+
+      pdf.text(75, 440, '{{recapPDF}}');
+
+
+      pdf.addImage($("#saveChart").attr("href"), 'PNG', 10,50, 600, 0);
+      pdf.addImage(canvas.toDataURL(), 'PNG', 450,700, 200, 0);
+      specialElementHandlers = {
+        '#bypassme': function(element, renderer){
+          return true
+        }
+      }
+      margins = {
+          top: 300,
+          left: 70,
+          width: 545
+        };
+      pdf.fromHTML(
+          source 
+          , margins.left 
+          , margins.top 
+          , {
+            'width': margins.width 
+            , 'elementHandlers': specialElementHandlers
+          },
+
+          function (dispose) {
+              pdf.save('stats-suh.pdf');
+            }
+        )   
+    }
+  }
+  
+</script>
+
+  <div  id='chart_div' style=" margin: 0 auto; margin-top:10px; width: 900px; height: 300px"></div>
+  <div style="text-align: center; margin-top:5px;"><a id='saveChart' download="stats"></a><a href="javascript:pdfToHTML()"><i style="font-size:25px; color:red;" class="fa fa-file-pdf-o"></i></a></div>
