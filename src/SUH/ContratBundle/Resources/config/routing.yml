@@ -1,0 +1,25 @@
+
+#accueil
+suh_contrat_homepage:
+    path:     /
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherAccueilContrat }
+
+#accueil étudiant
+suh_contrat_homepageEtudiant:
+    path:       /etudiant
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherAccueilEtudiant }
+
+#ajouter un contrat étudiant
+suh_contrat_addContrat:
+    path: /addContrat
+    defaults: {_controller: SUHContratBundle:Contrat:addContrat}
+
+
+
+#gestion ajout
+suh_contrat_addEtudiantAidant:
+    path: /add
+    defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:addEtudiantAidant }
+    requirements:
+        id:   "^[0-9]+$"
+

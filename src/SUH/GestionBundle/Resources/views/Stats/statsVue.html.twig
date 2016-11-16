@@ -1,0 +1,101 @@
+<div class="rechercheAvance">
+
+    <form action="{{url('suh_statsResults')}}" method="post">
+
+        <div style="text-align:center;" id="year" class="checkbox"> 
+            {% for year in listYears %}
+            <label>
+                <input type="checkbox" name="{{ year.anneeUniversitaire }}"
+                {% if app.session.get('filter')['year'] ==  year.anneeUniversitaire %}
+                    checked 
+                {% endif %}>
+                {{ year.anneeUniversitaire }}
+
+            </label>
+
+            {% endfor %}
+        </div>        
+
+        <div id="divForm" style="margin-top:50px;"></div>
+
+        <div style="text-align:center;">
+            <input class="btn btn-default" type="button" onclick="formulaire()" id="add" value="Ajouter une condition"/>
+            <input class="btn btn-success " type="submit" value="Rechercher"/>
+            </br></br>
+        </div>    
+    </form>
+</div>
+
+<div id="maModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Erreur</h4>
+      </div>
+      <div class="modal-body">
+        <p>Vous avez atteint le maximum de conditions !</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+    var nbCondition=0;
+    var nombre= nbCondition.toString();
+    var inputText="InfoEcrite";
+    var inputSelect="InfoSelect";
+
+function formulaire(){
+
+    if(nbCondition<10){
+        nombre= nbCondition.toString();
+        var div = '<p style="text-align:center;">';
+
+        if(nbCondition != 0)
+            {                
+                div += '<label class="radio-inline" style="margin-left: -109px;"><input type="radio" value="ET" name="radio' + nbCondition + '" checked>ET</label><label class="radio-inline" style="margin-right: 20px;"><input type="radio" value="OU" name="radio' + nbCondition + '">OU</label>';
+            }
+            div += '<select name="'+inputSelect+nombre+'" id="'+inputSelect+nombre+'" style="width:265px;height:32px;font-size:18px;">\n\<option value="" selected></option>\n\<optgroup label="Identité étudiant">\n\<option value="nom">Nom</option>\n\<option value="prenom">Prénom</option>\n\<option value="age=">Age =</option>\n\<option value="age<">Age \<</option>\n\<option value="age>">Age \><option value="numeroEtudiant">Numéro étudiant</option></option>\n\<option value="parite">Parité (M/F)</option>\n\<option value="qhandi">Qhandi</option>\n\<option value="nomHandicap">Nom handicap</option>\n\</optgroup>\n\<optgroup label="Coordonnées"><option value="adresseEtudiante">Adresse étudiante</option>\n\<option value="adresseFamiliale">Adresse familiale</option>\n\<option value="mailInstitutionnel">E-mail institutionnel</option>\n\<option value="mailPerso">E-mail perso</option>\n\<option value="mailParents">E-mail parents</option>\n\<option value="telephonePerso">Téléphone perso</option>\n\<option value="telephoneParents">Téléphone parents</option>\n\</optgroup>\n\<optgroup label="Formation">\n\<option value="diplome">Diplôme</option>\n\<option value="composante">Composante</option>\n\<option value="filiere">Filière</option>\n\<option value="cycle">Cycle</option>\n\<option value="etablissement">Etablissement</option>\n\<option value="anneeEtude">Année étude</option>\n\</optgroup>\n\<optgroup label="Aménagement examens"><option value="amenagementExamens">Aménagement examens (Oui/Non)</option>\n\<option value="tempsMajore">Temps majoré (Oui/Non)</option>\n\<option value="secretaireExamen">Secrétaire examens (Oui/Non)</option>\n\<option value="secretaireExamenDetails">Secrétaire examens détail</option>\n\<option value="ordinateur">Ordinateur (Oui/Non)</option>\n\<option value="logiciel">Logiciel</option>\n\<option value="materiel">Materiel (Oui/Non)</option>\n\<option value="materielDetail">Matériel détail</option>\n\<option value="adaptationDocuments">Adaptation documents (Oui/Non)</option>\n\<option value="adaptationDocumentsDetail">Adaptation documents détail</option>\n\<option value="delocalisationExamens">Délocalisation des examens (Oui/Non)</option>\n\<option value="LieuDelocalisationExamens">Lieu délocalisation des examens</option>\n\<option value="DetailsDelocalisationExamens">Détail délocalisation des examens</option>\n\<option value="avisMedical">Avis Médical</option>\n\<option value="dureeValidite">Durée validité</option>\n\</optgroup>\n\<optgroup label="Aménagement études"><option value="amenagementEtude">Aménagement étude (Oui/Non)</option>\n\<option value="amenagementEtudeType">Type aménagement étude</option>\n\<option value="amenagementEtudeInfoComplementaires">Aménagement étude (info complémentaire)</option>\n\<option value="amenagementEtudeDetail">Aménagement étude (détail)</option>\n\<option value="suivi">Suivi</option>\n\<option value="descriptifComplementaire">Descriptif complémentaire</option>\n\</optgroup>\n\<optgroup label="Mdph"><option value="reconnaissanceMdph">Reconnaissance MDPH (Oui/Non)</option>\n\<option value="departementMdph">Département MDPH</option>\n\<option value="tauxInvalidite">Taux Invalidité</option>\n\<option value="typeAllocations">Type allocations</option>\n\<option value="rqth">RQTH</option>\n\<option value="notificationSavs">Notification SAVS (Oui/Non)</option>\n\<option value="notificationSavsDetails">Notification SAVS (détail)</option>\n\</optgroup></select>\n\<input type=text name="'+inputText+nombre+'" id="'+inputText+nombre+'" \n\style="width:400px;height:32px;font-size:18px;"/>';
+
+        if(nbCondition != 0)
+        {
+            div += '<i class="glyphicon glyphicon-remove remLine" style="margin-left:10px; color:red;"></i>';
+        }
+
+        div += '<p>';
+            
+        nbCondition = nbCondition + 1;
+
+        $('#divForm').append(div);
+    }
+    else 
+    {        
+        $('#maModal').modal({
+            show: true
+        });        
+    }
+}
+
+$(document).on('click', '[value="OU"]', function() {
+    $(this).parent().parent().prepend('<p><hr></p>');
+});
+
+$(document).on('click', '[value="ET"]', function() {
+    $(this).parent().parent().find('hr').remove();
+});
+
+$(document).on('click', '.remLine', function() {
+    $(this).parent().remove();
+    $('#errorForm').empty();
+    nbCondition--;
+});
+
+formulaire();
+
+</script>
+

@@ -1,0 +1,240 @@
+{% extends "SUHGestionBundle:AffichageEtudiants:base.html.twig" %}
+
+{% block title %} {{parent()}} - Modification d'un étudiant {% endblock %}
+
+{% block body %}
+    
+    <center>
+        
+    Quelle partie de l'étudiant voulez vous modifier? <br/><br/>
+    
+    <a href="{{ path('suh_gestion_modifEtudiant_infos') }}"><input type="button" value="Infos personnelles"/></a>
+    <a href="{{ path('suh_gestion_modifEtudiant_formation') }}"><input type="button" value="Formation"/></a>    
+    <a href="{{ path('suh_gestion_modifEtudiant_anneeScolaire') }}"><input type="button" value="Année scolaire"/></a>
+    <a href="{{ path('suh_gestion_modifEtudiant_AideExamen') }}"><input type="button" value="Aide examen"/></a>
+
+    <a href="{{ path('suh_gestion_modifEtudiant_DatesAideExamen') }}"><input type="button" value="Dates aide examen"/></a>
+    <a href="{{ path('suh_gestion_modifEtudiant_mdph') }}"><input type="button" value="Mdph"/></a>
+    <a href="{{ path('suh_gestion_modifEtudiant_NomHandicap') }}"><input type="button" value="Nom handicap"/></a>
+    <a href="{{ path('suh_gestion_modifEtudiant_handicap') }}"><input type="button" value="Infos handicap"/></a>
+    
+    {% if modif is defined %}
+        
+        <br/><br/>
+		{% if f is defined %}
+		
+			{{ form_start(f) }}
+			
+			{# informations personnelles #}
+			{% if f.nomEtudiant is defined and f.prenomEtudiant is defined and f.dateNaissance is defined and f.mail is defined
+			and f.adresseEtudiante is defined and f.adresseFamiliale is defined and f.telephone is defined %}
+				<div class="form-group">
+					{{ form_label(f.nomEtudiant,"nom etudiant : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.nomEtudiant, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.prenomEtudiant,"prenom etudiant : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.prenomEtudiant, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.dateNaissance,"date naissance : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.dateNaissance, {'attr': {'class': 'widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.mail,"mail : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.mail, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.adresseEtudiante,"adresse étudiante : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.adresseEtudiante, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.adresseFamiliale,"adresse familiale : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.adresseFamiliale, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.telephone,"téléphone : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.telephone, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+				{{ form_widget(f.Valider, {'attr': {'class': 'btn btn-success'}}) }}
+				</div> 
+				
+			{# formation #}
+			
+			{% elseif f.etablissement is defined and f.diplome is defined and f.composante is defined and f.filiere is defined
+			and f.cycle is defined and f.anneeEtude is defined  %}
+				<div class="form-group">
+					{{ form_label(f.etablissement,"établissement : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.etablissement, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.diplome,"diplome : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.diplome, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.composante,"composante : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.composante, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.filiere,"filiere : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.filiere, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.cycle,"cycle : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.cycle, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.anneeEtude,"année d'étude : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.anneeEtude, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+				{{ form_widget(f.Valider, {'attr': {'class': 'btn btn-success'}}) }}
+				</div> 
+				
+			{# année scolaire #}
+			
+			{% elseif f.rqth is defined and f.notificationSavs is defined and f.amenagementEtude is defined and f.tauxInvalidite is defined
+			and f.suivi is defined and f.qhandi is defined and f.dateMaj is defined and f.descriptifComplementaire is defined %}
+				<div class="form-group">
+					{{ form_label(f.rqth,"rqth : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.rqth, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.notificationSavs,"notification : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.notificationSavs, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.tauxInvalidite,"taux invalidité : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.tauxInvalidite, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.amenagementEtude,"aménagement étude : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.amenagementEtude, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.suivi,"suivi par : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.suivi, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.qhandi,"qhandi : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.qhandi, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.dateMaj,"date dernière mise à jour : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.dateMaj, {'attr': {'class': 'widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.descriptifComplementaire,"descriptif complémentaire : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.descriptifComplementaire, {'attr': {'class': 'widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+				{{ form_widget(f.Valider, {'attr': {'class': 'btn btn-success'}}) }}
+				</div> 
+				
+			{# année scolaire #}
+			
+			{% elseif f.anneeScolaire is defined %}
+				<div class="form-group">
+					{{ form_label(f.anneeScolaire,"année scolaire : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.anneeScolaire, {'attr': {'class': 'form-control widgetAjout', 'minlength': '9', 'maxlength': '9', 'placeholder': 'ex: 2014-2015'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_widget(f.Valider, {'attr': {'class': 'btn btn-success'}}) }}
+				</div> 
+				
+			{# aide examen #}
+			
+			{% elseif f.amenagementExamens is defined and f.tempsMajore is defined and f.autresMesures is defined and
+			f.delocalisationExamen is defined and f.dateValidite is defined and f.dureeAvisMedical is defined %}    
+				<div class="form-group">
+					{{ form_label(f.amenagementExamens,"aménagement examen : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.amenagementExamens, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.tempsMajore,"temps majoré : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.tempsMajore, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.autresMesures,"autres mesures : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.autresMesures, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.delocalisationExamen,"délocalisation examen : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.delocalisationExamen, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.dateValidite,"date validité : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.dateValidite, {'attr': {'class': 'widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.dureeAvisMedical,"durée avis médical : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.dureeAvisMedical, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+				{{ form_widget(f.Valider, {'attr': {'class': 'btn btn-success'}}) }}
+				</div> 
+				
+			{# dates aide examen #}
+			
+			{% elseif f.dateDebut is defined and f.dateFin is defined %}
+				<div class="form-group">
+					{{ form_label(f.dateDebut,"date de début d'aides aux examens : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.dateDebut, {'attr': {'class': 'widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.dateFin,"date de fin d'aides aux examens : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.dateFin, {'attr': {'class': 'widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+				{{ form_widget(f.Valider, {'attr': {'class': 'btn btn-success'}}) }}
+				</div> 
+				
+			{# mdph #}
+			
+			{% elseif f.reconnaissanceMdph is defined and f.departementMdph is defined %}
+				<div class="form-group">
+					{{ form_label(f.reconnaissanceMdph,"reconnaissance mdph : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.reconnaissanceMdph, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+					{{ form_label(f.departementMdph,"département mdph : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.departementMdph, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+				{{ form_widget(f.Valider, {'attr': {'class': 'btn btn-success'}}) }}
+				</div> 
+				
+			{# handicap #}
+			{% elseif f.nomHandicap is defined %}
+			<div class="form-group">
+					{{ form_label(f.nomHandicap,"nom du handicap : ", {'label_attr': {'class': 'control-label labelAjout'}}) }}
+					{{ form_widget(f.nomHandicap, {'attr': {'class': 'form-control widgetAjout'}}) }}
+				</div>
+				<div class="form-group">
+				{{ form_widget(f.Valider, {'attr': {'class': 'btn btn-success'}}) }}
+				</div> 
+			{# infos handicap #}
+			
+			{% endif %}
+			{{ form_rest(f)}}
+			{{ form_end(f) }}
+        {% endif %}
+		
+        {% if modif == 1 %}
+            <a href="{{ path('suh_gestion_modifEtudiant_AddNewhandicap') }}"><input type="button" value="Ajouter un nouvel handicap"/></a>
+        {% endif %}   
+        
+        {% if modif == 2 %}
+            <a href="{{ path('suh_gestion_modifEtudiant_AddNewFormation') }}"><input type="button" value="Ajouter une nouvelle Formation"/></a>
+        {% endif %}  
+        
+            
+        {% if modif == 3 %}
+            <a href="{{ path('suh_gestion_modifEtudiant_AddNewAideExamen') }}"><input type="button" value="Ajouter une nouvelle aide examen"/></a>
+        {% endif %}   
+        
+    {% endif %}    
+     
+    </center>
+{% endblock %}

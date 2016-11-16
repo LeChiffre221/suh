@@ -1,0 +1,139 @@
+suh_migration:
+    path: /migration
+    defaults: { _controller: SUHGestionBundle:Affichage:migration}
+
+suh_gestion_homepage:
+    path:     /
+    defaults: { _controller: SUHGestionBundle:Affichage:AfficherAccueil }
+
+suh_gestion_annee:
+    path: /editAnnees
+    defaults: { _controller: SUHGestionBundle:Affichage:editAnnees }
+
+suh_gestion_annee_delete:
+    path: /deleteAnnee/{id}
+    defaults: { _controller: SUHGestionBundle:Affichage:deleteAnnee }
+    requirements:
+        id: \d+
+
+suh_get_etudiant:
+    path:   /get/{id}
+    defaults: { _controller: SUHGestionBundle:Affichage:AfficherAccueilEtudiant }
+    requirements:
+        id:   "^[0-9]+$"
+    
+suh_get_etudiant_nomEtPrenom:
+    path:   /by
+    defaults: { _controller: SUHGestionBundle:Affichage:AfficherAccueilEtudiantRechercheNomOuPrenom }
+
+#recherche avancée
+suh_gestion_rechercheAvancee:
+    path:     /rechercheAvancee
+    defaults: { _controller: SUHGestionBundle:Affichage:AfficherRechercheAvancee }
+
+suh_gestion_resultatAvancee:
+    path: /resultatAvancee
+    defaults: { _controller: SUHGestionBundle:Affichage:AfficherResultatRecherche }
+
+
+#Gestion des importations et exportations excel
+suh_import_export_page:
+    path: /importExportExcel
+    defaults: { _controller: SUHGestionBundle:Affichage:afficheImportExportPage }
+    
+suh_import_page:
+    path: /importExcel
+    defaults: { _controller: SUHGestionBundle:Excel:importExcel }
+    
+suh_export_page:
+    path: /exportExcel
+    defaults: { _controller: SUHGestionBundle:Excel:exportExcel }
+
+
+#Gestion des étudiants
+
+suh_ajout_etudiant:
+    path: /ajouter/{id}
+    defaults: { _controller: SUHGestionBundle:GestionEtudiant:addEtudiant }
+    requirements:
+        id:   "^[0-9]+$"
+        
+suh_modification_etudiant:
+    path: /modifier/{id}
+    defaults: { _controller: SUHGestionBundle:GestionEtudiant:modificationEtudiant }
+    requirements:
+        id:   "^[0-9]+$"
+        
+suh_suppression_etudiant:
+    path: /supprimer/{id}
+    defaults: { _controller: SUHGestionBundle:GestionEtudiant:suppressionEtudiant }
+    requirements:
+        id:   "^[0-9]+$"
+     
+#gestion comptes utilisateur   
+
+suh_gestion_utilisateur_page:
+    path: /gestionUtilisateurs
+    defaults: { _controller: SUHGestionBundle:Affichage:afficheGestionUtilisateurPage }
+    
+suh_ajouter_utilisateur:
+    path: /ajouterCompteUtilisateur
+    defaults: { _controller: SUHGestionBundle:GestionCompteUtilisateur:ajouterCompteUtilisateur }
+    
+    
+suh_supprimer_utilisateur:
+    path: /supprimerCompteUtilisateur
+    defaults: { _controller: SUHGestionBundle:GestionCompteUtilisateur:supprimerCompteUtilisateur }
+        
+ 
+#routes pour les ajouts   
+
+suh_gestion_beforeAddEtudiant:
+    path: /beforeAdd
+    defaults: { _controller: SUHGestionBundle:GestionEtudiant:addEtudiant }
+    
+
+suh_gestion_addEtudiant:
+    path: /add
+    defaults: { _controller: SUHGestionBundle:GestionEtudiant:addInfosEtudiant }
+    requirements:
+        id:   "^[0-9]+$"
+
+    
+#routes suppression formation
+        
+suh_suppression_etudiantFormation:
+    path: /supprimerFormation/{idFormation}/{idEtudiant}
+    defaults: { _controller: SUHGestionBundle:GestionEtudiant:supprimerFormation }
+    requirements:
+        idFormation:   "^[0-9]+$"
+        idEtudiant:   "^[0-9]+$"
+
+########## AJAX ############
+
+get_student_last_years:
+    path: /getStudentLastYears
+    defaults: { _controller: SUHGestionBundle:GestionEtudiant:getStudentLastYears }
+    
+refresh_list:
+    path: /refresh_list
+    defaults: { _controller: SUHGestionBundle:AjaxRequest:refreshList }
+
+all_etudiants:
+    path: /getAllEtudiants
+    defaults: { _controller: SUHGestionBundle:AjaxRequest:getAllEtudiants }
+
+add_et:
+    path: /completeAdd
+    defaults : { _controller: SUHGestionBundle:AjaxRequest:addEtudiant }
+
+
+########## STATS ############
+
+suh_stats:
+    path: /stats
+    defaults: { _controller: SUHGestionBundle:Stats:index }
+
+suh_statsResults:
+    path: /statsResults
+    defaults: { _controller: SUHGestionBundle:Stats:results }

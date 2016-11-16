@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/bootstrap.min.css')}}" type="text/css"/>
+    
+    <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/accueil.css')}}" type="text/css"/>
+    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/font-awesome.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/jquery-ui.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/jquery.dynatable.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/formValidation.min.css') }}"/>
+      
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.min.js')}}"/></script> 
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery-ui.min.js')}}"/></script> 
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/bootstrap.min.js')}}"/></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.steps.min.js')}}"/></script> 
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/boutonsGestionEtudiant.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/confirmations.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.dynatable.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/moment.js')}}"></script>
+    
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.validate.js')}}"></script>
+    
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/additional-methods.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/formValidation.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/fr_FR.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/autreBootstrap/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/messages_fr.min.js')}}"></script>
+
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jspdf.min.js')}}"/></script>     
+
+    <title>{% block title %} Header {% endblock %}</title>
+  </head>
+  <!-- HEADER : logo SUH + navbar (accueil, statistiques, deconnexion -->
+  {% block header %}
+  <header>
+      <div class="container-fluid">
+        
+          <div class="row">
+              <div class="col-md-3">
+                <a href="{{path('suh_choix_homepage')}}">
+                    <img id="logo" alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
+                </a>
+              </div>
+              <div class="col-md-9">
+                  <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav">
+                            <li class="liensNavbar"><a id="accueil" href="{{path('suh_gestion_homepage')}}">Accueil</a></li>
+                            <li id="rechercheAvancee" class="liensNavbar"><a href="{{path('suh_gestion_rechercheAvancee')}}">Recherche avancée</a></li>
+                            <li class="liensNavbar"><a href="{{path('suh_import_export_page')}}">Import/Export Excel</a></li>
+                            <li class="liensNavbar"><a href="{{path('suh_stats')}}">Statistiques</a></li>
+                            <li class="liensNavbar"><a href="{{path('suh_gestion_utilisateur_page')}}">Gestion des utilisateurs</a></li>
+                            <li>
+                                {{ render(controller("SUHGestionBundle:Affichage:afficherListeAnnee")) }}
+                            </li>
+                            <li>
+                                <a href="{{path('suh_gestion_annee')}}">
+                                    <span class="glyphicon glyphicon-cog"/>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li id="deconnexion"><a href="{{path('logout')}}">Deconnexion</a></li>
+                        </ul>
+                    </div>
+                </nav>
+              </div>
+          </div>
+      </div>      
+  </header>
+  {% endblock %}
+  <!-- FIN HEADER -->
+  
+  {% block body %}
+      
+  {% endblock %}
+
+
+<script>
+
+    $('#selectYear').change(function()
+    {
+        var year = this.value;     
+
+        $.ajax({
+          type: "POST",
+          url: "{{ path('refresh_list') }}",
+          data: {
+           year: year
+          },
+          success: function(data, dataType)
+          {
+               location.href = '{{ path("suh_gestion_homepage") }}';             
+          },
+
+          error: function(XMLHttpRequest, textStatus, errorThrown)
+          {
+              alert('Error : ' + errorThrown);
+          }
+        });
+    });
+
+</script>
+
+</html>
+

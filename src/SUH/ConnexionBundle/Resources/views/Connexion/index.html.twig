@@ -1,0 +1,27 @@
+{% extends "SUHConnexionBundle:Connexion:baseLogin.html.twig" %}
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{asset('bundles/suhconnexion/css/connexion.css')}}" type="text/css"/> 
+{% endblock %}
+
+{% block body %}
+<body>
+
+          <div class="row col-md-12" style="margin-top:50px;">
+              <div class="col-md-12">
+                  <a href="{{path('suh_contrat_homepage')}}">
+                      <span style="padding:40px;"  class="btn btn-primary col-md-5">
+                          Gestion des contrats étudiants
+                      </span>
+                  </a>
+                  <span class="col-md-2"></span>
+                  <a href="{{path('suh_gestion_homepage')}}">
+                      <span class="btn btn-success col-md-5" style="padding:40px;">
+                          Gestion des étudiants
+                      </span>
+                  </a>
+              </div>
+          </div>
+      
+  </body>
+{% endblock %}
