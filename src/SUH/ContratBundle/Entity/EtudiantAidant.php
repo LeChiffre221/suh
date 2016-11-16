@@ -17,7 +17,7 @@ class EtudiantAidant
      * @ORM\Id
      * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\Etudiant", cascade={"persist"})
      */
-    private $etudiantAidant;
+    private $etudiant;
 
 
     /**
@@ -26,9 +26,6 @@ class EtudiantAidant
      * @ORM\Column(name="certificatMedical", type="boolean", nullable=true)
      */
     private $certificatMedical;
-
-
-    private $etudiant;
 
     private $etudiantInformations;
 

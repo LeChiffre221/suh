@@ -9,15 +9,19 @@ security:
     # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
-        #ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
+        chain_provider:
+            chain:
+                providers: [in_memory, mesUtilisateurs]
         in_memory:
             memory:
                 users:
                     user:  { password: pass, roles: [ 'ROLE_USER' ] }
                     admin: { password: pass, roles: [ 'ROLE_ADMIN' ] }
+                    superadmin: { password: joiajfargnj, roles : [ 'ROLE_SUPER_ADMIN' ] }
         mesUtilisateurs:
             entity: { class: SUH\ConnexionBundle\Entity\User, property: username }
 

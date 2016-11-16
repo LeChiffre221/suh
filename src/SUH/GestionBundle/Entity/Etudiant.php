@@ -61,6 +61,7 @@ class Etudiant
      */
     private $listEtudiantHandicape;
 
+
     public function __construct($numeroEtudiant, $dateNaissance, $premiereInscription){
         $this->numeroEtudiant = $numeroEtudiant;
         $this->dateNaissance = $dateNaissance;
