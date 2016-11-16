@@ -1,4 +1,5 @@
 {% extends "SUHConnexionBundle:Connexion:base.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 {% block head %} {{parent()}}
 <link rel="stylesheet" href="{{asset('bundles/suhContrat/css/contrat.css')}}" type="text/css"/>
@@ -7,205 +8,201 @@
 
 {% block body %}
     <body>
-        <form id="formulaire" class="content">
-        <!-- Première étape : -->
-            <h3>Identité de l'étudiant aidant</h3>
-            <section>
-                <div class="col-md-12">
-                    <div class="col-md-3 form-group form-template input-group input-group-lg">
-                        <label for="nom">Nom :</label><br>
-                        <input id="nom" type="text" class="form-control"" placeholder="Nom" pattern="^([a-zA-Z'()àâéèêôùûçÀÂÉÈÔÙÛÇ\s-]{1,30})$" title="Veuillez saisir un nom valide." required>
-                    </div>
-                
-                    <div class="col-md-3 form-group form-template input-group input-group-lg" >
-                        <label for="prenom">Prénom :</label><br>
-                        <input id="prenom" type="text" name="prenom" class="form-control" placeholder="Prénom" pattern="^([a-zA-Z'()àâéèêôùûçÀÂÉÈÔÙÛÇ\s-]{1,30})$" title="Veuillez saisir un prénom valide" required>
+    <div class="container">
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+        
+        <div class="col-md-12">
+
+            <section class="col-md-6">
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.nom) }}
+                    {{ form_widget(form.etudiantInformations.nom) }}
+                    {{ form_errors(form.etudiantInformations.nom) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.prenom) }}
+                    {{ form_widget(form.etudiantInformations.prenom) }}
+                    {{ form_errors(form.etudiantInformations.prenom) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.mailPerso) }}
+                    <div class="input-group">
+                        <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
+                        {{ form_widget(form.etudiantInformations.mailPerso) }}
+                        {{ form_errors(form.etudiantInformations.mailPerso) }}
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="col-md-6 form-group form-template input-group input-group-lg" >
-                        <label for="dateNaissance">Date de naissance :</label><br>
-                        <input id="dateNaissance" name="dateNaissance" class="form-control " value="{% if(info) %}{{info.dateNaissance|date("d/m/Y")}}{% endif %}" pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
-                    </div>
-                    <div class="col-md-6 form-group form-template input-group input-group-lg" >
-                        <label for="dateNaissance">Certificat Médical :</label><br>
-                        <input type="radio" name="certificat" value="true"><br>
-                </div>
-            </section>
-            <h3>Informations de l'étudiant</h3>
-            <section>
-                <div class="col-md-12">
-                <div class="col-md-4">
-                    <div class="col-md-12 form-group form-template" >
-                        
-                        <label for="mailInstitutionnel">Email institutionnel :</label><br>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
-                            <input id="mailInstitutionnel" type="email" class="form-control" placeholder="Email Institutionnel" value="{% if (info) %}{{info.listEtudiantInformations[0].etudiantInformations.mailInstitutionnel}}{% endif %}" title="Veuillez fournir une adresse électronique valide.">
-                        </div>
-                    </div>
-               
-                    <div class="col-md-12 form-group form-template" >
-                        <label for="mailPerso">Email Personnel :</label><br>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
-                            <input id="mailPerso" name="email1" type="email" class="form-control" placeholder="Email Personnel" value="{% if (info) %}{{info.listEtudiantInformations[0].etudiantInformations.mailPerso}}{% endif %}" title="Veuillez fournir une adresse électronique valide.">
-                        </div>
-                    </div>
-                
-                    <div class="col-md-12 form-group form-template" >
-                        <label for="mailParents">Email Parents :</label><br>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
-                            <input id="mailParents" name="email2" type="email" class="form-control" placeholder="Email Parents" value="{% if (info) %}{{info.listEtudiantInformations[0].etudiantInformations.mailParents}}{% endif %}" title="Veuillez fournir une adresse électronique valide.">
-                        </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.mailParents) }}
+                    <div class="input-group">
+                        <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
+                        {{ form_widget(form.etudiantInformations.mailParents) }}
+                        {{ form_errors(form.etudiantInformations.mailParents) }}
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="col-md-12 form-group form-template" >
-                        <label for="adresseEtudiante">Adresse étudiante :</label>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon glyphicon glyphicon-home"></span> 
-                            <input id="adresseEtudiante" class="form-control" placeholder="Adresse Etudiante" type="text" value="{% if (info) %}{{info.listEtudiantInformations[0].etudiantInformations.adresseEtudiante}}{% endif %}">
-                            </div>
-                    </div>
-                
-                    <div class="col-md-12 form-group form-template" >
-                        <label for="adresseFamiliale">Adresse familiale :</label><br>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon glyphicon glyphicon-home"></span> 
-                            <input id="adresseFamiliale" class="form-control" placeholder="Adresse Familiale" type="text" value="{% if (info) %}{{info.listEtudiantInformations[0].etudiantInformations.adresseFamiliale}}{% endif %}">
-                        </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.adresseEtudiante) }}
+                    {{ form_widget(form.etudiantInformations.adresseEtudiante) }}
+                    {{ form_errors(form.etudiantInformations.adresseEtudiante) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.adresseFamiliale) }}
+                    {{ form_widget(form.etudiantInformations.adresseFamiliale) }}
+                    {{ form_errors(form.etudiantInformations.adresseFamiliale) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.telephonePerso) }}
+                    <div class="input-group">
+                        <span class="input-group-addon glyphicon glyphicon-phone"></span> 
+                        {{ form_widget(form.etudiantInformations.telephonePerso) }}
+                        {{ form_errors(form.etudiantInformations.telephonePerso) }}
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="col-md-12 form-group form-template" >
-                        <label for="telephonePerso">Téléphone Personnel :</label><br>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon glyphicon glyphicon-phone"></span> 
-                            <input id="telephonePerso" name="telephonePerso" class="form-control" placeholder="Telephone personnel" type="tel" pattern="^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$" value="{% if (info) %}{{info.listEtudiantInformations[0].etudiantInformations.telephonePerso}}{% endif %}" title="Veuillez entrer un numéro de téléphone valide.">
-                        </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.telephoneParents) }}
+                    <div class="input-group">
+                        <span class="input-group-addon glyphicon glyphicon-phone-alt"></span> 
+                        {{ form_widget(form.etudiantInformations.telephoneParents) }}
+                        {{ form_errors(form.etudiantInformations.telephoneParents) }}
                     </div>
-                
-                    <div class="col-md-12 form-group form-template" >
-                        <label for="telephoneParents">Téléphone Parents :</label><br>
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon glyphicon glyphicon-phone-alt"></span> 
-                            <input id="telephoneParents" class="form-control" placeholder="Telephone parents" type="tel" name="telephone" pattern="^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$" value="{% if (info) %}{{info.listEtudiantInformations[0].etudiantInformations.telephoneParents}}{% endif %}" title="Veuillez entre un numéro de téléphone valide">
-                        </div>
-                    </div>
-                </div>
                 </div>
             </section>
-            <h3>Formation de l'étudiant</h3>
-            <section>
-                <div class="col-md-12 ">
-                    <div class="col-md-4 form-group form-template" >
-                        <div class="col-md-12 ">
-                            <label for="telephonePerso">Diplôme :</label><br>
-                            <select id="select1" class="form-control">
-                                <option value="Licence">Licence</option>
-                                <option value="DUT">DUT</option>
-                                <option value="Licence Pro">Licence pro</option>
-                                <option value="Master">Master</option>
-                                <option value="Doctorat">Doctorat</option>
-                                <option value="Concours">Concours</option>
-                                <option value="DAUE">DAEU</option>
-                                <option value="Autre">Autre</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12 form-group" id="autreInput">
-                            <label for="">Autre :</label><br>
-                            <div class="input-group input-group-lg">
-                                <input  name="" class="form-control" placeholder="Autre" >
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 form-group form-template" >
-                        <div class="col-md-12 ">
-                            <label for="telephonePerso">Etablissement :</label><br>
-                            <select id="select2" class="form-control">
-                                <option>UBP</option>
-                                <option>UDA</option>
-                                <option>UCA</option>
-                                <option>Sigma</option>
-                                <option>Vetagrosup</option>
-                                <option>Ensacf</option>
-                                <option value="Autre">Autre</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12 " id="autreInput2">
-                            <label for="">Autre :</label><br>
-                            <div class="input-group input-group-lg">
-                                <input  name="" class="form-control" placeholder="Autre" >
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 form-group form-template">
-                        <label for="telephonePerso">Composante :</label><br>
-                        <div class="input-group input-group-lg">
-                            <input>
-                        </div>
-                    </div>
-                    
+            <section class="col-md-6">
+                <div class="col-md-12">
+                    {{ form_label(form.etudiant.numeroEtudiant) }}
+                    {{ form_widget(form.etudiant.numeroEtudiant) }}
+                    {{ form_errors(form.etudiant.numeroEtudiant) }}
+                </div>
+                <div class="col-md-12" >
+                    {{ form_label(form.etudiant.dateNaissance) }}
+                    {{ form_widget(form.etudiant.dateNaissance) }}
+                    {{ form_errors(form.etudiant.dateNaissance) }}
+                </div>
+                <div class="col-md-6" >
+                    {{ form_label(form.etudiant.premiereInscription) }}
+                    {{ form_widget(form.etudiant.premiereInscription) }}
+                    {{ form_errors(form.etudiant.premiereInscription) }}
+                </div>
+                <div class="col-md-6" >
+                    {{ form_label(form.etudiantInformations.mailInstitutionnel) }}
+                    {{ form_widget(form.etudiantInformations.mailInstitutionnel) }}
+                    {{ form_errors(form.etudiantInformations.mailInstitutionnel) }}
+                </div>
+                <div class="col-md-12" >
+                    {{ form_label(form.certificatMedical) }}
+                    {{ form_widget(form.certificatMedical) }}
+                    {{ form_errors(form.certificatMedical) }}
                 </div>
             </section>
-        <br>
-        <input type="submit">
-        </form>
-        <div style="background-color:red">
-            {{ form(form) }}
+            <section class="col-md-12">
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantFormation.composante) }}
+                    {{ form_widget(form.etudiantFormation.composante) }}
+                    {{ form_errors(form.etudiantFormation.composante) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantFormation.filiere) }}
+                    {{ form_widget(form.etudiantFormation.filiere) }}
+                    {{ form_errors(form.etudiantFormation.filiere) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantFormation.cycle) }}
+                    {{ form_widget(form.etudiantFormation.cycle) }}
+                    {{ form_errors(form.etudiantFormation.cycle) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantFormation.anneeEtude) }}
+                    {{ form_widget(form.etudiantFormation.anneeEtude) }}
+                    {{ form_errors(form.etudiantFormation.anneeEtude) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantFormation.diplome) }}
+                    {{ form_widget(form.etudiantFormation.diplome) }}
+                    {{ form_errors(form.etudiantFormation.diplome) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantFormation.etablissement) }}
+                    {{ form_widget(form.etudiantFormation.etablissement) }}
+                    {{ form_errors(form.etudiantFormation.etablissement) }}
+                </div>
+
+            </section>
+            <section class="col-md-12">
+                {{ form_widget(form.Envoyer) }}
+            </section>
+            
+        </div>
+        {{ form_end(form) }}
         </div>
     </body>
     <script type="text/javascript">
 
         $(function() {
+
+
+            $( "#suh_contratbundle_etudiantaidant_etudiantFormation_diplome option:selected").parent().parent().append('<div class="autre_container"><label class="control-label">Autre</label><input id="autre_input" class="form-control"></div>');
+            $(".autre_container").hide();
+            $( "#suh_contratbundle_etudiantaidant_etudiantFormation_diplome" ).change(function() {
+                if($( "#suh_contratbundle_etudiantaidant_etudiantFormation_diplome option:selected").is(':last-child')){
+                    $(".autre_container").slideDown();
+                } else {
+                    $(".autre_container").slideUp();
+                }
+            });
+            $("#autre_input").change(function(){
+                $temp = $("#autre_input").val();
+                if($( "#suh_contratbundle_etudiantaidant_etudiantFormation_diplome option:selected").is(':last-child')){
+                    $( "#suh_contratbundle_etudiantaidant_etudiantFormation_diplome option:selected").val($temp);
+                }
+            });
+
             
-            $("#autreInput").hide();
-            $("#autreInput2").hide();
-        $( "#select1" ).change(function() {
-            if($( "#select1 option:selected").val() == 'Autre'){
-                $("#autreInput").slideDown();
-            } else {
-                $("#autreInput").slideUp();
-            }
-        });
 
-        $( "#select2" ).change(function() {
-            if($( "#select2 option:selected").val() == 'Autre'){
-                $("#autreInput2").slideDown();
-            } else {
-                $("#autreInput2").slideUp();
-            }
-        });
+            $( "#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement option:selected").parent().parent().append('<div class="autre_container2"><label class="control-label">Autre</label><input id="autre_input2" class="form-control"></div>');
+            $(".autre_container2").hide();
+            $( "#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement" ).change(function() {
+                if($( "#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement option:selected").is(':last-child')){
+                    $(".autre_container2").slideDown();
+                } else {
+                    $(".autre_container2").slideUp();
+                }
+            });
+            $("#autre_input2").change(function(){
+                $temp2 = $("#autre_input2").val();
+                if($( "#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement option:selected").is(':last-child')){
+                    $( "#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement option:selected").val($temp2);
+                }
+            });
 
-        $.datepicker.regional['fr'] = {clearText: 'Effacer', clearStatus: '',
-                closeText: 'Fermer', closeStatus: 'Fermer sans modifier',
-                prevText: '<Préc', prevStatus: 'Voir le mois précédent',
-                nextText: 'Suiv>', nextStatus: 'Voir le mois suivant',
-                currentText: 'Courant', currentStatus: 'Voir le mois courant',
-                monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin',
-                'Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-                monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun',
-                'Jul','Aoû','Sep','Oct','Nov','Déc'],
-                monthStatus: 'Voir un autre mois', yearStatus: 'Voir un autre année',
-                weekHeader: 'Sm', weekStatus: '',
-                dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-                dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
-                dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
-                dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
-                dateFormat: 'dd/mm/yy', firstDay: 0, 
-                initStatus: 'Choisir la date', isRTL: false};
-             $.datepicker.setDefaults($.datepicker.regional['fr']);
+            /*$.datepicker.regional['fr'] = {clearText: 'Effacer', clearStatus: '',
+                    closeText: 'Fermer', closeStatus: 'Fermer sans modifier',
+                    prevText: '<Préc', prevStatus: 'Voir le mois précédent',
+                    nextText: 'Suiv>', nextStatus: 'Voir le mois suivant',
+                    currentText: 'Courant', currentStatus: 'Voir le mois courant',
+                    monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin',
+                    'Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+                    monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun',
+                    'Jul','Aoû','Sep','Oct','Nov','Déc'],
+                    monthStatus: 'Voir un autre mois', yearStatus: 'Voir un autre année',
+                    weekHeader: 'Sm', weekStatus: '',
+                    dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+                    dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+                    dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+                    dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
+                    dateFormat: 'dd/mm/yy', firstDay: 0, 
+                    initStatus: 'Choisir la date', isRTL: false};
+                 $.datepicker.setDefaults($.datepicker.regional['fr']);
 
 
-            $( "#dateNaissance" ).datepicker({
+            $( "#suh_contratbundle_etudiantaidant_etudiant_dateNaissance" ).datepicker({
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "1900:2015",
                 defaultDate: "-20y",
                 dateFormat: "dd/mm/yy"
             });
+            */
 
         });
     </script>

@@ -24,13 +24,23 @@ class FormationType extends AbstractType
                     'Doctorat' => 'Doctorat',
                     'Concours' => 'Concours',
                     'DAEU' => 'DAEU',
-                    'autre' => 'autre',
+                    'autre' => 'Autre',
                 )
                 ))
             ->add('composante')
             ->add('filiere')
             ->add('cycle')
-            ->add('etablissement')
+            ->add('etablissement', 'choice', array(
+                'choices' => array(
+                    'UBP' => 'UBP',
+                    'UDA' => 'UDA',
+                    'UCA' => 'UCA',
+                    'Sigma' => 'Sigma',
+                    'Vetagrosup' => 'Vetagrosup',
+                    'Ensacf' => 'Ensacf',
+                    'autre' => 'Autre',
+                )
+                ))
             ->add('anneeEtude')
         ;
     }

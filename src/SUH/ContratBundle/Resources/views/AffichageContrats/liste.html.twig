@@ -1,6 +1,6 @@
 <div id="liste" class="row">
     <ul class="col-md-12">
-        {% for etudiant in listeEtudiantsHandicapes %}
+        {% for etudiant in listeEtudiantsAidants %}
             
             {% if loop.index is even %}
                 <li class="pair">
@@ -12,11 +12,13 @@
                 </li>
             {% endif %}
         {% endfor %}
+
+        
     </ul>
 </div>
 {% set userIndex = '' %}
 
-{% for etudiant in listeEtudiantsHandicapes %}
+{% for etudiant in listeEtudiantsAidants %}
     {% if etudiant['mailInstitutionnel'] is not null %}
         {% set userIndex = userIndex ~ etudiant['mailInstitutionnel'] ~ ';' %}
     {% endif %}
@@ -28,5 +30,5 @@
 <div id="nbResultats" class="row">
     <a href="mailto:{{ userIndex }}" style="text-decoration: none; display:inline-block;" class="fa fa-envelope-o"></a>
     <p style="margin-left:10px; display:inline-block;" class="help-block"> Nombre de résultats : 
-        <span class="badge" >{{listeEtudiantsHandicapes|length}}</span></p>
+        <span class="badge" >{{listeEtudiantsAidants|length}}</span></p>
 </div>

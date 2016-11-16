@@ -18,7 +18,6 @@ class EtudiantInformationsType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('mailInstitutionnel')
-            ->add('parite')
             ->add('mailPerso')
             ->add('mailParents')
             ->add('adresseEtudiante')
