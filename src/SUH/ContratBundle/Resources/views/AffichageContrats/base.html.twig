@@ -53,14 +53,21 @@
               <div class="col-md-9">
                   <nav class="navbar navbar-default">
                     <div class="container-fluid">
-                        <ul class="nav navbar-nav">
-                            <li class="liensNavbar"><a id="accueil" href="{{path('suh_contrat_homepage')}}">Accueil</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav">
-                            <li class="liensNavbar"><a id="addContrat" href="{{path('suh_contrat_addContrat')}}">Ajouter un contrat</a></li>
-                        </ul>
+                        {% if is_granted('ROLE_ADMIN') %}
+                          <ul class="nav navbar-nav">
+                              <li class="liensNavbar"><a id="accueil" href="{{path('suh_contrat_homepage')}}">Accueil</a></li>
+                          </ul>
+                        {% endif %}
+                        {% if is_granted('ROLE_USER') %}
+                          <ul class="nav navbar-nav">
+                            <li class="liensNavbar"><a id="accueil" href="{{path('suh_contrat_homepageEtudiant')}}">Accueil</a></li>
+                          </ul>
+                          <ul class="nav navbar-nav">
+                            <li class="liensNavbar"><a id="accueil" href="{{path('suh_contrat_homepage')}}">Mon Compte</a></li>
+                          </ul>
+                        {% endif %}
                         <ul class="nav navbar-nav navbar-right">
-                            <li id="deconnexion"><a href="{{path('logout')}}">Deconnexion</a></li>
+                          <li id="deconnexion"><a href="{{path('logout')}}">Deconnexion</a></li>
                         </ul>
                     </div>
                 </nav>

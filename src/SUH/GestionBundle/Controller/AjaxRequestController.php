@@ -71,6 +71,7 @@ class AjaxRequestController extends ListeEtudiantController
 
             $em->persist($etudiant);
 
+
             //******************************************************
 
             $nom = $request->request->get('nom');
@@ -733,7 +734,7 @@ class AjaxRequestController extends ListeEtudiantController
             {
 
                 $etudiant = new Etudiant ($numeroEtudiant, $dateNaissance, $premiereInscription);
-                $etudiant = new Etudiant ($numeroEtudiant, $dateNaissance);
+
 
             }
             else

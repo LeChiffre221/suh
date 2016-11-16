@@ -48,10 +48,18 @@ class ConnexionController extends Controller
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
-        return $this->render('SUHConnexionBundle:Connexion:index.html.twig', array(
-            // last username entered by the user
-            'last_username' => $session->get(SecurityContext::LAST_USERNAME),
-            'error'         => $error,
-        ));
+
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')){
+            return $this->render('SUHConnexionBundle:Connexion:index.html.twig', array(
+                // last username entered by the user
+                'last_username' => $session->get(SecurityContext::LAST_USERNAME),
+                'error'         => $error,
+            ));
+        }
+        else if($this->get('security.context')->isGranted('ROLE_USER')){
+
+            return $this->redirectToRoute('suh_contrat_homepageEtudiant');
+        }
+
     }
 }

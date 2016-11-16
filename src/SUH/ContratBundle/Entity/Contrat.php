@@ -52,35 +52,35 @@ class Contrat
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateEnvoiDRH", type="date")
+     * @ORM\Column(name="dateEnvoiDRH", type="date", nullable=true)
      */
     private $dateEnvoiDRH;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateEnvoiEtudiant", type="date")
+     * @ORM\Column(name="dateEnvoiEtudiant", type="date", nullable=true)
      */
     private $dateEnvoiEtudiant;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="etablissementAvenant", type="boolean")
+     * @ORM\Column(name="etablissementAvenant", type="boolean", nullable=true)
      */
     private $etablissementAvenant;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateEnvoiAvenantDRH", type="date")
+     * @ORM\Column(name="dateEnvoiAvenantDRH", type="date", nullable=true)
      */
     private $dateEnvoiAvenantDRH;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateEnvoiAvenantEtudiant", type="date")
+     * @ORM\Column(name="dateEnvoiAvenantEtudiant", type="date", nullable=true)
      */
     private $dateEnvoiAvenantEtudiant;
 

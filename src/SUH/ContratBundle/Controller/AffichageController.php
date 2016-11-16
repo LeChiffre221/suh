@@ -17,4 +17,9 @@ class AffichageController extends Controller
 
         return $this->render('SUHContratBundle:AffichageContrats:accueil.html.twig');
     }
+
+    public function AfficherAccueilEtudiantAction(){
+
+        return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig');
+    }
 }

@@ -15,16 +15,17 @@ class ContratType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('natureContrat',            'text')
-            ->add('nbHeureInitiales',         'number')
+            ->add('natureContrat',            'textarea')
+            ->add('nbHeureInitiales',         'number', array('pattern' => '[0-9]'))
             ->add('dateDebutContrat',         'date')
             ->add('dateFinContrat',           'date')
-            ->add('semestreConcerne',         'number')
-            ->add('dateEnvoiDRH',             'date')
-            ->add('dateEnvoiEtudiant',        'date')
-            ->add('etablissementAvenant',     'checkbox')
-            ->add('dateEnvoiAvenantDRH',      'date')
-            ->add('dateEnvoiAvenantEtudiant', 'date')
+            ->add('semestreConcerne',         'number', array('pattern' => '1|2{1}'))
+            //->add('dateEnvoiDRH',             'date')
+            //->add('dateEnvoiEtudiant',        'date')
+            //->add('etablissementAvenant',     'checkbox')
+            //->add('dateEnvoiAvenantDRH',      'date')
+            //->add('dateEnvoiAvenantEtudiant', 'date')
+            ->add('Ajouter',      'submit')
 
         ;
     }
