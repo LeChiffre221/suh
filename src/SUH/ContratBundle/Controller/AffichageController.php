@@ -14,12 +14,27 @@ class AffichageController extends Controller
      */
     public function AfficherAccueilContratAction()
     {
+        return $this->render('SUHContratBundle:AffichageContrats:accueil.html.twig',array(
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            ));
+    }
 
-        return $this->render('SUHContratBundle:AffichageContrats:accueil.html.twig');
+    public function getListeEtudiants($chaine)
+    {      
+        $etudiantRepository = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('SUHContratBundle:EtudiantAidant');
+
+         $listeEtudiantsAidants = $etudiantRepository->findAll();
+        if(empty($chaine))
+        {
+           return $etudiantRepository;
+        }   
     }
 
     public function AfficherAccueilEtudiantAction(){
 
         return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig');
     }
+
 }

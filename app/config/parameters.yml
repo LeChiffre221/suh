@@ -4,7 +4,7 @@ parameters:
 
 
     database_host: localhost
-    database_port: 
+    database_port:
     database_name: suh
     database_user: root
     database_password: 
