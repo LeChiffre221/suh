@@ -5,6 +5,11 @@ suh_contrat_homepage:
     defaults: { _controller: SUHContratBundle:Affichage:AfficherAccueilContrat }
 
 
+#ajouter un contrat étudiant
+suh_contrat_addContrat:
+    path: /addContrat
+    defaults: {_controller: SUHContratBundle:Contrat:addContrat}
+
 #gestion ajout
 suh_contrat_addEtudiantAidant:
     path: /add

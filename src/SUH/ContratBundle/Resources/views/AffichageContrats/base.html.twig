@@ -41,7 +41,7 @@
   </head>
   <!-- HEADER : logo SUH + navbar (accueil, statistiques, deconnexion -->
   {% block header %}
-  <header>
+
       <div class="container-fluid">
         
           <div class="row">
@@ -56,6 +56,9 @@
                         <ul class="nav navbar-nav">
                             <li class="liensNavbar"><a id="accueil" href="{{path('suh_contrat_homepage')}}">Accueil</a></li>
                         </ul>
+                        <ul class="nav navbar-nav">
+                            <li class="liensNavbar"><a id="addContrat" href="{{path('suh_contrat_addContrat')}}">Ajouter un contrat</a></li>
+                        </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li id="deconnexion"><a href="{{path('logout')}}">Deconnexion</a></li>
                         </ul>
@@ -64,7 +67,7 @@
               </div>
           </div>
       </div>      
-  </header>
+
   {% endblock %}
   <!-- FIN HEADER -->
   

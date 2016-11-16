@@ -192,9 +192,17 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return array (  '_controller' => 'SUH\\ContratBundle\\Controller\\AffichageController::AfficherAccueilContratAction',  '_route' => 'suh_contrat_homepage',);
             }
 
-            // suh_contrat_addEtudiantAidant
-            if ($pathinfo === '/contrat/add') {
-                return array (  '_controller' => 'SUH\\ContratBundle\\Controller\\GestionEtudiantAidantController::addEtudiantAidantAction',  '_route' => 'suh_contrat_addEtudiantAidant',);
+            if (0 === strpos($pathinfo, '/contrat/add')) {
+                // suh_contrat_addContrat
+                if ($pathinfo === '/contrat/addContrat') {
+                    return array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::addContratAction',  '_route' => 'suh_contrat_addContrat',);
+                }
+
+                // suh_contrat_addEtudiantAidant
+                if ($pathinfo === '/contrat/add') {
+                    return array (  '_controller' => 'SUH\\ContratBundle\\Controller\\GestionEtudiantAidantController::addEtudiantAidantAction',  '_route' => 'suh_contrat_addEtudiantAidant',);
+                }
+
             }
 
         }
