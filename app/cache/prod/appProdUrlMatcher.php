@@ -192,6 +192,11 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return array (  '_controller' => 'SUH\\ContratBundle\\Controller\\AffichageController::AfficherAccueilContratAction',  '_route' => 'suh_contrat_homepage',);
             }
 
+            // suh_contrat_homepageEtudiant
+            if ($pathinfo === '/contrat/etudiant') {
+                return array (  '_controller' => 'SUH\\ContratBundle\\Controller\\AffichageController::AfficherAccueilEtudiantAction',  '_route' => 'suh_contrat_homepageEtudiant',);
+            }
+
             if (0 === strpos($pathinfo, '/contrat/add')) {
                 // suh_contrat_addContrat
                 if ($pathinfo === '/contrat/addContrat') {
