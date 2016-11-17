@@ -17,16 +17,16 @@ class UserEtudiantAidant
      *
      * @ORM\Column(name="idEtudiant", type="integer")
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="SUH\ContratBundle\Entity\EtudiantAidant",cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="SUH\ConnexionBundle\Entity\EtudiantAidant",cascade={"persist"})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $idEtudiant;
 
 
     /**
-     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\User",cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="SUH\ConnexionBundle\Entity\User",cascade={"persist"})
      */
-    private $idUser;
+    private $id;
 
 
     /**
