@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ContratController extends Controller
 {
-public function addContratAction(Request $request, $idEtudiant){
+    public function addContratAction(Request $request, $idEtudiant){
 
         $contrat = new Contrat();
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
@@ -43,6 +43,18 @@ public function addContratAction(Request $request, $idEtudiant){
         return $this->render('SUHContratBundle:AffichageContrats:addContrat.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    public function deleteContratAction($idContrat){
+
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
+
+        $etudiant = $contrat->getEtudiantAidant();
+        $em->remove($contrat);
+        $em->flush();
+
+        return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
     }
 
 }

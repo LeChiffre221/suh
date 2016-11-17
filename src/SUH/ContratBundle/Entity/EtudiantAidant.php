@@ -57,6 +57,9 @@ class EtudiantAidant
     private $id;
 
 
+    public function getId(){
+        return $this->id;
+    }
 
     /**
      * @var integer
