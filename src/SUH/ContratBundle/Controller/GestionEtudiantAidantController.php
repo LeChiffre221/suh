@@ -27,14 +27,14 @@ class GestionEtudiantAidantController extends Controller
 
         if ($form->handleRequest($request)->isValid()) {
 
-	      $em = $this->getDoctrine()->getManager();
+	       $em = $this->getDoctrine()->getManager();
 
 
-        /*génération pass/user*/
+            /*génération pass/user*/
 
-            // //Récupération données formulaire POST
-            // $nom = $request->request->get('nom');
-            // $prenom = $request->request->get('prenom');
+            //Récupération données formulaire POST
+            $nom = $request->request->get('nom');
+            $prenom = $request->request->get('prenom');
             // $username = $nom.charAt(0) + $prenom.charAt(0);
             // $pass = substr( md5(rand()), 0, 5);
 
@@ -58,6 +58,22 @@ class GestionEtudiantAidantController extends Controller
             //     $em->persist($user);
             // }
 
+            //ENVOI EMAIL
+            $email = $request->request->get('mailPerso');
+
+            $message = \Swift_Message::newInstance()
+            ->setSubject('SUH - Vos identifiants de connexion')
+            ->setFrom('couyperraispierre@gmail.com')
+            ->setTo($email)
+            ->setBody(
+                $this->renderView(
+                    // emmanuelle.feschet@udamail.fr
+                    'SUHContratBundle:Emails:registration.html.twig'
+                ),
+                'text/html'
+            );
+            $this->get('mailer')->send($message);
+
 
 	      $em->persist($etudiantAidant);
 	      $em->flush();
@@ -65,9 +81,16 @@ class GestionEtudiantAidantController extends Controller
 
 	    }
 
+        
+
+        
+
+
+
         return $this->render('SUHContratBundle:AffichageContrats:addEtudiantAidant.html.twig', array(
             'info' => $etudiantassiste, 
             'form' => $form->createView(),
         )); 
     }
+
 }

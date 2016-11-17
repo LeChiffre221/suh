@@ -15,10 +15,10 @@ class EtudiantInformationsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom')
-            ->add('prenom')
+            ->add('nom', 'text', array('required' => true))
+            ->add('prenom', 'text', array('required' => true))
             ->add('mailInstitutionnel')
-            ->add('mailPerso')
+            ->add('mailPerso', 'text', array('required' => true))
             ->add('mailParents')
             ->add('adresseEtudiante')
             ->add('adresseFamiliale')

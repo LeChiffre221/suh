@@ -19,16 +19,16 @@ class AffichageController extends Controller
             ));
     }
 
-    public function getListeEtudiants($chaine)
+    public function getListeEtudiants()
     {      
         $etudiantRepository = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SUHContratBundle:EtudiantAidant');
 
-        //$listeEtudiantsAidants = $etudiantRepository->findAll();
-        if(empty($chaine))
+        $listeEtudiantsAidants = $etudiantRepository->findAll();
+        if(!empty($listeEtudiantsAidants))
         {
-           return $etudiantRepository;
+           return $listeEtudiantsAidants;
         }   
     }
 

@@ -1,4 +1,4 @@
-{% extends "SUHConnexionBundle:Connexion:base.html.twig" %}
+{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 {% block head %} {{parent()}}
@@ -128,14 +128,7 @@
                 </div>
 
             </section>
-            <section class="col-md-12">
 
-                <label for="username">Identifiant :</label>
-                <input id="username" name="username" type="text" required="required" value=""/><br/>
-
-                <label for="pass">Mot de passe :</label>
-                <input id="pass" name="pass" type="password" required="required"/><br/>
-            </section>
             <section class="col-md-12">
 
                 {{ form_widget(form.Envoyer) }}

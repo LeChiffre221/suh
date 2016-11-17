@@ -1,7 +1,7 @@
 <?php
 
 namespace SUH\ContratBundle\Entity;
-
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,11 +48,6 @@ class EtudiantAidant
     }
 
 
-
-    private $etudiantInformations;
-
-    private $formation;
-
    /**
      * @var integer
      * @ORM\Id
@@ -61,6 +56,8 @@ class EtudiantAidant
      */
     private $id;
 
+
+
     /**
      * @var integer
      * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\Etudiant", cascade={"persist"})
@@ -68,30 +65,49 @@ class EtudiantAidant
     private $etudiant;
 
 
-  public function getEtudiant()
+    public function getEtudiant()
+    {
+      return $this->etudiant;
+    }
+    public function setEtudiant($etudiant){
+      
+      return $this->etudiant = $etudiant;
+    }
+
+
+    /**
+     * @var integer
+     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\Formation", cascade={"persist"})
+     */
+    private $formation;
+
+
+  public function getFormation()
   {
-    return $this->etudiant;
+    return $this->formation;
   }
-  public function setEtudiant($etudiant){
+  public function setFormation($formation){
     
-    return $this->etudiant = $etudiant;
+    return $this->formation = $formation;
   }
 
 
-
-
+   /**
+     * @var integer
+     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\EtudiantInformations", cascade={"persist"})
+     */
+    private $etudiantInformations;
 
 
   public function getEtudiantInformations()
   {
     return $this->etudiantInformations;
   }
-
   public function setEtudiantInformations($etudiantInformations){
     
     return $this->etudiantInformations = $etudiantInformations;
-
   }
+
 
   public function getEtudiantFormation()
   {
