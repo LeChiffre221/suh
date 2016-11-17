@@ -16,18 +16,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ContratController extends Controller
 {
-public function addContratAction(Request $request){
+public function addContratAction(Request $request, $idEtudiant){
 
         $contrat = new Contrat();
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
 
+
+
         if($form->handleRequest($request)->isValid()){
+
+
             $em = $this->getDoctrine()->getManager();
+
+            // On l'étudiant pour lui ajouter un contrat
+            $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
+
+            $contrat->setEtudiantAidant($etudiant);
             $em->persist($contrat);
             $em->flush();
 
             $request->getSession()->getFlashBag()->add('notice', "Contrat créé !");
-            return $this->redirect($this->generateUrl('suh_contrat_addContrat'));
+            return $this->redirect($this->generateUrl('suh_contrat_homepage'));
 
         }
 

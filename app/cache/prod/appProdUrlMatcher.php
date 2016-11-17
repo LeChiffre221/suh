@@ -199,8 +199,8 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
 
             if (0 === strpos($pathinfo, '/contrat/add')) {
                 // suh_contrat_addContrat
-                if ($pathinfo === '/contrat/addContrat') {
-                    return array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::addContratAction',  '_route' => 'suh_contrat_addContrat',);
+                if (0 === strpos($pathinfo, '/contrat/addContrat') && preg_match('#^/contrat/addContrat/(?P<idEtudiant>[0-9]+)$#s', $pathinfo, $matches)) {
+                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_addContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::addContratAction',));
                 }
 
                 // suh_contrat_addEtudiantAidant
