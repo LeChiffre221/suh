@@ -91,8 +91,10 @@ class EtudiantInformations
      */
     private $telephoneParents;
 
-    public function __construct($nom, $prenom, $mailInstitutionnel, $parite, $mailPerso, $mailParents, $adresseEtudiante, $adresseFamiliale
-        , $telephonePerso, $telephoneParents)
+
+    public function __construct($nom=null, $prenom=null, $mailInstitutionnel=null, $parite=null, $mailPerso=null, $mailParents=null, $adresseEtudiante=null, $adresseFamiliale=null
+        , $telephonePerso=null, $telephoneParents=null)
+
     {
         $this->nom = $nom;
         $this->prenom = $prenom;

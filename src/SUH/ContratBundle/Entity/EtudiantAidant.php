@@ -12,12 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class EtudiantAidant
 {
-    /**
-     * @var integer
-     * @ORM\Id
-     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\Etudiant", cascade={"persist"})
-     */
-    private $etudiant;
+
 
 
     /**
@@ -27,9 +22,6 @@ class EtudiantAidant
      */
     private $certificatMedical;
 
-    private $etudiantInformations;
-
-    private $formation;
 
     /**
      * Set certificatMedical
@@ -56,22 +48,49 @@ class EtudiantAidant
     }
 
 
+
+    private $etudiantInformations;
+
+    private $formation;
+
+   /**
+     * @var integer
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\Etudiant", cascade={"persist"})
+     */
+    private $etudiant;
+
+
   public function getEtudiant()
   {
     return $this->etudiant;
   }
   public function setEtudiant($etudiant){
-    $this->etudiant = $etudiant;
-    return $this;
+    
+    return $this->etudiant = $etudiant;
   }
+
+
+
+
+
 
   public function getEtudiantInformations()
   {
     return $this->etudiantInformations;
   }
+
   public function setEtudiantInformations($etudiantInformations){
-    $this->etudiantInformations = $etudiantInformations;
-    return $this;
+    
+    return $this->etudiantInformations = $etudiantInformations;
+
   }
 
   public function getEtudiantFormation()
@@ -79,8 +98,9 @@ class EtudiantAidant
     return $this->formation;
   }
   public function setEtudiantFormation($formation){
-    $this->formation = $formation;
-    return $this;
+
+    return $this->formation = $formation;
+
   }
 
 }

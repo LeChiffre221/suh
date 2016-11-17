@@ -62,7 +62,9 @@ class Etudiant
     private $listEtudiantHandicape;
 
 
-    public function __construct($numeroEtudiant, $dateNaissance, $premiereInscription){
+
+    public function __construct($numeroEtudiant=null, $dateNaissance=null, $premiereInscription=null){
+
         $this->numeroEtudiant = $numeroEtudiant;
         $this->dateNaissance = $dateNaissance;
         if(isset($premiereInscription)){

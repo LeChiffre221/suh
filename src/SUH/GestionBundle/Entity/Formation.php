@@ -69,7 +69,9 @@ class Formation
     /* ====================================================================== */
     /* ====================================================================== */
 
-    public function __construct($diplome,$composante,$filiere,$cycle,$etablissement,$anneeEtude)
+
+    public function __construct($diplome=null,$composante=null,$filiere=null,$cycle=null,$etablissement=null,$anneeEtude=null)
+
     {
         $this->diplome=$diplome;
         $this->composante=$composante;
