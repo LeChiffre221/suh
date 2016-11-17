@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/bootstrap.min.css')}}" type="text/css"/>
     
-    <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/accueil.css')}}" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('bundles/suhContrat/css/accueil.css')}}" type="text/css"/>
     <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/font-awesome.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/jquery-ui.css') }}"/>
     <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/jquery-ui.min.css') }}"/>
@@ -41,53 +41,60 @@
   </head>
   <!-- HEADER : logo SUH + navbar (accueil, statistiques, deconnexion -->
   {% block header %}
-
+    <header>
       <div class="container-fluid">
         
           <div class="row">
-              <div class="col-md-3">
-                <a href="{{path('suh_choix_homepage')}}">
-                    <img id="logo" alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
-                </a>
+              <div id="logo-head" class="col-md-2">
+                <div class="col-md-12">
+                  <a id="logo" href="{{path('suh_choix_homepage')}}">
+                      <img  alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
+                  </a>
+                </div>
+                {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-md-6">
+                  <a href="{{path('suh_contrat_homepage')}}">
+                      <span class="btn btn-primary">
+                          Contrat
+                      </span>
+                  </a>
+                </div>
+                <div class="col-md-6">
+                  <a href="{{path('suh_gestion_homepage')}}">
+                      <span class="btn btn-success" >
+                          Gestion
+                      </span>
+                  </a>
+                </div>
+                {% endif %}
               </div>
-              <div class="col-md-9">
+              <div class="col-md-10">
                   <nav class="navbar navbar-default">
                     <div class="container-fluid">
-
+                      <ul class="nav navbar-nav">
                         {% if is_granted('ROLE_ADMIN') %}
-                            <ul class="nav navbar-nav">
-                                <li class="liensNavbar"><a id="accueil" href="{{path('suh_contrat_homepage')}}">Accueil</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav">
-                                <li class="liensNavbar"><a id="addContrat" href="{{path('suh_contrat_addContrat', {'idEtudiant': 1}) }}">Ajouter un contrat</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav">
-                                <li class="liensNavbar"><a id="addContrat" href="{{path('suh_contrat_afficherContrat', {'idEtudiant': 1}) }}">Afficher les contrats</a></li>
-                            </ul>
+                            
+                          <li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_homepage' %} active {% endif %}"><a id="accueil" href="{{path('suh_contrat_homepage')}}">Accueil</a></li>
+                          <li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_addContrat' %} active {% endif %}"><a id="addContrat" href="{{path('suh_contrat_addContrat', {'idEtudiant': 1}) }}">Ajouter un contrat</a></li>
+                          <li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_afficherContrat' %} active {% endif %}"><a id="addContrat" href="{{path('suh_contrat_afficherContrat', {'idEtudiant': 1}) }}">Afficher les contrats</a></li>
+                            
                         {% endif %}
-
                         {% if is_granted('ROLE_USER') %}
-                          <ul class="nav navbar-nav">
-                            <li class="liensNavbar"><a id="accueil" href="{{path('suh_contrat_homepageEtudiant')}}">Accueil</a></li>
-                          </ul>
-
+                          <li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_homepageEtudiant' %} active {% endif %}"><a id="accueil" href="{{path('suh_contrat_homepageEtudiant')}}">Accueil</a></li>
                         {% endif %}
-
-                        <ul class="nav navbar-nav navbar-right">
                           <li id="deconnexion"><a href="{{path('logout')}}">Deconnexion</a></li>
+                        {% if is_granted('ROLE_USER') %}
+                          <li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_homepageEtudiant' %} active {% endif %}"><a id="accueil" href="{{path('suh_contrat_homepageEtudiant')}}">Mon Compte</a></li>
+                        {% endif %}
                         </ul>
 
-                        {% if is_granted('ROLE_USER') %}
-                        <ul class="nav navbar-nav navbar-right">
-                          <li class="liensNavbar"><a id="accueil" href="{{path('suh_contrat_homepageEtudiant')}}">Mon Compte</a></li>
-                        </ul>
-                        {% endif %}
+                        
                     </div>
                 </nav>
               </div>
           </div>
       </div>      
-
+    </header>
   {% endblock %}
   <!-- FIN HEADER -->
   
