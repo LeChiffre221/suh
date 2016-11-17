@@ -16,7 +16,7 @@ class ContratType extends AbstractType
     {
         $builder
             ->add('natureContrat',            'textarea')
-            ->add('nbHeureInitiales',         'number', array('pattern' => '[0-9]'))
+            ->add('nbHeureInitiales',         'number', array('pattern' => '[0-9]+'))
             ->add('dateDebutContrat',         'date')
             ->add('dateFinContrat',           'date')
             ->add('semestreConcerne',         'number', array('pattern' => '1|2{1}'))
