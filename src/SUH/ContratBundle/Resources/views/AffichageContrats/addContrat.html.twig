@@ -10,11 +10,7 @@
     <div class="container" style="background-color: #b7b7b7">
         <h1>Ajouter un contrat étudiant</h1>
 
-        {% for message in app.session.flashbag.get('notice') %}
-            <div class="alert alert-success">
-                <strong>Succès !</strong> Le contrat a été créé.
-            </div>
-        {% endfor %}
+
 
         {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 

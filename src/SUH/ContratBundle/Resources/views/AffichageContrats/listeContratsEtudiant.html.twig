@@ -1,0 +1,34 @@
+{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
+
+{% block head %} {{parent()}}
+    <link rel="stylesheet" href="{{asset('bundles/suhContrat/css/contrat.css')}}" type="text/css"/>
+{% endblock %}
+{% block title %} {{parent()}} - Contrats Etudiant {% endblock %}
+
+{% block body %}
+<body>
+    <div class="container" style="background-color: #b7b7b7">
+        <h1>Liste des contrats</h1>
+
+        {% for message in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                <strong>Succès !</strong> Le contrat a été créé.
+            </div>
+        {% endfor %}
+
+        {% for contrat in listeContrats %}
+            Nature du contrat : {{ contrat.natureContrat }}
+            <br>
+            Nombre d'heures initiales : {{ contrat.nbHeureInitiales }}
+            <hr>
+        {% endfor %}
+
+
+
+
+    </div>
+
+
+
+</body>
+{% endblock %}

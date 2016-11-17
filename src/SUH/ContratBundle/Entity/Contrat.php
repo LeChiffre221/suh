@@ -22,6 +22,12 @@ class Contrat
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="SUH\ContratBundle\Entity\EtudiantAidant")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etudiantAidant;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="nbHeureInitiales", type="integer")
@@ -341,5 +347,28 @@ class Contrat
     {
         return $this->natureContrat;
     }
-}
 
+    /**
+     * Set etudiantAidant
+     *
+     * @param \SUH\ContratBundle\Entity\EtudiantAidant $etudiantAidant
+     *
+     * @return Contrat
+     */
+    public function setEtudiantAidant(\SUH\ContratBundle\Entity\EtudiantAidant $etudiantAidant)
+    {
+        $this->etudiantAidant = $etudiantAidant;
+    
+        return $this;
+    }
+
+    /**
+     * Get etudiantAidant
+     *
+     * @return \SUH\ContratBundle\Entity\EtudiantAidant
+     */
+    public function getEtudiantAidant()
+    {
+        return $this->etudiantAidant;
+    }
+}

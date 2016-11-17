@@ -32,6 +32,22 @@ class AffichageController extends Controller
         }   
     }
 
+    public function AfficherContratsPourUnEtudiantAction($idEtudiant){
+        $em = $this->getDoctrine()->getManager();
+
+        $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
+
+        // On récupère la liste des contrat pour un étudiant donné
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(array(
+            'etudiantAidant' => $etudiant
+        ));
+
+        return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
+            'listeContrats' => $listeContrats
+        ));
+
+    }
+
     public function AfficherAccueilEtudiantAction(){
 
         return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig');
