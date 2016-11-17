@@ -25,7 +25,7 @@ class AffichageController extends Controller
                 ->getManager()
                 ->getRepository('SUHContratBundle:EtudiantAidant');
 
-         $listeEtudiantsAidants = $etudiantRepository->findAll();
+        //$listeEtudiantsAidants = $etudiantRepository->findAll();
         if(empty($chaine))
         {
            return $etudiantRepository;
