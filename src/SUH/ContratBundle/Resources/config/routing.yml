@@ -27,8 +27,27 @@ suh_contrat_addContrat:
 
 #gestion ajout
 suh_contrat_addEtudiantAidant:
-    path: /add
+    path: /addEtudiant
     defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:addEtudiantAidant }
+
+
+#gestion get
+suh_contrat_getEtudiantAidant:
+    path: /getEtudiant/{id}
+    defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:getEtudiantAidant }
     requirements:
         id:   "^[0-9]+$"
 
+#gestion edit
+suh_contrat_editEtudiantAidant:
+    path: /modifier/{id}
+    defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:editEtudiantAidant }
+    requirements:
+        id:   "^[0-9]+$"
+
+#gestion suppr
+suh_contrat_editEtudiantAidant:
+    path: /delEtudiant/{id}
+    defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:delEtudiantAidant }
+    requirements:
+        id:   "^[0-9]+$"

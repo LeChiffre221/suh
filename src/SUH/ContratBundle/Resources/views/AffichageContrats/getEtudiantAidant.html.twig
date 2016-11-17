@@ -1,0 +1,17 @@
+{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block head %} {{parent()}}
+<link rel="stylesheet" href="{{asset('bundles/suhContrat/css/contrat.css')}}" type="text/css"/>
+{% endblock %}
+{% block title %} {{parent()}} - Détail étudiant aidant{% endblock %}
+
+{% block body %}
+    <body>
+        <div class="container" style="color: white">
+            <h1>Hue</h1>
+            {{informationsEtudiantAidant.etudiantInformations.nom}}
+        </div>
+    </body>
+
+{% endblock %}

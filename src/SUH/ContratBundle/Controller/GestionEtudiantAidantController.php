@@ -81,16 +81,31 @@ class GestionEtudiantAidantController extends Controller
 
 	    }
 
-        
-
-        
-
-
 
         return $this->render('SUHContratBundle:AffichageContrats:addEtudiantAidant.html.twig', array(
             'info' => $etudiantassiste, 
             'form' => $form->createView(),
         )); 
+    }
+
+    public function getEtudiantAidantAction($id)
+    {
+
+        $etudiantAidantRepo = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('SUHContratBundle:EtudiantAidant');
+        
+        $etudiant = $etudiantAidantRepo->find($id);
+
+        return $this->render('SUHContratBundle:AffichageContrats:getEtudiantAidant.html.twig',array(
+            'informationsEtudiantAidant'=>$etudiant
+        )); 
+        
+    }
+
+    public function editEtudiantAidantAction(Request $request)
+    {
+        return $this->render('SUHContratBundle:AffichageContrats:editEtudiantAidant.html.twig'); 
     }
 
 }
