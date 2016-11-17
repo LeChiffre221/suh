@@ -56,13 +56,7 @@ class EtudiantAidant
      */
     private $id;
 
-  /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
+    public function getId(){
         return $this->id;
     }
 

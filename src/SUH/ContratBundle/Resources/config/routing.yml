@@ -23,6 +23,13 @@ suh_contrat_addContrat:
     requirements:
        idEtudiant: "^[0-9]+$"
 
+#supprimer un contrat étudiant
+suh_contrat_deleteContrat:
+    path: /deleteContrat/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:deleteContrat}
+    requirements:
+       idContrat: "^[0-9]+$"
+
 
 
 #gestion ajout
