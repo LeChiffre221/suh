@@ -14,6 +14,7 @@ use SUH\ContratBundle\Form\EtudiantAidantType;
 class GestionEtudiantAidantController extends Controller
 {
 	
+    //Ajouter etudiant
     public function addEtudiantAidantAction(Request $request)
     {
 
@@ -77,7 +78,8 @@ class GestionEtudiantAidantController extends Controller
 
 	      $em->persist($etudiantAidant);
 	      $em->flush();
-	      $request->getSession()->getFlashBag()->add('notice', 'EtudiantAidant inscrit');
+	      $request->getSession()->getFlashBag()->add('notice', 'Etudiant aidant inscrit');
+          return $this->redirectToRoute('suh_contrat_homepage');
 
 	    }
 
@@ -88,7 +90,40 @@ class GestionEtudiantAidantController extends Controller
         )); 
     }
 
+    //Recuperer etudiant
     public function getEtudiantAidantAction($id)
+    {
+        return $this->render('SUHContratBundle:AffichageContrats:getEtudiantAidant.html.twig'); 
+        
+    }
+
+    //Suppression d'etudiant
+    public function delEtudiantAidantAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        //On recupere les entites
+        $etudiantAidant = $em->getRepository('SUHContratBundle:EtudiantAidant');
+        $etudiantInformations = $em->getRepository('SUHGestionBundle:EtudiantInformations'); 
+        $formation = $em->getRepository('SUHGestionBundle:Formation'); 
+
+        //On recupere les entites correspondantes a $id
+        $idEtudiantAidant = $etudiantAidant->find($id);
+        $idEtudiantInformations = $etudiantInformations->find($idEtudiantAidant->getEtudiantInformations());
+        $idFormation = $formation->find($idEtudiantAidant->getEtudiantFormation());
+
+        //On supprime les entites
+        $em->remove($idEtudiantAidant);
+        $em->remove($idEtudiantInformations);
+        $em->remove($idFormation);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('notice', 'Etudiant supprimé');
+        return $this->redirectToRoute('suh_contrat_homepage');
+        
+    }
+
+    //Edition etudiant
+    public function editEtudiantAidantAction($id)
     {
 
         $etudiantAidantRepo = $this->getDoctrine()
@@ -97,15 +132,9 @@ class GestionEtudiantAidantController extends Controller
         
         $etudiant = $etudiantAidantRepo->find($id);
 
-        return $this->render('SUHContratBundle:AffichageContrats:getEtudiantAidant.html.twig',array(
-            'informationsEtudiantAidant'=>$etudiant
-        )); 
-        
-    }
-
-    public function editEtudiantAidantAction(Request $request)
-    {
-        return $this->render('SUHContratBundle:AffichageContrats:editEtudiantAidant.html.twig'); 
+        return $this->render('SUHContratBundle:AffichageContrats:editEtudiantAidant.html.twig',array(
+            'informationsEtudiantAidant' => $etudiant
+            )); 
     }
 
 }

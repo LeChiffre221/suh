@@ -53,8 +53,8 @@ suh_contrat_editEtudiantAidant:
         id:   "^[0-9]+$"
 
 #gestion suppr
-suh_contrat_editEtudiantAidant:
-    path: /delEtudiant/{id}
+suh_contrat_delEtudiantAidant:
+    path: /supprimer/{id}
     defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:delEtudiantAidant }
     requirements:
         id:   "^[0-9]+$"

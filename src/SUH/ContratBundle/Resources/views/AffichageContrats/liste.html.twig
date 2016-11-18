@@ -1,4 +1,4 @@
-<div id="liste" class="row">
+<div id="liste" class="">
     <ul class="col-md-12">
         {% for etudiant in listeEtudiantsAidants %}
             
@@ -18,7 +18,7 @@
 {% set userIndex = '' %}
 
 
-<div id="nbResultats" class="row">
+<div id="nbResultats" class="">
     <a href="mailto:{{ userIndex }}" style="text-decoration: none; display:inline-block;" class="fa fa-envelope-o"></a>
     <p style="margin-left:10px; display:inline-block;" class="help-block"> Nombre de résultats : 
         <span class="badge" >{{listeEtudiantsAidants|length}}</span></p>
