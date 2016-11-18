@@ -5,10 +5,13 @@ namespace SUH\ContratBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class FormationType extends AbstractType
 {
+
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -26,7 +29,23 @@ class FormationType extends AbstractType
                     'DAEU' => 'DAEU',
                     'autre' => 'Autre',
                 )
-                ))
+                ));
+
+        //On empeche la verification du champ autre pour pouvoir y injecter notre value personnalisee
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
+            $form = $event->getForm();
+            $data = $event->getData();
+            $form->remove('diplome');
+            $form->add('diplome', 'choice', array(
+                'attr' => array(
+                    'autre' => 'diplome',
+                ),
+                'choices' => array(
+                    $data['diplome'] => $data['diplome'],
+                )
+            ));
+        });
+        $builder
             ->add('composante')
             ->add('filiere')
             ->add('cycle')
@@ -40,7 +59,25 @@ class FormationType extends AbstractType
                     'Ensacf' => 'Ensacf',
                     'autre' => 'Autre',
                 )
-                ))
+            ))
+        ;
+        //On empeche la verification du champ autre pour pouvoir y injecter notre value personnalisee
+        $builder
+            ->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
+                $form = $event->getForm();
+                $data = $event->getData();
+                $form->remove('etablissement');
+                $form->add('etablissement', 'choice', array(
+                    'attr' => array(
+                        'autre' => 'etablissement',
+                    ),
+                    'choices' => array(
+                        $data['etablissement'] => $data['etablissement'],
+                    )
+                ));
+            })
+        ;
+        $builder
             ->add('anneeEtude')
         ;
     }
