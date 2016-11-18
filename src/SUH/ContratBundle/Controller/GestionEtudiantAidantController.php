@@ -90,12 +90,7 @@ class GestionEtudiantAidantController extends Controller
         )); 
     }
 
-    //Recuperer etudiant
-    public function getEtudiantAidantAction($id)
-    {
-        return $this->render('SUHContratBundle:AffichageContrats:getEtudiantAidant.html.twig'); 
-        
-    }
+
 
     //Suppression d'etudiant
     public function delEtudiantAidantAction($id, Request $request)

@@ -41,13 +41,13 @@ suh_contrat_addEtudiantAidant:
 #gestion get
 suh_contrat_getEtudiantAidant:
     path: /getEtudiant/{id}
-    defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:getEtudiantAidant }
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherGetEtudiantAidant }
     requirements:
         id:   "^[0-9]+$"
 
 #gestion edit
 suh_contrat_editEtudiantAidant:
-    path: /modifier/{id}
+    path: /editEtudiant/{id}
     defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:editEtudiantAidant }
     requirements:
         id:   "^[0-9]+$"
