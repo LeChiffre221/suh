@@ -40,7 +40,10 @@ $(function() {
                 //l'url est celui du lien
                 var url2 = $(this).prop('href');
                 var id2 = url2.substring(url2.lastIndexOf("/") + 1);
-                
+                $("#listeProfil ul li").each(function(){
+                    $(this).removeClass('active');
+                })
+                $(this).parent().addClass('active');
                 //on charge la div d'affichage d'un etudiant
                 $("#content_right").load(url2);
                 
@@ -48,6 +51,10 @@ $(function() {
         });
         //on évite la redirection
         event.preventDefault();
-    })
-    
+    });
+    $("#modification").on('click', function (event) {
+        event.preventDefault();
+        var url = $(this).prop('href');
+        $("#affichage").load(url);
+    });
 });  
