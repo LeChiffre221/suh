@@ -43,7 +43,7 @@
             {{ form_errors(form.dateDebutContrat) }}
 
             <div class="col-lg-3">
-                {{ form_widget(form.dateDebutContrat, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(form.dateDebutContrat, {'attr': {'class': 'form-control', 'name': 'dateDebContrat'}}) }}
             </div>
         </div>
 
@@ -84,6 +84,16 @@
     </div>
 
 
-
+    <script type="text/javascript">
+        $( "#dateDebContrat" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1900:2015",
+            defaultDate: "-20y",
+            dateFormat: "dd/mm/yy"
+        });
+    </script>
 </body>
+
+
 {% endblock %}
