@@ -32,7 +32,7 @@ bin/symfony_requirements
 vendor/
 
 #Assets and user uploads
-web/bundles/
+#web/bundles/
 web/uploads/
 
 # Assets managed by Bower
