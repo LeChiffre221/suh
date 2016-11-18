@@ -56,13 +56,23 @@ class AffichageController extends Controller
     //Recuperer etudiant
     public function AfficherGetEtudiantAidantAction($id)
     {
+
+        return $this->render('SUHContratBundle:AffichageContrats:getEtudiantAidant.html.twig',array(
+            'id' => $id
+            )); 
+        
+    }
+
+    //Afficher etudiant
+    public function AfficherShowEtudiantAidantAction($id)
+    {
         $etudiantAidantRepo = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SUHContratBundle:EtudiantAidant');
         
         $etudiant = $etudiantAidantRepo->find($id);
 
-        return $this->render('SUHContratBundle:AffichageContrats:getEtudiantAidant.html.twig',array(
+        return $this->render('SUHContratBundle:AffichageContrats:showEtudiantAidant.html.twig',array(
             'informationsEtudiantAidant' => $etudiant,
             'id' => $id
             )); 

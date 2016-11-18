@@ -52,6 +52,13 @@ suh_contrat_getEtudiantAidant:
     requirements:
         id:   "^[0-9]+$"
 
+#gestion show
+suh_contrat_showEtudiantAidant:
+    path: /showEtudiant/{id}
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherShowEtudiantAidant }
+    requirements:
+        id:   "^[0-9]+$"
+
 #gestion edit
 suh_contrat_editEtudiantAidant:
     path: /editEtudiant/{id}
