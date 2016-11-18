@@ -1,123 +1,111 @@
-{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
 
-{% block head %} {{parent()}}
-    <link rel="stylesheet" href="{{asset('bundles/suhContrat/css/contrat.css')}}" type="text/css"/>
-{% endblock %}
-{% block title %} {{parent()}} - Ajout d'un contrat étudiant {% endblock %}
-
-{% block body %}
-<body>
-    <div class="container" style="background-color: #b7b7b7">
-        <h1>Ajouter un contrat étudiant</h1>
+<div class="container" style="background-color: #b7b7b7">
+    <h1>Ajouter un contrat étudiant</h1>
 
 
 
-        {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
-        {# Les erreurs générales du formulaire. #}
-        {{ form_errors(form) }}
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form) }}
 
-        <div class="form-group">
-            {{ form_label(form.natureContrat, "Nature du contrat : ", {'label_attr': {'class': 'col-lg-3 control-label'}}) }}
+    <div class="form-group">
+        {{ form_label(form.natureContrat, "Nature du contrat : ", {'label_attr': {'class': 'col-lg-3 control-label'}}) }}
 
-            {{ form_errors(form.natureContrat) }}
+        {{ form_errors(form.natureContrat) }}
 
-            <div class="col-lg-4">
-                {{ form_widget(form.natureContrat, {'attr': {'class': 'form-control'}}) }}
-            </div>
+        <div class="col-lg-4">
+            {{ form_widget(form.natureContrat, {'attr': {'class': 'form-control'}}) }}
         </div>
+    </div>
 
-        <div class="form-group">
-            {{ form_label(form.nbHeureInitiales, "Nombre d'heures initiales : ", {'label_attr': {'class': 'col-lg-3 control-label'}}) }}
+    <div class="form-group">
+        {{ form_label(form.nbHeureInitiales, "Nombre d'heures initiales : ", {'label_attr': {'class': 'col-lg-3 control-label'}}) }}
 
-            {{ form_errors(form.nbHeureInitiales) }}
+        {{ form_errors(form.nbHeureInitiales) }}
 
-            <div class="col-lg-1">
-                {{ form_widget(form.nbHeureInitiales, {'attr': {'class': 'form-control'}}) }}
-            </div>
+        <div class="col-lg-1">
+            {{ form_widget(form.nbHeureInitiales, {'attr': {'class': 'form-control'}}) }}
         </div>
+    </div>
 
-        <div class="form-group">
-            {{ form_label(form.dateDebutContrat, "Date de début du contrat : ", {'label_attr': {'class': 'col-lg-3 control-label'}}) }}
+    <div class="form-group">
+        {{ form_label(form.dateDebutContrat, "Date de début du contrat : ", {'label_attr': {'class': 'col-lg-3 control-label'}}) }}
 
-            {{ form_errors(form.dateDebutContrat) }}
+        {{ form_errors(form.dateDebutContrat) }}
 
-            <div class="col-lg-3">
-                {{ form_widget(form.dateDebutContrat, {'attr': {'class': 'form-control', 'id': 'dateDebContrat'}}) }}
-            </div>
-
+        <div class="col-lg-3">
+            {{ form_widget(form.dateDebutContrat, {'attr': {'class': 'form-control', 'id': 'dateDebContrat'}}) }}
         </div>
-
-        <div class="form-group">
-            {{ form_label(form.dateFinContrat, "Date de fin du contrat : ", {'label_attr': {'class': 'col-lg-3 control-label'}}) }}
-
-            {{ form_errors(form.dateFinContrat) }}
-
-            <div class="col-lg-3">
-                {{ form_widget(form.dateFinContrat, {'attr': {'class': 'form-control'}}) }}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {{ form_label(form.semestreConcerne, "Semestre concerné [1/2] : ", {'label_attr': {'class': 'col-lg-3 control-label'}}) }}
-
-            {{ form_errors(form.semestreConcerne) }}
-
-            <div class="col-lg-1">
-                {{ form_widget(form.semestreConcerne, {'attr': {'class': 'form-control'}}) }}
-            </div>
-        </div>
-
-
-
-        <div class="">
-        {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
-        {{ form_widget(form.Ajouter, {'attr': {'class': 'btn btn-primary col-lg-2 col-lg-push-3 '}}) }}
-        </div>
-        {# Génération automatique des champs pas encore écrits.
-           Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
-           et tous les champs cachés (type « hidden »). #}
-        {{ form_rest(form) }}
-
-        {# Fermeture de la balise <form> du formulaire HTML #}
-        {{ form_end(form) }}
 
     </div>
 
+    <div class="form-group">
+        {{ form_label(form.dateFinContrat, "Date de fin du contrat : ", {'label_attr': {'class': 'col-lg-3 control-label'}}) }}
 
-    <script type="text/javascript">
-        $(function() {
-            $.datepicker.regional['fr'] = {
-                clearText: 'Effacer', clearStatus: '',
-                closeText: 'Fermer', closeStatus: 'Fermer sans modifier',
-                prevText: '<Préc', prevStatus: 'Voir le mois précédent',
-                nextText: 'Suiv>', nextStatus: 'Voir le mois suivant',
-                currentText: 'Courant', currentStatus: 'Voir le mois courant',
-                monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-                    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-                monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun',
-                    'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
-                monthStatus: 'Voir un autre mois', yearStatus: 'Voir un autre année',
-                weekHeader: 'Sm', weekStatus: '',
-                dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-                dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-                dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
-                dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
-                dateFormat: 'dd/mm/yy', firstDay: 0,
-                initStatus: 'Choisir la date', isRTL: false
-            };
-            $.datepicker.setDefaults($.datepicker.regional['fr']);
+        {{ form_errors(form.dateFinContrat) }}
 
-            $("#dateDebContrat").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "1900:2015",
-                defaultDate: "-20y",
-                dateFormat: "dd/mm/yy"
-            });
+        <div class="col-lg-3">
+            {{ form_widget(form.dateFinContrat, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.semestreConcerne, "Semestre concerné [1/2] : ", {'label_attr': {'class': 'col-lg-3 control-label'}}) }}
+
+        {{ form_errors(form.semestreConcerne) }}
+
+        <div class="col-lg-1">
+            {{ form_widget(form.semestreConcerne, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+
+
+
+    <div class="">
+    {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+    {{ form_widget(form.Ajouter, {'attr': {'class': 'btn btn-primary col-lg-2 col-lg-push-3 '}}) }}
+    </div>
+    {# Génération automatique des champs pas encore écrits.
+       Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+       et tous les champs cachés (type « hidden »). #}
+    {{ form_rest(form) }}
+
+    {# Fermeture de la balise <form> du formulaire HTML #}
+    {{ form_end(form) }}
+
+</div>
+
+
+<script type="text/javascript">
+    $(function() {
+        $.datepicker.regional['fr'] = {
+            clearText: 'Effacer', clearStatus: '',
+            closeText: 'Fermer', closeStatus: 'Fermer sans modifier',
+            prevText: '<Préc', prevStatus: 'Voir le mois précédent',
+            nextText: 'Suiv>', nextStatus: 'Voir le mois suivant',
+            currentText: 'Courant', currentStatus: 'Voir le mois courant',
+            monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+            monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun',
+                'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+            monthStatus: 'Voir un autre mois', yearStatus: 'Voir un autre année',
+            weekHeader: 'Sm', weekStatus: '',
+            dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+            dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+            dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+            dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
+            dateFormat: 'dd/mm/yy', firstDay: 0,
+            initStatus: 'Choisir la date', isRTL: false
+        };
+        $.datepicker.setDefaults($.datepicker.regional['fr']);
+
+        $("#dateDebContrat").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1900:2015",
+            defaultDate: "-20y",
+            dateFormat: "dd/mm/yy"
         });
-    </script>
-</body>
-
-
-{% endblock %}
+    });
+</script>

@@ -23,10 +23,7 @@ class ContratController extends Controller
         $contrat = new Contrat();
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
 
-
-
         if($form->handleRequest($request)->isValid()){
-
 
             $em = $this->getDoctrine()->getManager();
 
@@ -39,7 +36,6 @@ class ContratController extends Controller
 
             $request->getSession()->getFlashBag()->add('notice', "Contrat créé !");
             return $this->redirect($this->generateUrl('suh_contrat_homepage'));
-
         }
 
         return $this->render('SUHContratBundle:AffichageContrats:addContrat.html.twig', array(
@@ -91,6 +87,11 @@ class ContratController extends Controller
 
         $etudiant = $contrat->getEtudiantAidant();
         return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
+    }
+
+    public function editContratAction($idContrat){
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
     }
 
     public function deleteContratAction($idContrat){
