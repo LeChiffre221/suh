@@ -1,8 +1,8 @@
 
     <div id="listeProfil" class="container" style="color: white">
         <ul  class="nav nav-tabs nav-justified">
-        	<li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_getEtudiantAidant' %} active {% endif %}">
-        		<a href="{{ path('suh_contrat_getEtudiantAidant', {'id': id}) }}" >Profil</a>
+        	<li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_showEtudiantAidant' %} active {% endif %}">
+        		<a href="{{ path('suh_contrat_showEtudiantAidant', {'id': id}) }}" >Profil</a>
         	</li>
         	<li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_afficherContrat' %} active {% endif %}">
         		<a id="addContrat" href="{{path('suh_contrat_afficherContrat', {'idEtudiant': id}) }}">Afficher les contrats</a>
@@ -12,6 +12,5 @@
         	</li>
 		</ul>
 		<section id="content_right">
-			<h1>{{informationsEtudiantAidant.etudiantInformations.nom}} {{informationsEtudiantAidant.etudiantInformations.prenom}}</h1>
 		</section>
     </div>

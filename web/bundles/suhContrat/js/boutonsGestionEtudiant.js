@@ -31,28 +31,23 @@ $(function() {
         //le dernier étudiant sélectionné devient l'étudiant courant
         last = this;
         //on charge la div d'affichage d'un etudiant
-        $("#affichage").load(url);
+        $("#affichage").load(url, function(){
+
+        //Liens du menu des profils Etudiants
+            $("#listeProfil ul li a").on('click', function (event) {
+                //on évite la redirection
+                event.preventDefault();
+                //l'url est celui du lien
+                var url2 = $(this).prop('href');
+                var id2 = url2.substring(url2.lastIndexOf("/") + 1);
+                
+                //on charge la div d'affichage d'un etudiant
+                $("#content_right").load(url2);
+                
+            });
+        });
         //on évite la redirection
         event.preventDefault();
     })
-    $('body').on('change', '#affichage', function(){
-        alert('changed');
-    });
+    
 });  
-$(function() {    
-    //Liens du menu des profils Etudiants
-    $("#listeProfil ul li a").on('click', function (event) {
-        //on évite la redirection
-        event.preventDefault();
-        //l'url est celui du lien
-        console.log("zboub");
-        var url = $(this).prop('href');
-        console.log(url);
-        var id = url.substring(url.lastIndexOf("/") + 1);
-        
-        //on charge la div d'affichage d'un etudiant
-        $("#content_right").load(url);
-        
-    });
-});
-
