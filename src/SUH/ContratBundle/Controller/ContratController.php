@@ -9,10 +9,12 @@
 namespace SUH\ContratBundle\Controller;
 
 
+use DateTime;
 use SUH\ContratBundle\Entity\Contrat;
 use SUH\ContratBundle\Form\ContratType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class ContratController extends Controller
 {
@@ -45,6 +47,52 @@ class ContratController extends Controller
         ));
     }
 
+    /**
+     * @param Request $request
+     * @param $idContrat
+     * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function addDateContratAction(Request $request, $idContrat){
+
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
+
+
+        if($request->isMethod('post')){
+
+            if(!empty($request->request->get("dateEnvoiDRH"))){
+                $dateEnvoiDRH = $request->request->get("dateEnvoiDRH");
+                $dateEnvoiDRH = date("Y-m-d", strtotime(strtr($dateEnvoiDRH, '/', '-')));
+                $contrat->setDateEnvoiDRH($dateEnvoiDRH);
+            }
+
+            if(!empty($request->request->get("dateEnvoiEtudiant"))){
+                $dateEnvoiEtudiant = $request->request->get("dateEnvoiEtudiant");
+                $dateEnvoiEtudiant= date("Y-m-d", strtotime(strtr($dateEnvoiEtudiant, '/', '-')));
+                $contrat->setDateEnvoiEtudiant($dateEnvoiEtudiant);
+            }
+
+            if(!empty($request->request->get("dateEnvoiAvenantDRH"))){
+                $dateEnvoiAvenantDRH = $request->request->get("dateEnvoiAvenantDRH");
+                $dateEnvoiAvenantDRH  = date("Y-m-d", strtotime(strtr($dateEnvoiAvenantDRH, '/', '-') ));
+                $contrat->setDateEnvoiAvenantDRH($dateEnvoiAvenantDRH );
+            }
+
+            if(!empty($request->request->get("dateEnvoiAvenantEtudiant"))){
+                $dateEnvoiAvenantEtudiant = $request->request->get("dateEnvoiAvenantEtudiant");
+                $dateEnvoiAvenantEtudiant= date("Y-m-d", strtotime(strtr($dateEnvoiAvenantEtudiant, '/', '-')));
+                $contrat->setDateEnvoiAvenantEtudiant($dateEnvoiAvenantEtudiant);
+            }
+
+        }
+
+        $em->persist($contrat);
+        $em->flush();
+
+        $etudiant = $contrat->getEtudiantAidant();
+        return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
+    }
+
     public function deleteContratAction($idContrat){
 
         $em = $this->getDoctrine()->getManager();
@@ -56,5 +104,7 @@ class ContratController extends Controller
 
         return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
     }
+
+
 
 }

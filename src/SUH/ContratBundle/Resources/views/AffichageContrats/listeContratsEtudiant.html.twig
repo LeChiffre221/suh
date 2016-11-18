@@ -29,45 +29,111 @@
             Semestre concerné : n°{{ contrat.semestreConcerne}}
 
             <br>
+            <br>
             <p>Date d'envoi du contrat :</p>
             <div class="row">
-                <div class="col-lg-3"><BLOCKQUOTE>
-                    DRH :
-                        {% if  (contrat.dateEnvoiDRH is null) %}
-                            non défini
-                        {% else %}
-                            {{ contrat.dateEnvoiDRH|date('d/m/Y') }}
-                        {% endif %}
+                <div class="col-lg-4">
+
+                    {% if  (contrat.dateEnvoiDRH is null) %}
+
+
+                        <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
+                            <div class="col-lg-4">
+                                <label for="">DRH :</label></br>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <input id="dateEnvoiDRH" name="dateEnvoiDRH" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                            </div>
+
+                            <div class="col-lg-2">
+                                <button type="submit" value="" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                            </div>
+
+                        </form>
+                    {% else %}
+                        DRH : {{ contrat.dateEnvoiDRH|date('d/m/Y') }}
+                    {% endif %}
 
                 </div>
-                <div class="col-lg-3"><BLOCKQUOTE>
-                    Etudiant :
-                        {% if  (contrat.dateEnvoiEtudiant is null) %}
-                            non défini
-                        {% else %}
-                            {{ contrat.dateEnvoiEtudiant|date('d/m/Y') }}
-                        {% endif %}
+                <div class="col-lg-4">
+
+                    {% if  (contrat.dateEnvoiEtudiant is null) %}
+                        <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
+                            <div class="col-lg-4">
+                                <label for="">Etudiant :</label></br>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <input id="dateEnvoiEtudiant" name="dateEnvoiEtudiant" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                            </div>
+
+                            <div class="col-lg-2">
+                                <button type="submit" value="" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                            </div>
+
+                        </form>
+
+                    {% else %}
+                        Etudiant : {{ contrat.dateEnvoiEtudiant|date('d/m/Y') }}
+                    {% endif %}
 
                 </div>
             </div>
+            <br>
             <p>Date d'envoi de l'avenant :</p>
             <div class="row">
-                <div class="col-lg-3"><BLOCKQUOTE>
-                    DRH :
-                        {% if  (contrat.dateEnvoiAvenantDRH is null) %}
-                            non défini
-                        {% else %}
-                            {{ contrat.dateEnvoiAvenantDRH|date('d/m/Y') }}
-                        {% endif %}
+                <div class="col-lg-4">
+
+                    {% if  (contrat.dateEnvoiAvenantDRH is null) %}
+                        <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
+                            <div class="col-lg-4">
+                                <label for="">DRH :</label></br>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <input id="dateEnvoiAvenantDRH" name="dateEnvoiAvenantDRH" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                            </div>
+
+                            <div class="col-lg-2">
+                                <button type="submit" value="" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                            </div>
+
+                        </form>
+                    {% else %}
+                        DRH : {{ contrat.dateEnvoiAvenantDRH|date('d/m/Y') }}
+                    {% endif %}
 
                 </div>
-                <div class="col-lg-3"><BLOCKQUOTE>
-                    Etudiant :
-                        {% if  (contrat.dateEnvoiAvenantEtudiant is null) %}
-                            non défini
-                        {% else %}
-                            {{ contrat.dateEnvoiAvenantEtudiant|date('d/m/Y') }}
-                        {% endif %}
+                <div class="col-lg-4">
+
+                    {% if  (contrat.dateEnvoiAvenantEtudiant is null) %}
+                        <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
+
+                            <div class="col-lg-4">
+                                <label for="">Etudiant :</label></br>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <input id="{{ 'dateEnvoiAvenantEtudiant' ~ contrat.id }} form-control" name="dateEnvoiAvenantEtudiant"   pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                            </div>
+
+                            <div class="col-lg-2">
+                                <button type="submit" value="" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                            </div>
+
+                        </form>
+                    {% else %}
+                        Etudiant : {{ contrat.dateEnvoiAvenantEtudiant|date('d/m/Y') }}
+                    {% endif %}
                 </div>
 
             </div>
@@ -85,4 +151,69 @@
 
 
 </body>
+<script type="text/javascript">
+    $(function() {
+
+        $.datepicker.regional['fr'] = {clearText: 'Effacer', clearStatus: '',
+        closeText: 'Fermer', closeStatus: 'Fermer sans modifier',
+        prevText: '<Préc', prevStatus: 'Voir le mois précédent',
+        nextText: 'Suiv>', nextStatus: 'Voir le mois suivant',
+        currentText: 'Courant', currentStatus: 'Voir le mois courant',
+        monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin',
+        'Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+        monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun',
+        'Jul','Aoû','Sep','Oct','Nov','Déc'],
+        monthStatus: 'Voir un autre mois', yearStatus: 'Voir un autre année',
+        weekHeader: 'Sm', weekStatus: '',
+        dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+        dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+        dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+        dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
+        dateFormat: 'dd/mm/yy', firstDay: 0,
+        initStatus: 'Choisir la date', isRTL: false};
+        $.datepicker.setDefaults($.datepicker.regional['fr']);
+
+        $('input[class^="dateEnvoiAvenantEtudiant"]').each(function(){
+            $( this ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "2000:2050",
+                defaultDate: "-1y",
+                dateFormat: "dd/mm/yy"
+            }).datepicker("setDate", new Date());
+
+        });
+
+
+
+
+
+
+
+        $( "#dateEnvoiDRH" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "2000:2050",
+        defaultDate: "-1y",
+        dateFormat: "dd/mm/yy"
+        }).datepicker("setDate", new Date());
+
+        $( "#dateEnvoiEtudiant" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "2000:2050",
+        defaultDate: "-1y",
+        dateFormat: "dd/mm/yy"
+        }).datepicker("setDate", new Date());
+
+        $( "#dateEnvoiAvenantDRH" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "2000:2050",
+        defaultDate: "-1y",
+        dateFormat: "dd/mm/yy"
+        }).datepicker("setDate", new Date());
+
+    });
+</script>
 {% endblock %}

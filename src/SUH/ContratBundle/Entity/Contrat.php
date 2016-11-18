@@ -2,6 +2,7 @@
 
 namespace SUH\ContratBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -213,7 +214,7 @@ class Contrat
      */
     public function setDateEnvoiDRH($dateEnvoiDRH)
     {
-        $this->dateEnvoiDRH = $dateEnvoiDRH;
+        $this->dateEnvoiDRH = new DateTime($dateEnvoiDRH);
     
         return $this;
     }
@@ -237,7 +238,7 @@ class Contrat
      */
     public function setDateEnvoiEtudiant($dateEnvoiEtudiant)
     {
-        $this->dateEnvoiEtudiant = $dateEnvoiEtudiant;
+        $this->dateEnvoiEtudiant = new DateTime($dateEnvoiEtudiant);
     
         return $this;
     }
@@ -285,7 +286,7 @@ class Contrat
      */
     public function setDateEnvoiAvenantDRH($dateEnvoiAvenantDRH)
     {
-        $this->dateEnvoiAvenantDRH = $dateEnvoiAvenantDRH;
+        $this->dateEnvoiAvenantDRH = new DateTime($dateEnvoiAvenantDRH);
     
         return $this;
     }
@@ -309,7 +310,7 @@ class Contrat
      */
     public function setDateEnvoiAvenantEtudiant($dateEnvoiAvenantEtudiant)
     {
-        $this->dateEnvoiAvenantEtudiant = $dateEnvoiAvenantEtudiant;
+        $this->dateEnvoiAvenantEtudiant = new DateTime($dateEnvoiAvenantEtudiant);
     
         return $this;
     }

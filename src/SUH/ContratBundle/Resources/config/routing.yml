@@ -11,14 +11,14 @@ suh_contrat_homepageEtudiant:
 
 #Afficher les contrats pour un étudiant
 suh_contrat_afficherContrat:
-    path:    /contrats/{idEtudiant}
+    path: /{idEtudiant}/contrats
     defaults: { _controller: SUHContratBundle:Affichage:AfficherContratsPourUnEtudiant}
     requirements:
            idEtudiant: "^[0-9]+$"
 
 #ajouter un contrat étudiant
 suh_contrat_addContrat:
-    path: /addContrat/{idEtudiant}
+    path: /{idEtudiant}/addContrat
     defaults: {_controller: SUHContratBundle:Contrat:addContrat}
     requirements:
        idEtudiant: "^[0-9]+$"
@@ -27,6 +27,13 @@ suh_contrat_addContrat:
 suh_contrat_deleteContrat:
     path: /deleteContrat/{idContrat}
     defaults: {_controller: SUHContratBundle:Contrat:deleteContrat}
+    requirements:
+       idContrat: "^[0-9]+$"
+
+#add date envoi contrat étudiant
+suh_contrat_addDateContrat:
+    path: /addDateContrat/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:addDateContrat}
     requirements:
        idContrat: "^[0-9]+$"
 
