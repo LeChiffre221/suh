@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="col-lg-6">
-                                <input id="dateEnvoiDRH" name="dateEnvoiDRH" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                                <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiDRH"}}" name="dateEnvoiDRH" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
                             </div>
 
                             <div class="col-lg-2">
@@ -67,7 +67,7 @@
                             </div>
 
                             <div class="col-lg-6">
-                                <input id="dateEnvoiEtudiant" name="dateEnvoiEtudiant" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                                <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiEtudiant"}}" name="dateEnvoiEtudiant" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
                             </div>
 
                             <div class="col-lg-2">
@@ -96,7 +96,7 @@
                             </div>
 
                             <div class="col-lg-6">
-                                <input id="dateEnvoiAvenantDRH" name="dateEnvoiAvenantDRH" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                                <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiAvenantDRH"}}" name="dateEnvoiAvenantDRH" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
                             </div>
 
                             <div class="col-lg-2">
@@ -121,7 +121,7 @@
                             </div>
 
                             <div class="col-lg-6">
-                                <input id="{{ 'dateEnvoiAvenantEtudiant' ~ contrat.id }} form-control" name="dateEnvoiAvenantEtudiant"   pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                                <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiAvenantEtudiant"}}" class="form-control" name="dateEnvoiAvenantEtudiant"   pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
                             </div>
 
                             <div class="col-lg-2">
@@ -173,7 +173,7 @@
         initStatus: 'Choisir la date', isRTL: false};
         $.datepicker.setDefaults($.datepicker.regional['fr']);
 
-        $('input[class^="dateEnvoiAvenantEtudiant"]').each(function(){
+        $('input[id^="dateEnvoiAvenantEtudiant"]').each(function(){
             $( this ).datepicker({
                 changeMonth: true,
                 changeYear: true,
@@ -190,29 +190,6 @@
 
 
 
-        $( "#dateEnvoiDRH" ).datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "2000:2050",
-        defaultDate: "-1y",
-        dateFormat: "dd/mm/yy"
-        }).datepicker("setDate", new Date());
-
-        $( "#dateEnvoiEtudiant" ).datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "2000:2050",
-        defaultDate: "-1y",
-        dateFormat: "dd/mm/yy"
-        }).datepicker("setDate", new Date());
-
-        $( "#dateEnvoiAvenantDRH" ).datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: "2000:2050",
-        defaultDate: "-1y",
-        dateFormat: "dd/mm/yy"
-        }).datepicker("setDate", new Date());
 
     });
 </script>
