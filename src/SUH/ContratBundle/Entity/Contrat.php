@@ -149,6 +149,7 @@ class Contrat
      */
     public function setDateDebutContrat($dateDebutContrat)
     {
+        $dateDebutContrat = date("Y-m-d", strtotime(strtr($dateDebutContrat, '/', '-') ));
         $this->dateDebutContrat =  new DateTime($dateDebutContrat);
     
         return $this;
@@ -161,6 +162,10 @@ class Contrat
      */
     public function getDateDebutContrat()
     {
+
+        if($this->dateDebutContrat instanceof \DateTime){
+            return $this->dateDebutContrat->format('d/m/Y');
+        }
         return $this->dateDebutContrat;
     }
 
@@ -173,6 +178,8 @@ class Contrat
      */
     public function setDateFinContrat($dateFinContrat)
     {
+        $dateFinContrat = date("Y-m-d", strtotime(strtr($dateFinContrat, '/', '-') ));
+
         $this->dateFinContrat = new DateTime($dateFinContrat);
     
         return $this;
@@ -185,6 +192,10 @@ class Contrat
      */
     public function getDateFinContrat()
     {
+
+        if($this->dateFinContrat instanceof \DateTime){
+            return $this->dateFinContrat->format('d/m/Y');
+        }
         return $this->dateFinContrat;
     }
 
@@ -221,6 +232,7 @@ class Contrat
      */
     public function setDateEnvoiDRH($dateEnvoiDRH)
     {
+        $dateEnvoiDRH= date("Y-m-d", strtotime(strtr($dateEnvoiDRH, '/', '-') ));
         $this->dateEnvoiDRH = new DateTime($dateEnvoiDRH);
     
         return $this;
@@ -233,6 +245,10 @@ class Contrat
      */
     public function getDateEnvoiDRH()
     {
+
+        if($this->dateEnvoiDRH instanceof \DateTime){
+            return $this->dateEnvoiDRH->format('d/m/Y');
+        }
         return $this->dateEnvoiDRH;
     }
 
@@ -245,6 +261,7 @@ class Contrat
      */
     public function setDateEnvoiEtudiant($dateEnvoiEtudiant)
     {
+        $dateEnvoiEtudiant= date("Y-m-d", strtotime(strtr($dateEnvoiEtudiant, '/', '-') ));
         $this->dateEnvoiEtudiant = new DateTime($dateEnvoiEtudiant);
     
         return $this;
@@ -257,6 +274,9 @@ class Contrat
      */
     public function getDateEnvoiEtudiant()
     {
+        if($this->dateEnvoiEtudiant instanceof \DateTime){
+            return $this->dateEnvoiEtudiant->format('d/m/Y');
+        }
         return $this->dateEnvoiEtudiant;
     }
 
@@ -281,6 +301,7 @@ class Contrat
      */
     public function getEtablissementAvenant()
     {
+
         return $this->etablissementAvenant;
     }
 
@@ -293,6 +314,7 @@ class Contrat
      */
     public function setDateEnvoiAvenantDRH($dateEnvoiAvenantDRH)
     {
+        $dateEnvoiAvenantDRH= date("Y-m-d", strtotime(strtr($dateEnvoiAvenantDRH, '/', '-') ));
         $this->dateEnvoiAvenantDRH = new DateTime($dateEnvoiAvenantDRH);
     
         return $this;
@@ -305,6 +327,9 @@ class Contrat
      */
     public function getDateEnvoiAvenantDRH()
     {
+        if($this->dateEnvoiAvenantDRH instanceof \DateTime){
+            return $this->dateEnvoiAvenantDRH->format('d/m/Y');
+        }
         return $this->dateEnvoiAvenantDRH;
     }
 
@@ -317,6 +342,8 @@ class Contrat
      */
     public function setDateEnvoiAvenantEtudiant($dateEnvoiAvenantEtudiant)
     {
+
+        $dateEnvoiAvenantEtudiant= date("Y-m-d", strtotime(strtr($dateEnvoiAvenantEtudiant, '/', '-') ));
         $this->dateEnvoiAvenantEtudiant = new DateTime($dateEnvoiAvenantEtudiant);
     
         return $this;
@@ -329,6 +356,10 @@ class Contrat
      */
     public function getDateEnvoiAvenantEtudiant()
     {
+
+        if($this->dateEnvoiAvenantEtudiant instanceof \DateTime){
+            return $this->dateEnvoiAvenantEtudiant->format('d/m/Y');
+        }
         return $this->dateEnvoiAvenantEtudiant;
     }
 
@@ -341,6 +372,8 @@ class Contrat
      */
     public function setNatureContrat($natureContrat)
     {
+
+
         $this->natureContrat = $natureContrat;
     
         return $this;

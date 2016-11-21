@@ -23,42 +23,24 @@ class ContratController extends Controller
     public function addContratAction(Request $request, $idEtudiant){
         $contrat = new Contrat();
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
-        if ($request->getMethod() == 'POST') {
-            $tabResponse = $request->request->get('suh_contratbundle_contrat');
-           $natureContrat = $tabResponse['natureContrat'];
-            $nbHeureInitiales = $tabResponse['nbHeureInitiales'];
-            $dateDebutContrat = date("Y-m-d", strtotime(strtr($tabResponse['dateDebutContrat'], '/', '-') ));
-            $dateFinContrat = date("Y-m-d", strtotime(strtr($tabResponse['dateFinContrat'], '/', '-') ));
-            $semestreConcerne = $tabResponse['semestreConcerne'];
+
+        $form->remove('dateEnvoiDRH');
+        $form->remove('dateEnvoiEtudiant');
+        $form->remove('dateEnvoiAvenantDRH');
+        $form->remove('dateEnvoiAvenantEtudiant');
 
 
-            if(!isset($tabResponse['etablissementAvenant'])){
-                $etablissementAvenant = 0;
-
-            }
-            else{
-                $etablissementAvenant = $tabResponse['etablissementAvenant'] ;
-
-            }
-
-
-            $contrat->setNatureContrat($natureContrat);
-            $contrat->setNbHeureInitiales($nbHeureInitiales);
-            $contrat->setDateDebutContrat($dateDebutContrat);
-            $contrat->setDateFinContrat($dateFinContrat);
-            $contrat->setSemestreConcerne($semestreConcerne);
-
-            $contrat->setEtablissementAvenant($etablissementAvenant);
-            $contrat->setActive(true);
-
+        if ($form->handleRequest($request)->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-            // On l'étudiant pour lui ajouter un contrat
             $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
+
+            $contrat->setActive(true);
             $contrat->setEtudiantAidant($etudiant);
+
             $em->persist($contrat);
             $em->flush();
-            $request->getSession()->getFlashBag()->add('notice', "Contrat créé !");
+
             return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
                 'idEtudiant' => $idEtudiant,
             )));
@@ -71,17 +53,81 @@ class ContratController extends Controller
         ));
     }
 
+
+  public function editContratAction($idContrat, Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
+
+        $form = $this->get('form.factory')->create(new ContratType, $contrat);
+
+        if($contrat->getDateEnvoiDRH() == null){
+           $form->remove('dateEnvoiDRH');
+        }
+        if($contrat->getDateEnvoiEtudiant() == null){
+            $form->remove('dateEnvoiEtudiant');
+        }
+        if($contrat->getDateEnvoiAvenantDRH() == null){
+            $form->remove('dateEnvoiAvenantDRH');
+        }
+        if($contrat->getDateEnvoiAvenantEtudiant() == null){
+            $form->remove('dateEnvoiAvenantEtudiant');
+        }
+
+        if ($form->handleRequest($request)->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($contrat);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
+                'idEtudiant' => $contrat->getEtudiantAidant()->getId(),
+            )));
+        }
+
+        return $this->render('SUHContratBundle:AffichageContrats:editContrat.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
+    }
+
+    public function deleteContratAction($idContrat){
+
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
+
+        $etudiant = $contrat->getEtudiantAidant();
+        $em->remove($contrat);
+        $em->flush();
+
+        return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
+    }
+
     public function getListeEtudiants()
-    {      
+    {
         $etudiantRepository = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('SUHContratBundle:EtudiantAidant');
+            ->getManager()
+            ->getRepository('SUHContratBundle:EtudiantAidant');
 
         $listeEtudiantsAidants = $etudiantRepository->findAll();
         if(!empty($listeEtudiantsAidants))
         {
-           return $listeEtudiantsAidants;
-        }   
+            return $listeEtudiantsAidants;
+        }
+    }
+
+
+    public function desactiverContratAction($idContrat){
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
+
+        $idEtudiant = $contrat->getEtudiantAidant()->getId();
+
+        $contrat->setActive(false);
+        $em->persist($contrat);
+        $em->flush();
+
+        return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $idEtudiant));
     }
 
     /**
@@ -127,53 +173,6 @@ class ContratController extends Controller
         $em->flush();
 
         $etudiant = $contrat->getEtudiantAidant();
-        return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
-    }
-
-    public function desactiverContratAction($idContrat){
-        $em = $this->getDoctrine()->getManager();
-        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
-
-        $idEtudiant = $contrat->getEtudiantAidant()->getId();
-
-        $contrat->setActive(false);
-        $em->persist($contrat);
-        $em->flush();
-
-        return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $idEtudiant));
-
-
-    }
-
-    public function editContratAction($idContrat){
-        $em = $this->getDoctrine()->getManager();
-        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
-
-        $form = $this->get('form.factory')->create(new ContratType, $contrat);
-        $form->add('dateEnvoiDRH',             'date');
-        $form->add('dateEnvoiEtudiant',        'date');
-
-        $form->add('dateEnvoiAvenantDRH',      'date');
-        $form->add('dateEnvoiAvenantEtudiant', 'date');
-
-
-        return $this->render('SUHContratBundle:AffichageContrats:editContrat.html.twig', array(
-            'form' => $form->createView(),
-        ));
-
-
-
-    }
-
-    public function deleteContratAction($idContrat){
-
-        $em = $this->getDoctrine()->getManager();
-        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
-
-        $etudiant = $contrat->getEtudiantAidant();
-        $em->remove($contrat);
-        $em->flush();
-
         return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
     }
 
