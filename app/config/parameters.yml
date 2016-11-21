@@ -1,11 +1,11 @@
 # This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_mysql
-    database_host: localhost
+    database_host: hina
     database_port: null
-    database_name: suh
-    database_user: root
-    database_password: null
+    database_name: dbpicouyperr
+    database_user: picouyperr
+    database_password:
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null

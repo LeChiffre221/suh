@@ -19,50 +19,50 @@ use Symfony\Component\HttpFoundation\Response;
 class ContratController extends Controller
 {
     public function addContratAction(Request $request, $idEtudiant){
-
         $contrat = new Contrat();
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
-
-
         if ($request->getMethod() == 'POST') {
-
             $tabResponse = $request->request->get('suh_contratbundle_contrat');
            $natureContrat = $tabResponse['natureContrat'];
             $nbHeureInitiales = $tabResponse['nbHeureInitiales'];
-
             $dateDebutContrat = date("Y-m-d", strtotime(strtr($tabResponse['dateDebutContrat'], '/', '-') ));
-
             $dateFinContrat = date("Y-m-d", strtotime(strtr($tabResponse['dateFinContrat'], '/', '-') ));
-
             $semestreConcerne = $tabResponse['semestreConcerne'];
-
             $contrat->setNatureContrat($natureContrat);
             $contrat->setNbHeureInitiales($nbHeureInitiales);
             $contrat->setDateDebutContrat($dateDebutContrat);
             $contrat->setDateFinContrat($dateFinContrat);
             $contrat->setSemestreConcerne($semestreConcerne);
-
             $em = $this->getDoctrine()->getManager();
-
             // On l'étudiant pour lui ajouter un contrat
             $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
-
             $contrat->setEtudiantAidant($etudiant);
             $em->persist($contrat);
-
             $em->flush();
-
             $request->getSession()->getFlashBag()->add('notice', "Contrat créé !");
             return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
                 'idEtudiant' => $idEtudiant,
             )));
         }
-
-
         return $this->render('SUHContratBundle:AffichageContrats:addContrat.html.twig', array(
             'form' => $form->createView(),
             'idEtudiant' => $idEtudiant,
+            'id' => $idEtudiant,
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
         ));
+    }
+
+    public function getListeEtudiants()
+    {      
+        $etudiantRepository = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('SUHContratBundle:EtudiantAidant');
+
+        $listeEtudiantsAidants = $etudiantRepository->findAll();
+        if(!empty($listeEtudiantsAidants))
+        {
+           return $listeEtudiantsAidants;
+        }   
     }
 
     /**

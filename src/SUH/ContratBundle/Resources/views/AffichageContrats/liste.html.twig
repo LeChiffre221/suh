@@ -4,11 +4,11 @@
             
             {% if loop.index is even %}
                 <li class="pair">
-                    <a href="{{ path('suh_contrat_getEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}</a>
+                    <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}</a>
                 </li>
             {% else %}
                 <li class="impair">
-                    <a href="{{ path('suh_contrat_getEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}</a>
+                    <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}</a>
                 </li>
             {% endif %}
         {% endfor %}
