@@ -18,6 +18,13 @@ html,body
     padding: 1%;
 }
 
+.container-choice{
+    height:100%;
+
+}
+.container-choice > a {
+    width:100%;
+}
 img
 {
     display:block;

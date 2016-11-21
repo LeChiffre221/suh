@@ -7,19 +7,24 @@ cache:
     - $HOME/.composer/cache
 
 php:
-  - 5.3
-  - 5.4
-  - 5.5
   - 5.6
+  - 7.0
+  - nightly
   - hhvm
+
+matrix:
+  allow_failures:
+    - php: nightly
 
 services: mongodb
 
 before_install:
-    - "[ $TRAVIS_PHP_VERSION = 'hhvm' ] || echo 'extension = mongo.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini"
+  - "if [[ $TRAVIS_PHP_VERSION != 'hhvm' && $TRAVIS_PHP_VERSION != '7.0' ]]; then echo 'extension = mongo.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi"
 
-install: 
-    - composer install --dev
-    - "[ $TRAVIS_PHP_VERSION = 'hhvm' ] || composer require 'doctrine/mongodb-odm' '*@beta'"
+before_script:
+  - composer self-update
+  - composer install --prefer-source
+  - "if [[ $TRAVIS_PHP_VERSION != 'hhvm' && $TRAVIS_PHP_VERSION != '7.0' ]]; then composer require 'doctrine/mongodb-odm' '*@beta'; fi"
 
-script: phpunit -v
+script:
+  - ./vendor/bin/phpunit -v

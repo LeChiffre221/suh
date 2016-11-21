@@ -3,8 +3,8 @@
 [![Build Status](https://travis-ci.org/doctrine/data-fixtures.png)](https://travis-ci.org/doctrine/data-fixtures)
 
 This extension aims to provide a simple way to manage and execute the loading of data fixtures
-for the Doctrine ORM or ODM. You can write fixture classes by implementing the
-Doctrine\Common\DataFixtures\FixtureInterface interface:
+for the [Doctrine ORM or ODM](http://www.doctrine-project.org/). You can write fixture classes
+by implementing the [`Doctrine\Common\DataFixtures\FixtureInterface`](lib/Doctrine/Common/DataFixtures/FixtureInterface.php) interface:
 
 ```php
 namespace MyDataFixtures;
@@ -12,7 +12,7 @@ namespace MyDataFixtures;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 
-class LoadUserData implements FixtureInterface
+class UserFixtureLoader implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -33,7 +33,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use MyDataFixtures\LoadUserData;
 
 $loader = new Loader();
-$loader->addFixture(new LoadUserData);
+$loader->addFixture(new LoadUserData());
 ```
 
 You can load a set of fixtures from a directory as well:
@@ -89,7 +89,7 @@ class LoadUserRoleData extends AbstractFixture
         $adminRole = new Role();
         $adminRole->setName('admin');
 
-        $anonymousRole = new Role;
+        $anonymousRole = new Role();
         $anonymousRole->setName('anonymous');
 
         $manager->persist($adminRole);

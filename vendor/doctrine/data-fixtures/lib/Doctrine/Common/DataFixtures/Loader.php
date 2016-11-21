@@ -111,6 +111,24 @@ class Loader
     }
 
     /**
+     * Get a specific fixture instance
+     *
+     * @param string $className
+     * @return FixtureInterface
+     */
+    public function getFixture($className)
+    {
+        if (!isset($this->fixtures[$className])) {
+            throw new \InvalidArgumentException(sprintf(
+                '"%s" is not a registered fixture',
+                $className
+            ));
+        }
+
+        return $this->fixtures[$className];
+    }
+
+    /**
      * Add a fixture object instance to the loader.
      *
      * @param FixtureInterface $fixture
@@ -350,6 +368,9 @@ class Loader
 
         $fixtures = array();
         $declared = get_declared_classes();
+        // Make the declared classes order deterministic
+        sort($declared);
+
         foreach ($declared as $className) {
             $reflClass = new \ReflectionClass($className);
             $sourceFile = $reflClass->getFileName();

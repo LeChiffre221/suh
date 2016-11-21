@@ -142,7 +142,7 @@ class Contrat
      */
     public function setDateDebutContrat($dateDebutContrat)
     {
-        $this->dateDebutContrat = $dateDebutContrat;
+        $this->dateDebutContrat =  new DateTime($dateDebutContrat);
     
         return $this;
     }
@@ -166,7 +166,7 @@ class Contrat
      */
     public function setDateFinContrat($dateFinContrat)
     {
-        $this->dateFinContrat = $dateFinContrat;
+        $this->dateFinContrat = new DateTime($dateFinContrat);
     
         return $this;
     }

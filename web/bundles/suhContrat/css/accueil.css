@@ -3,6 +3,16 @@ html,body
     background-color: #262A3B; 
     height:100%;
 }
+a {
+    color:#000;
+}
+.btn-primary:hover, .btn-success:hover{
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -moz-transition: all 0.3s ease-in-out 0s;
+    -ms-transition: all 0.3s ease-in-out 0s;
+    -o-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
 
 /* HEADER */
 
@@ -35,23 +45,33 @@ header .container-fluid{
 }
 .liensNavbar
 {
-    border-right: dotted #CCCCCC 1px;
+    
     text-align: center;
+
 }
 
-.liensNavbar:hover
-{
-    background-color: #DEE0D6;
-}
+
 
 .liensNavbar a
 {
     font-size: 18px;
+    background-color:#CCCCCC;
 }
-
+.nav > li > a:focus, .nav > li > a:hover {
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -moz-transition: all 0.3s ease-in-out 0s;
+    -ms-transition: all 0.3s ease-in-out 0s;
+    -o-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
 #rechercheAvancee:hover
 {
     background-color: #BFC34E;
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -moz-transition: all 0.3s ease-in-out 0s;
+    -ms-transition: all 0.3s ease-in-out 0s;
+    -o-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
 }
 ul.navbar-nav{
     width:100%;
@@ -136,9 +156,20 @@ ul.navbar-nav{
 .pair:hover, .impair:hover
 {
     background-color: #BCC6D9;
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -moz-transition: all 0.3s ease-in-out 0s;
+    -ms-transition: all 0.3s ease-in-out 0s;
+    -o-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
 }
 
-
+.pair > a , .impair > a {
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -moz-transition: all 0.3s ease-in-out 0s;
+    -ms-transition: all 0.3s ease-in-out 0s;
+    -o-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
 
 #nbResultats
 {
@@ -168,13 +199,22 @@ ul.navbar-nav{
 {   
     height: 100%;
     background-color: #bcc6d9;    
-    overflow: auto;
+    /*overflow: auto;*/
 /*    border-left: 5px solid #707070;
     box-shadow: 0 0 0 2px rgba(0,0,0,0.5) inset;*/
-    padding: 5px 5px 5px 15px;
+    padding: 0 5px 5px 15px;
     //box-shadow: -1px 2px 10px 3px #BBBBBB inset;
 }
-
+#listeProfil{
+    position:relative;
+}
+#listeProfil > ul {
+    position:absolute;
+    bottom:100%;
+}
+#listeProfil > ul > li > a {
+    margin-right:2px;
+}
 .spoiler table tbody tr td
 {
     font-size: 17px;
