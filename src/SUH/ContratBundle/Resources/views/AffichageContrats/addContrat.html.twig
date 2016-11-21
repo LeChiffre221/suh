@@ -1,4 +1,11 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
 
+
+
+{% block bodyright %}
+    {% block menuright %}
+        {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
+    {% endblock %}
 <div class="container" style="background-color: #b7b7b7">
     <h1>Ajouter un contrat étudiant</h1>
 
@@ -123,3 +130,4 @@
         
     });
 </script>
+{% endblock %}

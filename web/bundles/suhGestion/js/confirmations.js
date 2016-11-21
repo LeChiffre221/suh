@@ -110,25 +110,3 @@ function confirmationSuppression()
         return false;
     }
 }
-
-function confirmationSuuppressionFormation()
-{
-    var check1 = confirm("###Voulez vous vraiment SUPRIMER cette formation ?###");
-    if (check1)
-    {
-        var check2 = confirm("###Etes-vous sûr ? La suppression sera définitive !###");
-        if (check2)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else
-    {
-        return false;
-    }
-
-}

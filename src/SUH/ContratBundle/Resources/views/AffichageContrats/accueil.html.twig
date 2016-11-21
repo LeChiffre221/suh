@@ -32,6 +32,8 @@
                    
                 <div id="affichage" class="col-md-10">
                     {% block bodyright %}
+                        {% block menuright %}
+                        {% endblock %}
                     {% endblock %}
                 </div>
                 
@@ -39,4 +41,5 @@
         </section>      
         <br/><br/>
     </body>
+    {% if (js is defined) %}{{ js|raw }}{% endif %}
 {% endblock %}

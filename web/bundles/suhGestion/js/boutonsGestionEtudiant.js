@@ -20,14 +20,11 @@ $(document).ready(function () {
         //on stocke la couleur de base avant de la passer au rouge(afin de la remettre en état
         //au prochain clic
         lastColor = $(this).css("background-color");
-        lastCol = $(this).css("color");
-        //le lien sélectionné devient rose
+        //le lien sélectionné devient rouge
         $(this).css({'background-color': '#FF496B'});
-        $(this).css({'color': 'white'});
         //si il y a déjà eu un étudiant selectionné sa couleur redevient celle d'origine
         if (!(typeof last === "undefined")) {
             $(last).css({'background-color': lastColor});
-            $(last).css({'color': lastCol});
         }
         //le dernier étudiant sélectionné devient l'étudiant courant
         last = this;

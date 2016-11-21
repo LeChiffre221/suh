@@ -5,19 +5,10 @@ html,body
 }
 
 /* HEADER */
-.message-fixed{
-    position:fixed;
-    bottom:0;
-    right: 0;
-    z-index: 3;
-}
 
 #logo
 {
-    margin-left: 20%;
-    background-color: rgba(15,16,23, 0.3);
-    padding:10px 0;
-
+    margin-left: 15%;
 }
 
 header
@@ -122,8 +113,6 @@ header
     background-color: #BCC6D9;
 }
 
-
-
 #nbResultats
 {
     max-height: 3%;
@@ -134,8 +123,15 @@ header
 {
     max-height: 7%;
     padding: 15px;
+    text-align:center;
     
 }
+
+#gestionEtudiants > a {
+	float:none;
+	display:inline-block;
+}
+
 
 /* PARTIE DROITE */
 
@@ -160,7 +156,7 @@ header
 
 .spoiler table tbody tr td
 {
-    font-size: 17px;
+    font-size: 16px;
     font-family: Verdana;
     padding-left: 30px;
 }
@@ -173,7 +169,7 @@ header
 #importExcel, #exportExcel
 {
     text-align: center;
-    font-size:17px;
+    font-size:16px;
 }
 
 /* ajout étudiant */
@@ -202,7 +198,7 @@ header
     background-color: transparent;
     border: none;
     box-shadow: none;
-    margin-right:10px;
+    margin right:10px;
 }
 
 #form_parite_1
@@ -222,7 +218,7 @@ header
     background-color: transparent;
     border: none;
     box-shadow: none;
-    margin-right:200px;
+    margin right:200px;
 }
 
 .wizard,
@@ -317,14 +313,14 @@ header
 {
     display: block;
     width: auto;
-    margin: 0 0.3em 0.3em;
+    margin: 0 0.5em 0.5em;
     padding: 1em 1em;
     text-decoration: none;
 
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .wizard > .steps .disabled a,
@@ -334,7 +330,7 @@ header
     background-color: #2184be;
     color: #000000;
     cursor: default;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .wizard > .steps .current a,
@@ -344,7 +340,7 @@ header
     background-color:#20D6C7;
     color: #fff;
     cursor: default;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .wizard > .steps .done a,
@@ -353,7 +349,7 @@ header
 {
     background-color: #20D6C7;
     color: #000000;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .wizard > .steps .error a,
@@ -362,7 +358,7 @@ header
 {
     background-color: #ff3111;
     color: #fff;
-    font-size: 17px;
+    font-size: 16px;
 }
 
 .wizard > .content
@@ -380,7 +376,6 @@ header
     -moz-border-radius: 5px;
     border-radius: 5px;
     overflow-y: auto;
-    
 }
 
 .wizard.vertical > .content
@@ -612,12 +607,3 @@ header
     display: list-item;
 }
 
-.tableEtablissement
-{
-    width:170px;
-}
-
-.tableDiplome
-{
-    width:170px;
-}

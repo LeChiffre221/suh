@@ -48,7 +48,9 @@ class AffichageController extends Controller
         );
 
         return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
-            'listeContrats' => $listeContrats
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeContrats' => $listeContrats,
+            'id' => $idEtudiant
         ));
 
     }
@@ -79,7 +81,8 @@ class AffichageController extends Controller
 
         return $this->render('SUHContratBundle:AffichageContrats:showEtudiantAidant.html.twig',array(
             'informationsEtudiantAidant' => $etudiant,
-            'id' => $id
+            'id' => $id,
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
             )); 
         
     }
