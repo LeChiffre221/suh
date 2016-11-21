@@ -32,24 +32,22 @@ class AffichageController extends Controller
         }   
     }
 
-    public function AfficherContratsPourUnEtudiantAction($idEtudiant){
+    public function AfficherContratsPourUnEtudiantAction($idEtudiant, $page){
         $em = $this->getDoctrine()->getManager();
 
-        $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
+        // $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
 
-        // On récupère la liste des contrat pour un étudiant donné
-        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
-            array(
-            'etudiantAidant' => $etudiant,
-            'active' => 1),
-            array(
-            'dateDebutContrat' => 'desc'
-            )
-        );
+        $nbPerPage = 4;
+        // On récupère la liste des contrats pour un étudiant donné
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPage($page, $nbPerPage, $idEtudiant);
+        $nbPages = ceil(count($listeContrats)/$nbPerPage);
+
 
         return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
             'listeContrats' => $listeContrats,
+            'nbPages' => $nbPages,
+            'page' => $page,
             'id' => $idEtudiant
         ));
 

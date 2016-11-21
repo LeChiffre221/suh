@@ -28,13 +28,6 @@
         Semestre concerné : n°{{ contrat.semestreConcerne}}
 
         <br>
-        {% if contrat.etablissementAvenant == true %}
-            Etablissement Avenant : <span class="glyphicon glyphicon-ok" style="color: green"></span>
-        {% else %}
-            Etablissement Avenant : <span class="glyphicon glyphicon-remove" style="color: red;"></span>
-        {% endif %}
-
-        <br>
         <br>
         <p>Date d'envoi du contrat :</p>
         <div class="row">
@@ -150,15 +143,9 @@
                 <button type="button" class="btn btn-danger">Supprimer</button>
             </a>
 
-            <a href="{{ path('suh_contrat_desactiverContrat', {'idContrat': contrat.id}) }}">
-                <button type="button" class="btn btn-warning">Archiver</button>
-            </a>
-
             <a href="{{ path('suh_contrat_editerContrat', {'idContrat': contrat.id}) }}">
                 <button type="button" class="btn btn-info">Editer</button>
             </a>
-
-
         </div>
         <hr>
     {% endfor %}

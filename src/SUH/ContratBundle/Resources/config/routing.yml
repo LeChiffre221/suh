@@ -11,8 +11,8 @@ suh_contrat_homepageEtudiant:
 
 #Afficher les contrats pour un étudiant
 suh_contrat_afficherContrat:
-    path: /{idEtudiant}/contrats
-    defaults: { _controller: SUHContratBundle:Affichage:AfficherContratsPourUnEtudiant}
+    path: /{idEtudiant}/contrats/{page}
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherContratsPourUnEtudiant, page:1}
     requirements:
            idEtudiant: "^[0-9]+$"
 
