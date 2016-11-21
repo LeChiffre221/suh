@@ -10,4 +10,10 @@ namespace SUH\ContratBundle\Entity;
  */
 class ContratRepository extends \Doctrine\ORM\EntityRepository
 {
+
+public function getPage($page=1, $maxepage=4){
+
+
+}
+
 }
