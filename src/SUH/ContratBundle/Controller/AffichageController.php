@@ -38,9 +38,14 @@ class AffichageController extends Controller
         $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
 
         // On récupère la liste des contrat pour un étudiant donné
-        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(array(
-            'etudiantAidant' => $etudiant
-        ));
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+            array(
+            'etudiantAidant' => $etudiant,
+            'active' => 1),
+            array(
+            'dateDebutContrat' => 'desc'
+            )
+        );
 
         return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
             'listeContrats' => $listeContrats

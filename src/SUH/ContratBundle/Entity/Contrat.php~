@@ -2,6 +2,7 @@
 
 namespace SUH\ContratBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -97,6 +98,13 @@ class Contrat
      */
     private $natureContrat;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
+
 
     /**
      * Get id
@@ -141,7 +149,7 @@ class Contrat
      */
     public function setDateDebutContrat($dateDebutContrat)
     {
-        $this->dateDebutContrat = $dateDebutContrat;
+        $this->dateDebutContrat =  new DateTime($dateDebutContrat);
     
         return $this;
     }
@@ -165,7 +173,7 @@ class Contrat
      */
     public function setDateFinContrat($dateFinContrat)
     {
-        $this->dateFinContrat = $dateFinContrat;
+        $this->dateFinContrat = new DateTime($dateFinContrat);
     
         return $this;
     }
@@ -213,7 +221,7 @@ class Contrat
      */
     public function setDateEnvoiDRH($dateEnvoiDRH)
     {
-        $this->dateEnvoiDRH = $dateEnvoiDRH;
+        $this->dateEnvoiDRH = new DateTime($dateEnvoiDRH);
     
         return $this;
     }
@@ -237,7 +245,7 @@ class Contrat
      */
     public function setDateEnvoiEtudiant($dateEnvoiEtudiant)
     {
-        $this->dateEnvoiEtudiant = $dateEnvoiEtudiant;
+        $this->dateEnvoiEtudiant = new DateTime($dateEnvoiEtudiant);
     
         return $this;
     }
@@ -285,7 +293,7 @@ class Contrat
      */
     public function setDateEnvoiAvenantDRH($dateEnvoiAvenantDRH)
     {
-        $this->dateEnvoiAvenantDRH = $dateEnvoiAvenantDRH;
+        $this->dateEnvoiAvenantDRH = new DateTime($dateEnvoiAvenantDRH);
     
         return $this;
     }
@@ -309,7 +317,7 @@ class Contrat
      */
     public function setDateEnvoiAvenantEtudiant($dateEnvoiAvenantEtudiant)
     {
-        $this->dateEnvoiAvenantEtudiant = $dateEnvoiAvenantEtudiant;
+        $this->dateEnvoiAvenantEtudiant = new DateTime($dateEnvoiAvenantEtudiant);
     
         return $this;
     }
@@ -347,5 +355,52 @@ class Contrat
     {
         return $this->natureContrat;
     }
-}
 
+    /**
+     * Set etudiantAidant
+     *
+     * @param \SUH\ContratBundle\Entity\EtudiantAidant $etudiantAidant
+     *
+     * @return Contrat
+     */
+    public function setEtudiantAidant(\SUH\ContratBundle\Entity\EtudiantAidant $etudiantAidant)
+    {
+        $this->etudiantAidant = $etudiantAidant;
+    
+        return $this;
+    }
+
+    /**
+     * Get etudiantAidant
+     *
+     * @return \SUH\ContratBundle\Entity\EtudiantAidant
+     */
+    public function getEtudiantAidant()
+    {
+        return $this->etudiantAidant;
+    }
+
+    /**
+     * Set validate
+     *
+     * @param boolean $validate
+     *
+     * @return Contrat
+     */
+    public function setValidate($validate)
+    {
+        $this->validate = $validate;
+
+        return $this;
+    }
+
+    /**
+     * Get validate
+     *
+     * @return boolean
+     */
+    public function getValidate()
+    {
+        return $this->validate;
+    }
+}

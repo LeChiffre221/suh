@@ -12,6 +12,8 @@ namespace SUH\ContratBundle\Controller;
 use DateTime;
 use SUH\ContratBundle\Entity\Contrat;
 use SUH\ContratBundle\Form\ContratType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,11 +38,24 @@ class ContratController extends Controller
 
             $semestreConcerne = $tabResponse['semestreConcerne'];
 
+            if(!isset($tabResponse['etablissementAvenant'])){
+                $etablissementAvenant = 0;
+
+            }
+            else{
+                $etablissementAvenant = $tabResponse['etablissementAvenant'] ;
+
+            }
+
+
+
             $contrat->setNatureContrat($natureContrat);
             $contrat->setNbHeureInitiales($nbHeureInitiales);
             $contrat->setDateDebutContrat($dateDebutContrat);
             $contrat->setDateFinContrat($dateFinContrat);
             $contrat->setSemestreConcerne($semestreConcerne);
+            $contrat->setEtablissementAvenant($etablissementAvenant);
+            $contrat->setActive(true);
 
             $em = $this->getDoctrine()->getManager();
 
@@ -111,9 +126,39 @@ class ContratController extends Controller
         return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
     }
 
+    public function desactiverContratAction($idContrat){
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
+
+        $idEtudiant = $contrat->getEtudiantAidant()->getId();
+
+        $contrat->setActive(false);
+        $em->persist($contrat);
+        $em->flush();
+
+        return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $idEtudiant));
+
+
+    }
+
     public function editContratAction($idContrat){
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
+
+        $form = $this->get('form.factory')->create(new ContratType, $contrat);
+        $form->add('dateEnvoiDRH',             'date');
+        $form->add('dateEnvoiEtudiant',        'date');
+
+        $form->add('dateEnvoiAvenantDRH',      'date');
+        $form->add('dateEnvoiAvenantEtudiant', 'date');
+
+
+        return $this->render('SUHContratBundle:AffichageContrats:editContrat.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
+
+
     }
 
     public function deleteContratAction($idContrat){

@@ -23,10 +23,16 @@ suh_contrat_addContrat:
     requirements:
        idEtudiant: "^[0-9]+$"
 
+suh_contrat_desactiverContrat:
+    path: /desactiver/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:desactiverContrat}
+    requirements:
+        idContrat: "^[0-9]+$"
+
 #edit un contrat étudiant
 suh_contrat_editerContrat:
     path: /editContrat/{idContrat}
-    defaults: {_controller: SUHContratBundle:Contrat:editContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:editContrat }
     requirements:
            idContrat: "^[0-9]+$"
 

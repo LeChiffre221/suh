@@ -207,6 +207,11 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_addContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::addContratAction',));
             }
 
+            // suh_contrat_desactiverContrat
+            if (0 === strpos($pathinfo, '/contrat/desactiver') && preg_match('#^/contrat/desactiver/(?P<idContrat>[0-9]+)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_desactiverContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::desactiverContratAction',));
+            }
+
             // suh_contrat_editerContrat
             if (0 === strpos($pathinfo, '/contrat/editContrat') && preg_match('#^/contrat/editContrat/(?P<idContrat>[0-9]+)$#s', $pathinfo, $matches)) {
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_editerContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::editContratAction',));

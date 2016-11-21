@@ -98,6 +98,13 @@ class Contrat
      */
     private $natureContrat;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
+
 
     /**
      * Get id
@@ -371,5 +378,29 @@ class Contrat
     public function getEtudiantAidant()
     {
         return $this->etudiantAidant;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Contrat
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 }

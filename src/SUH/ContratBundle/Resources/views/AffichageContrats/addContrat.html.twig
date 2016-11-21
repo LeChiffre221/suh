@@ -2,11 +2,7 @@
 <div class="container" style="background-color: #b7b7b7">
     <h1>Ajouter un contrat étudiant</h1>
 
-
-
-
-
-    <form method="POST" class="form-horizontal" action="{{path('suh_contrat_addContrat', {'idEtudiant' : idEtudiant})}}" {{ form_enctype(form) }}>
+    <form method="POST" class="form-horizontal" action="{{path('suh_contrat_addContrat', {'idEtudiant' : idEtudiant})}}">
 
 
     {# Les erreurs générales du formulaire. #}
@@ -62,6 +58,17 @@
             {{ form_widget(form.semestreConcerne, {'attr': {'class': 'form-control'}}) }}
         </div>
     </div>
+    <div class="form-group">
+
+
+
+            {{ form_widget(form.etablissementAvenant, {'label': 'Etablissement Avenant'}) }}
+
+
+    </div>
+
+
+
 
 
 
@@ -83,9 +90,6 @@
 <script type="text/javascript">
 
     $(function() {
-
-
-
 
         $.datepicker.regional['fr'] = {
             clearText: 'Effacer', clearStatus: '',

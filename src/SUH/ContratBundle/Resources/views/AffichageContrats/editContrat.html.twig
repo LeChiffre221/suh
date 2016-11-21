@@ -1,0 +1,21 @@
+{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block head %} {{parent()}}
+    <link rel="stylesheet" href="{{asset('bundles/suhContrat/css/contrat.css')}}" type="text/css"/>
+{% endblock %}
+{% block title %} {{parent()}} - Inscription étudiant aidant{% endblock %}
+
+{% block body %}
+    <body>
+        <div class="container" style="color: white">
+            {{ form(form) }}
+
+        </div>
+        <br/><br/>
+    </body>
+    <script type="text/javascript">
+
+
+    </script>
+{% endblock %}
