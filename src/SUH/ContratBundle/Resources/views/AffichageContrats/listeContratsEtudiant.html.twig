@@ -18,7 +18,7 @@
     {% for contrat in listeContrats %}
 
         <div class="row">
-            <h3 class="col-lg-6"> Du : {{ contrat.dateDebutContrat|date('d/m/Y') }} au {{ contrat.dateFinContrat|date('d/m/Y')}}</h3>
+            <h3 class="col-lg-6"> Du : {{ contrat.dateDebutContrat }} au {{ contrat.dateFinContrat}}</h3>
             <h3>{{ contrat.nbHeureInitiales }} heure(s)</h3>
         </div>
 

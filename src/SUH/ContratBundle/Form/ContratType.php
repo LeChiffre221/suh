@@ -17,13 +17,14 @@ class ContratType extends AbstractType
         $builder
             ->add('natureContrat',            'textarea')
             ->add('nbHeureInitiales',         'number', array('pattern' => '[0-9]+'))
-            ->add('dateDebutContrat',         'date', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
-            ->add('dateFinContrat',           'date', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
+            ->add('dateDebutContrat',         'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
+            ->add('dateFinContrat',           'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
             ->add('semestreConcerne',         'number', array('pattern' => '1|2{1}'))
             ->add('etablissementAvenant',     'checkbox', array('required' => false))
-
-            ->add('Ajouter',      'submit')
-
+            ->add('dateEnvoiDRH',             'text')
+            ->add('dateEnvoiEtudiant',        'text')
+            ->add('dateEnvoiAvenantDRH',      'text')
+            ->add('dateEnvoiAvenantEtudiant', 'text')
 
         ;
     }
