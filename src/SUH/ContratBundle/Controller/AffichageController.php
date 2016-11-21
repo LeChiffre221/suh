@@ -42,6 +42,9 @@ class AffichageController extends Controller
         $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPage($page, $nbPerPage, $idEtudiant);
         $nbPages = ceil(count($listeContrats)/$nbPerPage);
 
+        if(count($listeContrats) <= 4){
+            $page = -1;
+        }
 
         return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),

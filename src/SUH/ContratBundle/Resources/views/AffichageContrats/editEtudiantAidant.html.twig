@@ -1,3 +1,135 @@
 
 <h1>Hue</h1>
-{{informationsEtudiantAidant.etudiantInformations.nom}}
+<div id="affichage" class="col-md-10">
+                    <div class="container" style="color: white">
+                    {{ form_start(form) }}
+                        {{ form_errors(form) }}
+                        
+                        <div class="col-md-12">
+
+                            <section class="col-md-6">
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantInformations.nom) }}
+                                    {{ form_widget(form.etudiantInformations.nom) }}
+                                    {{ form_errors(form.etudiantInformations.nom) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantInformations.prenom) }}
+                                    {{ form_widget(form.etudiantInformations.prenom) }}
+                                    {{ form_errors(form.etudiantInformations.prenom) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantInformations.mailPerso) }}
+                                    <div class="input-group">
+                                        <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
+                                        {{ form_widget(form.etudiantInformations.mailPerso) }}
+                                        {{ form_errors(form.etudiantInformations.mailPerso) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantInformations.mailParents) }}
+                                    <div class="input-group">
+                                        <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
+                                        {{ form_widget(form.etudiantInformations.mailParents) }}
+                                        {{ form_errors(form.etudiantInformations.mailParents) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantInformations.adresseEtudiante) }}
+                                    {{ form_widget(form.etudiantInformations.adresseEtudiante) }}
+                                    {{ form_errors(form.etudiantInformations.adresseEtudiante) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantInformations.adresseFamiliale) }}
+                                    {{ form_widget(form.etudiantInformations.adresseFamiliale) }}
+                                    {{ form_errors(form.etudiantInformations.adresseFamiliale) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantInformations.telephonePerso) }}
+                                    <div class="input-group">
+                                        <span class="input-group-addon glyphicon glyphicon-phone"></span> 
+                                        {{ form_widget(form.etudiantInformations.telephonePerso) }}
+                                        {{ form_errors(form.etudiantInformations.telephonePerso) }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantInformations.telephoneParents) }}
+                                    <div class="input-group">
+                                        <span class="input-group-addon glyphicon glyphicon-phone-alt"></span> 
+                                        {{ form_widget(form.etudiantInformations.telephoneParents) }}
+                                        {{ form_errors(form.etudiantInformations.telephoneParents) }}
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="col-md-6">
+                                <div class="col-md-12">
+                                    {{ form_label(form.etudiant.numeroEtudiant) }}
+                                    {{ form_widget(form.etudiant.numeroEtudiant) }}
+                                    {{ form_errors(form.etudiant.numeroEtudiant) }}
+                                </div>
+                                <div class="col-md-12" >
+                                    {{ form_label(form.etudiant.dateNaissance) }}
+                                    {{ form_widget(form.etudiant.dateNaissance) }}
+                                    {{ form_errors(form.etudiant.dateNaissance) }}
+                                </div>
+                                <div class="col-md-6" >
+                                    {{ form_label(form.etudiant.premiereInscription) }}
+                                    {{ form_widget(form.etudiant.premiereInscription) }}
+                                    {{ form_errors(form.etudiant.premiereInscription) }}
+                                </div>
+                                <div class="col-md-6" >
+                                    {{ form_label(form.etudiantInformations.mailInstitutionnel) }}
+                                    {{ form_widget(form.etudiantInformations.mailInstitutionnel) }}
+                                    {{ form_errors(form.etudiantInformations.mailInstitutionnel) }}
+                                </div>
+                                <div class="col-md-12" >
+                                    {{ form_label(form.certificatMedical) }}
+                                    {{ form_widget(form.certificatMedical) }}
+                                    {{ form_errors(form.certificatMedical) }}
+                                </div>
+                            </section>
+                            <section class="col-md-12">
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantFormation.composante) }}
+                                    {{ form_widget(form.etudiantFormation.composante) }}
+                                    {{ form_errors(form.etudiantFormation.composante) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantFormation.filiere) }}
+                                    {{ form_widget(form.etudiantFormation.filiere) }}
+                                    {{ form_errors(form.etudiantFormation.filiere) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantFormation.cycle) }}
+                                    {{ form_widget(form.etudiantFormation.cycle) }}
+                                    {{ form_errors(form.etudiantFormation.cycle) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantFormation.anneeEtude) }}
+                                    {{ form_widget(form.etudiantFormation.anneeEtude) }}
+                                    {{ form_errors(form.etudiantFormation.anneeEtude) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantFormation.diplome) }}
+                                    {{ form_widget(form.etudiantFormation.diplome) }}
+                                    {{ form_errors(form.etudiantFormation.diplome) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.etudiantFormation.etablissement) }}
+                                    {{ form_widget(form.etudiantFormation.etablissement) }}
+                                    {{ form_errors(form.etudiantFormation.etablissement) }}
+                                </div>
+
+                            </section>
+
+                            <section class="col-md-12">
+
+                                {{ form_widget(form.Envoyer) }}
+                            </section>
+                            
+                        </div>
+                        {{ form_end(form) }}
+                        </div>
+                    </div>
+                
+            </div>

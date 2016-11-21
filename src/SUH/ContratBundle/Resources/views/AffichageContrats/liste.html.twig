@@ -3,11 +3,11 @@
         {% for etudiant in listeEtudiantsAidants %}
             
             {% if loop.index is even %}
-                <li class="pair">
+                <li class="pair {% if id is defined %} {% if etudiant.id == id %} btn-primary {% endif %} {% endif %}">
                     <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}</a>
                 </li>
             {% else %}
-                <li class="impair">
+                <li class="impair {% if id is defined %} {% if etudiant.id == id %} btn-primary {% endif %} {% endif %}">
                     <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}</a>
                 </li>
             {% endif %}

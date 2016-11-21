@@ -118,7 +118,7 @@ class GestionEtudiantAidantController extends Controller
     }
 
     //Edition etudiant
-    public function editEtudiantAidantAction($id)
+    public function editEtudiantAidantAction($id, Request $request)
     {
 
         $etudiantAidantRepo = $this->getDoctrine()
@@ -127,9 +127,26 @@ class GestionEtudiantAidantController extends Controller
         
         $etudiant = $etudiantAidantRepo->find($id);
 
+        $form = $this->get('form.factory')->create(new EtudiantAidantType, $etudiant);
+
+        
+
+        if ($form->handleRequest($request)->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($contrat);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('suh_contrat_showEtudiantAidant', array(
+                'id' => $id,
+            )));
+        }
+
         return $this->render('SUHContratBundle:AffichageContrats:editEtudiantAidant.html.twig',array(
-            'informationsEtudiantAidant' => $etudiant
+            'informationsEtudiantAidant' => $etudiant,
+            'form' => $form->createView(),
             )); 
+
     }
 
 }
