@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use SUH\ContratBundle\Entity\EtudiantAidant;
 use SUH\ContratBundle\Form\EtudiantAidantType;
+use SUH\ContratBundle\Controller\Affichage;
 
 class GestionEtudiantAidantController extends Controller
 {
@@ -20,7 +21,7 @@ class GestionEtudiantAidantController extends Controller
 
         $etudiantassiste = array();
         $etudiantAidant = new EtudiantAidant();
-
+        $controllerAffichage = $this->forward('app.hello_controller:indexAction', array('name' => $name));
 
         /* formulaire */
 
@@ -87,6 +88,7 @@ class GestionEtudiantAidantController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:addEtudiantAidant.html.twig', array(
             'info' => $etudiantassiste, 
             'form' => $form->createView(),
+            'listeEtudiantsAidants' => $controllerAffichage->getListeEtudiants(null)
         )); 
     }
 

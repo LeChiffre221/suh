@@ -1,40 +1,11 @@
-{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
-{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
 
-{% block head %} {{parent()}}
-<link rel="stylesheet" href="{{asset('bundles/suhContrat/css/contrat.css')}}" type="text/css"/>
-{% endblock %}
-{% block title %} {{parent()}} - Inscription étudiant aidant{% endblock %}
 
-{% block body %}
-    <body>
-        <section id="containerFluidBody" class="container-fluid panel panel-default">
-            <div class="row">
-                <div id="divListe" class="col-md-2">
-                    <div id="recherche" class="">
-                        <div class="form-group">
-                            <form class="input-group" action="{{ path('suh_get_etudiant_nomEtPrenom') }}" method="GET">
-                                <input name="chaine" class="form-control" type="text" placeholder="Rechercher...">
-                                <span class="input-group-btn">
-                                    <button type="submit" href="#" class="btn btn-md btn-primary"> <span class="glyphicon glyphicon-zoom-in"></span></button>
-                                </span>
-                            </form>
-                        </div>
-                    </div>
-                    {% for message in app.session.flashbag.get('notice') %}
-                        <div class="alert alert-success message-fixed">
-                            <strong>Symfony a mis la Gomme.</strong> {{message}}
-                        </div>
-                    {% endfor %}
-                   
-                    <div id="gestionEtudiants" class="">
-                        <a id="ajout" href="{{path('suh_contrat_addEtudiantAidant')}}" class="btn btn-md btn-primary col-md-2" > <span class="glyphicon glyphicon-plus"></span></a>
-                        <a id="modification" class="btn btn-md btn-primary col-md-2 col-md-offset-3"> <span class="glyphicon glyphicon-pencil"></span></a>
-                        <a id="suppression" class="btn btn-md btn-primary col-md-2 col-md-offset-3" onclick=""> <span class="glyphicon glyphicon-remove"></span></a>
-                    </div>
-                </div>  
-                   
-                <div id="affichage" class="col-md-10">
+
+{% block bodyright %}
+    {% block menuright %}
+        {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
+    {% endblock %}
                     <div class="container" style="color: white">
                     {{ form_start(form) }}
                         {{ form_errors(form) }}
@@ -164,12 +135,7 @@
                         </div>
                         {{ form_end(form) }}
                         </div>
-                    </div>
-                
-            </div>
-        </section>      
-        <br/><br/>
-    </body>
+
     <script type="text/javascript">
 
         $(function() {
@@ -208,35 +174,6 @@
                     $( "#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement option:selected").val($temp2);
                 }
             });
-
-            /*$.datepicker.regional['fr'] = {clearText: 'Effacer', clearStatus: '',
-                    closeText: 'Fermer', closeStatus: 'Fermer sans modifier',
-                    prevText: '<Préc', prevStatus: 'Voir le mois précédent',
-                    nextText: 'Suiv>', nextStatus: 'Voir le mois suivant',
-                    currentText: 'Courant', currentStatus: 'Voir le mois courant',
-                    monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin',
-                    'Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
-                    monthNamesShort: ['Jan','Fév','Mar','Avr','Mai','Jun',
-                    'Jul','Aoû','Sep','Oct','Nov','Déc'],
-                    monthStatus: 'Voir un autre mois', yearStatus: 'Voir un autre année',
-                    weekHeader: 'Sm', weekStatus: '',
-                    dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
-                    dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
-                    dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
-                    dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
-                    dateFormat: 'dd/mm/yy', firstDay: 0, 
-                    initStatus: 'Choisir la date', isRTL: false};
-                 $.datepicker.setDefaults($.datepicker.regional['fr']);
-
-
-            $( "#suh_contratbundle_etudiantaidant_etudiant_dateNaissance" ).datepicker({
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "1900:2015",
-                defaultDate: "-20y",
-                dateFormat: "dd/mm/yy"
-            });
-            */
 
         });
     </script>
