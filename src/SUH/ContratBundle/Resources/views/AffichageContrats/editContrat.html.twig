@@ -1,28 +1,26 @@
-{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
-{% form_theme form 'bootstrap_3_layout.html.twig' %}
-
-{% block head %} {{parent()}}
-    <link rel="stylesheet" href="{{asset('bundles/suhContrat/css/contrat.css')}}" type="text/css"/>
-{% endblock %}
-{% block title %} {{parent()}} - Inscription étudiant aidant{% endblock %}
-
-{% block body %}
-    <body>
-        <div class="container" style="color: white">
-            <h1>
-
-                    <button class="btn btn-default">
-                        <a href="{{ path('suh_contrat_afficherContrat', {'idEtudiant' : contrat.etudiantAidant.id }) }}">
-                        <span class="glyphicon glyphicon-arrow-left"></span>
-                        </a>
-                    </button>
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
 
 
-                Editer un contrat étudiant
-            </h1>
 
 
-            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+    {% block menuright %}
+        {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
+    {% endblock %}
+
+    {% block titleright %}
+        <p class="">Liste des contrats</p>
+    {% endblock %}
+
+    {% block bodyright %}
+
+        {% for message in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                <strong>Succès !</strong> Le contrat a été créé.
+            </div>
+        {% endfor %}
+
+        <div class="bloc-contrat panel panel-primary">
+            {{ form_start(form, {'attr': {'class': 'form-horizontal '}}) }}
 
             {# Les erreurs générales du formulaire. #}
             {{ form_errors(form) }}
@@ -133,7 +131,7 @@
 
             {# Fermeture de la balise <form> du formulaire HTML #}
             {{ form_end(form) }}
-
+        </div>
 
         </div>
         <br/><br/>

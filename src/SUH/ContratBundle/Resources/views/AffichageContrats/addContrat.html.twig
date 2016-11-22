@@ -2,14 +2,18 @@
 
 
 
-{% block bodyright %}
+
     {% block menuright %}
         {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
     {% endblock %}
-<div class="container" style="background-color: #b7b7b7">
-    <h1>Ajouter un contrat étudiant</h1>
 
+    {% block titleright %}
+        <p class="">Ajouter un contrat étudiant</p>
+    {% endblock %}
 
+    {% block bodyright %}
+
+    <div class="bloc-contrat panel panel-primary">
     {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
     {# Les erreurs générales du formulaire. #}
@@ -80,6 +84,7 @@
     {# Fermeture de la balise <form> du formulaire HTML #}
     {{ form_end(form) }}
 
+    </div>
 
 </div>
 

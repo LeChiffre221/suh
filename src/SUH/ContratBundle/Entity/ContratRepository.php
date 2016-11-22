@@ -27,4 +27,19 @@ public function getPage($page, $maxpage, $id){
 
 }
 
+public function getPageArchive($page, $maxpage, $id){
+
+	    $a = $this->createQueryBuilder('a')
+	    ->where('a.etudiantAidant = :id')
+        ->andWhere('a.active = 0')
+	    ->setParameter('id', $id)
+ 		->getQuery();
+
+        $a->setFirstResult(($page-1) * $maxpage)
+            ->setMaxResults($maxpage);
+ 
+        return new Paginator($a);
+
+}
+
 }

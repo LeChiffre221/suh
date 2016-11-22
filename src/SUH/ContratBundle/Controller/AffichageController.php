@@ -88,4 +88,26 @@ class AffichageController extends Controller
         
     }
 
+    // Afficher archive
+    public function AfficherArchiveContratAction($idEtudiant, $page){
+        $em = $this->getDoctrine()->getManager();
+
+        $nbPerPage = 4;
+        // On récupère la liste des contrats pour un étudiant donné
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPageArchive($page, $nbPerPage, $idEtudiant);
+        $nbPages = ceil(count($listeContrats)/$nbPerPage);
+
+        if(count($listeContrats) <= 4){
+            $page = -1;
+        }
+
+        return $this->render('SUHContratBundle:AffichageContrats:archivesContrat.html.twig',array(
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeContrats' => $listeContrats,
+            'nbPages' => $nbPages,
+            'page' => $page,
+            'id' => $idEtudiant
+        ));
+    }
+
 }

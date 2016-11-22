@@ -2,80 +2,98 @@
 
 
 
-{% block bodyright %}
+
     {% block menuright %}
         {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
     {% endblock %}
-    <div class="col-md-12">
 
+    {% block titleright %}
+        <p class="">Profil</p>
+    {% endblock %}
+
+    {% block bodyright %}
+
+    <div class="col-md-12">
+        <div class="bloc-profil panel panel-primary">
+        <section class="panel-heading">
+            <h3 class="panel-title">{{ informationsEtudiantAidant.etudiantInformations.nom}} {{ informationsEtudiantAidant.etudiantInformations.prenom}} </h3>
+        </section>
         <section class="col-md-6">
             <div class="col-md-6">
-                {{ informationsEtudiantAidant.etudiantInformations.nom}}
+                <h3> Mail personnel </h3>
+                <a href="mailto:{{ informationsEtudiantAidant.etudiantInformations.mailPerso}}">{{ informationsEtudiantAidant.etudiantInformations.mailPerso}}</a>
             </div>
             <div class="col-md-6">
-                {{ informationsEtudiantAidant.etudiantInformations.prenom}}
+                <h3> Mail parents </h3>
+                <a href="mailto:{{ informationsEtudiantAidant.etudiantInformations.mailParents}}">{{ informationsEtudiantAidant.etudiantInformations.mailParents}}</a>
             </div>
             <div class="col-md-6">
-                {{ informationsEtudiantAidant.etudiantInformations.mailPerso}}
-
-            </div>
-            <div class="col-md-6">
-                {{ informationsEtudiantAidant.etudiantInformations.mailParents}}
-
-            </div>
-            <div class="col-md-6">
+                <h3> Adresse personnelle </h3>
                 {{ informationsEtudiantAidant.etudiantInformations.adresseEtudiante}}
-
             </div>
             <div class="col-md-6">
+                <h3> Adresse parents </h3>
                 {{ informationsEtudiantAidant.etudiantInformations.adresseFamiliale}}
             </div>
             <div class="col-md-6">
+                <h3> Téléphone personnel </h3>
                 {{ informationsEtudiantAidant.etudiantInformations.telephonePerso}}
             </div>
             <div class="col-md-6">
+                <h3> Téléphone parents </h3>
                 {{ informationsEtudiantAidant.etudiantInformations.telephoneParents}}
             </div>
         </section>
         <section class="col-md-6">
             <div class="col-md-12">
+                <h3> INE : </h3>
                 {{ informationsEtudiantAidant.etudiant.numeroEtudiant}}
             </div>
             <div class="col-md-12" >
+                <h3> Date de naissance </h3>
                 {{ informationsEtudiantAidant.etudiant.dateNaissance|date('d/m/Y')}}
             </div>
             <div class="col-md-6" >
+                <h3> Première inscription </h3>
                 {{ informationsEtudiantAidant.etudiant.premiereInscription}}
             </div>
             <div class="col-md-6" >
-                {{ informationsEtudiantAidant.etudiantInformations.mailInstitutionnel}}
+                <h3> Mail institutionnel </h3>
+                <a href="mailto:{{ informationsEtudiantAidant.etudiantInformations.mailInstitutionnel}}">{{ informationsEtudiantAidant.etudiantInformations.mailInstitutionnel}}</a>
             </div>
             <div class="col-md-12" >
+                <h3> Certificat médical </h3>
                 {{ informationsEtudiantAidant.certificatMedical}}
             </div>
         </section>
         <section class="col-md-12">
             <div class="col-md-6">
+                <h3> Composante formation </h3>
                 {{ informationsEtudiantAidant.etudiantFormation.composante}}
             </div>
             <div class="col-md-6">
+                <h3> Filière </h3>
                 {{ informationsEtudiantAidant.etudiantFormation.filiere}}
             </div>
             <div class="col-md-6">
+                <h3> Cycle </h3>
                 {{ informationsEtudiantAidant.etudiantFormation.cycle}}
             </div>
             <div class="col-md-6">
+                <h3> Année d'étude </h3>
                 {{ informationsEtudiantAidant.etudiantFormation.anneeEtude}}
             </div>
             <div class="col-md-6">
+                <h3> Diplôme </h3>
                 {{ informationsEtudiantAidant.etudiantFormation.diplome}}
             </div>
             <div class="col-md-6">
+                <h3> Etablissement </h3>
                 {{ informationsEtudiantAidant.etudiantFormation.etablissement}}
             </div>
 
         </section>
-
+        </div>
         
     </div>
 {% endblock %}

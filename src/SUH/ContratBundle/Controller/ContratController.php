@@ -41,6 +41,8 @@ class ContratController extends Controller
             $em->persist($contrat);
             $em->flush();
 
+            $request->getSession()->getFlashBag()->add('notice', 'Contrat ajouté !');
+
             return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
                 'idEtudiant' => $idEtudiant,
             )));
@@ -80,6 +82,8 @@ class ContratController extends Controller
             $em->persist($contrat);
             $em->flush();
 
+            $request->getSession()->getFlashBag()->add('notice', 'Contrat édité !');
+
             return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
                 'idEtudiant' => $contrat->getEtudiantAidant()->getId(),
             )));
@@ -88,11 +92,13 @@ class ContratController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:editContrat.html.twig', array(
             'form' => $form->createView(),
             'contrat' => $contrat,
+            'id' => $contrat->getEtudiantAidant()->getId(),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
         ));
 
     }
 
-    public function deleteContratAction($idContrat){
+    public function deleteContratAction($idContrat, Request $request){
 
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
@@ -100,6 +106,8 @@ class ContratController extends Controller
         $etudiant = $contrat->getEtudiantAidant();
         $em->remove($contrat);
         $em->flush();
+
+        $request->getSession()->getFlashBag()->add('notice', 'Contrat supprimé !');
 
         return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
     }
@@ -118,7 +126,7 @@ class ContratController extends Controller
     }
 
 
-    public function archiverContratAction($idContrat){
+    public function archiverContratAction($idContrat, Request $request){
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
 
@@ -128,8 +136,11 @@ class ContratController extends Controller
         $em->persist($contrat);
         $em->flush();
 
+        $request->getSession()->getFlashBag()->add('notice', 'Contrat archivé !');
+
         return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $idEtudiant));
     }
+
 
     /**
      * @param Request $request

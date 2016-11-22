@@ -2,43 +2,50 @@
 
 
 
-{% block bodyright %}
+
     {% block menuright %}
         {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
     {% endblock %}
-<div class="container" style="background-color: #b7b7b7">
-    <h1>Liste des contrats</h1>
 
+    {% block titleright %}
+    <p class="">Liste des contrats</p>
+    {% endblock %}
+    {% block bodyright %}
     {% for message in app.session.flashbag.get('notice') %}
         <div class="alert alert-success">
             <strong>Succès !</strong> Le contrat a été créé.
         </div>
     {% endfor %}
-
+    <div class="container-contrat col-md-12">
     {% for contrat in listeContrats %}
 
-        <div class="row">
-            <h3 class="col-lg-6"> Du : {{ contrat.dateDebutContrat }} au {{ contrat.dateFinContrat}}</h3>
-            <h3>{{ contrat.nbHeureInitiales }} heure(s)</h3>
+    <div class="bloc-contrat panel panel-primary">
+        <div class="col-lg-12 panel-heading">
+            <h3 class="panel-title titre-contrat"> 
+            Du : {{ contrat.dateDebutContrat }} au {{ contrat.dateFinContrat}}
+            </h3>
+            <h3 class="panel-title titre-contrat titre-contrat-heures">
+                <span>{{ contrat.nbHeureInitiales }} </span>
+                heure(s)
+            </h3>
         </div>
+        <div class="col-lg-12">
+            <h3>Nature du contrat : {{ contrat.natureContrat }} </h3>
+            
+            <h3>Semestre concerné : n°{{ contrat.semestreConcerne}}</h3>
 
-        Nature du contrat : {{ contrat.natureContrat }}
-
-        <br>
-        Semestre concerné : n°{{ contrat.semestreConcerne}}
-
-        <br>
-        <br>
-        <p>Date d'envoi du contrat :</p>
-        <div class="row">
-            <div class="col-lg-4">
-
+            <h3>Etablissement avenant : {{ contrat.etablissementAvenant}}</h3>
+        </div>
+        <div class="col-lg-12">
+            <h3>Date d'envoi du contrat :</h3>
+            <div class="col-lg-6">
+            
                 {% if  (contrat.dateEnvoiDRH is null) %}
 
 
                     <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
                         <div class="col-lg-4">
-                            <label for="">DRH :</label></br>
+                            <label for="">DRH :</label><br>
                         </div>
 
                         <div class="col-lg-6">
@@ -57,12 +64,12 @@
                 {% endif %}
 
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
 
                 {% if  (contrat.dateEnvoiEtudiant is null) %}
                     <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
                         <div class="col-lg-4">
-                            <label for="">Etudiant :</label></br>
+                            <label for="">Etudiant :</label><br>
                         </div>
 
                         <div class="col-lg-6">
@@ -84,14 +91,14 @@
             </div>
         </div>
         <br>
-        <p>Date d'envoi de l'avenant :</p>
-        <div class="row">
-            <div class="col-lg-4">
-
+        <div class="col-lg-12">
+            <h3>Date d'envoi de l'avenant :</h3>
+            <div class="col-lg-6">
+                
                 {% if  (contrat.dateEnvoiAvenantDRH is null) %}
                     <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
                         <div class="col-lg-4">
-                            <label for="">DRH :</label></br>
+                            <label for="">DRH :</label><br>
                         </div>
 
                         <div class="col-lg-6">
@@ -110,13 +117,13 @@
                 {% endif %}
 
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
 
                 {% if  (contrat.dateEnvoiAvenantEtudiant is null) %}
                     <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
 
                         <div class="col-lg-4">
-                            <label for="">Etudiant :</label></br>
+                            <label >Etudiant :</label><br>
                         </div>
 
                         <div class="col-lg-6">
@@ -137,7 +144,7 @@
 
         </div>
         <br>
-        <div>
+        <div class="col-lg-12 contrat-actions">
 
             <a href="{{ path('suh_contrat_deleteContrat', {'idContrat': contrat.id}) }}">
                 <button type="button" class="btn btn-danger">Supprimer</button>
@@ -152,26 +159,28 @@
             </a>
 
         </div>
-        <hr>
+    </div>
     {% endfor %}
 
-</div>
-{% if page != -1 %}
-<ul class="pagination">
+    </div>
+
+    {% if page != -1 %}
+        <ul class="pagination">
 
 
-  {% for p in range(1, nbPages) %}
+          {% for p in range(1, nbPages) %}
 
-    <li{% if p == page %} class="active "{% endif %}>
+            <li{% if p == page %} class="active "{% endif %}>
 
-      <a href="{{ path('suh_contrat_afficherContrat', {'idEtudiant': id , 'page': p}) }}">{{ p }}</a>
+              <a href="{{ path('suh_contrat_afficherContrat', {'idEtudiant': id , 'page': p}) }}">{{ p }}</a>
 
-    </li>
+            </li>
 
-  {% endfor %}
+          {% endfor %}
 
-</ul>
-{% endif %}
+        </ul>
+    {% endif %}
+
 <script type="text/javascript">
     $(function() {
 

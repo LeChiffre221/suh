@@ -10,18 +10,31 @@ use Symfony\Component\HttpFoundation\Request;
 
 use SUH\ContratBundle\Entity\EtudiantAidant;
 use SUH\ContratBundle\Form\EtudiantAidantType;
-use SUH\ContratBundle\Controller\Affichage;
+use SUH\ContratBundle\Controller\AffichageController;
 
 class GestionEtudiantAidantController extends Controller
 {
-	
+	//renvoi la liste des étudiants
+    public function getListeEtudiants()
+    {      
+        $etudiantRepository = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('SUHContratBundle:EtudiantAidant');
+
+        $listeEtudiantsAidants = $etudiantRepository->findAll();
+        if(!empty($listeEtudiantsAidants))
+        {
+           return $listeEtudiantsAidants;
+        }   
+    }
+
     //Ajouter etudiant
     public function addEtudiantAidantAction(Request $request)
     {
 
         $etudiantassiste = array();
         $etudiantAidant = new EtudiantAidant();
-        $controllerAffichage = $this->forward('app.hello_controller:indexAction', array('name' => $name));
+        $controllerAffichage = $this->forward('controller_affichage:getListeEtudiants', array());
 
         /* formulaire */
 
@@ -88,7 +101,7 @@ class GestionEtudiantAidantController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:addEtudiantAidant.html.twig', array(
             'info' => $etudiantassiste, 
             'form' => $form->createView(),
-            'listeEtudiantsAidants' => $controllerAffichage->getListeEtudiants(null)
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null)
         )); 
     }
 
@@ -147,6 +160,8 @@ class GestionEtudiantAidantController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:editEtudiantAidant.html.twig',array(
             'informationsEtudiantAidant' => $etudiant,
             'form' => $form->createView(),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'id' => $id
             )); 
 
     }
