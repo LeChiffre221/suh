@@ -16,6 +16,7 @@ public function getPage($page, $maxpage, $id){
 
 	    $q = $this->createQueryBuilder('a')
 	    ->where('a.etudiantAidant = :id')
+        ->andWhere('a.active = 1')
 	    ->setParameter('id', $id)
  		->getQuery();
 

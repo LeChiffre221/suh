@@ -143,9 +143,14 @@
                 <button type="button" class="btn btn-danger">Supprimer</button>
             </a>
 
+            <a href="{{ path('suh_contrat_archiverContrat', {'idContrat': contrat.id}) }}">
+                <button type="button" class="btn btn-warning">Archiver</button>
+            </a>
+
             <a href="{{ path('suh_contrat_editerContrat', {'idContrat': contrat.id}) }}">
                 <button type="button" class="btn btn-info">Editer</button>
             </a>
+
         </div>
         <hr>
     {% endfor %}

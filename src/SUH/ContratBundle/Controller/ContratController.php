@@ -118,7 +118,7 @@ class ContratController extends Controller
     }
 
 
-    public function desactiverContratAction($idContrat){
+    public function archiverContratAction($idContrat){
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
 
