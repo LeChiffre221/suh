@@ -137,21 +137,44 @@
 
         </div>
         <br>
-        <div>
+        <br>
+        <div class="col-lg-12">
 
-            <a href="{{ path('suh_contrat_deleteContrat', {'idContrat': contrat.id}) }}">
-                <button type="button" class="btn btn-danger">Supprimer</button>
-            </a>
+            <div class="col-lg-1 ">
+                <a href="{{ path('suh_contrat_editerContrat', {'idContrat': contrat.id}) }}">
+                    <button type="button" class="btn btn-info">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Editer
+                    </button>
+                </a>
+            </div>
+            <div class="col-lg-2 ">
+                <a href="{{ path('suh_contrat_exportationContrat', {'idContrat': contrat.id}) }}">
+                    <button type="button" class="btn btn-default">
+                        <span class=" fa fa-file-pdf-o"></span>
+                            Exporter le contrat</button>
+                </a>
+            </div>
+            <div class="col-lg-2 ">
+                <a href="{{ path('suh_contrat_archiverContrat', {'idContrat': contrat.id}) }}">
+                    <button type="button" class="btn btn-warning">
+                        <span class="glyphicon glyphicon-briefcase"></span>
+                        Archiver</button>
+                </a>
+            </div>
+            <div class="col-lg-2 ">
+                <a href="{{ path('suh_contrat_deleteContrat', {'idContrat': contrat.id}) }}">
+                    <button type="button" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        Supprimer</button>
+                </a>
+            </div>
 
-            <a href="{{ path('suh_contrat_archiverContrat', {'idContrat': contrat.id}) }}">
-                <button type="button" class="btn btn-warning">Archiver</button>
-            </a>
 
-            <a href="{{ path('suh_contrat_editerContrat', {'idContrat': contrat.id}) }}">
-                <button type="button" class="btn btn-info">Editer</button>
-            </a>
+
 
         </div>
+        <br>
         <hr>
     {% endfor %}
 

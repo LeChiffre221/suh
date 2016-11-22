@@ -20,6 +20,8 @@ class AppKernel extends Kernel
             new SUH\GestionBundle\SUHGestionBundle(),
             new SUH\ContratBundle\SUHContratBundle(),
 			new Liuggio\ExcelBundle\LiuggioExcelBundle(),
+
+
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

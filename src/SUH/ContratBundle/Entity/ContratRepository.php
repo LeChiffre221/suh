@@ -12,19 +12,19 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class ContratRepository extends \Doctrine\ORM\EntityRepository
 {
 
-public function getPage($page, $maxpage, $id){
+    public function getPage($page, $maxpage, $id){
 
-	    $q = $this->createQueryBuilder('a')
-	    ->where('a.etudiantAidant = :id')
-        ->andWhere('a.active = 1')
-	    ->setParameter('id', $id)
- 		->getQuery();
+            $q = $this->createQueryBuilder('a')
+            ->where('a.etudiantAidant = :id')
+            ->andWhere('a.active = 1')
+            ->setParameter('id', $id)
+            ->getQuery();
 
-        $q->setFirstResult(($page-1) * $maxpage)
-            ->setMaxResults($maxpage);
- 
-        return new Paginator($q);
+            $q->setFirstResult(($page-1) * $maxpage)
+                ->setMaxResults($maxpage);
 
-}
+            return new Paginator($q);
+
+    }
 
 }

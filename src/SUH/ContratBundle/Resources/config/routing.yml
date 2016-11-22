@@ -9,6 +9,10 @@ suh_contrat_homepageEtudiant:
     path:       /etudiant
     defaults: { _controller: SUHContratBundle:Affichage:AfficherAccueilEtudiant }
 
+#=========================================
+#============Gestion Contrats=============
+#=========================================
+
 #Afficher les contrats pour un étudiant
 suh_contrat_afficherContrat:
     path: /{idEtudiant}/contrats/{page}
@@ -52,6 +56,9 @@ suh_contrat_addDateContrat:
 
 
 
+#=========================================
+#============Gestion Etudiants============
+#=========================================
 #gestion ajout
 suh_contrat_addEtudiantAidant:
     path: /addEtudiant
@@ -85,3 +92,13 @@ suh_contrat_delEtudiantAidant:
     defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:delEtudiantAidant }
     requirements:
         id:   "^[0-9]+$"
+
+#=========================================
+#=========Exportation Importation=========
+#=========================================
+
+suh_contrat_exportationContrat:
+    path: /exporterContratPDF/{idContrat}
+    defaults: { _controller: SUHContratBundle:ImportExport:exportContratPDF }
+    requirements:
+        idContrat:   "^[0-9]+$"
