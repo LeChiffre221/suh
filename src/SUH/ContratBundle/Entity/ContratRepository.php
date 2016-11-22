@@ -2,6 +2,7 @@
 
 namespace SUH\ContratBundle\Entity;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 /**
  * ContratRepository
  *
@@ -11,8 +12,17 @@ namespace SUH\ContratBundle\Entity;
 class ContratRepository extends \Doctrine\ORM\EntityRepository
 {
 
-public function getPage($page=1, $maxepage=4){
+public function getPage($page, $maxpage, $id){
 
+	    $q = $this->createQueryBuilder('a')
+	    ->where('a.etudiantAidant = :id')
+	    ->setParameter('id', $id)
+ 		->getQuery();
+
+        $q->setFirstResult(($page-1) * $maxpage)
+            ->setMaxResults($maxpage);
+ 
+        return new Paginator($q);
 
 }
 
