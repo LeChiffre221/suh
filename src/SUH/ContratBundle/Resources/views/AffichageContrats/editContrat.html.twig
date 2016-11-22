@@ -9,7 +9,17 @@
 {% block body %}
     <body>
         <div class="container" style="color: white">
-            <h1>Editer un contrat étudiant</h1>
+            <h1>
+
+                    <button class="btn btn-default">
+                        <a href="{{ path('suh_contrat_afficherContrat', {'idEtudiant' : contrat.etudiantAidant.id }) }}">
+                        <span class="glyphicon glyphicon-arrow-left"></span>
+                        </a>
+                    </button>
+
+
+                Editer un contrat étudiant
+            </h1>
 
 
             {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
@@ -43,7 +53,7 @@
                 {{ form_label(form.dateDebutContrat, "Date de début du contrat : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
                 {{ form_errors(form.dateDebutContrat) }}
                 <div class="col-sm-3">
-                    {{ form_widget(form.dateDebutContrat, {'attr': {'class': 'form-control date'}}) }}
+                    {{ form_widget(form.dateDebutContrat,  {'attr': {'class': 'form-control date' }}) }}
                 </div>
             </div>
 
@@ -63,6 +73,46 @@
                 </div>
             </div>
 
+            {% if form.dateEnvoiDRH is defined %}
+                <div class="form-group">
+                    {{ form_label(form.dateEnvoiDRH, "Date d'envoi du contrat à la DRH : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+                    {{ form_errors(form.dateEnvoiDRH) }}
+                    <div class="col-sm-3">
+                        {{ form_widget(form.dateEnvoiDRH, {'attr': {'class': 'form-control date'}}) }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if form.dateEnvoiEtudiant is defined %}
+                <div class="form-group">
+                    {{ form_label(form.dateEnvoiEtudiant, "Date d'envoi du contrat à l'étudiant : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+                    {{ form_errors(form.dateEnvoiEtudiant) }}
+                    <div class="col-sm-3">
+                        {{ form_widget(form.dateEnvoiEtudiant,{'attr': {'class': 'form-control date'}}) }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if form.dateEnvoiAvenantDRH is defined %}
+                <div class="form-group">
+                    {{ form_label(form.dateEnvoiAvenantDRH, "Date d'envoi de l'avenant à la DRH : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+                    {{ form_errors(form.dateEnvoiAvenantDRH) }}
+                    <div class="col-sm-3">
+                        {{ form_widget(form.dateEnvoiAvenantDRH, {'attr': {'class': 'form-control date'}}) }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if form.dateEnvoiAvenantEtudiant is defined %}
+                <div class="form-group">
+                    {{ form_label(form.dateEnvoiAvenantEtudiant, "Date d'envoi de l'avenant à l'étudiant : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+                    {{ form_errors(form.dateEnvoiAvenantEtudiant) }}
+                    <div class="col-sm-3">
+                        {{ form_widget(form.dateEnvoiAvenantEtudiant, {'attr': {'class': 'form-control date'}}) }}
+                    </div>
+                </div>
+            {% endif %}
+
             <div class="form-group">
 
                 <div class="col-sm-1 col-sm-push-3">
@@ -70,7 +120,9 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-success col-sm-offset-3">Ajouter le contrat</button>
+
+
+            <button type="submit" class="btn btn-success col-sm-offset-3">Editer le contrat</button>
             <br>
 
 
@@ -87,7 +139,39 @@
         <br/><br/>
     </body>
     <script type="text/javascript">
+        $(function() {
 
+            $.datepicker.regional['fr'] = {
+                clearText: 'Effacer', clearStatus: '',
+                closeText: 'Fermer', closeStatus: 'Fermer sans modifier',
+                prevText: '<Préc', prevStatus: 'Voir le mois précédent',
+                nextText: 'Suiv>', nextStatus: 'Voir le mois suivant',
+                currentText: 'Courant', currentStatus: 'Voir le mois courant',
+                monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+                monthNamesShort: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun',
+                    'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'],
+                monthStatus: 'Voir un autre mois', yearStatus: 'Voir un autre année',
+                weekHeader: 'Sm', weekStatus: '',
+                dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
+                dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+                dayNamesMin: ['Di', 'Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa'],
+                dayStatus: 'Utiliser DD comme premier jour de la semaine', dateStatus: 'Choisir le DD, MM d',
+                dateFormat: 'dd/mm/yy', firstDay: 0,
+                initStatus: 'Choisir la date', isRTL: false
+            };
+            $.datepicker.setDefaults($.datepicker.regional['fr']);
+
+            $(".date").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "2000:2050",
+                dateFormat: "dd/mm/yy",
+
+            });
+
+
+        });
 
     </script>
 {% endblock %}
