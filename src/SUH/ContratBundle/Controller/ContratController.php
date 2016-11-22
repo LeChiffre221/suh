@@ -87,6 +87,7 @@ class ContratController extends Controller
 
         return $this->render('SUHContratBundle:AffichageContrats:editContrat.html.twig', array(
             'form' => $form->createView(),
+            'contrat' => $contrat,
         ));
 
     }
