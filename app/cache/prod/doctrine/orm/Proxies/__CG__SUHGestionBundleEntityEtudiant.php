@@ -64,10 +64,10 @@ class Etudiant extends \SUH\GestionBundle\Entity\Etudiant implements \Doctrine\O
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'id', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'numeroEtudiant', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'dateNaissance', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantInformations', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantFormation', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantHandicape'];
+            return ['__isInitialized__', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'id', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'numeroEtudiant', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'dateNaissance', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'premiereInscription', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantInformations', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantFormation', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantHandicape'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'id', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'numeroEtudiant', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'dateNaissance', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantInformations', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantFormation', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantHandicape'];
+        return ['__isInitialized__', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'id', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'numeroEtudiant', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'dateNaissance', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'premiereInscription', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantInformations', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantFormation', '' . "\0" . 'SUH\\GestionBundle\\Entity\\Etudiant' . "\0" . 'listEtudiantHandicape'];
     }
 
     /**
@@ -219,6 +219,28 @@ class Etudiant extends \SUH\GestionBundle\Entity\Etudiant implements \Doctrine\O
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDateNaissance', [$dateNaissance]);
 
         return parent::setDateNaissance($dateNaissance);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPremiereInscription()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPremiereInscription', []);
+
+        return parent::getPremiereInscription();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPremiereInscription($premiereInscription)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPremiereInscription', [$premiereInscription]);
+
+        return parent::setPremiereInscription($premiereInscription);
     }
 
     /**

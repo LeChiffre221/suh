@@ -54,8 +54,7 @@ class GestionEtudiantAidantController extends Controller
             $username = strtolower($username);
 
 
-            $pass = substr(rand(), 0, 6);
-
+            $pass = substr(md5(uniqid(mt_rand(), true)), 0, 6);
             //Si il n'y a pas déjà un utilisateur avec le même identifiant
             $i= 0;
             $usernameTmp = $username;
@@ -132,16 +131,24 @@ class GestionEtudiantAidantController extends Controller
         $etudiantAidant = $em->getRepository('SUHContratBundle:EtudiantAidant');
         $etudiantInformations = $em->getRepository('SUHGestionBundle:EtudiantInformations'); 
         $formation = $em->getRepository('SUHGestionBundle:Formation'); 
+        $contrat = $em->getRepository('SUHContratBundle:Contrat');
 
         //On recupere les entites correspondantes a $id
         $idEtudiantAidant = $etudiantAidant->find($id);
         $idEtudiantInformations = $etudiantInformations->find($idEtudiantAidant->getEtudiantInformations());
         $idFormation = $formation->find($idEtudiantAidant->getEtudiantFormation());
+        $idContrat = $contrat->findByEtudiantAidant($idEtudiantAidant);
 
+        foreach($idContrat as $contrat)
+        {
+            $em->remove($contrat);
+        }
         //On supprime les entites
         $em->remove($idEtudiantAidant);
         $em->remove($idEtudiantInformations);
         $em->remove($idFormation);
+
+        
         $em->flush();
 
         $request->getSession()->getFlashBag()->add('notice', 'Etudiant supprimé');
