@@ -34,7 +34,7 @@ class AffichageController extends Controller
         }   
     }
 
-    public function AfficherContratsPourUnEtudiantAction($idEtudiant, $page){
+    public function AfficherContratsPourUnEtudiantAction($id, $page){
 
         $session = $this->getRequest()->getSession(); // Get started session
         if(!$session instanceof Session)
@@ -47,7 +47,7 @@ class AffichageController extends Controller
 
         $nbPerPage = 4;
         // On récupère la liste des contrats pour un étudiant donné
-        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPage($page, $nbPerPage, $idEtudiant);
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPage($page, $nbPerPage, $id);
         $nbPages = ceil(count($listeContrats)/$nbPerPage);
 
         if(count($listeContrats) <= 4){
@@ -60,7 +60,7 @@ class AffichageController extends Controller
             'listeContrats' => $listeContrats,
             'nbPages' => $nbPages,
             'page' => $page,
-            'id' => $idEtudiant
+            'id' => $id
         ));
 
     }
@@ -98,7 +98,7 @@ class AffichageController extends Controller
     }
 
     // Afficher archive
-    public function AfficherArchiveContratAction($idEtudiant, $page){
+    public function AfficherArchiveContratAction($id, $page){
 
         $session = $this->getRequest()->getSession(); // Get started session
         if(!$session instanceof Session)
@@ -110,7 +110,7 @@ class AffichageController extends Controller
 
         $nbPerPage = 4;
         // On récupère la liste des contrats pour un étudiant donné
-        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPageArchive($page, $nbPerPage, $idEtudiant);
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPageArchive($page, $nbPerPage, $id);
         $nbPages = ceil(count($listeContrats)/$nbPerPage);
 
         if(count($listeContrats) <= 4){
@@ -122,7 +122,7 @@ class AffichageController extends Controller
             'listeContrats' => $listeContrats,
             'nbPages' => $nbPages,
             'page' => $page,
-            'id' => $idEtudiant
+            'id' => $id
         ));
     }
 

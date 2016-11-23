@@ -708,6 +708,32 @@ ul.navbar-nav{
     width:170px;
 }
 
+/* Menu */
+
+#addContrat span {
+    position:relative;
+    text-align:center;
+    width:25px;
+    height:25px;
+    display:inline-block;
+    float:right;
+    font-weight:500;
+    color:#000;
+}
+
+#addContrat span::before{
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    border: 2px solid #000;
+    border-radius: 50%;
+    padding: 5px;
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
 /* Contrat */
 .container-right{
     height:100%;
