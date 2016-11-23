@@ -173,7 +173,7 @@ class GestionEtudiantAidantController extends Controller
         if ($form->handleRequest($request)->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($contrat);
+            $em->persist($etudiant);
             $em->flush();
 
             return $this->redirect($this->generateUrl('suh_contrat_showEtudiantAidant', array(

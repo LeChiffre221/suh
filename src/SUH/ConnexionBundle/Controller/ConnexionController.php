@@ -58,7 +58,7 @@ class ConnexionController extends Controller
         }
         else if($this->get('security.context')->isGranted('ROLE_USER')){
 
-            return $this->redirectToRoute('suh_contrat_homepageEtudiant');
+            return $this->redirectToRoute('suh_etudiant_homepageEtudiant');
         }
 
     }

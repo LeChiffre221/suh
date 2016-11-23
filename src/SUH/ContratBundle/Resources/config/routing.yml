@@ -4,10 +4,6 @@ suh_contrat_homepage:
     path:     /
     defaults: { _controller: SUHContratBundle:Affichage:AfficherAccueilContrat }
 
-#accueil étudiant
-suh_contrat_homepageEtudiant:
-    path:       /etudiant
-    defaults: { _controller: SUHContratBundle:Affichage:AfficherAccueilEtudiant }
 
 #=========================================
 #============Gestion Contrats=============

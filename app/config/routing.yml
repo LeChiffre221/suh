@@ -10,6 +10,7 @@ suh_contrat:
     resource: "@SUHContratBundle/Resources/config/routing.yml"
     prefix:   /contrat
 
+#login
 login:
     pattern: /login
     defaults: { _controller: SUHConnexionBundle:Connexion:login }
@@ -19,3 +20,9 @@ login_check:
 
 logout:
     pattern: /logout
+
+
+#accueil étudiant
+suh_etudiant_homepageEtudiant:
+    path:       /etudiant
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherAccueilEtudiant }
