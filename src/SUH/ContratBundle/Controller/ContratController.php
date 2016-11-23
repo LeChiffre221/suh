@@ -148,7 +148,8 @@ class ContratController extends Controller
 
         $request->getSession()->getFlashBag()->add('notice', 'Contrat desarchivé !');
 
-        return $this->redirectToRoute('desarchiverContrat', array('id' => $id));
+
+        return $this->redirectToRoute('suh_contrat_showArchive', array('id' => $id));
     }
 
     public function archiverContratAction($idContrat, Request $request){
