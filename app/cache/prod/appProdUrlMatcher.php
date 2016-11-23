@@ -198,8 +198,8 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
             }
 
             // suh_contrat_afficherContrat
-            if (preg_match('#^/contrat/(?P<idEtudiant>[0-9]+)/contrats$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_afficherContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\AffichageController::AfficherContratsPourUnEtudiantAction',));
+            if (preg_match('#^/contrat/(?P<idEtudiant>[0-9]+)/contrats(?:/(?P<page>[^/]++))?$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_afficherContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\AffichageController::AfficherContratsPourUnEtudiantAction',  'page' => 1,));
             }
 
             // suh_contrat_addContrat
@@ -207,9 +207,9 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_addContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::addContratAction',));
             }
 
-            // suh_contrat_desactiverContrat
-            if (0 === strpos($pathinfo, '/contrat/desactiver') && preg_match('#^/contrat/desactiver/(?P<idContrat>[0-9]+)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_desactiverContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::desactiverContratAction',));
+            // suh_contrat_archiverContrat
+            if (0 === strpos($pathinfo, '/contrat/archiver') && preg_match('#^/contrat/archiver/(?P<idContrat>[0-9]+)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_archiverContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::archiverContratAction',));
             }
 
             // suh_contrat_editerContrat
@@ -222,17 +222,19 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_deleteContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::deleteContratAction',));
             }
 
-            if (0 === strpos($pathinfo, '/contrat/add')) {
-                // suh_contrat_addDateContrat
-                if (0 === strpos($pathinfo, '/contrat/addDateContrat') && preg_match('#^/contrat/addDateContrat/(?P<idContrat>[0-9]+)$#s', $pathinfo, $matches)) {
-                    return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_addDateContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::addDateContratAction',));
-                }
+            // suh_contrat_addDateContrat
+            if (0 === strpos($pathinfo, '/contrat/addDateContrat') && preg_match('#^/contrat/addDateContrat/(?P<idContrat>[0-9]+)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_addDateContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ContratController::addDateContratAction',));
+            }
 
-                // suh_contrat_addEtudiantAidant
-                if ($pathinfo === '/contrat/addEtudiant') {
-                    return array (  '_controller' => 'SUH\\ContratBundle\\Controller\\GestionEtudiantAidantController::addEtudiantAidantAction',  '_route' => 'suh_contrat_addEtudiantAidant',);
-                }
+            // suh_contrat_showArchive
+            if (preg_match('#^/contrat/(?P<idEtudiant>[0-9]+)/contrats/archives(?:/(?P<page>[^/]++))?$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_showArchive')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\AffichageController::AfficherArchiveContratActionAction',  'page' => 1,));
+            }
 
+            // suh_contrat_addEtudiantAidant
+            if ($pathinfo === '/contrat/addEtudiant') {
+                return array (  '_controller' => 'SUH\\ContratBundle\\Controller\\GestionEtudiantAidantController::addEtudiantAidantAction',  '_route' => 'suh_contrat_addEtudiantAidant',);
             }
 
             // suh_contrat_getEtudiantAidant
@@ -253,6 +255,11 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
             // suh_contrat_delEtudiantAidant
             if (0 === strpos($pathinfo, '/contrat/supprimer') && preg_match('#^/contrat/supprimer/(?P<id>[0-9]+)$#s', $pathinfo, $matches)) {
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_delEtudiantAidant')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\GestionEtudiantAidantController::delEtudiantAidantAction',));
+            }
+
+            // suh_contrat_exportationContrat
+            if (0 === strpos($pathinfo, '/contrat/exporterContratPDF') && preg_match('#^/contrat/exporterContratPDF/(?P<idContrat>[0-9]+)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'suh_contrat_exportationContrat')), array (  '_controller' => 'SUH\\ContratBundle\\Controller\\ImportExportController::exportContratPDFAction',));
             }
 
         }

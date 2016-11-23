@@ -69,10 +69,15 @@
                                     {{ form_widget(form.etudiant.numeroEtudiant) }}
                                     {{ form_errors(form.etudiant.numeroEtudiant) }}
                                 </div>
-                                <div class="col-md-12" >
+                                <div class="col-md-6" >
                                     {{ form_label(form.etudiant.dateNaissance) }}
                                     {{ form_widget(form.etudiant.dateNaissance) }}
                                     {{ form_errors(form.etudiant.dateNaissance) }}
+                                </div>
+                                <div class="col-md-6" >
+                                    {{ form_label(form.etudiantInformations.parite) }}
+                                    {{ form_widget(form.etudiantInformations.parite) }}
+                                    {{ form_errors(form.etudiantInformations.parite) }}
                                 </div>
                                 <div class="col-md-6" >
                                     {{ form_label(form.etudiant.premiereInscription) }}

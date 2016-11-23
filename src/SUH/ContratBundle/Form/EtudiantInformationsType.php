@@ -24,6 +24,12 @@ class EtudiantInformationsType extends AbstractType
             ->add('adresseFamiliale')
             ->add('telephonePerso')
             ->add('telephoneParents')
+            ->add('parite', 'choice', array(
+                'choices' => array(
+                    'F' => 'Femme',
+                    'M' => 'Homme'
+                )
+            ))
         ;
     }
     
