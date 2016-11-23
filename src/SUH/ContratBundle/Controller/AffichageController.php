@@ -5,6 +5,7 @@ namespace SUH\ContratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 class AffichageController extends Controller
 {
@@ -45,6 +46,7 @@ class AffichageController extends Controller
         if(count($listeContrats) <= 4){
             $page = -1;
         }
+
 
         return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
@@ -90,6 +92,8 @@ class AffichageController extends Controller
 
     // Afficher archive
     public function AfficherArchiveContratAction($idEtudiant, $page){
+
+      //  return new Response("PiCOuyPerre");
         $em = $this->getDoctrine()->getManager();
 
         $nbPerPage = 4;
