@@ -3,6 +3,7 @@
 namespace SUH\GestionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Formation
@@ -25,6 +26,7 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="diplome", type="string", length=50,nullable=true)
+     * @Assert\Type(type="string")
      */
     private $diplome;
 
@@ -32,6 +34,7 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="composante", type="string", length=255,nullable=true)
+     * @Assert\Type(type="string")
      */
     private $composante;
 
@@ -39,6 +42,7 @@ class Formation
      * @var string
      *
      * @ORM\Column(name="filiere", type="string", length=255,nullable=true)
+     * @Assert\Type(type="string")
      */
     private $filiere;
 
@@ -46,13 +50,15 @@ class Formation
      * @var integer
      *
      * @ORM\Column(name="cycle", type="smallint",nullable=true)
+     * @Assert\Regex("/[0-9]+/")
      */
     private $cycle;
 
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="etablissement", type="string", length=100,nullable=true)
+     * @Assert\Type(type="string")
      */
     private $etablissement;
     
@@ -60,6 +66,7 @@ class Formation
      * @var integer
      *
      * @ORM\Column(name="anneeEtude", type="smallint",nullable=true)
+     * @Assert\Regex("/[0-9]+/")
      */
     private $anneeEtude;
     

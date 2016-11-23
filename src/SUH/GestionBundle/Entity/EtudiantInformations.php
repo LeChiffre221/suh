@@ -3,6 +3,7 @@
 namespace SUH\GestionBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * EtudiantInformations
@@ -25,6 +26,7 @@ class EtudiantInformations
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
+     * @Assert\Type(type="string")
      */
     private $nom;
 
@@ -32,6 +34,7 @@ class EtudiantInformations
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255)
+     * @Assert\Type(type="string")
      */
     private $prenom;
 
@@ -39,6 +42,7 @@ class EtudiantInformations
      * @var string
      *
      * @ORM\Column(name="mailInstitutionnel", type="string", length=255, nullable=true)
+     * @Assert\Email(checkMX=true)
      */
     private $mailInstitutionnel;
 
@@ -53,6 +57,7 @@ class EtudiantInformations
      * @var string
      *
      * @ORM\Column(name="mailPerso", type="string", length=255, nullable=true)
+     * @Assert\Email(checkMX=true)
      */
     private $mailPerso;
 
@@ -60,6 +65,7 @@ class EtudiantInformations
      * @var string
      *
      * @ORM\Column(name="mailParents", type="string", length=255, nullable=true)
+     * @Assert\Email(checkMX=true)
      */
     private $mailParents;
 
@@ -67,6 +73,7 @@ class EtudiantInformations
      * @var string
      *
      * @ORM\Column(name="adresseEtudiante", type="string", length=255, nullable=true)
+     * @Assert\Type(type="string")
      */
     private $adresseEtudiante;
 
@@ -74,6 +81,7 @@ class EtudiantInformations
      * @var string
      *
      * @ORM\Column(name="adresseFamiliale", type="string", length=255, nullable=true)
+     * @Assert\Type(type="string")
      */
     private $adresseFamiliale;
 
@@ -81,6 +89,7 @@ class EtudiantInformations
      * @var string
      *
      * @ORM\Column(name="telephonePerso", type="string", length=255, nullable=true)
+     * @Assert\Type(type="string")
      */
     private $telephonePerso;
 
@@ -88,6 +97,7 @@ class EtudiantInformations
      * @var string
      *
      * @ORM\Column(name="telephoneParents", type="string", length=255, nullable=true)
+     * @Assert\Type(type="string")
      */
     private $telephoneParents;
 

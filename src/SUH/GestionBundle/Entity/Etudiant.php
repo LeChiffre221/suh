@@ -4,6 +4,7 @@ namespace SUH\GestionBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Etudiant
@@ -26,6 +27,7 @@ class Etudiant
      * @var string
      *
      * @ORM\Column(name="numeroEtudiant", type="string", length=255, nullable=true)
+     * @Assert\Type(type="string")
      */
     private $numeroEtudiant;
 
@@ -40,6 +42,8 @@ class Etudiant
      * @var string
      *
      * @ORM\Column(name="premiereInscription", type="string", nullable=true)
+     * @Assert\Regex("/^[0-9]{4}[-][0-9]{4}$/")
+     *
      */
     private $premiereInscription;
 

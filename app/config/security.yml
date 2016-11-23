@@ -44,7 +44,7 @@ security:
         parefeuSuh:
             pattern: ^/
             anonymous: false
-            provider: in_memory
+            provider: chain_provider
             form-login:
                 login_path: login
                 check_path: login_check

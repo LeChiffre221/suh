@@ -4,6 +4,7 @@ namespace SUH\ContratBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Contrat
@@ -23,15 +24,18 @@ class Contrat
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="SUH\ContratBundle\Entity\EtudiantAidant")
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
+     *
+     * @ORM\Column(name="natureContrat", type="string", length=500)
+     * @Assert\Type(type="string")
      */
-    private $etudiantAidant;
+    private $natureContrat;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="nbHeureInitiales", type="integer")
+     * @Assert\Regex("/[0-9]+/")
      */
     private $nbHeureInitiales;
 
@@ -53,6 +57,7 @@ class Contrat
      * @var integer
      *
      * @ORM\Column(name="semestreConcerne", type="integer")
+     * @Assert\Regex("/1|2{1}/")
      */
     private $semestreConcerne;
 
@@ -74,6 +79,7 @@ class Contrat
      * @var boolean
      *
      * @ORM\Column(name="etablissementAvenant", type="boolean", nullable=true)
+     * @Assert\Type(type="boolean")
      */
     private $etablissementAvenant;
 
@@ -92,18 +98,19 @@ class Contrat
     private $dateEnvoiAvenantEtudiant;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="natureContrat", type="string", length=500)
-     */
-    private $natureContrat;
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="active", type="boolean")
+     * @Assert\Type(type="boolean")
      */
     private $active;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="SUH\ContratBundle\Entity\EtudiantAidant")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
+     */
+    private $etudiantAidant;
 
 
     /**
