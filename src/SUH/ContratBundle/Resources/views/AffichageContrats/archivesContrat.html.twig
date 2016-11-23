@@ -28,8 +28,14 @@
             <h3>Nature du contrat : {{ contrat.natureContrat }} </h3>
             
             <h3>Semestre concerné : n°{{ contrat.semestreConcerne}}</h3>
-
-            <h3>Etablissement avenant : {{ contrat.etablissementAvenant}}</h3>
+            
+            <h3>Etablissement avenant :
+                {% if contrat.etablissementAvenant == 0 %}
+                    <span class="glyphicon glyphicon-remove" style="color: red"></span>
+                {% else %}
+                    <span class="glyphicon glyphicon-ok" style="color: green"></span>
+                {% endif %}
+            </h3>
         </div>
         <div class="col-lg-12">
             <h3>Date d'envoi du contrat :</h3>
@@ -145,13 +151,11 @@
                 <button type="button" class="btn btn-danger">Supprimer</button>
             </a>
 
-            <a href="{{ path('suh_contrat_archiverContrat', {'idContrat': contrat.id}) }}">
+            <a href="{{ path('suh_contrat_desarchiverContrat', {'idContrat': contrat.id}) }}">
                 <button type="button" class="btn btn-warning">Désarchiver</button>
             </a>
 
-            <a href="{{ path('suh_contrat_editerContrat', {'idContrat': contrat.id}) }}">
-                <button type="button" class="btn btn-info">Editer</button>
-            </a>
+
 
         </div>
     </div>

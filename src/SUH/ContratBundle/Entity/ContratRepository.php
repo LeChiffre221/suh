@@ -18,6 +18,7 @@ class ContratRepository extends \Doctrine\ORM\EntityRepository
             ->where('a.etudiantAidant = :id')
             ->andWhere('a.active = 1')
             ->setParameter('id', $id)
+            ->orderBy('a.dateDebutContrat', 'DESC')
             ->getQuery();
 
             $q->setFirstResult(($page-1) * $maxpage)
@@ -33,6 +34,7 @@ public function getPageArchive($page, $maxpage, $id){
 	    ->where('a.etudiantAidant = :id')
         ->andWhere('a.active = 0')
 	    ->setParameter('id', $id)
+        ->orderBy('a.dateDebutContrat', 'DESC')
  		->getQuery();
 
         $a->setFirstResult(($page-1) * $maxpage)

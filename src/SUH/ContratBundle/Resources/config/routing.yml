@@ -9,6 +9,13 @@ suh_contrat_homepage:
 #============Gestion Contrats=============
 #=========================================
 
+#affichage archives
+suh_contrat_showArchive:
+    path: /{idEtudiant}/contrats/archives/{page}
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherArchiveContrat, page:1}
+    requirements:
+           idEtudiant: "^[0-9]+$"
+
 #Afficher les contrats pour un étudiant
 suh_contrat_afficherContrat:
     path: /{idEtudiant}/contrats/{page}
@@ -26,6 +33,12 @@ suh_contrat_addContrat:
 suh_contrat_archiverContrat:
     path: /archiver/{idContrat}
     defaults: {_controller: SUHContratBundle:Contrat:archiverContrat}
+    requirements:
+        idContrat: "^[0-9]+$"
+
+suh_contrat_desarchiverContrat:
+    path: /desarchiver/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:desarchiverContrat}
     requirements:
         idContrat: "^[0-9]+$"
 
@@ -50,12 +63,7 @@ suh_contrat_addDateContrat:
     requirements:
        idContrat: "^[0-9]+$"
        
-#affichage archives
-suh_contrat_showArchive:
-    path: /{idEtudiant}/contrats/archives/{page}
-    defaults: { _controller: SUHContratBundle:Affichage:AfficherArchiveContratAction, page:1}
-    requirements:
-           idEtudiant: "^[0-9]+$"
+
 
 
 #=========================================

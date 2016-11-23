@@ -5,6 +5,8 @@ namespace SUH\ContratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class AffichageController extends Controller
 {
@@ -33,6 +35,12 @@ class AffichageController extends Controller
     }
 
     public function AfficherContratsPourUnEtudiantAction($idEtudiant, $page){
+
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session)
+            $session = new Session(); // if there is no session, start it
+        $session->set('suppressionContratFromArchive', false);
+
         $em = $this->getDoctrine()->getManager();
 
         // $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
@@ -45,6 +53,7 @@ class AffichageController extends Controller
         if(count($listeContrats) <= 4){
             $page = -1;
         }
+
 
         return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
@@ -90,6 +99,13 @@ class AffichageController extends Controller
 
     // Afficher archive
     public function AfficherArchiveContratAction($idEtudiant, $page){
+
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session)
+            $session = new Session(); // if there is no session, start it
+
+        $session->set('suppressionContratFromArchive', true);
+
         $em = $this->getDoctrine()->getManager();
 
         $nbPerPage = 4;
