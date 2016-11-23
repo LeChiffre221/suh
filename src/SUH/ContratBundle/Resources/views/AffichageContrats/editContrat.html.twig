@@ -12,7 +12,7 @@
     {% endblock %}
 
     {% block bodyright %}
-
+    <div class="col-md-12 container-contrat">
         {% for message in app.session.flashbag.get('notice') %}
             <div class="alert alert-success">
                 <strong>Succès !</strong> Le contrat a été créé.
@@ -132,7 +132,7 @@
             {# Fermeture de la balise <form> du formulaire HTML #}
             {{ form_end(form) }}
         </div>
-
+        </div>
         </div>
         <br/><br/>
     </body>

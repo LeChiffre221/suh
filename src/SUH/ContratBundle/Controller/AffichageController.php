@@ -34,6 +34,31 @@ class AffichageController extends Controller
         }   
     }
 
+    public function getNbContrats($id)
+    {     
+        $em = $this->getDoctrine()->getManager();
+        $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+            array(
+            'etudiantAidant' => $etudiant,
+            'active' => 1),
+            array(
+            'dateDebutContrat' => 'desc'
+            )
+       );
+        if(!empty($listeContrats))
+        {
+           return count($listeContrats);
+
+        } else {
+
+            return 0;
+
+        }
+        
+    }
+
+
     public function AfficherContratsPourUnEtudiantAction($id, $page){
 
         $session = $this->getRequest()->getSession(); // Get started session
@@ -57,6 +82,7 @@ class AffichageController extends Controller
 
         return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'nbContrats'=>$this->getNbContrats($id),
             'listeContrats' => $listeContrats,
             'nbPages' => $nbPages,
             'page' => $page,
@@ -75,6 +101,7 @@ class AffichageController extends Controller
     {
 
         return $this->render('SUHContratBundle:AffichageContrats:getEtudiantAidant.html.twig',array(
+            'nbContrats'=>$this->getNbContrats($id),
             'id' => $id
             )); 
         
@@ -93,6 +120,7 @@ class AffichageController extends Controller
             'informationsEtudiantAidant' => $etudiant,
             'id' => $id,
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'nbContrats'=>$this->getNbContrats($id),
             )); 
         
     }
@@ -122,6 +150,7 @@ class AffichageController extends Controller
             'listeContrats' => $listeContrats,
             'nbPages' => $nbPages,
             'page' => $page,
+            'nbContrats'=>$this->getNbContrats($id),
             'id' => $id
         ));
     }

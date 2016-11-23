@@ -52,6 +52,7 @@ class ContratController extends Controller
             'form' => $form->createView(),
             'id' => $id,
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'nbContrats'=>$this->getNbContrats($id),
         ));
     }
 
@@ -135,6 +136,29 @@ class ContratController extends Controller
         {
             return $listeEtudiantsAidants;
         }
+    }
+    public function getNbContrats($id)
+    {     
+        $em = $this->getDoctrine()->getManager();
+        $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+            array(
+            'etudiantAidant' => $etudiant,
+            'active' => 1),
+            array(
+            'dateDebutContrat' => 'desc'
+            )
+       );
+        if(!empty($listeContrats))
+        {
+           return count($listeContrats);
+
+        } else {
+
+            return 0;
+
+        }
+        
     }
     public function desarchiverContratAction($idContrat, Request $request){
         $em = $this->getDoctrine()->getManager();

@@ -23,9 +23,9 @@
                 {% endfor %}
                 {% include 'SUHContratBundle:AffichageContrats:liste.html.twig' with {'listeEtudiantsAidants': listeEtudiantsAidants} %}      
                 <div id="gestionEtudiants" class="">
-                    <a id="ajout" href="{{path('suh_contrat_addEtudiantAidant')}}" class="btn btn-md btn-primary col-md-2" > <span class="glyphicon glyphicon-plus"></span></a>
-                    <a id="modification" {% if id is defined %} href="{{path('suh_contrat_editEtudiantAidant', {'id': id})}}" {% endif %} class="btn btn-md btn-primary col-md-2 col-md-offset-3"> <span class="glyphicon glyphicon-pencil"></span></a>
-                    <a id="suppression" {% if id is defined %} href="{{path('suh_contrat_delEtudiantAidant', {'id': id})}}" {% endif %} class="btn btn-md btn-primary col-md-2 col-md-offset-3"> <span class="glyphicon glyphicon-remove"></span></a>
+                    <a id="ajout" href="{{path('suh_contrat_addEtudiantAidant')}}" class="btn btn-md btn-primary" > <span class="glyphicon glyphicon-plus"></span></a>
+                    <a id="modification" {% if id is defined %} href="{{path('suh_contrat_editEtudiantAidant', {'id': id})}}" {% endif %} class="btn btn-md btn-primary "> <span class="glyphicon glyphicon-pencil"></span></a>
+                    <a id="suppression" {% if id is defined %} href="{{path('suh_contrat_delEtudiantAidant', {'id': id})}}" {% endif %} class="btn btn-md btn-primary"> <span class="glyphicon glyphicon-remove"></span></a>
                 </div>
             </div>  
                

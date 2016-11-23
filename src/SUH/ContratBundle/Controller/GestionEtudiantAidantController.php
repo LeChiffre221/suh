@@ -28,6 +28,30 @@ class GestionEtudiantAidantController extends Controller
         }   
     }
 
+    public function getNbContrats($id)
+    {     
+        $em = $this->getDoctrine()->getManager();
+        $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+            array(
+            'etudiantAidant' => $etudiant,
+            'active' => 1),
+            array(
+            'dateDebutContrat' => 'desc'
+            )
+       );
+        if(!empty($listeContrats))
+        {
+           return count($listeContrats);
+
+        } else {
+
+            return 0;
+
+        }
+        
+    }
+
     //Ajouter etudiant
     public function addEtudiantAidantAction(Request $request)
     {
@@ -117,7 +141,7 @@ class GestionEtudiantAidantController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:addEtudiantAidant.html.twig', array(
             'info' => $etudiantassiste, 
             'form' => $form->createView(),
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null)
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
         )); 
     }
 
@@ -185,6 +209,7 @@ class GestionEtudiantAidantController extends Controller
             'informationsEtudiantAidant' => $etudiant,
             'form' => $form->createView(),
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'nbContrats'=>$this->getNbContrats($id),
             'id' => $id
             )); 
 
