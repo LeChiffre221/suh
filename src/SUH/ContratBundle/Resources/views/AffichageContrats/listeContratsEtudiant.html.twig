@@ -17,6 +17,18 @@
         </div>
     {% endfor %}
     <div class="container-contrat col-md-12">
+
+    {% if listeContrats is empty %}
+        <br>
+        <h2 class="col-lg-offset-1">
+            <strong>Aucun contrat pour cet étudiant.
+            <br>
+            Vous pouvez consulter les
+            </strong>
+            <a href="{{ path("suh_contrat_showArchive", {'idEtudiant' : id}) }}" style="color: #1f7e9a">contrats archivés.</a>
+
+        </h2>
+    {% endif %}
     {% for contrat in listeContrats %}
 
     <div class="bloc-contrat panel panel-primary">

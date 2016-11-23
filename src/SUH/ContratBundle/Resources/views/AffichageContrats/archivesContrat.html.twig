@@ -12,6 +12,12 @@
     {% endblock %}
     {% block bodyright %}
     <div class="container-contrat col-md-12">
+
+    {% if listeContrats is empty %}
+        <h2 class="col-lg-offset-1">
+            <strong>Aucune archive pour cet étudiant.</strong>
+        </h2>
+    {% endif %}
     {% for contrat in listeContrats %}
 
     <div class="bloc-contrat panel panel-primary">
@@ -28,7 +34,7 @@
             <h3>Nature du contrat : {{ contrat.natureContrat }} </h3>
             
             <h3>Semestre concerné : n°{{ contrat.semestreConcerne}}</h3>
-            
+
             <h3>Etablissement avenant :
                 {% if contrat.etablissementAvenant == 0 %}
                     <span class="glyphicon glyphicon-remove" style="color: red"></span>
@@ -148,11 +154,17 @@
         <div class="col-lg-12 contrat-actions">
 
             <a href="{{ path('suh_contrat_deleteContrat', {'idContrat': contrat.id}) }}">
-                <button type="button" class="btn btn-danger">Supprimer</button>
+                <button type="button" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    Supprimer
+                </button>
             </a>
 
             <a href="{{ path('suh_contrat_desarchiverContrat', {'idContrat': contrat.id}) }}">
-                <button type="button" class="btn btn-warning">Désarchiver</button>
+                <button type="button" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-level-up"></span>
+                    Désarchiver
+                </button>
             </a>
 
 
