@@ -5,7 +5,7 @@
             <a {% if id is defined %} href="{{path('suh_contrat_editEtudiantAidant', {'id': id})}}" {% endif %} class="col-md-2 float-fix menu-button"><span  class="glyphicon glyphicon-pencil"></span></a>
     	</li>
     	<li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_afficherContrat' %} active {% endif %} col-md-4">
-    		<a id="addContrat" href="{{path('suh_contrat_afficherContrat', {'idEtudiant': id}) }}">Afficher les contrats</a>
+    		<a id="addContrat" href="{{path('suh_contrat_afficherContrat', {'idEtudiant': id}) }}">Afficher les contrats </a>
     	</li>
     	<li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_addContrat' %} active {% endif %} col-md-4">
     		<a id="addContrat" href="{{path('suh_contrat_addContrat', {'idEtudiant': id}) }}">Ajouter un contrat</a>

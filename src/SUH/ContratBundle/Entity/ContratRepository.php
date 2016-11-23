@@ -34,6 +34,7 @@ public function getPageArchive($page, $maxpage, $id){
 	    ->where('a.etudiantAidant = :id')
         ->andWhere('a.active = 0')
 	    ->setParameter('id', $id)
+        ->orderBy('a.dateDebutContrat', 'DESC')
  		->getQuery();
 
         $a->setFirstResult(($page-1) * $maxpage)

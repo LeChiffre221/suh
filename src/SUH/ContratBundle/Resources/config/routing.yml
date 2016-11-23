@@ -40,6 +40,12 @@ suh_contrat_archiverContrat:
     requirements:
         idContrat: "^[0-9]+$"
 
+suh_contrat_desarchiverContrat:
+    path: /desarchiver/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:desarchiverContrat}
+    requirements:
+        idContrat: "^[0-9]+$"
+
 #edit un contrat étudiant
 suh_contrat_editerContrat:
     path: /editContrat/{idContrat}

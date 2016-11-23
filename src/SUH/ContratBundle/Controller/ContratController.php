@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ContratController extends Controller
 {
@@ -100,6 +101,10 @@ class ContratController extends Controller
 
     public function deleteContratAction($idContrat, Request $request){
 
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session)
+            $session = new Session(); // if there is no session, start it
+
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
 
@@ -109,7 +114,15 @@ class ContratController extends Controller
 
         $request->getSession()->getFlashBag()->add('notice', 'Contrat supprimé !');
 
-        return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
+
+        if($session->get('suppressionContratFromArchive')){
+            return $this->redirectToRoute('suh_contrat_showArchive', array('idEtudiant' => $etudiant->getId()));
+        }
+        else{
+            return $this->redirectToRoute('suh_contrat_afficherContrat', array('idEtudiant' => $etudiant->getId()));
+        }
+
+
     }
 
     public function getListeEtudiants()
@@ -124,7 +137,20 @@ class ContratController extends Controller
             return $listeEtudiantsAidants;
         }
     }
+    public function desarchiverContratAction($idContrat, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
 
+        $idEtudiant = $contrat->getEtudiantAidant()->getId();
+
+        $contrat->setActive(true);
+        $em->persist($contrat);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('notice', 'Contrat desarchivé !');
+
+        return $this->redirectToRoute('desarchiverContrat', array('idEtudiant' => $idEtudiant));
+    }
 
     public function archiverContratAction($idContrat, Request $request){
         $em = $this->getDoctrine()->getManager();
