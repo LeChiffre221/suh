@@ -3,6 +3,7 @@
 namespace SUH\ContratBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * EtudiantAidant
@@ -13,15 +14,54 @@ use Doctrine\ORM\Mapping as ORM;
 class EtudiantAidant
 {
 
+    /**
+     * @var integer
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
+    /**
+     * @var integer
+     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\Etudiant", cascade={"persist"})
+     * @Assert\Valid()
+     */
+    private $etudiant;
+
+    /**
+     * @var integer
+     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\EtudiantInformations", cascade={"persist"})
+     * @Assert\Valid()
+     */
+    private $etudiantInformations;
+
+    /**
+     * @var integer
+     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\Formation", cascade={"persist"})
+     * @Assert\Valid()
+     */
+    private $formation;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="certificatMedical", type="boolean", nullable=true)
+     * @Assert\Type(type="boolean")
      */
     private $certificatMedical;
 
+    /**
+     * @var integer
+     * @ORM\OneToOne(targetEntity="SUH\ConnexionBundle\Entity\User", cascade={"persist"})
+     * @Assert\Valid()
+     */
+    private $user;
+
+
+    public function getId(){
+        return $this->id;
+    }
 
     /**
      * Set certificatMedical
@@ -48,23 +88,7 @@ class EtudiantAidant
     }
 
 
-   /**
-     * @var integer
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
-    public function getId(){
-        return $this->id;
-    }
-
-    /**
-     * @var integer
-     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\Etudiant", cascade={"persist"})
-     */
-    private $etudiant;
 
 
     public function getEtudiant()
@@ -77,38 +101,26 @@ class EtudiantAidant
     }
 
 
-    /**
-     * @var integer
-     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\Formation", cascade={"persist"})
-     */
-    private $formation;
 
-
-  public function getFormation()
-  {
+    public function getFormation()
+    {
     return $this->formation;
-  }
-  public function setFormation($formation){
-    
+    }
+    public function setFormation($formation){
+
     return $this->formation = $formation;
-  }
+    }
 
 
-   /**
-     * @var integer
-     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\EtudiantInformations", cascade={"persist"})
-     */
-    private $etudiantInformations;
 
-
-  public function getEtudiantInformations()
-  {
+    public function getEtudiantInformations()
+    {
     return $this->etudiantInformations;
-  }
-  public function setEtudiantInformations($etudiantInformations){
-    
+    }
+    public function setEtudiantInformations($etudiantInformations){
+
     return $this->etudiantInformations = $etudiantInformations;
-  }
+    }
 
 
   public function getEtudiantFormation()
@@ -121,4 +133,28 @@ class EtudiantAidant
 
   }
 
+
+    /**
+     * Set user
+     *
+     * @param \SUH\GestionBundle\Entity\User $user
+     *
+     * @return EtudiantAidant
+     */
+    public function setUser(\SUH\ConnexionBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \SUH\ConnexionBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }
