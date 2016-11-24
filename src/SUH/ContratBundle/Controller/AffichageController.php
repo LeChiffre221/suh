@@ -59,7 +59,7 @@ class AffichageController extends Controller
     }
 
 
-    public function AfficherContratsPourUnEtudiantAction($id, $page){
+    public function AfficherContratsPourUnEtudiantAction($id, $page, $nbPerPage = 4){
 
         $session = $this->getRequest()->getSession(); // Get started session
         if(!$session instanceof Session)
@@ -70,7 +70,6 @@ class AffichageController extends Controller
 
         // $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
 
-        $nbPerPage = 4;
         // On récupère la liste des contrats pour un étudiant donné
         $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPage($page, $nbPerPage, $id);
         $nbPages = ceil(count($listeContrats)/$nbPerPage);
@@ -153,6 +152,28 @@ class AffichageController extends Controller
             'nbContrats'=>$this->getNbContrats($id),
             'id' => $id
         ));
+    }
+
+    public function AfficherGestionHeuresAction($id){
+
+        $em = $this->getDoctrine()->getManager();
+        $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+            array(
+            'etudiantAidant' => $etudiant,
+            'active' => 1),
+            array(
+            'dateDebutContrat' => 'desc'
+            )
+       );
+
+        return $this->render('SUHContratBundle:AffichageContrats:gestionHeures.html.twig', array(
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'nbContrats'=>$this->getNbContrats($id),
+            'listeContrats' => $listeContrats,
+            'id' => $id
+            ));
+
     }
 
 }

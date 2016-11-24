@@ -19,19 +19,11 @@
         {# Les erreurs générales du formulaire. #}
         {{ form_errors(form) }}
 
-        <div class="form-group col-md-8">
-            {# Génération du label. #}
-
-            {# Affichage des erreurs pour ce champ précis. #}
+        <div class="form-group">
+            {{ form_label(form.natureContrat, "Nature du contrat : ", {'label_attr': {'class': 'control-label'}}) }}
             {{ form_errors(form.natureContrat) }}
-
-            <div class="col-md-8">
-                <div class="box-profil">
-                    <div class="col-md-4">
-                        <h3> {{ form_label(form.natureContrat, "Nature du contrat : ", {'label_attr': {'class': 'control-label'}}) }} </h3>
-                    </div>
-                    {{ form_widget(form.natureContrat, {'attr': {'class': 'col-md-8'}}) }}
-                </div>
+            <div class="col-sm-1">
+                {{ form_widget(form.natureContrat, {'attr': {'class': 'col-md-8'}}) }}
             </div>
         </div>
 

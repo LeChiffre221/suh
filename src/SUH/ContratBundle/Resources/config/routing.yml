@@ -112,3 +112,14 @@ suh_contrat_exportationContrat:
     defaults: { _controller: SUHContratBundle:ImportExport:exportContratPDF }
     requirements:
         idContrat:   "^[0-9]+$"
+
+
+#=========================================
+#=========   Gestion Heures  =============
+#=========================================
+
+suh_contrat_gestionHeures:
+    path: /heures/{id}
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherGestionHeures }
+    requirements:
+        id:   "^[0-9]+$"

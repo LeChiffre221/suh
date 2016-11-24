@@ -95,6 +95,7 @@ class ContratController extends Controller
             'contrat' => $contrat,
             'id' => $contrat->getEtudiantAidant()->getId(),
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'nbContrats'=>$this->getNbContrats($contrat->getEtudiantAidant()->getId()),
         ));
 
     }
