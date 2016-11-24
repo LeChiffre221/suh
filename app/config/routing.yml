@@ -25,4 +25,4 @@ logout:
 #accueil étudiant
 suh_etudiant_homepageEtudiant:
     path:       /etudiant
-    defaults: { _controller: SUHContratBundle:Affichage:AfficherAccueilEtudiant }
+    defaults: { _controller: SUHContratBundle:HeureEffectuee:addHeureEffectuee }

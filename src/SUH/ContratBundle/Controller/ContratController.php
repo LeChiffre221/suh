@@ -12,8 +12,6 @@ namespace SUH\ContratBundle\Controller;
 use DateTime;
 use SUH\ContratBundle\Entity\Contrat;
 use SUH\ContratBundle\Form\ContratType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
