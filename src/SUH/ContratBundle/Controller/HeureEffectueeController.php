@@ -44,7 +44,7 @@ class HeureEffectueeController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $heureEffectuee->setVerification(false);
-            
+
             $em->persist($heureEffectuee);
             $em->flush();
 
