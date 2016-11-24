@@ -10,4 +10,15 @@ namespace SUH\ContratBundle\Entity;
  */
 class EtudiantAidantRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function getConnectedEtudiant($user){
+
+        $q = $this->createQueryBuilder('e')
+                    ->where('e.user = :user')
+                    ->setParameter('user', $user)
+                    ->getQuery()
+                    ->getResult();
+
+        return $q;
+    }
 }

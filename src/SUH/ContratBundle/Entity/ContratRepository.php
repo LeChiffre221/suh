@@ -12,6 +12,18 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 class ContratRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    public function getContratsPourUnEtudiant($etudiant){
+        $q = $this->createQueryBuilder('c')
+            ->where('c.etudiantAidant = :etudiant')
+            ->setParameter('etudiant', $etudiant)
+            ->andWhere('c.active = :active')
+            ->setParameter('active' , true);
+
+
+
+        return $q;
+    }
+
     public function getPage($page, $maxpage, $id){
 
             $q = $this->createQueryBuilder('a')

@@ -101,10 +101,11 @@ ul.navbar-nav{
 /* PARTIE GAUCHE */
 #containerFluidBody
 {
-    height: 90%;
+    display:inline-block;
     margin-left: 2%;
     margin-right: 2%;
     padding:0;
+    width: calc(100% - 4%);
 }
 
 #containerFluidBody .row
@@ -117,9 +118,6 @@ ul.navbar-nav{
 {   
     height: 100%;
     background-color: #F5F5F5;  
-    /*width:85%;
-    border-right: 6px solid #F5F5F5;
-    */
     text-align:center;
 }
 
@@ -133,7 +131,7 @@ ul.navbar-nav{
 }
 #liste
 {
-    height:calc(100% - 170px);
+    min-height:780px;
     overflow: auto;
     background-color: #e4e4e4;
 
@@ -205,6 +203,25 @@ ul.navbar-nav{
     
 }
 
+#gestionEtudiants > a {
+    width: 50px;
+    height: 40px;
+    display: inline-block;
+    line-height: 40px;
+    padding: 10px;
+    position: relative;
+    margin:0 10px;
+}
+#gestionEtudiants > a > span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translateX(-50%) translateY(-50%);
+    -moz-transform:translateX(-50%) translateY(-50%);
+    -ms-transform:translateX(-50%) translateY(-50%);
+    -webkit-transform:translateX(-50%) translateY(-50%);
+    -o-transform:translateX(-50%) translateY(-50%);
+}
 /* PARTIE DROITE */
 
 #etudiantNomPrenom
@@ -217,10 +234,8 @@ ul.navbar-nav{
 
 #affichage
 {   
-    height: 100%;
     background-color: #fff;    
     padding: 0;
-    min-height:700px;
     text-align:center;
 }
 #listeProfil{
@@ -708,9 +723,37 @@ ul.navbar-nav{
     width:170px;
 }
 
+/* Menu */
+
+#addContrat span {
+    position:relative;
+    text-align:center;
+    width:30px;
+    height:30px;
+    display:inline-block;
+    float:right;
+    font-weight:500;
+    color:#000;
+    line-height:30px;
+}
+
+#addContrat span::before{
+    display: inline-block;
+    position: absolute;
+    text-align: center;
+    border: 2px solid #000;
+    border-radius: 50%;
+    padding: 5px;
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
 /* Contrat */
 .container-right{
-    height:100%;
+    display:inline-block;
+    width:100%;
 }
 
 .bloc-contrat {
@@ -766,9 +809,78 @@ ul.navbar-nav{
 .contrat-actions a {
     text-decoration:none;
 }
+
+
+.bloc-contrat > form > div:nth-child(odd)  .box-profil > div:first-child{
+    background: rgba(51, 122, 183, 0.9) none repeat scroll 0% 0%;
+}
+.bloc-contrat > section > div:nth-child(even)  .box-profil >  div:first-child{
+    background: rgba(51, 122, 183, 0.7) none repeat scroll 0% 0%;
+}
+
+.box-profil textarea{
+    height: 100%;
+    border: medium none;
+    padding: 15px;
+    resize: none;
+    width:66.66666667%;
+}
+
+.box-profil h3 label.control-label {
+    padding:0;
+    text-align:left;
+}
 /* Profil */
 .bloc-profil{
     width:100%;
     display:inline-block;
     text-align:left;
+}
+
+.bloc-profil .panel-heading h3{
+    font-size:25px;
+    text-transform:uppercase;
+}
+
+.bloc-profil > section {
+    margin-bottom:40px;
+}
+
+.box-profil{
+    margin: 10px 0px;
+    box-shadow: 0px 0px 5px rgb(51, 51, 51); /* IE */
+    box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
+    padding: 0px;
+    height:80px;
+}
+
+.box-profil > div:first-child {
+    
+    color: white;
+    padding: 15px 20px;
+    height:100%;
+}
+.box-profil > div:last-child > * {
+    line-height:80px;
+}
+
+.bloc-profil > section > div:nth-child(odd) > .box-profil > div:first-child{
+    background: rgba(51, 122, 183, 0.9) none repeat scroll 0% 0%;
+}
+.bloc-profil > section > div:nth-child(even) > .box-profil >  div:first-child{
+    background: rgba(51, 122, 183, 0.7) none repeat scroll 0% 0%;
+}
+
+
+.box-profil h3 {
+    text-align: left;
+    font-weight: 100;
+    margin: 0px;
+    font-size: 20px;
+}
+
+.box-profil h3 span {
+    width: 100%;
+    display: inline-block;
+    font-weight: 700;
 }
