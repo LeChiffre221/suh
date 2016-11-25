@@ -148,6 +148,11 @@ class HeureEffectuee
      */
     public function getDateAndTime()
     {
+
+        if($this->dateAndTime instanceof \DateTime){
+            return $this->dateAndTime->format('d/m/Y H:i');
+        }
+
         return $this->dateAndTime;
     }
 

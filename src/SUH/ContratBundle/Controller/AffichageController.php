@@ -157,6 +157,35 @@ class AffichageController extends Controller
 
     public function afficherHeureEspaceEtudiantAction (Request $request){
 
+        $em = $this->getDoctrine()->getManager();
+        $etudiantAidant = $em->getRepository('SUHContratBundle:EtudiantAidant')->findOneBy(array(
+                                                                                'user' => $this->getUser()
+                                                                        ));
+
+        $listeContrat = $em->getRepository('SUHContratBundle:Contrat')->findBy(array(
+                                                                                'etudiantAidant' => $etudiantAidant
+                                                                        ));
+
+        $listeHeureNonValide =  $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
+                                                                                'contrat' => $listeContrat,
+                                                                                'verification' => false
+                                                                        ),
+                                                                        array('dateAndTime' => 'desc'));
+
+        $listeHeureValide=  $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
+                                                                            'contrat' => $listeContrat,
+                                                                            'verification' => true
+                                                                        ),
+                                                                        array('dateAndTime' => 'desc'));
+
+
+
+        return $this->render('SUHContratBundle:AffichageContrats:listeHeureEtudiant.html.twig', array(
+            'etudiant' => $etudiantAidant,
+            'listeHeureNonValide' => $listeHeureNonValide,
+            'listeHeureValide' => $listeHeureValide
+        ));
+
     }
 
     public function AfficherGestionHeuresAction($id){
@@ -200,6 +229,16 @@ class AffichageController extends Controller
             'id' => $id
             ));
 
+    }
+
+    public function getUser(){
+        $security = $this->container->get('security.context');
+
+        // On récupère le token
+        $token = $security->getToken();
+
+        // Sinon, on récupère l'utilisateur
+        return $token->getUser();
     }
 
 }

@@ -1,3 +1,7 @@
 suh_choix_homepage:
     path:     /
     defaults: { _controller: SUHConnexionBundle:Connexion:index }
+
+suh_user_homepage:
+    path:     /user
+    defaults: { _controller: SUHConnexionBundle:User:afficherListeUtilisateur }
