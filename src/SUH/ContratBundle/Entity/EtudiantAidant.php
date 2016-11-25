@@ -115,7 +115,7 @@ class EtudiantAidant
 
     public function getEtudiantInformations()
     {
-    return $this->etudiantInformations;
+        return $this->etudiantInformations;
     }
     public function setEtudiantInformations($etudiantInformations){
 

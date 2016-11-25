@@ -10,4 +10,8 @@ namespace SUH\ContratBundle\Entity;
  */
 class HeureEffectueeRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function selectHeureValidéPourUnEtudiant($etudiant){
+
+    }
 }

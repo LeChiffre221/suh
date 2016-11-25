@@ -4,75 +4,66 @@
 
 {% block body %}
     <body>
-    <div class="container">
-        <h1 style="color: white">Hello {{ app.user.username }}</h1>
-        <div class="col-md-12 container-contrat">
-            <div class="bloc-contrat panel panel-primary">
-                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+        <div class="container ">
+            <div class="col-lg-5"  style="background-color: #1f7e9a ">
 
-                {# Les erreurs générales du formulaire. #}
-                {{ form_errors(form) }}
+                <h2 style="text-align: center">Heures en attentes de validation </h2>
+                {% if listeHeureNonValide == null %}
+                    <h3 style="color: red">Aucune heure en attente de validation</h3>
+                {% else %}
+                    {% for heureNonValide in listeHeureNonValide %}
+                        <div class="row">
+                            <h3 style="text-decoration: underline"> Le : {{ heureNonValide.dateAndTime | striptags | slice(0, 10) }} à {{ heureNonValide.dateAndTime | striptags | slice(11, 15) }}</h3>
+                            <h4> Nature de la mission : {{ heureNonValide.natureMission }} </h4>
+                            <h4> Description de la mission : {{ heureNonValide.descriptionMission }} </h4>
+                            <h4> Nombre d'heures effectuées: {{ heureNonValide.nbHeure }} </h4>
+                            <h4> Contrat : {{ heureNonValide.contrat.natureContrat }}</h4>
 
-                {# Idem pour un autre champ. #}
-                <div class="form-group">
-                    {{ form_label(form.contrat, "Contrat : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-                    {{ form_errors(form.contrat) }}
-                    <div class="col-sm-4">
-                        {{ form_widget(form.contrat, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                </div>
+                            <div class="col-lg-2">
+                                <a href="{{ path("suh_etudiant_heuresEtudiant_editer", {'idHeure': heureNonValide.id}) }}">
+                                    <button class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-pencil"></span> Editer
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="col-lg-2">
+                                <a href="{{ path("suh_etudiant_heuresEtudiant_delete", {'idHeure': heureNonValide.id}) }}">
+                                    <button class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-trash"></span> Supprimer
+                                    </button>
+                                </a>
+                            </div>
+                            <br>
+                            <hr>
+                        </div>
 
-                {# Idem pour un autre champ. #}
-                <div class="form-group">
-                    {{ form_label(form.natureMission, "Nature de la mission : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-                    {{ form_errors(form.natureMission) }}
-                    <div class="col-sm-4">
-                        {{ form_widget(form.natureMission, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
 
-                <div class="form-group">
-                    {{ form_label(form.descriptionMission, "Description (facultatif) : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
-                    {{ form_errors(form.descriptionMission) }}
-                    <div class="col-sm-4">
-                        {{ form_widget(form.descriptionMission, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {{ form_label(form.dateAndTime, "Date et heure : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
-                    {{ form_errors(form.dateAndTime) }}
-                    <div class="col-sm-4">
-                        {{ form_widget(form.dateAndTime, {'attr': {'class': 'form-control date'}}) }}
-                    </div>
-                </div>
+            <div class="col-lg-5 col-lg-push-2"  style="background-color: #2aabd2">
+                <h2 style="text-align: center">Heures validées </h2>
+                {% if listeHeureValide == null %}
+                    <h3 style="color: red">Aucune heure validée</h3>
+                {% else %}
+                    {% for heureValide in listeHeureValide %}
+                        <div class="row">
+                            <h3 style="text-decoration: underline"> Le : {{ heureValide .dateAndTime | striptags | slice(0, 10) }} à {{ heureValide.dateAndTime | striptags | slice(11, 15) }}</h3>
+                            <h4> Nature de la mission : {{ heureValide .natureMission }} </h4>
+                            <h4> Description de la mission : {{ heureValide .descriptionMission }} </h4>
+                            <h4> Nombre d'heures effectuées: {{ heureValide.nbHeure }} </h4>
+                            <h4> Contrat : {{ heureValide.contrat.natureContrat }}</h4>
 
+                            <br>
+                            <hr>
+                        </div>
 
-                <div class="form-group">
-                    {{ form_label(form.nbHeure, "Nombre d'heures : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-                    {{ form_errors(form.nbHeure) }}
-                    <div class="col-sm-1">
-                        {{ form_widget(form.nbHeure, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                </div>
-
-
-                <button type="submit" class="btn btn-success col-sm-offset-3">Ajouter les heures</button>
-                <br>
-
-
-                {# Génération automatique des champs pas encore écrits.
-                   Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
-                   et tous les champs cachés (type « hidden »). #}
-                {{ form_rest(form) }}
-
-                {# Fermeture de la balise <form> du formulaire HTML #}
-                {{ form_end(form) }}
+                    {% endfor %}
+                {% endif %}
 
             </div>
-        </div>
-        {{ form(form) }}
-    </div>
 
+        </div>
     </body>
 
 {% endblock %}
