@@ -32,14 +32,14 @@
                     </div>
 
                     <div class="form-group">
-                        {{ form_label(form.descriptionMission, "Description : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+                        {{ form_label(form.descriptionMission, "Description (facultatif) : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
                         {{ form_errors(form.descriptionMission) }}
                         <div class="col-sm-4">
                             {{ form_widget(form.descriptionMission, {'attr': {'class': 'form-control'}}) }}
                         </div>
                     </div>
                     <div class="form-group">
-                        {{ form_label(form.dateAndTime, "Date de fin du contrat : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+                        {{ form_label(form.dateAndTime, "Date et heure : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
                         {{ form_errors(form.dateAndTime) }}
                         <div class="col-sm-4">
                             {{ form_widget(form.dateAndTime, {'attr': {'class': 'form-control date'}}) }}
