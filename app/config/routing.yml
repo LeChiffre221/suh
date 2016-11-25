@@ -22,6 +22,7 @@ logout:
     pattern: /logout
 
 
+
 #accueil étudiant
 suh_etudiant_homepageEtudiant:
     path:       /etudiant
