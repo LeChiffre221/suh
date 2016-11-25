@@ -26,3 +26,7 @@ logout:
 suh_etudiant_homepageEtudiant:
     path:       /etudiant
     defaults: { _controller: SUHContratBundle:HeureEffectuee:addHeureEffectuee }
+
+suh_etudiant_heuresEtudiant:
+    path:    /etudiant/mesHeures
+    defaults: { _controller: SUHContratBundle:Affichage:afficherHeureEspaceEtudiant}

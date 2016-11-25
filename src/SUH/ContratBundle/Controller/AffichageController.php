@@ -5,6 +5,7 @@ namespace SUH\ContratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -154,10 +155,15 @@ class AffichageController extends Controller
         ));
     }
 
+    public function afficherHeureEspaceEtudiantAction (Request $request){
+
+    }
+
     public function AfficherGestionHeuresAction($id){
 
         $em = $this->getDoctrine()->getManager();
         $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
+
         $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
             array(
             'etudiantAidant' => $etudiant,
@@ -166,11 +172,31 @@ class AffichageController extends Controller
             'dateDebutContrat' => 'desc'
             )
        );
+        
+        $listeHeures = array();
+        foreach ($listeContrats as $contrat) {
+            $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
+                array(
+                    'contrat' => $contrat->getId(),
+                ),
+                array(
+                    'dateAndTime' => 'asc'
+                )
+            );
+            
+        }
+
+        
+
+        $listeMois = 3;
+
+
 
         return $this->render('SUHContratBundle:AffichageContrats:gestionHeures.html.twig', array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
             'nbContrats'=>$this->getNbContrats($id),
             'listeContrats' => $listeContrats,
+            'listeHeures' => $listeHeures,
             'id' => $id
             ));
 

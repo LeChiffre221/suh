@@ -79,12 +79,16 @@ $(function() {
     })
 
     $('#help').click(function(e){
+        
         if($('body').hasClass('help-open')) {
             $('body').removeClass('help-open');
             $('[data-toggle="tooltip"]').tooltip('destroy');
+            window.location = this.href;
         } else {
             $('body').addClass('help-open');
             $('[data-toggle="tooltip"]').tooltip();
+
+            
         }
     });
 
