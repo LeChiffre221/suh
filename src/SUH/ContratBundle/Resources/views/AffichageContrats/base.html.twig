@@ -71,6 +71,7 @@
                         {% if is_granted('ROLE_USER') %}
                           <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_homepageEtudiant' %} active {% endif %}"><a id="accueil" href="{{path('suh_etudiant_homepageEtudiant')}}">Accueil</a></li>
                         {% endif %}
+                          <li id="help"><a href="#" data-toggle="tooltip"> ? </a></li>
                           <li id="deconnexion"><a href="{{path('logout')}}">Deconnexion</a></li>
                         {% if is_granted('ROLE_USER') %}
                           <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_homepageEtudiant' %} active {% endif %}"><a id="accueil" href="{{path('suh_etudiant_homepageEtudiant')}}">Mon Compte</a></li>

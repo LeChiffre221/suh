@@ -15,6 +15,29 @@ a {
     font-family: 'Roboto', sans-serif;
 }
 
+
+.help-open::after{
+    background-color:rgba(0,0,0,0.3);
+    content:'';
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    z-index:4;
+}
+
+.help-open [data-toggle="tooltip"]{
+    z-index:5;
+    position:relative;
+    background-color:white;
+    cursor: help;
+}
+
+.help-open #help a, .help-open #help a:active, .help-open #help a:focus{
+    background-color:#fff;
+}
+
 .btn-primary:hover, .btn-success:hover{
     -webkit-transition: all 0.3s ease-in-out 0s;
     -moz-transition: all 0.3s ease-in-out 0s;
@@ -757,7 +780,7 @@ padding: 0px 10px;
 color: rgb(255, 0, 0);
 border-left: 1px dotted black;
 font-weight: 700;
-cursor: help;
+
 }
 /* Contrat */
 .container-right{
