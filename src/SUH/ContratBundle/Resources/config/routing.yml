@@ -103,6 +103,12 @@ suh_contrat_delEtudiantAidant:
     requirements:
         id:   "^[0-9]+$"
 
+#gestion recherche
+suh_contrat_searchEtudiantAidant:
+    path: /by
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherSearchEtudiantAidant }
+
+
 #=========================================
 #=========Exportation Importation=========
 #=========================================

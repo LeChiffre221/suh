@@ -6,31 +6,23 @@
     <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/bootstrap.min.css')}}" type="text/css"/>  
     <link rel="stylesheet" href="{{asset('bundles/suhContrat/css/accueil.css')}}" type="text/css"/>
     <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/font-awesome.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/jquery-ui.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/jquery.dynatable.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/formValidation.min.css') }}"/>
     <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/bootstrap-datetimepicker.min.css') }}"/>
 
+    <link rel="apple-touch-icon" sizes="76x76" href="{{asset('bundles/logo.ico/apple-touch-icon.png')}}">
+    <link rel="icon" type="image/png" href="{{asset('bundles/logo.ico/favicon-32x32.png')}}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{asset('bundles/logo.ico/favicon-16x16.png')}}" sizes="16x16">
+    <link rel="manifest" href="{{asset('bundles/logo.ico/manifest.json')}}">
+    <link rel="mask-icon" href="{{asset('bundles/logo.ico/safari-pinned-tab.svg')}}" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
+
     <script type="text/javascript" src="{{asset('bundles/suhContrat/js/jquery.min.js')}}"/></script> 
-    <script type="text/javascript" src="{{asset('bundles/suhContrat/js/tether.min.js')}}"/></script> 
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery-ui.min.js')}}"/></script> 
     <script type="text/javascript" src="{{asset('bundles/suhGestion/js/bootstrap.min.js')}}"/></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.steps.min.js')}}"/></script> 
-    <script type="text/javascript" src="{{asset('bundles/suhContrat/js/boutonsGestionEtudiant.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/confirmations.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.dynatable.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/moment.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.validate.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/additional-methods.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/formValidation.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/fr_FR.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/autreBootstrap/bootstrap.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/messages_fr.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('bundles/suhContrat/js/contrat.js')}}"></script>
     <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jspdf.min.js')}}"/></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/moment.js')}}"></script>
     <script type="text/javascript" src="{{asset('bundles/suhGestion/js/bootstrap-datetimepicker.min.js')}}"/></script>
 
-    <title>{% block title %} Header {% endblock %}</title>
+    <title>{% block title %} Contrat {% endblock %}</title>
   </head>
   <!-- HEADER : logo SUH + navbar (accueil, statistiques, deconnexion -->
   {% block header %}

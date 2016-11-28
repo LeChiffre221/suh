@@ -12,4 +12,23 @@ class EtudiantAidantRepository extends \Doctrine\ORM\EntityRepository
 {
 
 
+	/**
+     * Récupère la liste des étudiants par nom ou prenom
+     * (utilisé lors de la recherche rapide)
+     * @param type $chaine
+     * @return type
+     */
+    public function getListeEtudiantsRecherche($chaine)
+    {
+        $q = $this->createQueryBuilder('c')
+        	->select('c')
+        	->join('c.etudiantInformations','ein')
+            ->where('ein.nom LIKE :nom')
+            ->orWhere('ein.prenom LIKE :prenom')
+            ->setParameter('nom', '%'.$chaine.'%')
+            ->setParameter('prenom', '%'.$chaine.'%');
+        return $q;
+
+    } 
+
 }

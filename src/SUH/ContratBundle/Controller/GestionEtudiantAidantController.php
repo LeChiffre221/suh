@@ -156,12 +156,14 @@ class GestionEtudiantAidantController extends Controller
         $etudiantInformations = $em->getRepository('SUHGestionBundle:EtudiantInformations'); 
         $formation = $em->getRepository('SUHGestionBundle:Formation'); 
         $contrat = $em->getRepository('SUHContratBundle:Contrat');
+        $heure = $em->getRepository('SUHContratBundle:HeureEffectuee');
 
         //On recupere les entites correspondantes a $id
         $idEtudiantAidant = $etudiantAidant->find($id);
         $idEtudiantInformations = $etudiantInformations->find($idEtudiantAidant->getEtudiantInformations());
         $idFormation = $formation->find($idEtudiantAidant->getEtudiantFormation());
         $idContrat = $contrat->findByEtudiantAidant($idEtudiantAidant);
+        $idHeures = $heure->findByContrat($idContrat);
 
         foreach($idContrat as $contrat)
         {

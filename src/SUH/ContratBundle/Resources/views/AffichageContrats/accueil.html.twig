@@ -8,7 +8,7 @@
             <div id="divListe" class="col-md-2">
                 <div id="recherche" class="">
                     <div class="form-group">
-                        <form class="input-group" action="{{ path('suh_get_etudiant_nomEtPrenom') }}" method="GET">
+                        <form class="input-group" action="{{ path('suh_contrat_searchEtudiantAidant') }}" method="GET">
                             <input name="chaine" class="form-control" type="text" placeholder="Rechercher...">
                             <span class="input-group-btn">
                                 <button type="submit" href="#" class="btn btn-md btn-primary"> <span class="glyphicon glyphicon-zoom-in"></span></button>
@@ -24,7 +24,6 @@
                 {% include 'SUHContratBundle:AffichageContrats:liste.html.twig' with {'listeEtudiantsAidants': listeEtudiantsAidants} %}      
                 <div id="gestionEtudiants" class="">
                     <a id="ajout" href="{{path('suh_contrat_addEtudiantAidant')}}" class="btn btn-md btn-primary" > <span class="glyphicon glyphicon-plus"></span></a>
-                    <a id="modification" {% if id is defined %} href="{{path('suh_contrat_editEtudiantAidant', {'id': id})}}" {% endif %} class="btn btn-md btn-primary "> <span class="glyphicon glyphicon-pencil"></span></a>
                     <a id="suppression" {% if id is defined %} href="{{path('suh_contrat_delEtudiantAidant', {'id': id})}}" {% endif %} class="btn btn-md btn-primary"> <span class="glyphicon glyphicon-remove"></span></a>
                 </div>
             </div>  
