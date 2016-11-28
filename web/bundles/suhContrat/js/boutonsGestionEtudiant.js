@@ -87,7 +87,7 @@ $(function() {
         } else {
             $('body').addClass('help-open');
             $('[data-toggle="tooltip"]').tooltip();
-
+            e.preventDefault();
             
         }
     });

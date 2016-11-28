@@ -20,9 +20,9 @@
         {{ form_errors(form) }}
 
         <div class="form-group">
-            {{ form_label(form.natureContrat, "Nature du contrat : ", {'label_attr': {'class': 'control-label'}}) }}
+            {{ form_label(form.natureContrat, "Nature du contrat : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
             {{ form_errors(form.natureContrat) }}
-            <div class="col-sm-1">
+            <div class="col-sm-3">
                 {{ form_widget(form.natureContrat, {'attr': {'class': 'col-md-8'}}) }}
             </div>
         </div>
