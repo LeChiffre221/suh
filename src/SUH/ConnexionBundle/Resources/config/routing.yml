@@ -5,3 +5,9 @@ suh_choix_homepage:
 suh_user_homepage:
     path:     /user
     defaults: { _controller: SUHConnexionBundle:User:afficherListeUtilisateur }
+
+suh_user_delete:
+    path:     /user/delete/{idUser}
+    defaults: { _controller: SUHConnexionBundle:User:deleteUser }
+    requirements:
+        idUser: "^[0-9]+$"

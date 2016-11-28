@@ -1,63 +1,91 @@
-<!DOCTYPE html>
-<html>
-
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/bootstrap.min.css')}}" type="text/css"/>
-
-    <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/accueil.css')}}" type="text/css"/>
-    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/font-awesome.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/jquery-ui.min.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/jquery.dynatable.css') }}"/>
-    <link rel="stylesheet" href="{{ asset('bundles/suhGestion/css/formValidation.min.css') }}"/>
-
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.min.js')}}"/></script>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery-ui.min.js')}}"/></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/bootstrap.min.js')}}"/></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.steps.min.js')}}"/></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/boutonsGestionEtudiant.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/confirmations.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.dynatable.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/moment.js')}}"></script>
-
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.validate.js')}}"></script>
-
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/additional-methods.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/formValidation.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/fr_FR.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/autreBootstrap/bootstrap.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/messages_fr.min.js')}}"></script>
-
-    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jspdf.min.js')}}"/></script>
-
-    <title>{% block title %} Header {% endblock %}</title>
-
-
-{% block header %}
-    <div class="container-fluid">
-
+{% extends "SUHConnexionBundle:Connexion:base.html.twig" %}
+{% block body %}
+    <div class="container" style="background-color: whitesmoke">
         <div class="row">
-            <div class="col-md-3">
-                <a href="{{path('suh_choix_homepage')}}">
-                    <img id="logo" alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
-                </a>
+            <h1>
+                Ajouter un administrateurs :
+            </h1>
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+            {# Les erreurs générales du formulaire. #}
+            {{ form_errors(form) }}
+
+            <div class="form-group col-lg-4">
+                <div class=" col-lg-4">
+                    {{ form_label(form.username, "Identifiant  : ", {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_errors(form.username) }}
+                </div>
+                <div class=" col-lg-6">
+                    {{ form_widget(form.username, {'attr': {'class': ''}}) }}
+                </div>
             </div>
 
+            {# Idem pour un autre champ. #}
+            <div class="form-group col-lg-4">
+
+                <div class="col-lg-5">
+                    {{ form_label(form.password, "Mot de passe : ", {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_errors(form.password) }}
+                </div>
+                <div class="col-lg-6 ">
+                    {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-success ">Ajouter l'admnistrateur</button>
+            <br>
+            <br>
+
+
+            {# Génération automatique des champs pas encore écrits.
+               Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+               et tous les champs cachés (type « hidden »). #}
+            {{ form_rest(form) }}
+
+            {# Fermeture de la balise <form> du formulaire HTML #}
+            {{ form_end(form) }}
         </div>
-  </div>
-{% endblock %}
-    <div class="container" style="background-color: white;">
-        <h1>Ajouter un administrateur :</h1>
 
-        <h1>Liste des administrateur :</h1>
+        <div class="row">
+
+        <h1>
+            Liste des administrateurs :
+        </h1>
+
+        <table class="table table-striped" style="text-align: center">
+            <thead  style="text-align: center">
+            <tr>
+                <th style="text-align: center">Identifiant</th>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <th style="text-align: center">Supprimer</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for user in listeUsers %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <td>
+                            <a href="{{ path("suh_user_delete", {'idUser': user.id}) }}">
+                                <button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                            </a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        </div>
+
     </div>
-
-{% block body %}
-
 {% endblock %}
 
 
 
 
-</html>
+
 

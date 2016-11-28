@@ -15,8 +15,8 @@ class UtilisateurType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id','text')
-            ->add('mdp','password')
+            ->add('username','text')
+            ->add('password','password')
             ->add('connexion','submit')
         ;
     }
@@ -27,7 +27,7 @@ class UtilisateurType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SUH\ConnexionBundle\Entity\Utilisateur'
+            'data_class' => 'SUH\ConnexionBundle\Entity\User'
         ));
     }
 
