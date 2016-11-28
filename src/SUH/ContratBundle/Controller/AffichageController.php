@@ -215,11 +215,6 @@ class AffichageController extends Controller
             
         }
 
-        
-
-        $listeMois = 3;
-
-
 
         return $this->render('SUHContratBundle:AffichageContrats:gestionHeures.html.twig', array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
