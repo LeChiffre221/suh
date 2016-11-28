@@ -123,3 +123,9 @@ suh_contrat_gestionHeures:
     defaults: { _controller: SUHContratBundle:Affichage:AfficherGestionHeures }
     requirements:
         id:   "^[0-9]+$"
+
+suh_contrat_validationHeures:
+    path: /validationHeures/{id}
+    defaults: { _controller: SUHContratBundle:HeureEffectuee:validationHeures }
+    requirements:
+        id:   "^[0-9]+$"

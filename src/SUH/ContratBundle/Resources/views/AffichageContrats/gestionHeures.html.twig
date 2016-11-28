@@ -13,6 +13,7 @@
     {% block bodyright %}
     <div class="container-contrat col-md-12">
 
+
     {% if listeContrats is empty %}
         <br>
         <h2 class="col-lg-offset-1">
@@ -23,42 +24,96 @@
             <a href="{{ path("suh_contrat_showArchive", {'id' : id}) }}" style="color: #1f7e9a">contrats archivés.</a>
 
         </h2>
-    {% endif %}
+    {% else %}
         <div class="heure">
-        
-            {% set  previousM = false %}            
-            {% for heure in listeHeures %}
-                {% if previousM !=  heure.dateAndTime %}
-                <div class="bloc-contrat panel panel-primary">
-                    <div class="col-lg-12 panel-heading">
-                        <span class="arrow-panel-heading glyphicon glyphicon-menu-down"></span>
 
-                        <h3 class="panel-title titre-contrat"> {{ heure.dateAndTime }}</h3>
+            {% set  previousM = false %}
 
-                        <span class="ok-panel-heading glyphicon glyphicon-ok"></span>
+            <form action="{{ path("suh_contrat_validationHeures", {'id' : id}) }}" method="post">
 
-                        <h3 class="panel-title titre-contrat titre-contrat-heures">
-                            <span>
-                            70
-                            </span>
-                            heure(s) 
-                        </h3>
-                        <h3 class="panel-title titre-contrat titre-contrat-heures heures-valides">
-                            <span>10 </span>
-                            heure(s) validées
-                        </h3>
+                <button class="btn btn-warning col-lg-offset-10 col-lg-2" type="submit">Appliquer</button>
+                <br>
+                <br>
+
+                {% for heure in listeHeures %}
+
+                    {% if previousM !=  heure.dateAndTime|slice(3, 7) %}
+                    <div class="bloc-contrat panel panel-primary">
+                        <div class="col-lg-12 panel-heading">
+                            <span class="arrow-panel-heading glyphicon glyphicon-menu-down"></span>
+
+                            <h3 class="panel-title titre-contrat">{{ tabMois[heure.dateAndTime|slice(3, 2)]}} {{ heure.dateAndTime|slice(6, 4)  }}</h3>
+
+                            <span class="ok-panel-heading glyphicon glyphicon-ok"></span>
+
+                            <h3 class="panel-title titre-contrat titre-contrat-heures">
+                                <span>
+                                70
+                                </span>
+                                heure(s)
+                            </h3>
+                            <h3 class="panel-title titre-contrat titre-contrat-heures heures-valides">
+                                <span>10 </span>
+                                heure(s) validées
+                            </h3>
+                        </div>
+                        <div class="col-lg-12" style="font-size: larger">
+                            <table class="table  table-striped">
+                                <thead>
+                                <tr style="font-size: x-large; font-weight: bold">
+                                    <th>Date et Heure</th>
+                                    <th>Nature de la mission</th>
+                                    <th>Description</th>
+                                    <th>Durée</th>
+                                    <th>Validé</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% set previousM =  heure.dateAndTime|slice(3, 7) %}
+                                    {% set valArrayHeure = 0 %}
+                                    {% for heure in listeHeures %}
+                                        {% if previousM ==  heure.dateAndTime|slice(3, 7) %}
+
+                                            <tr>
+                                                <th>{{ heure.dateAndTime }}</th>
+                                                <th>{{ heure.natureMission }}</th>
+                                                <th>{{ heure.descriptionMission }}</th>
+                                                <th>{{ heure.nbHeure}} heure(s)</th>
+                                                {% if heure.verification %}
+                                                    <th><span class="glyphicon glyphicon-ok" style="color: green"></span></th>
+                                                {% else %}
+                                                    <th><span class="glyphicon glyphicon-remove" style="color:red;"></span></th>
+                                                {% endif %}
+                                                <th>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            {% if heure.verification %}
+                                                                <input type="checkbox" name="heure{{ heure.id }}" checked>
+                                                            {% else %}
+                                                                <input type="checkbox" name="heure{{ heure.id }}" >
+                                                            {% endif %}
+
+                                                            <span class="cr"><i class="cr-icon glyphicon glyphicon-ok"></i></span>
+                                                        </label>
+
+                                                    </div>
+                                                </th>
+
+
+                                            </tr>
+
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    {% set previousM = heure.dateAndTime %}
-                    {% for heure in listeHeures %}
-                        {% if previousM ==  heure.dateAndTime %}
-                            <div class="col-lg-12">
-                            {{ heure.nbHeure }}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                {% endif %}
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </form>
         </div>
+    {% endif %}
     </div>
 {% endblock %}

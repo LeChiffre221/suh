@@ -203,17 +203,19 @@ class AffichageController extends Controller
        );
         
         $listeHeures = array();
-        foreach ($listeContrats as $contrat) {
-            $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
-                array(
-                    'contrat' => $contrat->getId(),
-                ),
-                array(
-                    'dateAndTime' => 'asc'
-                )
-            );
-            
-        }
+
+        $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
+            array(
+                'contrat' => $listeContrats,
+            ),
+            array(
+                'dateAndTime' => 'desc'
+            )
+        );
+
+        $tabMois = array(   1 => "Janvier", 2 => "Fevrier", 3 => "Mars", 4 => "Avril", 5 => "Mai", 6 => "Juin",
+                            7 => "Juillet", 8 => "Aout", 9 => "Septembre", 10 => "Octobre", 11 => "Novembre", 12 => "Decembre");
+
 
 
         return $this->render('SUHContratBundle:AffichageContrats:gestionHeures.html.twig', array(
@@ -221,7 +223,8 @@ class AffichageController extends Controller
             'nbContrats'=>$this->getNbContrats($id),
             'listeContrats' => $listeContrats,
             'listeHeures' => $listeHeures,
-            'id' => $id
+            'id' => $id,
+            'tabMois' => $tabMois
             ));
 
     }

@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class HeureEffectueeController extends Controller
 {
-    public function addHeureEffectueeAction(Request $request){
+    public function addHeureEffectueeAction(Request $request, $id){
 
 
         $em = $this->getDoctrine()->getManager();
@@ -97,6 +97,53 @@ class HeureEffectueeController extends Controller
             'modeEdition' => true
 
         ));
+    }
+
+    public function validationHeuresAction(Request $request, $id){
+
+        $em = $this->getDoctrine()->getManager();
+        $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
+
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+            array(
+                'etudiantAidant' => $etudiant,
+                'active' => 1),
+            array(
+                'dateDebutContrat' => 'desc'
+            )
+        );
+
+        $listeHeures = array();
+
+        $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
+            array(
+                'contrat' => $listeContrats,
+            ),
+            array(
+                'dateAndTime' => 'desc'
+            )
+        );
+
+        if ($request->isMethod('POST')){
+            foreach($listeHeures as $heure){
+                $validation = $request->request->get('heure'.$heure->getId());
+                if($validation == "on"){
+                    $heure->setVerification(true);
+                }
+                else{
+                    $heure->setVerification(false);
+                }
+
+                $em->persist($heure);
+            }
+
+            $em->flush();
+           // return new Response($request->request->get('heure3'));
+        }
+
+        return $this->redirectToRoute("suh_contrat_gestionHeures", array(
+            "id" => $id)
+        );
     }
 
 
