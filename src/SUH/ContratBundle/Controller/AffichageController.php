@@ -22,17 +22,23 @@ class AffichageController extends Controller
             ));
     }
 
-    public function getListeEtudiants()
+    public function getListeEtudiants($chaine)
     {      
         $etudiantRepository = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SUHContratBundle:EtudiantAidant');
 
-        $listeEtudiantsAidants = $etudiantRepository->findAll();
-        if(!empty($listeEtudiantsAidants))
+        
+        if(empty($chaine))
         {
-           return $listeEtudiantsAidants;
-        }   
+
+            var_dump( $etudiantRepository->findAll());
+            return $etudiantRepository->findAll();
+
+        } else {
+            
+            return $etudiantRepository->getListeEtudiantsRecherche($chaine);
+        }
     }
 
     public function getNbContrats($id)
@@ -104,6 +110,15 @@ class AffichageController extends Controller
             'nbContrats'=>$this->getNbContrats($id),
             'id' => $id
             )); 
+        
+    }
+
+    public function AfficherSearchEtudiantAidantAction(Request $request)
+    {
+
+        return $this->render('SUHContratBundle:AffichageContrats:accueil.html.twig',array(
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($request->query->get('chaine')),
+            ));
         
     }
 
