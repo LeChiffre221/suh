@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,500');
+
+
+
 html,body
 {
     background-color: #262A3B; 
@@ -127,30 +131,16 @@ ul.navbar-nav{
 .index-admin a span{
     width:100%;
 }
-
-.menu-button span.glyphicon{
-
-    top:50%;
-    left: 50%;
-    transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-
-}
 /* BODY */
 
 /* PARTIE GAUCHE */
 #containerFluidBody
 {
-    /*margin: 20px;*/
-    background-color: #707070;
-    height: 90%;
+    display:inline-block;
     margin-left: 2%;
     margin-right: 2%;
-/*    border: 5px solid #707070;*/
     padding:0;
+    width: calc(100% - 4%);
 }
 
 #containerFluidBody .row
@@ -163,9 +153,6 @@ ul.navbar-nav{
 {   
     height: 100%;
     background-color: #F5F5F5;  
-    /*width:85%;
-    border-right: 6px solid #F5F5F5;
-    */
     text-align:center;
 }
 
@@ -179,7 +166,7 @@ ul.navbar-nav{
 }
 #liste
 {
-    height:calc(100% - 170px);
+    min-height:780px;
     overflow: auto;
     background-color: #e4e4e4;
 
@@ -192,11 +179,20 @@ ul.navbar-nav{
     
 }
 
+#liste li {
+    height:40px;
+    box-shadow: 0 0 5px rgba(51, 51, 51, 0.7);
+    margin: 0 0 5px 0;
+}
+
 #liste ul a
 {
     display: block;
     text-align: center;
     text-decoration: none;
+    line-height:40px;
+    font-size: 16px;
+    text-transform: uppercase;
 }
 
 
@@ -205,6 +201,13 @@ ul.navbar-nav{
     background-color: #f9f9f9;
 }
 
+.impair.btn-primary{
+	background-color: #337ab7;
+}
+
+.btn-primary > a {
+    color:#fff;
+}
 .pair:hover, .impair:hover
 {
     background-color: #BCC6D9;
@@ -237,6 +240,25 @@ ul.navbar-nav{
     
 }
 
+#gestionEtudiants > a {
+    width: 50px;
+    height: 40px;
+    display: inline-block;
+    line-height: 40px;
+    padding: 10px;
+    position: relative;
+    margin:0 10px;
+}
+#gestionEtudiants > a > span{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform:translateX(-50%) translateY(-50%);
+    -moz-transform:translateX(-50%) translateY(-50%);
+    -ms-transform:translateX(-50%) translateY(-50%);
+    -webkit-transform:translateX(-50%) translateY(-50%);
+    -o-transform:translateX(-50%) translateY(-50%);
+}
 /* PARTIE DROITE */
 
 #etudiantNomPrenom
@@ -249,13 +271,9 @@ ul.navbar-nav{
 
 #affichage
 {   
-    height: 100%;
-    background-color: #bcc6d9;    
-    /*overflow: auto;*/
-/*    border-left: 5px solid #707070;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.5) inset;*/
-    padding: 0 5px 5px 15px;
-    //box-shadow: -1px 2px 10px 3px #BBBBBB inset;
+    background-color: #fff;    
+    padding: 0;
+    text-align:center;
 }
 #listeProfil{
     position:relative;
@@ -264,9 +282,20 @@ ul.navbar-nav{
     position:absolute;
     bottom:100%;
 }
-#listeProfil > ul > li > a {
-    margin-right:2px;
+
+.float-fix-parent{
+    text-align: left;
+    font-size: 0;
 }
+.float-fix{
+    float:none;
+    display:inline-block !important;
+    cursor:pointer !important;
+}
+.menu-button{
+    border-left:1px black dotted !important;
+}
+
 .spoiler table tbody tr td
 {
     font-size: 17px;
@@ -730,6 +759,7 @@ ul.navbar-nav{
 {
     width:170px;
 }
+
 /* Menu */
 
 #addContrat span {
@@ -1083,3 +1113,4 @@ span.dot-arrow{
 .radio label input[type="radio"]:disabled + .cr {
     opacity: .5;
 }
+
