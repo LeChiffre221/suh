@@ -11,7 +11,30 @@ namespace SUH\ContratBundle\Entity;
 class HeureEffectueeRepository extends \Doctrine\ORM\EntityRepository
 {
 
-    public function selectHeureValidéPourUnEtudiant($etudiant){
+    public function selectNbHeurePourUnEtudiant($etudiant){
+        $query = $this->_em->createQuery('SELECT SUM(h.nbHeure) 
+                                          FROM SUHContratBundle:HeureEffectuee h
+                                          JOIN h.contrat c JOIN c.etudiantAidant e 
+                                          WHERE e.id = :id');
+        $query->setParameter('id', $etudiant->getId());
+        $results = $query->getSingleResult();
+
+        return $results;
+
+    }
+
+    public function selectNbHeureValidePourUnEtudiant($etudiant){
+        $query = $this->_em->createQuery('SELECT SUM(h.nbHeure)
+                                          FROM SUHContratBundle:HeureEffectuee h
+                                          JOIN h.contrat c JOIN c.etudiantAidant e 
+                                          WHERE e.id = :id
+                                          AND h.verification = 1
+                                          GROUP BY MONTH(h.dateAndTime)');
+
+        $query->setParameter('id', $etudiant->getId());
+        $results = $query->getResult();
+
+        return $results;
 
     }
 }

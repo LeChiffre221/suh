@@ -113,8 +113,9 @@
 
             <div class="form-group">
 
-                <div class="col-sm-1 col-sm-push-3">
-                    {{ form_row(form.etablissementAvenant) }}
+                <div class="col-sm-1 col-sm-push-3 checkbox">
+                    {{ form_widget(form.etablissementAvenant, {'attr': {'class': 'form-control '}}) }}
+
                 </div>
             </div>
 

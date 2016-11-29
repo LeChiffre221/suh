@@ -14,14 +14,18 @@
     <div class="container-contrat col-md-12">
 
 
-    {% if listeContrats is empty %}
+    {% if listeHeures is empty %}
         <br>
         <h2 class="col-lg-offset-1">
-            <strong>Aucun contrat pour cet étudiant.
+            <strong>Aucune heure pour cet étudiant.
             <br>
-            Vous pouvez consulter les
+            Vous pouvez consulter
+            <a href="{{ path("suh_contrat_afficherContrat", {'id' : id}) }}" style="color: #1f7e9a">
+                les contrats disponibles
+            </a>
+            ou
+            <a href="{{ path("suh_contrat_showArchive", {'id' : id}) }}" style="color: #1f7e9a">les contrats archivés.</a>
             </strong>
-            <a href="{{ path("suh_contrat_showArchive", {'id' : id}) }}" style="color: #1f7e9a">contrats archivés.</a>
 
         </h2>
     {% else %}
@@ -65,19 +69,24 @@
                                     <th>Nature de la mission</th>
                                     <th>Description</th>
                                     <th>Durée</th>
-                                    <th>Validé</th>
+                                    <th>Validation</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     {% set previousM =  heure.dateAndTime|slice(3, 7) %}
-                                    {% set valArrayHeure = 0 %}
                                     {% for heure in listeHeures %}
                                         {% if previousM ==  heure.dateAndTime|slice(3, 7) %}
 
                                             <tr>
                                                 <th>{{ heure.dateAndTime }}</th>
-                                                <th>{{ heure.natureMission }}</th>
+                                                {% if  heure.natureMission == "tutorat" %}
+                                                    <th>Tutorat</th>
+                                                {% elseif   heure.natureMission == "priseNote"%}
+                                                    <th>Prise de note</th>
+                                                {% else %}
+                                                    <th>Assistance pédagogique</th>
+                                                {% endif %}
                                                 <th>{{ heure.descriptionMission }}</th>
                                                 <th>{{ heure.nbHeure}} heure(s)</th>
                                                 {% if heure.verification %}

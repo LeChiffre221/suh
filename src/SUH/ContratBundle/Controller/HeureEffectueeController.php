@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class HeureEffectueeController extends Controller
 {
-    public function addHeureEffectueeAction(Request $request, $id){
+    public function addHeureEffectueeAction(Request $request, $id = null){
 
 
         $em = $this->getDoctrine()->getManager();
@@ -39,7 +39,7 @@ class HeureEffectueeController extends Controller
             'query_builder' => function(ContratRepository $repo) use($etudiant) {
                 return $repo->getContratsPourUnEtudiant($etudiant);
             },
-            'property' => 'natureContrat',
+            'property' => 'toStringContrat',
         ));
 
         if($form->handleRequest($request)->isValid()){
@@ -123,6 +123,8 @@ class HeureEffectueeController extends Controller
                 'dateAndTime' => 'desc'
             )
         );
+
+
 
         if ($request->isMethod('POST')){
             foreach($listeHeures as $heure){
