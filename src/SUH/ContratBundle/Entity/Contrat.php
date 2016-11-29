@@ -443,4 +443,10 @@ class Contrat
     {
         return $this->active;
     }
+
+    public function getToStringContrat(){
+
+        return $this->natureContrat .' du '. $this->getDateDebutContrat() .' au '. $this->getDateFinContrat() .'';
+
+    }
 }

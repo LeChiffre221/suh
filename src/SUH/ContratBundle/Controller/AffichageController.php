@@ -31,7 +31,9 @@ class AffichageController extends Controller
         
         if(empty($chaine))
         {
-           return $etudiantRepository->findAll();
+
+            var_dump( $etudiantRepository->findAll());
+            return $etudiantRepository->findAll();
 
         } else {
             
@@ -225,6 +227,11 @@ class AffichageController extends Controller
                 'dateAndTime' => 'desc'
             )
         );
+
+        //$nbHeureTotale = $em->getRepository('SUHContratBundle:HeureEffectuee')->selectNbHeurePourUnEtudiant($etudiant);
+        //$nbHeureValide = $em->getRepository('SUHContratBundle:HeureEffectuee')->selectNbHeureValidePourUnEtudiant($etudiant);
+
+        //var_dump($nbHeureTotale);
 
         $tabMois = array(   1 => "Janvier", 2 => "Fevrier", 3 => "Mars", 4 => "Avril", 5 => "Mai", 6 => "Juin",
                             7 => "Juillet", 8 => "Aout", 9 => "Septembre", 10 => "Octobre", 11 => "Novembre", 12 => "Decembre");
