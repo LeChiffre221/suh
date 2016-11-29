@@ -1,32 +1,24 @@
-{% extends "SUHConnexionBundle:Connexion:baseLogin.html.twig" %}
-{% block head %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{asset('bundles/suhconnexion/css/connexion.css')}}" type="text/css"/> 
-{% endblock %}
-
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
 {% block body %}
 <body>
-
-          <div class="row col-md-12" style="margin-top:50px;">
-              <div class="col-md-12">
-                  <a href="{{path('suh_contrat_homepage')}}">
-                      <span style="padding:40px;"  class="btn btn-primary col-md-3">
-                          Gestion des contrats étudiants
-                      </span>
-                  </a>
-                  <span class="col-md-1"></span>
-                  <a href="{{path('suh_gestion_homepage')}}">
-                      <span class="btn btn-success col-md-4" style="padding:40px;">
-                          Gestion des étudiants
-                      </span>
-                  </a>
-                  <span class="col-md-1"></span>
-                  <a href="{{ path("suh_user_homepage") }}">
-                      <span class="btn btn-warning col-md-3" style="padding:40px;">
-                          Gestion des utilisateurs
-                      </span>
-                  </a>
-              </div>
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-8 index-admin">
+            <a href="{{path('suh_contrat_homepage')}}" class="col-md-4">
+                <span style="padding:40px;"  class="btn btn-primary">
+                    Gestion des contrats étudiants
+                </span>
+            </a>
+            <a href="{{path('suh_gestion_homepage')}}" class="col-md-4">
+                <span class="btn btn-success" style="padding:40px;">
+                    Gestion des étudiants
+                </span>
+            </a>
+            <a href="{{ path("suh_user_homepage") }}" class="col-md-4">
+                <span class="btn btn-warning" style="padding:40px;">
+                    Gestion des utilisateurs
+                </span>
+            </a>
           </div>
       
   </body>
