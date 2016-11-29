@@ -58,6 +58,8 @@ class EtudiantAidant
      */
     private $user;
 
+    private $heureNonValide;
+
 
     public function getId(){
         return $this->id;
@@ -156,5 +158,12 @@ class EtudiantAidant
     public function getUser()
     {
         return $this->user;
+    }
+
+    public function getHeureNonValide(){
+        return $this->heureNonValide;
+    }
+    public function setHeureNonValide($heureNonValide){
+        return $this->heureNonValide = $heureNonValide;
     }
 }

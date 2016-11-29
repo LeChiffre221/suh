@@ -32,7 +32,17 @@ class AffichageController extends Controller
         if(empty($chaine))
         {
 
-            var_dump( $etudiantRepository->findAll());
+            $listEtudiant = $etudiantRepository->findAll();
+            $em = $this->getDoctrine()->getManager();
+
+            foreach ($listEtudiant as $etudiant){
+
+                $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
+                $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+
+
+            }
             return $etudiantRepository->findAll();
 
         } else {

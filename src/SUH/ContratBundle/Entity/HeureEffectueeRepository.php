@@ -24,15 +24,29 @@ class HeureEffectueeRepository extends \Doctrine\ORM\EntityRepository
     }
 
     public function selectNbHeureValidePourUnEtudiant($etudiant){
-        $query = $this->_em->createQuery('SELECT SUM(h.nbHeure)
+    $query = $this->_em->createQuery('SELECT SUM(h.nbHeure)
                                           FROM SUHContratBundle:HeureEffectuee h
                                           JOIN h.contrat c JOIN c.etudiantAidant e 
                                           WHERE e.id = :id
                                           AND h.verification = 1
                                           GROUP BY MONTH(h.dateAndTime)');
 
+    $query->setParameter('id', $etudiant->getId());
+    $results = $query->getResult();
+
+    return $results;
+
+    }
+    public function selectNbHeureNonValidePourUnEtudiant($etudiant){
+
+        $query = $this->_em->createQuery('SELECT SUM(h.nbHeure)
+                                          FROM SUHContratBundle:HeureEffectuee h
+                                          JOIN h.contrat c JOIN c.etudiantAidant e 
+                                          WHERE e.id = :id
+                                          AND h.verification = 0');
+
         $query->setParameter('id', $etudiant->getId());
-        $results = $query->getResult();
+        $results = $query->getSingleResult();
 
         return $results;
 

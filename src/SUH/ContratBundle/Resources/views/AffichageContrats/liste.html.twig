@@ -4,11 +4,27 @@
             
             {% if loop.index is even %}
                 <li class="pair {% if id is defined %} {% if etudiant.id == id %} btn-primary {% endif %} {% endif %}">
-                    <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}} <span class="heures-non-validees" data-toggle="tooltip" data-placement="top" title="Heures non validées">12</span></a>
+                    <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}
+                        <span class="heures-non-validees" data-toggle="tooltip" data-placement="top" title="Heures non validées">
+                            {% if etudiant.heureNonValide is null %}
+                                <span style="color: green">0</span>
+                            {% else %}
+                                {{etudiant.heureNonValide}}
+                            {% endif %}
+                        </span>
+                    </a>
                 </li>
             {% else %}
                 <li class="impair {% if id is defined %} {% if etudiant.id == id %} btn-primary {% endif %} {% endif %}">
-                    <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}} <span class="heures-non-validees">12</span></a>
+                    <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}
+                        <span class="heures-non-validees">
+                            {% if etudiant.heureNonValide is null %}
+                                <span style="color: green">0</span>
+                            {% else %}
+                                {{etudiant.heureNonValide}}
+                            {% endif %}
+                        </span>
+                    </a>
                 </li>
             {% endif %}
         {% endfor %}
