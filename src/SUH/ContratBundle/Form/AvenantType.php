@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ContratType extends AbstractType
+class AvenantType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,7 +15,7 @@ class ContratType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('natureContrat', 'choice', array(
+            ->add('natureAvenant', 'choice', array(
                 'choices' => array(
                     'tutorat' => 'Tutorat',
                     'priseNote' => 'Prise de note',
@@ -24,13 +24,11 @@ class ContratType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ))
-            ->add('nbHeureInitiales',         'number', array('pattern' => '[0-9]+'))
-            ->add('dateDebutContrat',         'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
-            ->add('dateFinContrat',           'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
-            ->add('semestreConcerne',         'number', array('pattern' => '1|2{1}'))
-            ->add('dateEnvoiDRH',             'text')
-            ->add('dateEnvoiEtudiant',        'text')
-
+            ->add('nbHeure',                'number', array('pattern' => '[0-9]+'))
+            ->add('dateDebutAvenant',       'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
+            ->add('dateFinAvenant',         'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
+            ->add('dateEnvoiDRH')
+            ->add('dateEnvoiEtudiant')
         ;
     }
     
@@ -40,7 +38,7 @@ class ContratType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SUH\ContratBundle\Entity\Contrat'
+            'data_class' => 'SUH\ContratBundle\Entity\Avenant'
         ));
     }
 
@@ -49,6 +47,6 @@ class ContratType extends AbstractType
      */
     public function getName()
     {
-        return 'suh_contratbundle_contrat';
+        return 'suh_contratbundle_avenant';
     }
 }

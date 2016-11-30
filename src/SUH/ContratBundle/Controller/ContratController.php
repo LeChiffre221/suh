@@ -75,12 +75,7 @@ class ContratController extends Controller
         if($contrat->getDateEnvoiEtudiant() == null){
             $form->remove('dateEnvoiEtudiant');
         }
-        if($contrat->getDateEnvoiAvenantDRH() == null){
-            $form->remove('dateEnvoiAvenantDRH');
-        }
-        if($contrat->getDateEnvoiAvenantEtudiant() == null){
-            $form->remove('dateEnvoiAvenantEtudiant');
-        }
+
 
         if ($form->handleRequest($request)->isValid()) {
 

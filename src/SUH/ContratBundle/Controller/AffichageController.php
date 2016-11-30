@@ -97,6 +97,13 @@ class AffichageController extends Controller
 
         // On récupère la liste des contrats pour un étudiant donné
         $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPage($page, $nbPerPage, $id);
+
+        //On recupère la liste des avenants pour chaque contrat
+        foreach ($listeContrats as $contrat){
+            $listeAvenants = $em->getRepository('SUHContratBundle:Avenant')->getAvenantsPourUnContrat($contrat);
+            $contrat->setListeAvenant($listeAvenants);
+
+        }
         $nbPages = ceil(count($listeContrats)/$nbPerPage);
 
         if(count($listeContrats) <= 4){

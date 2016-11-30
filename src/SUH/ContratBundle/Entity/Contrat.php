@@ -82,19 +82,6 @@ class Contrat
      */
     private $etablissementAvenant;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateEnvoiAvenantDRH", type="date", nullable=true)
-     */
-    private $dateEnvoiAvenantDRH;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateEnvoiAvenantEtudiant", type="date", nullable=true)
-     */
-    private $dateEnvoiAvenantEtudiant;
 
     /**
      * @var boolean
@@ -110,6 +97,8 @@ class Contrat
      * @Assert\Valid()
      */
     private $etudiantAidant;
+
+    private $listeAvenant;
 
 
     /**
@@ -311,64 +300,7 @@ class Contrat
         return $this->etablissementAvenant;
     }
 
-    /**
-     * Set dateEnvoiAvenantDRH
-     *
-     * @param \DateTime $dateEnvoiAvenantDRH
-     *
-     * @return Contrat
-     */
-    public function setDateEnvoiAvenantDRH($dateEnvoiAvenantDRH)
-    {
-        $dateEnvoiAvenantDRH= date("Y-m-d", strtotime(strtr($dateEnvoiAvenantDRH, '/', '-') ));
-        $this->dateEnvoiAvenantDRH = new DateTime($dateEnvoiAvenantDRH);
     
-        return $this;
-    }
-
-    /**
-     * Get dateEnvoiAvenantDRH
-     *
-     * @return \DateTime
-     */
-    public function getDateEnvoiAvenantDRH()
-    {
-        if($this->dateEnvoiAvenantDRH instanceof \DateTime){
-            return $this->dateEnvoiAvenantDRH->format('d/m/Y');
-        }
-        return $this->dateEnvoiAvenantDRH;
-    }
-
-    /**
-     * Set dateEnvoiAvenantEtudiant
-     *
-     * @param \DateTime $dateEnvoiAvenantEtudiant
-     *
-     * @return Contrat
-     */
-    public function setDateEnvoiAvenantEtudiant($dateEnvoiAvenantEtudiant)
-    {
-
-        $dateEnvoiAvenantEtudiant= date("Y-m-d", strtotime(strtr($dateEnvoiAvenantEtudiant, '/', '-') ));
-        $this->dateEnvoiAvenantEtudiant = new DateTime($dateEnvoiAvenantEtudiant);
-    
-        return $this;
-    }
-
-    /**
-     * Get dateEnvoiAvenantEtudiant
-     *
-     * @return \DateTime
-     */
-    public function getDateEnvoiAvenantEtudiant()
-    {
-
-        if($this->dateEnvoiAvenantEtudiant instanceof \DateTime){
-            return $this->dateEnvoiAvenantEtudiant->format('d/m/Y');
-        }
-        return $this->dateEnvoiAvenantEtudiant;
-    }
-
     /**
      * Set natureContrat
      *
@@ -462,5 +394,13 @@ class Contrat
 
         return $natures .' du '. $this->getDateDebutContrat() .' au '. $this->getDateFinContrat() .'';
 
+    }
+
+    public function setListeAvenant($listeAvenant){
+        return $this->listeAvenant = $listeAvenant;
+    }
+
+    public function getListeAvenant(){
+        return $this->listeAvenant;
     }
 }
