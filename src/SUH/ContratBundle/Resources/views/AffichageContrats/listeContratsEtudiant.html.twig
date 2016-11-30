@@ -57,7 +57,7 @@
             <h3>Semestre concerné : n°{{ contrat.semestreConcerne}}</h3>
 
             <h3>Etablissement avenant :
-                {% if contrat.etablissementAvenant == 0 %}
+                {% if contrat.listeAvenant is null %}
                     <span class="glyphicon glyphicon-remove" style="color: red"></span>
                 {% else %}
                     <span class="glyphicon glyphicon-ok" style="color: green"></span>
@@ -117,61 +117,55 @@
                 {% endif %}
 
             </div>
+
+
+
         </div>
+
         <br>
-        <div class="col-lg-12">
-            <h3>Date d'envoi de l'avenant :</h3>
-            <div class="col-lg-6">
-                
-                {% if  (contrat.dateEnvoiAvenantDRH is null) %}
-                    <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
-                        <div class="col-lg-4">
-                            <label for="">DRH :</label><br>
-                        </div>
 
-                        <div class="col-lg-6">
-                            <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiAvenantDRH"}}" name="dateEnvoiAvenantDRH" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
-                        </div>
+        {% for avenant in contrat.listeAvenant %}
+            <div class="col-lg-12">
 
-                        <div class="col-lg-2">
-                            <button type="submit" value="" class="btn btn-success">
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </button>
-                        </div>
+                <h4>Nature de l'avenant :
+                    {% set natureAvenantString = "" %}
+                    {% for nature in avenant.natureAvenant %}
+                        {% if nature == "tutorat"  %}
+                            {% set natureAvenantString = natureAvenantString ~ "Tutorat, "%}
+                        {% elseif nature == "priseNote" %}
+                            {% set natureAvenantString = natureAvenantString ~ "Prise de note, "%}
+                        {% else %}
+                            {% set natureAvenantString = natureAvenantString ~ "Assistance pédagogique, "%}
+                        {% endif %}
+                    {% endfor %}
 
-                    </form>
-                {% else %}
-                    DRH : {{ contrat.dateEnvoiAvenantDRH }}
-                {% endif %}
 
-            </div>
-            <div class="col-lg-6">
+                    {{ natureAvenantString|slice(0, natureAvenantString|length-2)}}
+                </h4>
+                <h4>Nombre d'heure : {{ avenant.nbHeure }}</h4>
+                <h4>Date de début : {{ avenant.dateDebutAvenant }}</h4>
+                <h4>Date de fin : {{ avenant.dateFinAvenant }}</h4>
+                <div class="col-lg-2 ">
+                    <a href="{{ path('suh_contrat_deleteContrat', {'idContrat': contrat.id}) }}">
+                        <button type="button" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Supprimer</button>
+                    </a>
+                </div>
 
-                {% if  (contrat.dateEnvoiAvenantEtudiant is null) %}
-                    <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
 
-                        <div class="col-lg-4">
-                            <label >Etudiant :</label><br>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiAvenantEtudiant"}}" class="form-control" name="dateEnvoiAvenantEtudiant"   pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
-                        </div>
-
-                        <div class="col-lg-2">
-                            <button type="submit" value="" class="btn btn-success">
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </button>
-                        </div>
-
-                    </form>
-                {% else %}
-                    Etudiant : {{ contrat.dateEnvoiAvenantEtudiant }}
-                {% endif %}
-            </div>
-
-        </div>
+            <div>
+        {% endfor %}
         <div class="col-lg-12 contrat-actions">
+
+            <div class="col-lg-2 ">
+                <a href="{{ path('suh_contrat_addAvenant', {'idContrat': contrat.id}) }}">
+                    <button type="button" class="btn btn-info">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Ajouter un avenant
+                    </button>
+                </a>
+            </div>
 
             <div class="col-lg-1 ">
                 <a href="{{ path('suh_contrat_editerContrat', {'idContrat': contrat.id}) }}">
@@ -231,7 +225,6 @@
 <script type="text/javascript">
     $(function() {
 
-
         $('input[id^="dateEnvoiAvenantEtudiant"]').each(function(){
         $(this).datetimepicker({
             format: 'DD/MM/YYYY',
@@ -239,7 +232,6 @@
         });
 
         });
-
 
     });
 </script>

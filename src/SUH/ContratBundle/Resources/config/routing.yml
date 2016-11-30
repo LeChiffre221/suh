@@ -64,7 +64,15 @@ suh_contrat_addDateContrat:
        idContrat: "^[0-9]+$"
        
 
+#=========================================
+#=============Gestion Avenant=============
+#=========================================
 
+suh_contrat_addAvenant:
+    path: /addAvenant/{idContrat}
+    defaults: {_controller: SUHContratBundle:Avenant:addAvenant}
+    requirements:
+        idContrat: "^[0-9]+$"
 
 #=========================================
 #============Gestion Etudiants============

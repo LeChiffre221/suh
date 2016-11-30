@@ -1,0 +1,86 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
+
+
+
+
+    {% block menuright %}
+        {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
+    {% endblock %}
+
+    {% block titleright %}
+        <p class="">Ajouter un avenant </p>
+    {% endblock %}
+
+    {% block bodyright %}
+        <div class="col-md-12 container-contrat">
+            <div class="bloc-contrat panel panel-primary">
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                {# Les erreurs générales du formulaire. #}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.natureAvenant, "Nature de l'avenant : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.natureAvenant) }}
+                    <div class="col-sm-3 checkbox">
+                        {{ form_widget(form.natureAvenant, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                {# Idem pour un autre champ. #}
+                <div class="form-group">
+                    {{ form_label(form.nbHeure, "Nombre d'heures initiales : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.nbHeure) }}
+                    <div class="col-sm-1">
+                        {{ form_widget(form.nbHeure, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.dateDebutAvenant, "Date de début de l'avenant : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+                    {{ form_errors(form.dateDebutAvenant) }}
+                    <div class="col-sm-3">
+                        {{ form_widget(form.dateDebutAvenant, {'attr': {'class': 'form-control date'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.dateFinAvenant, "Date de fin de l'avenant : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+                    {{ form_errors(form.dateFinAvenant) }}
+                    <div class="col-sm-3">
+                        {{ form_widget(form.dateFinAvenant, {'attr': {'class': 'form-control date'}}) }}
+                    </div>
+                </div>
+
+
+
+
+                <button type="submit" class="btn btn-success col-sm-offset-3">Ajouter l'avenant</button>
+                <br>
+
+
+                {# Génération automatique des champs pas encore écrits.
+                   Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+                   et tous les champs cachés (type « hidden »). #}
+                {{ form_rest(form) }}
+
+                {# Fermeture de la balise <form> du formulaire HTML #}
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+        </div>
+
+
+        <script type="text/javascript">
+
+            $(function() {
+
+                $('.date').datetimepicker({
+                    format: 'DD/MM/YYYY',
+                    defaultDate: new Date(),
+                });
+
+            });
+        </script>
+    {% endblock %}
