@@ -22,7 +22,7 @@
         <div class="form-group">
             {{ form_label(form.natureContrat, "Nature du contrat : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
             {{ form_errors(form.natureContrat) }}
-            <div class="col-sm-3">
+            <div class="col-sm-3 checkbox">
                 {{ form_widget(form.natureContrat, {'attr': {'class': 'col-md-8'}}) }}
             </div>
         </div>
@@ -60,12 +60,7 @@
             </div>
         </div>
 
-        <div class="form-group">
 
-            <div class="col-sm-1 col-sm-push-3">
-                {{ form_row(form.etablissementAvenant) }}
-            </div>
-        </div>
 
         <button type="submit" class="btn btn-success col-sm-offset-3">Ajouter le contrat</button>
         <br>

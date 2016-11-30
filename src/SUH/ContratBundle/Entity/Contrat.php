@@ -26,10 +26,9 @@ class Contrat
     /**
      * @var string
      *
-     * @ORM\Column(name="natureContrat", type="string", length=500)
-     * @Assert\Type(type="string")
+     * @ORM\Column(name="natureContrat", type="array", length=500)
      */
-    private $natureContrat;
+    private $natureContrat = array();
 
     /**
      * @var integer
@@ -445,8 +444,23 @@ class Contrat
     }
 
     public function getToStringContrat(){
+        $natures = "";
+        foreach ($this->natureContrat as $nature){
+            if($nature == "tutorat"){
+                $natures .= "Tutorat, ";
+            }
+            elseif ($nature == "priseNote"){
+                $natures .= "Prise de note, ";
+            }
+            else{
+                $natures .= "Assistance pédagogique, ";
+            }
 
-        return $this->natureContrat .' du '. $this->getDateDebutContrat() .' au '. $this->getDateFinContrat() .'';
+        }
+
+        $natures = substr($natures, 0,-2);
+
+        return $natures .' du '. $this->getDateDebutContrat() .' au '. $this->getDateFinContrat() .'';
 
     }
 }

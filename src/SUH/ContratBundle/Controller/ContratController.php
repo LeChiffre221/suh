@@ -22,7 +22,7 @@ class ContratController extends Controller
     public function addContratAction(Request $request, $id){
         $contrat = new Contrat();
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
-
+        $form->remove('etablissementAvenant');
         $form->remove('dateEnvoiDRH');
         $form->remove('dateEnvoiEtudiant');
         $form->remove('dateEnvoiAvenantDRH');
