@@ -234,17 +234,7 @@ class ContratController extends Controller
                 $contrat->setDateEnvoiEtudiant($dateEnvoiEtudiant);
             }
 
-            if(!empty($request->request->get("dateEnvoiAvenantDRH"))){
-                $dateEnvoiAvenantDRH = $request->request->get("dateEnvoiAvenantDRH");
-                $dateEnvoiAvenantDRH  = date("Y-m-d", strtotime(strtr($dateEnvoiAvenantDRH, '/', '-') ));
-                $contrat->setDateEnvoiAvenantDRH($dateEnvoiAvenantDRH );
-            }
 
-            if(!empty($request->request->get("dateEnvoiAvenantEtudiant"))){
-                $dateEnvoiAvenantEtudiant = $request->request->get("dateEnvoiAvenantEtudiant");
-                $dateEnvoiAvenantEtudiant= date("Y-m-d", strtotime(strtr($dateEnvoiAvenantEtudiant, '/', '-')));
-                $contrat->setDateEnvoiAvenantEtudiant($dateEnvoiAvenantEtudiant);
-            }
 
         }
 

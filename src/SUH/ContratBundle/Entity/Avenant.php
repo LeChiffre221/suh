@@ -202,7 +202,10 @@ class Avenant
      */
     public function setDateEnvoiDRH($dateEnvoiDRH)
     {
-        $this->dateEnvoiDRH = $dateEnvoiDRH;
+        $dateEnvoiDRH = date("Y-m-d", strtotime(strtr($dateEnvoiDRH, '/', '-') ));
+
+        $this->dateEnvoiDRH = new DateTime($dateEnvoiDRH);
+
     
         return $this;
     }
@@ -214,6 +217,10 @@ class Avenant
      */
     public function getDateEnvoiDRH()
     {
+        if($this->dateEnvoiDRH instanceof \DateTime){
+            return $this->dateEnvoiDRH->format('d/m/Y');
+        }
+
         return $this->dateEnvoiDRH;
     }
 
@@ -226,9 +233,16 @@ class Avenant
      */
     public function setDateEnvoiEtudiant($dateEnvoiEtudiant)
     {
-        $this->dateEnvoiEtudiant = $dateEnvoiEtudiant;
-    
+
+        $dateEnvoiEtudiant = date("Y-m-d", strtotime(strtr($dateEnvoiEtudiant, '/', '-') ));
+
+        $this->dateEnvoiEtudiant = new DateTime($dateEnvoiEtudiant);
+
+
         return $this;
+
+    
+
     }
 
     /**
@@ -238,6 +252,12 @@ class Avenant
      */
     public function getDateEnvoiEtudiant()
     {
+
+        if($this->dateEnvoiEtudiant instanceof \DateTime){
+            return $this->dateEnvoiEtudiant->format('d/m/Y');
+        }
+
+
         return $this->dateEnvoiEtudiant;
     }
 

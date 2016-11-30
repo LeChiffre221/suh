@@ -49,6 +49,51 @@ class AvenantController extends Controller
         ));
     }
 
+    public function addDateAvenantAction(Request $request, $idAvenant){
+        $em = $this->getDoctrine()->getManager();
+        $avenant = $em->getRepository('SUHContratBundle:Avenant')->find($idAvenant);
+
+
+        if($request->isMethod('post')){
+
+            if(!empty($request->request->get("dateEnvoiAvenantDRH"))){
+                $dateEnvoiAvenantDRH = $request->request->get("dateEnvoiAvenantDRH");
+               // $dateEnvoiAvenantDRH  = date("Y-m-d", strtotime(strtr($dateEnvoiAvenantDRH, '/', '-') ));
+                $avenant-> setDateEnvoiDRH($dateEnvoiAvenantDRH );
+            }
+
+            if(!empty($request->request->get("dateEnvoiAvenantEtudiant"))){
+                $dateEnvoiAvenantEtudiant = $request->request->get("dateEnvoiAvenantEtudiant");
+                $dateEnvoiAvenantEtudiant= date("Y-m-d", strtotime(strtr($dateEnvoiAvenantEtudiant, '/', '-')));
+                $avenant-> setDateEnvoiEtudiant($dateEnvoiAvenantEtudiant);
+            }
+
+        }
+
+        $em->persist($avenant);
+        $em->flush();
+
+        $etudiant = $avenant->getContrat()->getEtudiantAidant();
+        return $this->redirectToRoute('suh_contrat_afficherContrat', array('id' => $etudiant->getId()));
+
+
+    }
+
+    public function deleteAvenantAction(Request $request, $idAvenant){
+        $em = $this->getDoctrine()->getManager();
+
+        $avenant = $em->getRepository("SUHContratBundle:Avenant")->find($idAvenant);
+        $idEtudiant = $avenant->getContrat()->getEtudiantAidant()->getId();
+
+        $em->remove($avenant);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
+            'id' => $idEtudiant,
+        )));
+
+    }
+
     public function getListeEtudiants($chaine)
     {
         $etudiantRepository = $this->getDoctrine()

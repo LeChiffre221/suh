@@ -74,6 +74,19 @@ suh_contrat_addAvenant:
     requirements:
         idContrat: "^[0-9]+$"
 
+#add date envoi contrat étudiant
+suh_contrat_addDateAvenant:
+    path: /addDateAvenant/{idAvenant}
+    defaults: {_controller: SUHContratBundle:Avenant:addDateAvenant}
+    requirements:
+       idAvenant: "^[0-9]+$"
+
+suh_contrat_deleteAvenant:
+  path: /deleteAvenant/{idAvenant}
+  defaults: {_controller: SUHContratBundle:Avenant:deleteAvenant}
+  requirements:
+       idAvenant: "^[0-9]+$"
+
 #=========================================
 #============Gestion Etudiants============
 #=========================================
