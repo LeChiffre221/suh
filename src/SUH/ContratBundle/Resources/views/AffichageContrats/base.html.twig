@@ -60,15 +60,13 @@
 
                         {% if is_granted('ROLE_ADMIN') %}
                             <li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_homepage' %} active {% endif %}"><a id="accueil" href="{{path('suh_contrat_homepage')}}">Accueil</a></li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_contrat_parameters' %} active {% endif %}"><a id="parameters" href="{{path('suh_contrat_parameters')}}">Paramètres</a></li>
                         {% endif %}
 
                         {% if is_granted('ROLE_USER') %}
                             <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_homepageEtudiant' %} active {% endif %}"><a id="accueil" href="{{path('suh_etudiant_homepageEtudiant')}}">Accueil</a></li>
-                        {% endif %}
-
-                        {% if is_granted('ROLE_USER') %}
-                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_homepageEtudiant' %} active {% endif %}"><a id="accueil" href="{{path('suh_etudiant_heuresEtudiant')}}">Mes heures</a></li>
-                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_homepageEtudiant' %} active {% endif %}"><a id="accueil" href="{{path('suh_etudiant_homepageEtudiant')}}">Mon Compte</a></li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_heuresEtudiant' %} active {% endif %}"><a id="heures" href="{{path('suh_etudiant_heuresEtudiant')}}">Mes heures</a></li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_homepageEtudiant' %} active {% endif %}"><a id="compte" href="#">Mon Compte</a></li>
                         {% endif %}
 
                         <li id="help"><a href="#" data-toggle="tooltip"> ? </a></li>

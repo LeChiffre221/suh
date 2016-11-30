@@ -116,6 +116,13 @@ suh_contrat_searchEtudiantAidant:
     path: /by
     defaults: { _controller: SUHContratBundle:Affichage:AfficherSearchEtudiantAidant }
 
+#Reset password
+suh_contrat_resetPassword:
+    path: /resetPassword/{id}
+    defaults: {_controller: SUHContratBundle:GestionEtudiantAidant:resetPasswordEtudiantAidant}
+    requirements:
+       idContrat: "^[0-9]+$"
+
 
 #=========================================
 #=========Exportation Importation=========
@@ -143,3 +150,11 @@ suh_contrat_validationHeures:
     defaults: { _controller: SUHContratBundle:HeureEffectuee:validationHeures }
     requirements:
         id:   "^[0-9]+$"
+
+
+#=========================================
+#=======   Variables globales  ===========
+#=========================================
+suh_contrat_parameters:
+    path: /parameters
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherParameters }

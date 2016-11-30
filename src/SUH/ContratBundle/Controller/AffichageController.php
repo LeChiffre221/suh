@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use SUH\ContratBundle\Entity\Parameters;
+use SUH\ContratBundle\Form\ParametersType;
+
 class AffichageController extends Controller
 {
 
@@ -30,6 +33,7 @@ class AffichageController extends Controller
             ));
     }
 
+    //get la liste des éutudiants
     public function getListeEtudiants($chaine)
     {      
         $etudiantRepository = $this->getDoctrine()
@@ -59,6 +63,7 @@ class AffichageController extends Controller
         }
     }
 
+    //get nombre de contrats (pour pagination)
     public function getNbContrats($id)
     {     
         $em = $this->getDoctrine()->getManager();
@@ -83,12 +88,13 @@ class AffichageController extends Controller
         
     }
 
-
+    //Afficher liste contrats
     public function AfficherContratsPourUnEtudiantAction(Request $request, $id, $page, $nbPerPage = 4){
 
         $session = $this->getRequest()->getSession(); // Get started session
-        if(!$session instanceof Session)
+        if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
+        }
         $session->set('suppressionContratFromArchive', false);
 
         $em = $this->getDoctrine()->getManager();
@@ -122,22 +128,40 @@ class AffichageController extends Controller
 
     }
 
+    //Afficher accueil compte etudiant
     public function AfficherAccueilEtudiantAction(){
 
         return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig');
     }
 
-    //Recuperer etudiant
-    public function AfficherGetEtudiantAidantAction($id)
-    {
+    //Afficher page parametre
+    public function AfficherParametersAction(Request $request){
 
-        return $this->render('SUHContratBundle:AffichageContrats:getEtudiantAidant.html.twig',array(
-            'nbContrats'=>$this->getNbContrats($id),
-            'id' => $id
-            )); 
-        
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+        $em = $this->getDoctrine()->getManager();
+        $parameters = $em->getRepository('SUHContratBundle:Parameters')->find(1);
+        $form = $this->get('form.factory')->create(new ParametersType, $parameters);
+
+
+        if ($form->handleRequest($request)->isValid()) {
+
+            $em->persist($parameters);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice', 'Variables éditées !');
+
+            return $this->redirect($this->generateUrl('suh_contrat_parameters'));
+        }
+        return $this->render('SUHContratBundle:AffichageContrats:parameters.html.twig', array(
+            'form' => $form->createView(),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
+        ));
     }
 
+    //Recherche d'un etudiant
     public function AfficherSearchEtudiantAidantAction(Request $request)
     {
 
@@ -183,8 +207,9 @@ class AffichageController extends Controller
     public function AfficherArchiveContratAction(Request $request, $id, $page){
 
         $session = $this->getRequest()->getSession(); // Get started session
-        if(!$session instanceof Session)
+        if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
+        }
 
         $session->set('suppressionContratFromArchive', true);
 

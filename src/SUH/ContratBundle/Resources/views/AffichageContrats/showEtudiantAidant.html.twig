@@ -9,6 +9,11 @@
 
     {% block titleright %}
         <p class="">Profil</p>
+        <a href="{{ path('suh_contrat_resetPassword', {'id': informationsEtudiantAidant.id }) }}">
+            <button class="btn btn-danger" id="reset_password">
+                Réinitialiser mot de passe
+            </button>
+        </a>
     {% endblock %}
 
     {% block bodyright %}
@@ -16,7 +21,8 @@
     <div class="col-md-12">
         <div class="bloc-profil panel panel-primary">
         <section class="panel-heading">
-            <h3 class="panel-title">{{ informationsEtudiantAidant.etudiantInformations.nom}} {{ informationsEtudiantAidant.etudiantInformations.prenom}} </h3>
+            <h3 class="panel-title">{{ informationsEtudiantAidant.etudiantInformations.nom}} {{ informationsEtudiantAidant.etudiantInformations.prenom}} 
+            </h3>
         </section>
         <section class="col-md-12">
             <div class="col-md-6">

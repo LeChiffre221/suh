@@ -1,0 +1,197 @@
+<?php
+
+namespace SUH\ContratBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Parameters
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Parameters
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * @var \adminMail
+     *
+     * @ORM\Column(name="adminMail")
+     */
+    private $adminMail;
+
+    /**
+     * @var \portMail
+     *
+     * @ORM\Column(name="portMail")
+     */
+    private $portMail;
+
+    /**
+     * @var \hostMail
+     *
+     * @ORM\Column(name="hostMail")
+     */
+    private $hostMail;
+
+    /**
+     * @var \usernameMail
+     *
+     * @ORM\Column(name="usernameMail")
+     */
+    private $usernameMail;
+
+    /**
+     * @var \passwordMail
+     *
+     * @ORM\Column(name="passwordMail")
+     */
+    private $passwordMail;
+
+    /**
+     * @var \prixHoraire
+     *
+     * @ORM\Column(name="prixHoraire", type="integer", nullable=false)
+     */
+    private $prixHoraire;
+
+
+    /**
+     * @var \coefTutorat
+     *
+     * @ORM\Column(name="coefTutorat", type="integer", nullable=false)
+     */
+    private $coefTutorat;
+
+    /**
+     * @var \coefPriseDeNote
+     *
+     * @ORM\Column(name="coefPriseDeNote", type="integer", nullable=false)
+     */
+    private $coefPriseDeNote;
+
+    /**
+     * @var \coefAssistance
+     *
+     * @ORM\Column(name="coefAssistance", type="integer", nullable=false)
+     */
+    private $coefAssistance;
+
+
+
+    /**
+     * Set prixHoraire
+     *
+     * @param integer $prixHoraire
+     *
+     * @return Parameters
+     */
+    public function setPrixHoraire($prixHoraire)
+    {
+        $this->prixHoraire = $prixHoraire;
+
+        return $this;
+    }
+
+    /**
+     * Get prixHoraire
+     *
+     * @return integer
+     */
+    public function getPrixHoraire()
+    {
+        return $this->prixHoraire;
+    }
+
+    /**
+     * Set coefTutorat
+     *
+     * @param integer $coefTutorat
+     *
+     * @return Parameters
+     */
+    public function setCoefTutorat($coefTutorat)
+    {
+        $this->coefTutorat = $coefTutorat;
+
+        return $this;
+    }
+
+    /**
+     * Get coefTutorat
+     *
+     * @return integer
+     */
+    public function getCoefTutorat()
+    {
+        return $this->coefTutorat;
+    }
+
+    /**
+     * Set coefPriseDeNote
+     *
+     * @param integer $coefPriseDeNote
+     *
+     * @return Parameters
+     */
+    public function setCoefPriseDeNote($coefPriseDeNote)
+    {
+        $this->coefPriseDeNote = $coefPriseDeNote;
+
+        return $this;
+    }
+
+    /**
+     * Get coefPriseDeNote
+     *
+     * @return integer
+     */
+    public function getCoefPriseDeNote()
+    {
+        return $this->coefPriseDeNote;
+    }
+
+    /**
+     * Set coefAssistance
+     *
+     * @param integer $coefAssistance
+     *
+     * @return Parameters
+     */
+    public function setCoefAssistance($coefAssistance)
+    {
+        $this->coefAssistance = $coefAssistance;
+
+        return $this;
+    }
+
+    /**
+     * Get coefAssistance
+     *
+     * @return integer
+     */
+    public function getCoefAssistance()
+    {
+        return $this->coefAssistance;
+    }
+}

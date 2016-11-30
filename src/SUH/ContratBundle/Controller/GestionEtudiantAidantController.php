@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 use SUH\ContratBundle\Entity\EtudiantAidant;
 use SUH\ContratBundle\Form\EtudiantAidantType;
@@ -15,17 +16,33 @@ use SUH\ContratBundle\Controller\AffichageController;
 class GestionEtudiantAidantController extends Controller
 {
 	//renvoi la liste des étudiants
-    public function getListeEtudiants()
+    public function getListeEtudiants($chaine)
     {      
         $etudiantRepository = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SUHContratBundle:EtudiantAidant');
 
-        $listeEtudiantsAidants = $etudiantRepository->findAll();
-        if(!empty($listeEtudiantsAidants))
+        
+        if(empty($chaine))
         {
-           return $listeEtudiantsAidants;
-        }   
+
+            $listEtudiant = $etudiantRepository->findAll();
+            $em = $this->getDoctrine()->getManager();
+
+            foreach ($listEtudiant as $etudiant){
+
+                $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
+                $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+
+
+            }
+            return $etudiantRepository->findAll();
+
+        } else {
+            
+            return $etudiantRepository->getListeEtudiantsRecherche($chaine);
+        }
     }
 
     public function getNbContrats($id)
@@ -55,10 +72,14 @@ class GestionEtudiantAidantController extends Controller
     //Ajouter etudiant
     public function addEtudiantAidantAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
 
         $etudiantassiste = array();
         $etudiantAidant = new EtudiantAidant();
         $controllerAffichage = $this->forward('controller_affichage:getListeEtudiants', array());
+
+        $parameters = $em->getRepository('SUHContratBundle:Parameters');
+        $emailAdmin = $parameters->find(1)->getEmailAdmin();
 
         /* formulaire */
 
@@ -66,7 +87,7 @@ class GestionEtudiantAidantController extends Controller
 
         if ($form->handleRequest($request)->isValid()) {
 
-	       $em = $this->getDoctrine()->getManager();
+	       
 
 
             /*génération pass/user*/
@@ -79,6 +100,7 @@ class GestionEtudiantAidantController extends Controller
 
 
             $pass = substr(md5(uniqid(mt_rand(), true)), 0, 6);
+
             //Si il n'y a pas déjà un utilisateur avec le même identifiant
             $i= 0;
             $usernameTmp = $username;
@@ -99,12 +121,12 @@ class GestionEtudiantAidantController extends Controller
             $user = new \SUH\ConnexionBundle\Entity\User();
 
             //Encodage du mot de passe (sha512, converti en base64, 5000itérations)
-            /*$factory = $this->get('security.encoder_factory');
+            $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($user);
-            $password = $encoder->encodePassword($pass, $user->getSalt());*/
+            $password = $encoder->encodePassword($pass, '');
 
             $user->setUsername($username);
-            $user->setPassword($pass);
+            $user->setPassword($password);
             $user->setSalt('');
             $user->setRoles(array('ROLE_USER'));
 
@@ -112,28 +134,45 @@ class GestionEtudiantAidantController extends Controller
 
 
             //ENVOI EMAIL
-            /*
-            $email = $request->request->get('mailPerso');
+
+            $emailEtu = $request->request->get('mailPerso');
+
+            //surcharge du parameters.yml
+            $transport = \Swift_SmtpTransport::newInstance($hostDb,$portDb)
+                ->setUsername($userDb)
+                ->setPassword($passwordDb)
+            ;
+
+            
+            $mailer = Swift_Mailer::newInstance($transport);
 
             $message = \Swift_Message::newInstance()
             ->setSubject('SUH - Vos identifiants de connexion')
-            ->setFrom('couyperraispierre@gmail.com')
-            ->setTo($email)
+            ->setFrom($emailAdmin)
+            ->setTo($emailEtu)
             ->setBody(
                 $this->renderView(
-                    // emmanuelle.feschet@udamail.fr
                     'SUHContratBundle:Emails:registration.html.twig'
                 ),
                 'text/html'
             );
-            $this->get('mailer')->send($message);
 
-            */
+            $mailer->send($message);
+
+            //Persist en base  
             $em->persist($user);
             $em->persist($etudiantAidant);
             $em->flush();
+
+            // Message d'event
             $request->getSession()->getFlashBag()->add('notice', 'Etudiant aidant inscrit');
-            return $this->redirectToRoute('suh_contrat_homepage');
+
+            // Render
+            return $this->render('SUHContratBundle:AffichageContrats:addEtudiantAidant.html.twig', array(
+            'info' => $etudiantassiste, 
+            'form' => $form->createView(),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+        )); 
 
 	    }
 
@@ -215,6 +254,34 @@ class GestionEtudiantAidantController extends Controller
             'id' => $id
             )); 
 
+    }
+
+
+    //ResetPassword
+    public function resetPasswordEtudiantAidantAction(Request $request, $id)
+    {
+
+        $session = $this->getRequest()->getSession(); // Get started session
+
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $etudiantAidantRepo = $em->getRepository('SUHContratBundle:EtudiantAidant');
+        $userRepo = $em->getRepository('SUHConnexionBundle:User');
+
+        $etudiant = $etudiantAidantRepo->find($id);
+        $user = $userRepo->find($etudiant->getUser());
+
+        $pass = substr(md5(uniqid(mt_rand(), true)), 0, 6);
+        $user->setPassword($pass);
+
+        $em->persist($user);
+        $em->flush();
+        return $this->redirectToRoute('suh_contrat_homepage');
+        
     }
 
 }
