@@ -20,7 +20,7 @@
             <br>
             Vous pouvez consulter les
             </strong>
-            <a href="{{ path("suh_contrat_showArchive", {'id' : id}) }}" style="color: #1f7e9a">contrats archivés.</a>
+            <a href="{{ path("suh_contrat_showArchive", {'id' : id}) }}">contrats archivés.</a>
 
         </h2>
     {% endif %}
@@ -58,9 +58,9 @@
 
             <h3>Etablissement avenant :
                 {% if contrat.etablissementAvenant == 0 %}
-                    <span class="glyphicon glyphicon-remove" style="color: red"></span>
+                    <span class="glyphicon glyphicon-remove" ></span>
                 {% else %}
-                    <span class="glyphicon glyphicon-ok" style="color: green"></span>
+                    <span class="glyphicon glyphicon-ok"></span>
                 {% endif %}
             </h3>
         </div>
@@ -177,29 +177,33 @@
                 <a href="{{ path('suh_contrat_editerContrat', {'idContrat': contrat.id}) }}">
                     <button type="button" class="btn btn-info">
                         <span class="glyphicon glyphicon-pencil"></span>
-                        Editer
+                        <span>Editer</span>
                     </button>
                 </a>
             </div>
             <div class="col-lg-2 ">
                 <a href="{{ path('suh_contrat_exportationContrat', {'idContrat': contrat.id}) }}">
                     <button type="button" class="btn btn-default">
-                        <span class=" fa fa-file-pdf-o"></span>
-                            Exporter le contrat</button>
+                        <span class="pdf-icon"></span>
+                        
+                        <span> Exporter le contrat</span>
+                    </button>
                 </a>
             </div>
             <div class="col-lg-2 ">
                 <a href="{{ path('suh_contrat_archiverContrat', {'idContrat': contrat.id}) }}">
                     <button type="button" class="btn btn-warning">
                         <span class="glyphicon glyphicon-briefcase"></span>
-                        Archiver</button>
+                        <span>Archiver</span>
+                    </button>
                 </a>
             </div>
             <div class="col-lg-2 ">
                 <a href="{{ path('suh_contrat_deleteContrat', {'idContrat': contrat.id}) }}">
                     <button type="button" class="btn btn-danger">
                         <span class="glyphicon glyphicon-trash"></span>
-                        Supprimer</button>
+                        <span>Supprimer</span>
+                    </button>
                 </a>
             </div>
 

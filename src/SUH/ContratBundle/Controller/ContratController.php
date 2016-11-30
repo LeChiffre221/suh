@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: lechi
- * Date: 16/11/2016
- * Time: 08:47
- */
 
 namespace SUH\ContratBundle\Controller;
 
@@ -20,6 +14,13 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class ContratController extends Controller
 {
     public function addContratAction(Request $request, $id){
+
+        $session = $this->getRequest()->getSession(); // Get started session
+
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+
         $contrat = new Contrat();
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
         $form->remove('etablissementAvenant');
@@ -49,13 +50,19 @@ class ContratController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:addContrat.html.twig', array(
             'form' => $form->createView(),
             'id' => $id,
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
             'nbContrats'=>$this->getNbContrats($id),
         ));
     }
 
 
   public function editContratAction($idContrat, Request $request){
+
+        $session = $this->getRequest()->getSession(); // Get started session
+
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
 
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
@@ -90,9 +97,8 @@ class ContratController extends Controller
 
         return $this->render('SUHContratBundle:AffichageContrats:editContrat.html.twig', array(
             'form' => $form->createView(),
-            'contrat' => $contrat,
             'id' => $contrat->getEtudiantAidant()->getId(),
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
             'nbContrats'=>$this->getNbContrats($contrat->getEtudiantAidant()->getId()),
         ));
 
@@ -124,18 +130,35 @@ class ContratController extends Controller
 
     }
 
-    public function getListeEtudiants()
-    {
+    public function getListeEtudiants($chaine)
+    {      
         $etudiantRepository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('SUHContratBundle:EtudiantAidant');
+                ->getManager()
+                ->getRepository('SUHContratBundle:EtudiantAidant');
 
-        $listeEtudiantsAidants = $etudiantRepository->findAll();
-        if(!empty($listeEtudiantsAidants))
+        
+        if(empty($chaine))
         {
-            return $listeEtudiantsAidants;
+
+            $listEtudiant = $etudiantRepository->findAll();
+            $em = $this->getDoctrine()->getManager();
+
+            foreach ($listEtudiant as $etudiant){
+
+                $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
+                $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+
+
+            }
+            return $etudiantRepository->findAll();
+
+        } else {
+            
+            return $etudiantRepository->getListeEtudiantsRecherche($chaine);
         }
     }
+
     public function getNbContrats($id)
     {     
         $em = $this->getDoctrine()->getManager();

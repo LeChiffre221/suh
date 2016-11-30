@@ -20,14 +20,15 @@ class EtudiantAidantRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getListeEtudiantsRecherche($chaine)
     {
-        $q = $this->createQueryBuilder('c')
+        return $this->createQueryBuilder('c')
         	->select('c')
         	->join('c.etudiantInformations','ein')
             ->where('ein.nom LIKE :nom')
             ->orWhere('ein.prenom LIKE :prenom')
             ->setParameter('nom', '%'.$chaine.'%')
-            ->setParameter('prenom', '%'.$chaine.'%');
-        return $q;
+            ->setParameter('prenom', '%'.$chaine.'%')
+            ->getQuery()
+            ->getResult();   
 
     } 
 

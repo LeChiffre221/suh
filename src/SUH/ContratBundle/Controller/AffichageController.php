@@ -11,14 +11,22 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class AffichageController extends Controller
 {
+
     /**
      * récupère les données d'un contrat 
      * @return type
      */
-    public function AfficherAccueilContratAction()
+    public function AfficherAccueilContratAction(Request $request)
     {
+        $session = $this->getRequest()->getSession(); // Get started session
+
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+        $session->set('chaine', null);
+
         return $this->render('SUHContratBundle:AffichageContrats:accueil.html.twig',array(
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
             ));
     }
 
@@ -76,7 +84,7 @@ class AffichageController extends Controller
     }
 
 
-    public function AfficherContratsPourUnEtudiantAction($id, $page, $nbPerPage = 4){
+    public function AfficherContratsPourUnEtudiantAction(Request $request, $id, $page, $nbPerPage = 4){
 
         $session = $this->getRequest()->getSession(); // Get started session
         if(!$session instanceof Session)
@@ -97,7 +105,7 @@ class AffichageController extends Controller
 
 
         return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
             'nbContrats'=>$this->getNbContrats($id),
             'listeContrats' => $listeContrats,
             'nbPages' => $nbPages,
@@ -126,15 +134,29 @@ class AffichageController extends Controller
     public function AfficherSearchEtudiantAidantAction(Request $request)
     {
 
+        $session = $this->getRequest()->getSession(); // Get started session
+
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+        $session->set('chaine', $request->query->get('chaine'));
+
+
         return $this->render('SUHContratBundle:AffichageContrats:accueil.html.twig',array(
-            'listeEtudiantsAidants'=>$this->getListeEtudiants($request->query->get('chaine')),
-            ));
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
+        ));
         
     }
 
     //Afficher etudiant
-    public function AfficherShowEtudiantAidantAction($id)
+    public function AfficherShowEtudiantAidantAction(Request $request, $id)
     {
+        $session = $this->getRequest()->getSession(); // Get started session
+
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+
         $etudiantAidantRepo = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SUHContratBundle:EtudiantAidant');
@@ -144,14 +166,14 @@ class AffichageController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:showEtudiantAidant.html.twig',array(
             'informationsEtudiantAidant' => $etudiant,
             'id' => $id,
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
             'nbContrats'=>$this->getNbContrats($id),
             )); 
         
     }
 
     // Afficher archive
-    public function AfficherArchiveContratAction($id, $page){
+    public function AfficherArchiveContratAction(Request $request, $id, $page){
 
         $session = $this->getRequest()->getSession(); // Get started session
         if(!$session instanceof Session)
@@ -171,7 +193,7 @@ class AffichageController extends Controller
         }
 
         return $this->render('SUHContratBundle:AffichageContrats:archivesContrat.html.twig',array(
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
             'listeContrats' => $listeContrats,
             'nbPages' => $nbPages,
             'page' => $page,
@@ -181,6 +203,9 @@ class AffichageController extends Controller
     }
 
     public function afficherHeureEspaceEtudiantAction (Request $request){
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session)
+            $session = new Session(); // if there is no session, start it
 
         $em = $this->getDoctrine()->getManager();
         $etudiantAidant = $em->getRepository('SUHContratBundle:EtudiantAidant')->findOneBy(array(
@@ -213,7 +238,11 @@ class AffichageController extends Controller
 
     }
 
-    public function AfficherGestionHeuresAction($id){
+    public function AfficherGestionHeuresAction(Request $request, $id){
+
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session)
+            $session = new Session(); // if there is no session, start it
 
         $em = $this->getDoctrine()->getManager();
         $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
@@ -249,7 +278,7 @@ class AffichageController extends Controller
 
 
         return $this->render('SUHContratBundle:AffichageContrats:gestionHeures.html.twig', array(
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
             'nbContrats'=>$this->getNbContrats($id),
             'listeContrats' => $listeContrats,
             'listeHeures' => $listeHeures,

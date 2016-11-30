@@ -7,7 +7,7 @@
                     <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}
                         <span class="heures-non-validees" data-toggle="tooltip" data-placement="top" title="Heures non validées">
                             {% if etudiant.heureNonValide is null %}
-                                <span style="color: green">0</span>
+                                <span class="heure-null">0</span>
                             {% else %}
                                 {{etudiant.heureNonValide}}
                             {% endif %}
@@ -19,7 +19,7 @@
                     <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}
                         <span class="heures-non-validees">
                             {% if etudiant.heureNonValide is null %}
-                                <span style="color: green">0</span>
+                                <span class="heure-null">0</span>
                             {% else %}
                                 {{etudiant.heureNonValide}}
                             {% endif %}
