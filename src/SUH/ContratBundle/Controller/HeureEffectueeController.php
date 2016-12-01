@@ -61,7 +61,7 @@ class HeureEffectueeController extends Controller
                     $dateDebut = date("Y-m-d", strtotime(strtr($avenant->getDateDebutAvenant(), '/', '-')));
                     $dateFin = date("Y-m-d", strtotime(strtr($avenant->getDateFinAvenant(), '/', '-')));
 
-                    if(($dateEtudiant >= $dateDebut) || ($dateEtudiant <= $dateFin)){
+                    if(($dateEtudiant >= $dateDebut) && ($dateEtudiant <= $dateFin)){
                         $validateDate = true;
                     }
 
