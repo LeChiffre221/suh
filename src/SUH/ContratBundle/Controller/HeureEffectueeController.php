@@ -50,16 +50,30 @@ class HeureEffectueeController extends Controller
             $dateDebut = date("Y-m-d", strtotime(strtr($contratChoisi->getDateDebutContrat(), '/', '-')));
             $dateFin = date("Y-m-d", strtotime(strtr($contratChoisi->getDateFinContrat(), '/', '-')));
 
-            if(($dateEtudiant < $dateDebut) && ($dateEtudiant > $dateFin)){
-                $validateDate = true;
+            //Compare si les date de l'heure sont cohérente avec les dates du contrat
+            if(($dateEtudiant < $dateDebut) || ($dateEtudiant > $dateFin)){
+                $validateDate = false;
 
+                $listeAvenants = $em->getRepository('SUHContratBundle:Avenant')->getAvenantsPourUnContrat($contratChoisi);
 
+                //On compare également si elel sont cohérente avec les date de l'avenant
+                foreach ($listeAvenants as $avenant) {
+                    $dateDebut = date("Y-m-d", strtotime(strtr($avenant->getDateDebutAvenant(), '/', '-')));
+                    $dateFin = date("Y-m-d", strtotime(strtr($avenant->getDateFinAvenant(), '/', '-')));
 
-                return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig', array(
-                    'form' => $form->createView(),
-                    'etudiant' => $etudiant,
-                    'dateAndTime' => false
-                ));
+                    if(($dateEtudiant >= $dateDebut) && ($dateEtudiant <= $dateFin)){
+                        $validateDate = true;
+                    }
+
+                }
+
+                if(!$validateDate) {
+                    return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig', array(
+                        'form' => $form->createView(),
+                        'etudiant' => $etudiant,
+                        'dateAndTime' => false
+                    ));
+                }
             }
 
             $heureEffectuee->setVerification(false);
