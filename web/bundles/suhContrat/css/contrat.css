@@ -387,11 +387,11 @@ ul.navbar-nav{
 }
 .heures-non-validees{
     float: right;
-padding: 0px 10px;
-color: rgb(255, 0, 0);
-border-left: 1px dotted black;
-font-weight: 700;
-
+    padding: 0px 10px;
+    color: rgb(255, 0, 0);
+    border-left: 1px dotted black;
+    font-weight: 700;
+    min-width:40px;
 }
 
 .heures-non-validees span.heure-null {

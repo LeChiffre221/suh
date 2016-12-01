@@ -241,7 +241,7 @@ class AffichageController extends Controller
         ));
     }
 
-    public function afficherHeureEspaceEtudiantAction (Request $request){
+    public function AfficherHeureEspaceEtudiantAction (Request $request){
         $session = $this->getRequest()->getSession(); // Get started session
         if(!$session instanceof Session)
             $session = new Session(); // if there is no session, start it
@@ -335,6 +335,16 @@ class AffichageController extends Controller
 
         // Sinon, on récupère l'utilisateur
         return $token->getUser();
+    }
+
+    /**
+     * récupère les données d'un contrat 
+     * @return type
+     */
+    public function AfficherCompteEtudiantAction(Request $request)
+    {
+
+        return $this->render('SUHContratBundle:AffichageContrats:compteEtudiant.html.twig');
     }
 
 }

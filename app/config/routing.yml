@@ -30,7 +30,11 @@ suh_etudiant_homepageEtudiant:
 
 suh_etudiant_heuresEtudiant:
     path:    /etudiant/mesHeures
-    defaults: { _controller: SUHContratBundle:Affichage:afficherHeureEspaceEtudiant}
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherHeureEspaceEtudiant}
+
+suh_etudiant_compteEtudiant:
+    path:    /etudiant/monCompte
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherCompteEspaceEtudiant}
 
 suh_etudiant_heuresEtudiant_editer:
     path:    /etudiant/mesHeures/edit/{idHeure}

@@ -276,10 +276,17 @@ class GestionEtudiantAidantController extends Controller
         $user = $userRepo->find($etudiant->getUser());
 
         $pass = substr(md5(uniqid(mt_rand(), true)), 0, 6);
-        $user->setPassword($pass);
+
+            $factory = $this->get('security.encoder_factory');
+            $encoder = $factory->getEncoder($user);
+            $password = $encoder->encodePassword($pass, '');
+
+
+        $user->setPassword($password);
 
         $em->persist($user);
         $em->flush();
+        $request->getSession()->getFlashBag()->add('notice', $pass);
         return $this->redirectToRoute('suh_contrat_homepage');
         
     }
