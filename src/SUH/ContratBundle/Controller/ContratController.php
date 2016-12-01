@@ -23,6 +23,7 @@ class ContratController extends Controller
 
         $contrat = new Contrat();
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
+        $form->remove('listeAvenant');
         $form->remove('etablissementAvenant');
         $form->remove('dateEnvoiDRH');
         $form->remove('dateEnvoiEtudiant');
@@ -67,6 +68,11 @@ class ContratController extends Controller
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
 
+        $avenant = $em->getRepository('SUHContratBundle:Avenant')->findBy(array(
+            'contrat' => $contrat
+        ));
+        $contrat->setListeAvenant($avenant);
+
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
 
         if($contrat->getDateEnvoiDRH() == null){
@@ -108,7 +114,24 @@ class ContratController extends Controller
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
 
+        $avenants = $em->getRepository('SUHContratBundle:Avenant')->findBy(array(
+            'contrat' => $contrat
+        ));
+
+        $heureEffectuee = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
+            'contrat' => $contrat)
+        );
+
+
         $etudiant = $contrat->getEtudiantAidant();
+        foreach ($heureEffectuee as $heure){
+            $em->remove($heure);
+
+        }
+        foreach ($avenants as $avenant){
+            $em->remove($avenant);
+
+        }
         $em->remove($contrat);
         $em->flush();
 

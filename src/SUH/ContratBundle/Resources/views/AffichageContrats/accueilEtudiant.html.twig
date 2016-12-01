@@ -8,6 +8,10 @@
             <h1 style="color: white">Bonjour {{ etudiant.etudiantInformations.nom }} {{ etudiant.etudiantInformations.prenom }}</h1>
 
             <div class="bloc-contrat panel panel-primary">
+
+                {% if dateAndTime is defined and dateAndTime == false%}
+                    PROBLEME
+                {% endif %}
                 {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
                 {# Les erreurs générales du formulaire. #}
@@ -85,7 +89,9 @@
             format: 'DD/MM/YYYY HH:mm',
             defaultDate: new Date(),
 
-        });
+        })
+
+        $('.date').datetimepicker('setStartDate', '2017-01-01');
 
     });
 </script>

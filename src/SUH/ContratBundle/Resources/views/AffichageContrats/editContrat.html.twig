@@ -68,6 +68,27 @@
                     </div>
                 </div>
 
+                 {% if form.dateEnvoiDRH is defined  %}
+                    <div class="form-group">
+                        {{ form_label(form.dateEnvoiDRH, "Date envoi DRH : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                        {{ form_errors(form.dateEnvoiDRH) }}
+                        <div class="col-sm-3">
+                            {{ form_widget(form.dateEnvoiDRH, {'attr': {'class': 'form-control date'}}) }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if form.dateEnvoiEtudiant is defined  %}
+                    <div class="form-group">
+                        {{ form_label(form.dateEnvoiEtudiant, "Date envoi etudiant : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                        {{ form_errors(form.dateEnvoiEtudiant) }}
+                        <div class="col-sm-3">
+                            {{ form_widget(form.dateEnvoiEtudiant, {'attr': {'class': 'form-control date'}}) }}
+                        </div>
+                    </div>
+                {% endif %}
+
+
 
 
                 <button type="submit" class="btn btn-success col-sm-offset-3">Editer le contrat</button>
