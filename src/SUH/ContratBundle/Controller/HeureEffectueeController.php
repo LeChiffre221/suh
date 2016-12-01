@@ -44,6 +44,23 @@ class HeureEffectueeController extends Controller
 
         if($form->handleRequest($request)->isValid()){
             $em = $this->getDoctrine()->getManager();
+            $contratChoisi = $heureEffectuee->getContrat();
+
+            $dateEtudiant = date("Y-m-d", strtotime(strtr($heureEffectuee->getDateAndTime(), '/', '-')));
+            $dateDebut = date("Y-m-d", strtotime(strtr($contratChoisi->getDateDebutContrat(), '/', '-')));
+            $dateFin = date("Y-m-d", strtotime(strtr($contratChoisi->getDateFinContrat(), '/', '-')));
+
+            if(($dateEtudiant < $dateDebut) && ($dateEtudiant > $dateFin)){
+                $validateDate = true;
+
+
+
+                return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig', array(
+                    'form' => $form->createView(),
+                    'etudiant' => $etudiant,
+                    'dateAndTime' => false
+                ));
+            }
 
             $heureEffectuee->setVerification(false);
 
@@ -53,6 +70,11 @@ class HeureEffectueeController extends Controller
             $request->getSession()->getFlashBag()->add('notice', 'Heure ajouté !');
 
             return $this->redirect($this->generateUrl('suh_etudiant_homepageEtudiant'));
+
+
+
+
+
         }
 
 

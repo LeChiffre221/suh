@@ -57,7 +57,7 @@
             <h3>Semestre concerné : n°{{ contrat.semestreConcerne}}</h3>
 
             <h3>Etablissement avenant :
-                {% if contrat.listeAvenant is null %}
+                {% if contrat.listeAvenant is empty %}
                     <span class="glyphicon glyphicon-remove"></span>
                 {% else %}
                     <span class="glyphicon glyphicon-ok"></span>

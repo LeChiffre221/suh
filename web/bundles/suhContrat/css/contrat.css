@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,500');
 
 
+/* Global */
 
 html,body
 {
@@ -11,8 +12,29 @@ a {
     color:#000;
 }
 
+
+/* helpers */
+
 .roboto{
     font-family: 'Roboto', sans-serif;
+}
+
+.pdf-icon {
+    background-image:url('../img/pdf.png');
+    background-size:14px;
+    width:14px;
+    height:14px;
+}
+
+
+/* surcharge */
+
+.glyphicon-remove{
+    color:red;
+}
+
+.glyphicon-ok{
+    color:green;
 }
 
 
@@ -291,7 +313,14 @@ ul.navbar-nav{
 .menu-button{
     border-left:1px black dotted !important;
 }
-
+.menu-button > span {
+    left:50%;
+    transform:translateX(-50%);
+    -o-transform:translateX(-50%);
+    -ms-transform:translateX(-50%);
+    -webkit-transform:translateX(-50%);
+    -moz-transform:translateX(-50%);
+}
 .spoiler table tbody tr td
 {
     font-size: 17px;
@@ -392,6 +421,10 @@ ul.navbar-nav{
     border-left: 1px dotted black;
     font-weight: 700;
     min-width:40px;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3beb241f9102b306b452e6819ff74ad8d28ca0d0
 }
 
 .heures-non-validees span.heure-null {
@@ -407,12 +440,19 @@ ul.navbar-nav{
     color: #fff;
     text-decoration: none;
 }
+
+
+
 /* Contrat */
 .container-right{
     display:inline-block;
     width:100%;
 }
 
+.contrat-actions button span {
+    display:inline-block;
+    vertical-align: middle;
+}
 .bloc-contrat {
     display: inline-block;
     width: 100%;

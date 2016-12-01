@@ -27,8 +27,8 @@ class AvenantType extends AbstractType
             ->add('nbHeure',                'number', array('pattern' => '[0-9]+'))
             ->add('dateDebutAvenant',       'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
             ->add('dateFinAvenant',         'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
-            ->add('dateEnvoiDRH')
-            ->add('dateEnvoiEtudiant')
+            ->add('dateEnvoiDRH',           'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
+            ->add('dateEnvoiEtudiant',      'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
         ;
     }
     
