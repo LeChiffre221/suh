@@ -3,7 +3,6 @@
 {% block title %} {{parent()}} - Accueil {% endblock %}
 
 {% block body %}
-    <body>
         <section id="containerFluidBody" class="container-fluid panel panel-default">
             <div id="divListe" class="col-md-2">
                 <!-- Search input -->
@@ -57,7 +56,7 @@
                 {% block menuright %}
 
                 {% endblock %}
-                <div class="container-right" class="col-md-12">
+                <div class="container-right col-md-12">
                     <div class="container-right-title">
                         {% block titleright %}
                         {% endblock %}
@@ -69,6 +68,6 @@
             <!-- -- -->
         </section>      
         <br/><br/>
-    </body>
+    
     {% if (js is defined) %}{{ js|raw }}{% endif %}
 {% endblock %}
