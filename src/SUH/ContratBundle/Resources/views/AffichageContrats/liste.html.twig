@@ -1,10 +1,10 @@
 <div id="liste" class="">
     <ul class="col-md-12">
+
         {% for etudiant in listeEtudiantsAidants %}
-            
-            {% if loop.index is even %}
-                <li class="pair {% if id is defined %} {% if etudiant.id == id %} btn-primary {% endif %} {% endif %}">
-                    <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}
+                <li class="{% if loop.index is even %} pair {% else %} impair {% endif %} {% if id is defined %} {% if etudiant.id == id %} btn-primary {% endif %} {% endif %}">
+                    <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">
+                        <span class="label-list">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}</span>
                         <span class="heures-non-validees" data-toggle="tooltip" data-placement="top" title="Heures non validées">
                             {% if etudiant.heureNonValide is null %}
                                 <span class="heure-null">0</span>
@@ -14,19 +14,7 @@
                         </span>
                     </a>
                 </li>
-            {% else %}
-                <li class="impair {% if id is defined %} {% if etudiant.id == id %} btn-primary {% endif %} {% endif %}">
-                    <a href="{{ path('suh_contrat_showEtudiantAidant', {'id': etudiant.id})}}">{{etudiant.etudiantInformations.nom}} {{etudiant.etudiantInformations.prenom}}
-                        <span class="heures-non-validees">
-                            {% if etudiant.heureNonValide is null %}
-                                <span class="heure-null">0</span>
-                            {% else %}
-                                {{etudiant.heureNonValide}}
-                            {% endif %}
-                        </span>
-                    </a>
-                </li>
-            {% endif %}
+
         {% endfor %}
         
     </ul>
