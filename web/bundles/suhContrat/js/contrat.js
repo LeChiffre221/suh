@@ -1,9 +1,14 @@
-
-//dernier etudiant selectionne dans la liste
-var last;
-//couleur de fond dans la liste de l'étudiant(permet de passer du rouge à la couleur d'avance)
-var lastColor;
 $(function() {
+
+
+    $('#suh_contratbundle_etudiantaidant_etudiantFormation_diplome').children('option:last-child').attr('value');
+    $('#suh_contratbundle_etudiantaidant_etudiantFormation_diplome').children('option:last-child').on('click', function(e){
+        e.preventDefault();
+        $('#autre-diplome').slideDown();
+
+
+    });
+
 
 
     $('.bloc-contrat:first-child').children('.panel-heading').addClass('contrat-open').nextAll().show();

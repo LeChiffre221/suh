@@ -79,7 +79,11 @@ class GestionEtudiantAidantController extends Controller
         $controllerAffichage = $this->forward('controller_affichage:getListeEtudiants', array());
 
         $parameters = $em->getRepository('SUHContratBundle:Parameters');
-        $emailAdmin = $parameters->find(1)->getEmailAdmin();
+        $emailAdmin = $parameters->find(1)->getAdminMail();
+        $hostDb = $parameters->find(1)->getHostMail();
+        $portDb = $parameters->find(1)->getPortMail();
+        $userDb = $parameters->find(1)->getUsernameMail();
+        $passwordDb = $parameters->find(1)->getPasswordMail();
 
         /* formulaire */
 
@@ -124,6 +128,8 @@ class GestionEtudiantAidantController extends Controller
             $factory = $this->get('security.encoder_factory');
             $encoder = $factory->getEncoder($user);
             $password = $encoder->encodePassword($pass, '');
+            // Message d'event
+            $request->getSession()->getFlashBag()->add('notice',  $pass);
 
             $user->setUsername($username);
             $user->setPassword($password);
@@ -138,34 +144,33 @@ class GestionEtudiantAidantController extends Controller
             $emailEtu = $request->request->get('mailPerso');
 
             //surcharge du parameters.yml
-            $transport = \Swift_SmtpTransport::newInstance($hostDb,$portDb)
-                ->setUsername($userDb)
-                ->setPassword($passwordDb)
-            ;
+            // $transport = \Swift_SmtpTransport::newInstance($hostDb,$portDb)
+            //     ->setUsername($userDb)
+            //     ->setPassword($passwordDb)
+            // ;
 
             
-            $mailer = Swift_Mailer::newInstance($transport);
+            // $mailer = \Swift_Mailer::newInstance($transport);
 
-            $message = \Swift_Message::newInstance()
-            ->setSubject('SUH - Vos identifiants de connexion')
-            ->setFrom($emailAdmin)
-            ->setTo($emailEtu)
-            ->setBody(
-                $this->renderView(
-                    'SUHContratBundle:Emails:registration.html.twig'
-                ),
-                'text/html'
-            );
+            // $message = \Swift_Message::newInstance()
+            // ->setSubject('SUH - Vos identifiants de connexion')
+            // ->setFrom($emailAdmin)
+            // ->setTo($emailEtu)
+            // ->setBody(
+            //     $this->renderView(
+            //         'SUHContratBundle:Emails:registration.html.twig'
+            //     ),
+            //     'text/html'
+            // );
 
-            $mailer->send($message);
+            // $mailer->send($message);
 
             //Persist en base  
             $em->persist($user);
             $em->persist($etudiantAidant);
             $em->flush();
 
-            // Message d'event
-            $request->getSession()->getFlashBag()->add('notice', 'Etudiant aidant inscrit');
+            
 
             // Render
             return $this->render('SUHContratBundle:AffichageContrats:addEtudiantAidant.html.twig', array(

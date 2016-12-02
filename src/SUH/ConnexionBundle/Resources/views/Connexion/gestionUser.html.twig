@@ -1,9 +1,15 @@
 {% extends "SUHConnexionBundle:Connexion:base.html.twig" %}
 {% block body %}
+    {% for message in app.session.flashbag.get('notice') %}
+        <div class="alert alert-success message-fixed">
+            <strong>Le SUH a mis la gomme.</strong> {{message}}
+            <span class="glyphicon glyphicon-remove"></span>
+        </div>
+    {% endfor %}
     <div class="container" style="background-color: whitesmoke">
         <div class="row">
             <h1>
-                Ajouter un administrateurs :
+                Ajouter un administrateur :
             </h1>
             {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
@@ -43,45 +49,46 @@
                et tous les champs cachés (type « hidden »). #}
             {{ form_rest(form) }}
 
-            {# Fermeture de la balise <form> du formulaire HTML #}
+            {# Fermeture de la balise form du formulaire HTML #}
             {{ form_end(form) }}
         </div>
 
         <div class="row">
 
-        <h1>
-            Liste des administrateurs :
-        </h1>
+            <h1>
+                Liste des administrateurs :
+            </h1>
 
-        <table class="table table-striped" style="text-align: center">
-            <thead  style="text-align: center">
-            <tr>
-                <th style="text-align: center">Identifiant</th>
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <th style="text-align: center">Supprimer</th>
-                {% endif %}
-            </tr>
-            </thead>
-            <tbody>
+            <table class="table table-striped" style="text-align: center">
+                <thead  style="text-align: center">
+                    <tr>
+                        <th style="text-align: center">Identifiant</th>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <th style="text-align: center">Supprimer</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
 
-            {% for user in listeUsers %}
-                <tr>
-                    <td>{{ user.username }}</td>
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {% for user in listeUsers %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <td>
                             <a href="{{ path("suh_user_delete", {'idUser': user.id}) }}">
                                 <button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                             </a>
                         </td>
-                    {% endif %}
-                </tr>
-            {% endfor %}
+                        {% endif %}
+                    </tr>
+                {% endfor %}
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </div>
-
     </div>
+
+    {% if (js is defined) %}{{ js|raw }}{% endif %}
 {% endblock %}
 
 
