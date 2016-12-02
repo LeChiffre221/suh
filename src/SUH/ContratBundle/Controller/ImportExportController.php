@@ -83,13 +83,27 @@ class ImportExportController extends Controller
 
 
 
+                $natureContrat = '(';
+                foreach ($contrat->getNatureContrat() as $nature) {
+                    if ($nature == "tutorat") {
+                        $nature = "Tutorat";
+                    } elseif ($nature == "assistancePédagogique") {
+                        $nature = "Assistance Pédagogique";
+                    } else {
+                        $nature = "Prise de note";
+                    }
 
+                    $natureContrat  .= $nature . ", ";
+                }
+                $natureContrat  = substr($natureContrat , 0, -2) . ")";
+
+                $pdf->Text(22, 165, (utf8_decode($natureContrat)));
 
                 $pdf->Text(66 ,143,(utf8_decode($diplome. ' '. $composante. ' '. $etablissement)));
 
 
                 $pdf->Text(21,227.1,(utf8_decode($dateDebutContrat)));
-                $pdf->Text(49,227.1,(utf8_decode($dateFinContrat)));
+                $pdf->Text(48,227.1,(utf8_decode($dateFinContrat)));
 
                 $pdf->Text(114.5,227.1,(utf8_decode($nbHeuresPrevisionnelles. ' heures.')));
 
