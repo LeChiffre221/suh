@@ -20,7 +20,9 @@ class HeureEffectueeType extends AbstractType
                     'tutorat' => 'Tutorat',
                     'priseNote' => 'Prise de note',
                     'assistancePédagogique' => 'Assistance Pédagogique'
-                )
+                ),
+                'multiple' => false,
+                'expanded' => true,
             ))
             ->add('descriptionMission', 'textarea', array('required' => false))
             ->add('dateAndTime', 'text')
