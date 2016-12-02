@@ -13,6 +13,11 @@
 
     {% block bodyright %}
     <div class="col-md-12 container-contrat">
+        {% for message in app.session.flashbag.get('warning') %}
+            <div class="alert alert-danger">
+                <strong>Attention !</strong> {{message}}
+            </div>
+        {% endfor %}
         <div class="bloc-contrat panel panel-primary">
             {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 

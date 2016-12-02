@@ -31,14 +31,27 @@ class AvenantController extends Controller
 
             $avenant->setContrat($contrat);
 
-            $em->persist($avenant);
-            $em->flush();
+            $dateDebut = date("Y-m-d", strtotime(strtr($avenant->getDateDebutAvenant(), '/', '-')));
+            $dateFin = date("Y-m-d", strtotime(strtr($avenant->getDateFinAvenant(), '/', '-')));
+            if($dateDebut > $dateFin){
+                $avenant->setDateDebutAvenant(null);
+                $avenant->setDateFinAvenant(null);
 
-            $request->getSession()->getFlashBag()->add('notice', 'Avenant ajouté !');
+                $request->getSession()->getFlashBag()->add('warning', 'La date de début ne peut être supèrieure à la date de fin');
 
-            return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
-                'id' => $idEtudiant,
-            )));
+
+            }
+            else {
+
+                $em->persist($avenant);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Avenant ajouté !');
+
+                return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
+                    'id' => $idEtudiant,
+                )));
+            }
         }
         return $this->render('SUHContratBundle:AffichageContrats:addAvenant.html.twig', array(
             'form' => $form->createView(),

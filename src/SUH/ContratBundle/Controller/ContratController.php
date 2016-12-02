@@ -39,14 +39,30 @@ class ContratController extends Controller
             $contrat->setActive(true);
             $contrat->setEtudiantAidant($etudiant);
 
-            $em->persist($contrat);
-            $em->flush();
+            $dateDebut = date("Y-m-d", strtotime(strtr($contrat->getDateDebutContrat(), '/', '-')));
+            $dateFin = date("Y-m-d", strtotime(strtr($contrat->getDateFinContrat(), '/', '-')));
+            if($dateDebut > $dateFin){
+                $contrat->setDateDebutContrat(null);
+                $contrat->setDateFinContrat(null);
 
-            $request->getSession()->getFlashBag()->add('notice', 'Contrat ajouté !');
+                $request->getSession()->getFlashBag()->add('warning', 'La date de début ne peut être supèrieure à la date de fin');
 
-            return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
-                'id' => $id,
-            )));
+
+            }
+            else{
+                $em->persist($contrat);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Contrat ajouté !');
+
+                return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
+                    'id' => $id,
+                )));
+            }
+
+
+
+
         }
         return $this->render('SUHContratBundle:AffichageContrats:addContrat.html.twig', array(
             'form' => $form->createView(),
@@ -85,15 +101,28 @@ class ContratController extends Controller
 
         if ($form->handleRequest($request)->isValid()) {
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($contrat);
-            $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Contrat édité !');
+            $dateDebut = date("Y-m-d", strtotime(strtr($contrat->getDateDebutContrat(), '/', '-')));
+            $dateFin = date("Y-m-d", strtotime(strtr($contrat->getDateFinContrat(), '/', '-')));
+            if($dateDebut > $dateFin){
+                $contrat->setDateDebutContrat(null);
+                $contrat->setDateFinContrat(null);
 
-            return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
-                'id' => $contrat->getEtudiantAidant()->getId(),
-            )));
+                $request->getSession()->getFlashBag()->add('warning', 'La date de début ne peut être supèrieure à la date de fin');
+
+
+            }
+            else {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($contrat);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Contrat édité !');
+
+                return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
+                    'id' => $contrat->getEtudiantAidant()->getId(),
+                )));
+            }
         }
 
         return $this->render('SUHContratBundle:AffichageContrats:editContrat.html.twig', array(
