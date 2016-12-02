@@ -53,10 +53,12 @@ class EtudiantAidant
 
     /**
      * @var integer
-     * @ORM\OneToOne(targetEntity="SUH\GestionBundle\Entity\User", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="SUH\ConnexionBundle\Entity\User", cascade={"persist"})
      * @Assert\Valid()
      */
     private $user;
+
+    private $heureNonValide;
 
 
     public function getId(){
@@ -115,7 +117,7 @@ class EtudiantAidant
 
     public function getEtudiantInformations()
     {
-    return $this->etudiantInformations;
+        return $this->etudiantInformations;
     }
     public function setEtudiantInformations($etudiantInformations){
 
@@ -133,4 +135,35 @@ class EtudiantAidant
 
   }
 
+
+    /**
+     * Set user
+     *
+     * @param \SUH\GestionBundle\Entity\User $user
+     *
+     * @return EtudiantAidant
+     */
+    public function setUser(\SUH\ConnexionBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \SUH\ConnexionBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function getHeureNonValide(){
+        return $this->heureNonValide;
+    }
+    public function setHeureNonValide($heureNonValide){
+        return $this->heureNonValide = $heureNonValide;
+    }
 }

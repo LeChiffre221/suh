@@ -24,6 +24,8 @@ class ParametersType extends AbstractType
             ->add('coefTutorat',         'number')
             ->add('coefPriseDeNote',         'number')
             ->add('coefAssistance',         'number')
+            ->add('delaiMois',         'number')
+            ->add('dateMoisLimite', 'text')
             ->add('Envoyer', 'submit')
 
         ;

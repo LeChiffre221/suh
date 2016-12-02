@@ -285,4 +285,3 @@ class Avenant
         return $this->contrat;
     }
 }
-

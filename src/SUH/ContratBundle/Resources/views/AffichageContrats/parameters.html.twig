@@ -98,6 +98,22 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    {{ form_label(form.delaiMois, "Délai: ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.delaiMois) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.delaiMois, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.dateMoisLimite, "Délai maximum de réalisation des heures : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+                    {{ form_errors(form.dateMoisLimite) }}
+                    <div class="col-sm-4">
+                        {{ form_widget(form.dateMoisLimite, {'attr': {'class': 'form-control date'}}) }}
+                    </div>
+                </div>
+
                 {{ form_rest(form) }}
                 {{ form_end(form) }}
 
@@ -106,4 +122,18 @@
     </div>
         <br/><br/>
     </body>
+    <script type="text/javascript">
+    $(function() {
+
+
+        $('.date').datetimepicker({
+            format: 'DD/MM',
+            defaultDate: new Date(),
+
+        })
+
+        $('.date').datetimepicker('setStartDate', '2017-01-01');
+
+    });
+</script>
 {% endblock %}

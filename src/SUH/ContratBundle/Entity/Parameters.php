@@ -97,6 +97,20 @@ class Parameters
      */
     private $coefAssistance;
 
+    /**
+     * @var \delaiMois
+     *
+     * @ORM\Column(name="delaiMois", type="integer", nullable=false)
+     */
+    private $delaiMois;
+
+    /**
+     * @var \dateMoisLimite
+     *
+     * @ORM\Column(name="dateMoisLimite", type="datetime", nullable=false)
+     */
+    private $dateMoisLimite;
+
 
 
     /**
@@ -314,4 +328,62 @@ class Parameters
     {
         return $this->passwordMail;
     }
+
+    /**
+     * Set delaiMois
+     *
+     * @param integer $delaiMois
+     *
+     * @return Parameters
+     */
+    public function setDelaiMois($delaiMois)
+    {
+        $this->delaiMois = $delaiMois;
+
+        return $this;
+    }
+
+    /**
+     * Get delaiMois
+     *
+     * @return integer
+     */
+    public function getDelaiMois()
+    {
+        return $this->delaiMois;
+    }
+
+
+    /**
+     * Set dateAndTime
+     *
+     * @param \DateTime $dateAndTime
+     *
+     * @return HeureEffectuee
+     */
+    public function setDateMoisLimite($dateMoisLimite)
+    {
+
+        $dateMoisLimite = date("m-d", strtotime(strtr($dateMoisLimite, '/', '-') ));
+        $this->dateMoisLimite = new DateTime($dateMoisLimite);
+
+        return $this;
+    }
+
+    /**
+     * Get dateMoisLimite
+     *
+     * @return \dateMoisLimite
+     */
+    public function getDateMoisLimite()
+    {
+
+        if($this->dateMoisLimite instanceof \DateTime){
+            return $this->dateMoisLimite->format('d/m');
+        }
+
+        return $this->dateMoisLimite;
+    }
+
+
 }

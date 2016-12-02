@@ -1,12 +1,26 @@
 $(function() {
 
-
-    $('#suh_contratbundle_etudiantaidant_etudiantFormation_diplome').children('option:last-child').attr('value');
+    $('#autre-diplome').hide();
+    $('#autre-formation').hide();
+    
     $('#suh_contratbundle_etudiantaidant_etudiantFormation_diplome').children('option:last-child').on('click', function(e){
         e.preventDefault();
         $('#autre-diplome').slideDown();
+    });
+    $('#autre-diplome').on('change', function(e){
+        var value = $(this).val();
+        $('#suh_contratbundle_etudiantaidant_etudiantFormation_diplome').children('option:last-child').attr('value',value);
+        console.log(value);
+    });
 
-
+    $('#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement').children('option:last-child').on('click', function(e){
+        e.preventDefault();
+        $('#autre-formation').slideDown();
+    });
+    $('#autre-formation').on('change', function(e){
+        var value = $(this).val();
+        $('#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement').children('option:last-child').attr('value',value);
+        console.log(value);
     });
 
 

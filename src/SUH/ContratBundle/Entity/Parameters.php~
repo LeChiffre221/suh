@@ -97,6 +97,13 @@ class Parameters
      */
     private $coefAssistance;
 
+    /**
+     * @var \delaiMois
+     *
+     * @ORM\Column(name="delaiMois", type="integer", nullable=false)
+     */
+    private $delaiMois;
+
 
 
     /**
@@ -193,5 +200,125 @@ class Parameters
     public function getCoefAssistance()
     {
         return $this->coefAssistance;
+    }
+
+    /**
+     * Set adminMail
+     *
+     * @param string $adminMail
+     *
+     * @return Parameters
+     */
+    public function setAdminMail($adminMail)
+    {
+        $this->adminMail = $adminMail;
+
+        return $this;
+    }
+
+    /**
+     * Get adminMail
+     *
+     * @return string
+     */
+    public function getAdminMail()
+    {
+        return $this->adminMail;
+    }
+
+    /**
+     * Set portMail
+     *
+     * @param string $portMail
+     *
+     * @return Parameters
+     */
+    public function setPortMail($portMail)
+    {
+        $this->portMail = $portMail;
+
+        return $this;
+    }
+
+    /**
+     * Get portMail
+     *
+     * @return string
+     */
+    public function getPortMail()
+    {
+        return $this->portMail;
+    }
+
+    /**
+     * Set hostMail
+     *
+     * @param string $hostMail
+     *
+     * @return Parameters
+     */
+    public function setHostMail($hostMail)
+    {
+        $this->hostMail = $hostMail;
+
+        return $this;
+    }
+
+    /**
+     * Get hostMail
+     *
+     * @return string
+     */
+    public function getHostMail()
+    {
+        return $this->hostMail;
+    }
+
+    /**
+     * Set usernameMail
+     *
+     * @param string $usernameMail
+     *
+     * @return Parameters
+     */
+    public function setUsernameMail($usernameMail)
+    {
+        $this->usernameMail = $usernameMail;
+
+        return $this;
+    }
+
+    /**
+     * Get usernameMail
+     *
+     * @return string
+     */
+    public function getUsernameMail()
+    {
+        return $this->usernameMail;
+    }
+
+    /**
+     * Set passwordMail
+     *
+     * @param string $passwordMail
+     *
+     * @return Parameters
+     */
+    public function setPasswordMail($passwordMail)
+    {
+        $this->passwordMail = $passwordMail;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordMail
+     *
+     * @return string
+     */
+    public function getPasswordMail()
+    {
+        return $this->passwordMail;
     }
 }

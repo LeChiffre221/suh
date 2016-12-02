@@ -2,6 +2,7 @@
 
 namespace SUH\ContratBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -32,7 +33,7 @@ class HeureEffectuee
     /**
      * @var string
      *
-     * @ORM\Column(name="descriptionMission", type="string", length=1000)
+     * @ORM\Column(name="descriptionMission", type="string", length=1000, nullable = true)
      */
     private $descriptionMission;
 
@@ -57,7 +58,13 @@ class HeureEffectuee
      */
     private $verification;
 
-
+    /**
+     * @var integer
+     * @ORM\ManyToOne(targetEntity="SUH\ContratBundle\Entity\Contrat", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
+     */
+    private $contrat;
 
 
     /**
@@ -127,8 +134,10 @@ class HeureEffectuee
      */
     public function setDateAndTime($dateAndTime)
     {
-        $this->dateAndTime = $dateAndTime;
-    
+
+        $dateAndTime = date("Y-m-d H:i", strtotime(strtr($dateAndTime, '/', '-') ));
+        $this->dateAndTime = new DateTime($dateAndTime);
+
         return $this;
     }
 
@@ -139,6 +148,11 @@ class HeureEffectuee
      */
     public function getDateAndTime()
     {
+
+        if($this->dateAndTime instanceof \DateTime){
+            return $this->dateAndTime->format('d/m/Y H:i');
+        }
+
         return $this->dateAndTime;
     }
 
@@ -199,6 +213,8 @@ class HeureEffectuee
      */
     public function setContrat(\SUH\ContratBundle\Entity\Contrat $contrat = null)
     {
+
+
         $this->contrat = $contrat;
     
         return $this;
