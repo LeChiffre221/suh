@@ -23,6 +23,15 @@ class Contrat
      */
     private $id;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nomEtudiant", type="string", length=500)
+     */
+    private $nomEtudiant;
+
+
     /**
      * @var string
      *
@@ -392,7 +401,7 @@ class Contrat
 
         $natures = substr($natures, 0,-2);
 
-        return $natures .' du '. $this->getDateDebutContrat() .' au '. $this->getDateFinContrat() .'';
+        return "Contrat pour ".$this->getNomEtudiant();
 
     }
 
@@ -402,5 +411,29 @@ class Contrat
 
     public function getListeAvenant(){
         return $this->listeAvenant;
+    }
+
+    /**
+     * Set nomEtudiant
+     *
+     * @param string $nomEtudiant
+     *
+     * @return Contrat
+     */
+    public function setNomEtudiant($nomEtudiant)
+    {
+        $this->nomEtudiant = $nomEtudiant;
+
+        return $this;
+    }
+
+    /**
+     * Get nomEtudiant
+     *
+     * @return string
+     */
+    public function getNomEtudiant()
+    {
+        return $this->nomEtudiant;
     }
 }

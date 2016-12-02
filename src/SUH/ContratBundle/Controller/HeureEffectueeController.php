@@ -34,7 +34,7 @@ class HeureEffectueeController extends Controller
         $heureEffectuee = new HeureEffectuee();
         $form = $this->get('form.factory')->create(new HeureEffectueeType, $heureEffectuee);
 
-        $form->add('contrat', 'entity', array(
+        $form->add('contrat', 'hidden', array(
             'class' => 'SUHContratBundle:Contrat',
             'query_builder' => function(ContratRepository $repo) use($etudiant) {
                 return $repo->getContratsPourUnEtudiant($etudiant);
@@ -46,12 +46,49 @@ class HeureEffectueeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $contratChoisi = $heureEffectuee->getContrat();
 
+            //Variables intermédiaires pour comparé par la suite les dates
             $dateEtudiant = date("Y-m-d", strtotime(strtr($heureEffectuee->getDateAndTime(), '/', '-')));
             $dateDebut = date("Y-m-d", strtotime(strtr($contratChoisi->getDateDebutContrat(), '/', '-')));
             $dateFin = date("Y-m-d", strtotime(strtr($contratChoisi->getDateFinContrat(), '/', '-')));
 
+            $natureMissionValide = false;
+            $validateDate = false;
             //Compare si les date de l'heure sont cohérente avec les dates du contrat
-            if(($dateEtudiant < $dateDebut) || ($dateEtudiant > $dateFin)){
+            if(($dateEtudiant >= $dateDebut) && ($dateEtudiant <= $dateFin)) {
+
+                //Date Valide
+                $validateDate = true;
+
+                //Test si la nature de la mision correspond à la nature d'un contrat
+                if (!in_array($heureEffectuee->getNatureMission(), $contratChoisi->getNatureContrat())) {
+
+                    $lesMission = '[';
+                    foreach ($contratChoisi->getNatureContrat() as $nature) {
+                        if ($nature == "tutorat") {
+                            $nature = "Tutorat";
+                        } elseif ($nature == "assistancePédagogique") {
+                            $nature = "Assistance Pédagogique";
+                        } else {
+                            $nature = "Prise de note";
+                        }
+
+                        $lesMission .= $nature . "/";
+                    }
+                    $lesMission = substr($lesMission, 0, -1) . "]";
+
+                    $dateContratDebut = date("d-m-Y", strtotime($dateDebut));
+                    $dateContratFin = date("d-m-Y", strtotime($dateFin));
+                    $request->getSession()->getFlashBag()->add('warning', 'La nature de votre mission n\'est pas pris en charge par ce contrat.
+                                                                           Les Mission disponible du ' . $dateContratDebut . ' au ' . $dateContratFin . ' sont  : ' . $lesMission . '.');
+
+                }
+                else {
+                    $natureMissionValide = true;
+                }
+            }
+
+            if(!$natureMissionValide || !$validateDate){
+                $natureMissionValide = false;
                 $validateDate = false;
 
                 $listeAvenants = $em->getRepository('SUHContratBundle:Avenant')->getAvenantsPourUnContrat($contratChoisi);
@@ -63,18 +100,64 @@ class HeureEffectueeController extends Controller
 
                     if(($dateEtudiant >= $dateDebut) && ($dateEtudiant <= $dateFin)){
                         $validateDate = true;
+
+                        //Test si la nature de la mision correspond à la nature d'un avenant
+                        if(!in_array($heureEffectuee->getNatureMission(), $avenant->getNatureAvenant())){
+                            $lesMission = '[';
+                            foreach ($avenant->getNatureAvenant() as $nature) {
+                                if($nature == "tutorat"){
+                                    $nature = "Tutorat";
+                                }
+                                elseif($nature == "assistancePédagogique"){
+                                    $nature = "Assistance Pédagogique";
+                                }
+                                else{
+                                    $nature = "Prise de note";
+                                }
+
+                                $lesMission.=$nature."/";
+                            }
+                            $lesMission = substr($lesMission,0,-1)."]";
+
+                            $dateAvenantDebut = date("d-m-Y", strtotime($dateDebut ));
+                            $dateAvenantFin = date("d-m-Y", strtotime($dateFin ));
+                            $request->getSession()->getFlashBag()->add('warning', 'La nature de votre mission n\'est pas pris en charge par ce contrat.
+                                                                           Les Mission disponible du '.$dateAvenantDebut.' au '.$dateAvenantFin.' sont : '.$lesMission.'.');
+
+                            $natureMissionValide = false;
+                        }
+                        else{
+                            $natureMissionValide = true;
+                        }
                     }
 
                 }
-
-                if(!$validateDate) {
-                    return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig', array(
-                        'form' => $form->createView(),
-                        'etudiant' => $etudiant,
-                        'dateAndTime' => false
-                    ));
+                if(!$validateDate){
+                    $request->getSession()->getFlashBag()->add('warning', 'La date de vos heures n\'est pas pris en charge par ce contrat !');
                 }
             }
+
+
+
+
+            if(!$validateDate || !$natureMissionValide) {
+
+
+                return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig', array(
+                    'form' => $form->createView(),
+                    'etudiant' => $etudiant,
+
+                ));
+            }
+            else{
+                $flashBag = $this->get('session')->getFlashBag();
+                foreach ($flashBag->keys() as $type) {
+                    $flashBag->set($type, array());
+                }
+            }
+
+
+
 
             $heureEffectuee->setVerification(false);
 

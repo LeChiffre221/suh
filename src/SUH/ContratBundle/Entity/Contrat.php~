@@ -23,11 +23,25 @@ class Contrat
      */
     private $id;
 
+
+    /**
+     * @var string
+     *
+<<<<<<< HEAD
+     * @ORM\Column(name="natureContrat", type="array", length=500)
+     */
+=======
+     * @ORM\Column(name="nomEtudiant", type="string", length=500)
+     */
+    private $nomEtudiant;
+
+
     /**
      * @var string
      *
      * @ORM\Column(name="natureContrat", type="array", length=500)
      */
+>>>>>>> 6e53a7d80b040eed822b993a0ac630dba510c8b6
     private $natureContrat = array();
 
     /**
@@ -392,7 +406,11 @@ class Contrat
 
         $natures = substr($natures, 0,-2);
 
+<<<<<<< HEAD
         return $natures .' du '. $this->getDateDebutContrat() .' au '. $this->getDateFinContrat() .'';
+=======
+        return "Contrat n°".$this->getId();
+>>>>>>> 6e53a7d80b040eed822b993a0ac630dba510c8b6
 
     }
 

@@ -24,6 +24,7 @@ class ContratType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ))
+            ->add('nomEtudiant', 'text')
             ->add('nbHeureInitiales',         'number', array('pattern' => '[0-9]+'))
             ->add('dateDebutContrat',         'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
             ->add('dateFinContrat',           'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
