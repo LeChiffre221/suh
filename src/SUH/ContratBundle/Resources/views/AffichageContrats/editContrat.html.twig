@@ -35,6 +35,14 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    {{ form_label(form.nomEtudiant, "Nom de l'étudiant suivi : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.nomEtudiant) }}
+                    <div class="col-sm-3 checkbox">
+                        {{ form_widget(form.nomEtudiant, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
                 {# Idem pour un autre champ. #}
                 <div class="form-group">
                     {{ form_label(form.nbHeureInitiales, "Nombre d'heures initiales : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}

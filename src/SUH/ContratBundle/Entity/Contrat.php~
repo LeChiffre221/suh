@@ -4,6 +4,7 @@ namespace SUH\ContratBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Contrat
@@ -22,16 +23,27 @@ class Contrat
      */
     private $id;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity="SUH\ContratBundle\Entity\EtudiantAidant")
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
+     *
+     * @ORM\Column(name="nomEtudiant", type="string", length=500)
      */
-    private $etudiantAidant;
+    private $nomEtudiant;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="natureContrat", type="array", length=500)
+     */
+    private $natureContrat = array();
 
     /**
      * @var integer
      *
      * @ORM\Column(name="nbHeureInitiales", type="integer")
+     * @Assert\Regex("/[0-9]+/")
      */
     private $nbHeureInitiales;
 
@@ -53,6 +65,7 @@ class Contrat
      * @var integer
      *
      * @ORM\Column(name="semestreConcerne", type="integer")
+     * @Assert\Regex("/1|2{1}/")
      */
     private $semestreConcerne;
 
@@ -74,36 +87,27 @@ class Contrat
      * @var boolean
      *
      * @ORM\Column(name="etablissementAvenant", type="boolean", nullable=true)
+     * @Assert\Type(type="boolean")
      */
     private $etablissementAvenant;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateEnvoiAvenantDRH", type="date", nullable=true)
-     */
-    private $dateEnvoiAvenantDRH;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateEnvoiAvenantEtudiant", type="date", nullable=true)
-     */
-    private $dateEnvoiAvenantEtudiant;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="natureContrat", type="string", length=500)
-     */
-    private $natureContrat;
 
     /**
      * @var boolean
      *
      * @ORM\Column(name="active", type="boolean")
+     * @Assert\Type(type="boolean")
      */
     private $active;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="SUH\ContratBundle\Entity\EtudiantAidant")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
+     */
+    private $etudiantAidant;
+
+    private $listeAvenant;
 
 
     /**
@@ -149,6 +153,7 @@ class Contrat
      */
     public function setDateDebutContrat($dateDebutContrat)
     {
+        $dateDebutContrat = date("Y-m-d", strtotime(strtr($dateDebutContrat, '/', '-') ));
         $this->dateDebutContrat =  new DateTime($dateDebutContrat);
     
         return $this;
@@ -161,6 +166,10 @@ class Contrat
      */
     public function getDateDebutContrat()
     {
+
+        if($this->dateDebutContrat instanceof \DateTime){
+            return $this->dateDebutContrat->format('d/m/Y');
+        }
         return $this->dateDebutContrat;
     }
 
@@ -173,6 +182,8 @@ class Contrat
      */
     public function setDateFinContrat($dateFinContrat)
     {
+        $dateFinContrat = date("Y-m-d", strtotime(strtr($dateFinContrat, '/', '-') ));
+
         $this->dateFinContrat = new DateTime($dateFinContrat);
     
         return $this;
@@ -185,6 +196,10 @@ class Contrat
      */
     public function getDateFinContrat()
     {
+
+        if($this->dateFinContrat instanceof \DateTime){
+            return $this->dateFinContrat->format('d/m/Y');
+        }
         return $this->dateFinContrat;
     }
 
@@ -221,6 +236,7 @@ class Contrat
      */
     public function setDateEnvoiDRH($dateEnvoiDRH)
     {
+        $dateEnvoiDRH= date("Y-m-d", strtotime(strtr($dateEnvoiDRH, '/', '-') ));
         $this->dateEnvoiDRH = new DateTime($dateEnvoiDRH);
     
         return $this;
@@ -233,6 +249,10 @@ class Contrat
      */
     public function getDateEnvoiDRH()
     {
+
+        if($this->dateEnvoiDRH instanceof \DateTime){
+            return $this->dateEnvoiDRH->format('d/m/Y');
+        }
         return $this->dateEnvoiDRH;
     }
 
@@ -245,6 +265,7 @@ class Contrat
      */
     public function setDateEnvoiEtudiant($dateEnvoiEtudiant)
     {
+        $dateEnvoiEtudiant= date("Y-m-d", strtotime(strtr($dateEnvoiEtudiant, '/', '-') ));
         $this->dateEnvoiEtudiant = new DateTime($dateEnvoiEtudiant);
     
         return $this;
@@ -257,6 +278,9 @@ class Contrat
      */
     public function getDateEnvoiEtudiant()
     {
+        if($this->dateEnvoiEtudiant instanceof \DateTime){
+            return $this->dateEnvoiEtudiant->format('d/m/Y');
+        }
         return $this->dateEnvoiEtudiant;
     }
 
@@ -281,57 +305,11 @@ class Contrat
      */
     public function getEtablissementAvenant()
     {
+
         return $this->etablissementAvenant;
     }
 
-    /**
-     * Set dateEnvoiAvenantDRH
-     *
-     * @param \DateTime $dateEnvoiAvenantDRH
-     *
-     * @return Contrat
-     */
-    public function setDateEnvoiAvenantDRH($dateEnvoiAvenantDRH)
-    {
-        $this->dateEnvoiAvenantDRH = new DateTime($dateEnvoiAvenantDRH);
     
-        return $this;
-    }
-
-    /**
-     * Get dateEnvoiAvenantDRH
-     *
-     * @return \DateTime
-     */
-    public function getDateEnvoiAvenantDRH()
-    {
-        return $this->dateEnvoiAvenantDRH;
-    }
-
-    /**
-     * Set dateEnvoiAvenantEtudiant
-     *
-     * @param \DateTime $dateEnvoiAvenantEtudiant
-     *
-     * @return Contrat
-     */
-    public function setDateEnvoiAvenantEtudiant($dateEnvoiAvenantEtudiant)
-    {
-        $this->dateEnvoiAvenantEtudiant = new DateTime($dateEnvoiAvenantEtudiant);
-    
-        return $this;
-    }
-
-    /**
-     * Get dateEnvoiAvenantEtudiant
-     *
-     * @return \DateTime
-     */
-    public function getDateEnvoiAvenantEtudiant()
-    {
-        return $this->dateEnvoiAvenantEtudiant;
-    }
-
     /**
      * Set natureContrat
      *
@@ -341,6 +319,8 @@ class Contrat
      */
     public function setNatureContrat($natureContrat)
     {
+
+
         $this->natureContrat = $natureContrat;
     
         return $this;
@@ -381,26 +361,55 @@ class Contrat
     }
 
     /**
-     * Set validate
+     * Set active
      *
-     * @param boolean $validate
+     * @param boolean $active
      *
      * @return Contrat
      */
-    public function setValidate($validate)
+    public function setActive($active)
     {
-        $this->validate = $validate;
+        $this->active = $active;
 
         return $this;
     }
 
     /**
-     * Get validate
+     * Get active
      *
      * @return boolean
      */
-    public function getValidate()
+    public function getActive()
     {
-        return $this->validate;
+        return $this->active;
+    }
+
+    public function getToStringContrat(){
+        $natures = "";
+        foreach ($this->natureContrat as $nature){
+            if($nature == "tutorat"){
+                $natures .= "Tutorat, ";
+            }
+            elseif ($nature == "priseNote"){
+                $natures .= "Prise de note, ";
+            }
+            else{
+                $natures .= "Assistance pédagogique, ";
+            }
+
+        }
+
+        $natures = substr($natures, 0,-2);
+
+        return "Contrat n°".$this->getId();
+
+    }
+
+    public function setListeAvenant($listeAvenant){
+        return $this->listeAvenant = $listeAvenant;
+    }
+
+    public function getListeAvenant(){
+        return $this->listeAvenant;
     }
 }
