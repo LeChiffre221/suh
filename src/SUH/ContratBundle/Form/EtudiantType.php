@@ -16,7 +16,7 @@ class EtudiantType extends AbstractType
     {
         $builder
             ->add('numeroEtudiant', 'text', array('required' => true))
-            ->add('dateNaissance', 'date', array('required' => true))
+            ->add('dateNaissance', 'date', array('required' => true, 'widget' => 'single_text', 'html5' => false, 'format' => 'yyyy-MM-dd',))
             ->add('premiereInscription')
         ;
     }
