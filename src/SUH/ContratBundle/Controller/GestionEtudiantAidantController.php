@@ -292,7 +292,9 @@ class GestionEtudiantAidantController extends Controller
         $em->persist($user);
         $em->flush();
         $request->getSession()->getFlashBag()->add('notice', $pass);
-        return $this->redirectToRoute('suh_contrat_homepage');
+        return $this->redirectToRoute('suh_contrat_showEtudiantAidant', array(
+                'id' => $id,
+            ));
         
     }
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/bootstrap.min.css')}}" type="text/css"/>
     
     <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/accueil.css')}}" type="text/css"/>
@@ -51,7 +51,7 @@
                             <li id="rechercheAvancee" class="liensNavbar"><a href="{{path('suh_gestion_rechercheAvancee')}}">Recherche avancée</a></li>
                             <li class="liensNavbar"><a href="{{path('suh_import_export_page')}}">Import/Export Excel</a></li>
                             <li class="liensNavbar"><a href="{{path('suh_stats')}}">Statistiques</a></li>
-                            <li class="liensNavbar"><a href="{{path('suh_gestion_utilisateur_page')}}">Gestion des utilisateurs</a></li>
+                            {# <li class="liensNavbar"><a href="{{path('suh_gestion_utilisateur_page')}}">Gestion des utilisateurs</a></li> #}
                             <li>
                                 {{ render(controller("SUHGestionBundle:Affichage:afficherListeAnnee")) }}
                             </li>

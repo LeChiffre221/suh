@@ -107,6 +107,53 @@ class AvenantController extends Controller
 
     }
 
+    public function editAvenantAction(Request $request, $idAvenant){
+        $em = $this->getDoctrine()->getManager();
+        $avenant = $em->getRepository("SUHContratBundle:Avenant")->find($idAvenant);
+
+        $form = $this->get('form.factory')->create(new AvenantType, $avenant);
+        $contrat = $avenant->getContrat();
+        $idEtudiant = $contrat->getEtudiantAidant()->getId();
+
+        if ($form->handleRequest($request)->isValid()) {
+
+            $avenant->setContrat($contrat);
+
+            $dateDebut = date("Y-m-d", strtotime(strtr($avenant->getDateDebutAvenant(), '/', '-')));
+            $dateFin = date("Y-m-d", strtotime(strtr($avenant->getDateFinAvenant(), '/', '-')));
+            if($dateDebut > $dateFin){
+                $avenant->setDateDebutAvenant(null);
+                $avenant->setDateFinAvenant(null);
+
+                $request->getSession()->getFlashBag()->add('warning', 'La date de début ne peut être supèrieure à la date de fin');
+
+
+            }
+            else {
+
+                $em->persist($avenant);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Avenant ajouté !');
+
+                return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
+                    'id' => $idEtudiant,
+                )));
+            }
+        }
+
+        return $this->render('SUHContratBundle:AffichageContrats:addAvenant.html.twig', array(
+            'form' => $form->createView(),
+            'id' => $idEtudiant,
+            'contrat' => $contrat,
+            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'nbContrats'=>$this->getNbContrats($idEtudiant),
+        ));
+
+    }
+
+
+
     public function getListeEtudiants($chaine)
     {
         $etudiantRepository = $this->getDoctrine()

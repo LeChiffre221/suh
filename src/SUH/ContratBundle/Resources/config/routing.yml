@@ -87,6 +87,12 @@ suh_contrat_deleteAvenant:
   requirements:
        idAvenant: "^[0-9]+$"
 
+suh_contrat_editerAvenant:
+  path: /editAvenant/{idAvenant}
+  defaults: {_controller: SUHContratBundle:Avenant:editAvenant}
+  requirements:
+       idAvenant: "^[0-9]+$"
+
 #=========================================
 #============Gestion Etudiants============
 #=========================================
@@ -171,3 +177,24 @@ suh_contrat_validationHeures:
 suh_contrat_parameters:
     path: /parameters
     defaults: { _controller: SUHContratBundle:Affichage:AfficherParameters }
+
+
+#=========================================
+#=============Statistiques ===============
+#=========================================
+
+suh_contrat_statistiques_avancees:
+    path: /statistiques/avancees
+    defaults: { _controller: SUHContratBundle:Stats:TraitementStatsAvancees }
+
+suh_contrat_statistiques_heures:
+    path: /statistiques/heures
+    defaults: { _controller: SUHContratBundle:Stats:TraitementStatsHeures }
+
+suh_contrat_statistiques_nature:
+    path: /statistiques/nature
+    defaults: { _controller: SUHContratBundle:Stats:TraitementStatsNature }
+
+suh_contrat_statistiques_cout:
+    path: /statistiques/cout
+    defaults: { _controller: SUHContratBundle:Stats:TraitementStatsCout }
