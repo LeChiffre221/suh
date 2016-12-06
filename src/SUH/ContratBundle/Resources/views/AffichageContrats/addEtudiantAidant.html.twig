@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="col-md-6" >
                                     {{ form_label(form.etudiant.dateNaissance) }}
-                                    {{ form_widget(form.etudiant.dateNaissance) }}
+                                    {{ form_widget(form.etudiant.dateNaissance,  {'attr': {'class': 'form-control date'}}) }}
                                     {{ form_errors(form.etudiant.dateNaissance) }}
                                 </div>
                                 <div class="col-md-6" >
@@ -176,6 +176,14 @@
                     $( "#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement option:selected").val($temp2);
                 }
             });
+
+
+        $('.date').datetimepicker({
+            format: 'YYYY-MM-DD',
+            defaultDate: new Date(),
+            locale: moment.locale('fr')
+        });
+        
 
         });
     </script>

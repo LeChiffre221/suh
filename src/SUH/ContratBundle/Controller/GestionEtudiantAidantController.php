@@ -85,6 +85,7 @@ class GestionEtudiantAidantController extends Controller
         $userDb = $parameters->find(1)->getUsernameMail();
         $passwordDb = $parameters->find(1)->getPasswordMail();
 
+        var_dump($emailAdmin);
         /* formulaire */
 
         $form = $this->get('form.factory')->create(new EtudiantAidantType(), $etudiantAidant);
@@ -143,27 +144,27 @@ class GestionEtudiantAidantController extends Controller
 
             $emailEtu = $request->request->get('mailPerso');
 
-            //surcharge du parameters.yml
-            // $transport = \Swift_SmtpTransport::newInstance($hostDb,$portDb)
-            //     ->setUsername($userDb)
-            //     ->setPassword($passwordDb)
-            // ;
+            // surcharge du parameters.yml
+            $transport = \Swift_SmtpTransport::newInstance($hostDb,$portDb)
+                ->setUsername($userDb)
+                ->setPassword($passwordDb)
+            ;
 
             
-            // $mailer = \Swift_Mailer::newInstance($transport);
+            $mailer = \Swift_Mailer::newInstance($transport);
 
-            // $message = \Swift_Message::newInstance()
-            // ->setSubject('SUH - Vos identifiants de connexion')
-            // ->setFrom($emailAdmin)
-            // ->setTo($emailEtu)
-            // ->setBody(
-            //     $this->renderView(
-            //         'SUHContratBundle:Emails:registration.html.twig'
-            //     ),
-            //     'text/html'
-            // );
+            $message = \Swift_Message::newInstance()
+            ->setSubject('SUH - Vos identifiants de connexion')
+            ->setFrom($emailAdmin)
+            ->setTo($emailEtu)
+            ->setBody(
+                $this->renderView(
+                    'SUHContratBundle:Emails:registration.html.twig'
+                ),
+                'text/html'
+            );
 
-            // $mailer->send($message);
+            $mailer->send($message);
 
             //Persist en base  
             $em->persist($user);
