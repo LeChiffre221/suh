@@ -2,6 +2,7 @@
 
 namespace SUH\ContratBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

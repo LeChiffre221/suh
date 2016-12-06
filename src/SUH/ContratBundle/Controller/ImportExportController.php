@@ -60,7 +60,7 @@ class ImportExportController extends Controller
 
                 //diplome composante etablissement
 
-                $diplome = $contrat->getEtudiantAidant()->getFormation()->getDiplome();
+                $diplome = $contrat->getEtudiantAidant()->getFormation()->getDiplome()." (".$contrat->getEtudiantAidant()->getFormation()->getAnneeEtude()."eme Année)";
                 $composante = $contrat->getEtudiantAidant()->getFormation()->getComposante();
                 $etablissement = $contrat->getEtudiantAidant()->getFormation()->getEtablissement();
 

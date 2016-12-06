@@ -299,4 +299,6 @@ class ContratController extends Controller
 
 
 
+
+
 }

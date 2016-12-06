@@ -31,12 +31,6 @@ class ContratType extends AbstractType
             ->add('semestreConcerne',         'number', array('pattern' => '1|2{1}'))
             ->add('dateEnvoiDRH',             'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
             ->add('dateEnvoiEtudiant',        'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
-            //->add('listeAvenant', 'collection', array(
-              //  'type'         => new AvenantType(),
-               // 'allow_add'    => false,
-                //'allow_delete' => false
-            //))
-
         ;
     }
     

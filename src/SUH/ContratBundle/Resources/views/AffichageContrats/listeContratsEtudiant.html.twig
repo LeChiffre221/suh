@@ -174,7 +174,7 @@
                 <div class="col-lg-6">
 
                     {% if  (avenant.dateEnvoiEtudiant is null) %}
-                        <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
+                        <form action="{{ path('suh_contrat_addDateAvenant', {'idAvenant': avenant.id}   ) }}" method="post" class="form-horizontal">
 
                             <div class="col-lg-4">
                                 <label >Etudiant :</label><br>
