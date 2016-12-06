@@ -5,8 +5,8 @@ parameters:
     database_port: null
     database_name: dbpicouyperr
     database_user: picouyperr
-    database_password: 
-    mailer_transport: smtp
+    database_password:
+    mailer_transport: mail
     mailer_host: localhost
     mailer_user: null
     mailer_password: null
