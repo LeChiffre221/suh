@@ -38,12 +38,30 @@
       <div class="container-fluid">
         
           <div class="row">
-              <div class="col-md-3">
-                <a href="{{path('suh_choix_homepage')}}">
-                    <img id="logo" alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
-                </a>
+              <div id="logo-head" class="col-md-2">
+              {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-md-12">
+                  <a id="logo" href="{{path('suh_choix_homepage')}}">
+                      <img  alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
+                  </a>
+                </div>
+                <div class="col-md-6">
+                  <a href="{{path('suh_contrat_homepage')}}">
+                      <span class="btn btn-primary">
+                          Contrat
+                      </span>
+                  </a>
+                </div>
+                <div class="col-md-6">
+                  <a href="{{path('suh_gestion_homepage')}}">
+                      <span class="btn btn-success" >
+                          Gestion
+                      </span>
+                  </a>
+                </div>
+                {% endif %}
               </div>
-              <div class="col-md-9">
+              <div class="col-md-10">
                   <nav class="navbar navbar-default">
                     <div class="container-fluid">
                         <ul class="nav navbar-nav">

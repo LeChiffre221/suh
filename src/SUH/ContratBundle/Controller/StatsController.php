@@ -106,6 +106,7 @@ class StatsController extends Controller
 
         $listeNatureContrats = array();
         $mois = array();
+        $annees = array();
 
 
         foreach($contrats as $contrat){
@@ -113,11 +114,22 @@ class StatsController extends Controller
             foreach($contrat->getNatureContrat() as $nature){
                 array_push($listeNatureContrats, $nature);
             }
+
             $moisTemp = intval(substr($contrat->getDateDebutContrat(),3,2), 10);
             $dateMonth = \DateTime::createFromFormat('!m', $moisTemp);
+
+            $anneeTemp = intval(substr($contrat->getDateDebutContrat(),6,4), 10);
+            $dateYear = \DateTime::createFromFormat('!Y', $anneeTemp);
+
             if(!in_array($dateMonth->format('F'), $mois, true)){
                 $mois[$moisTemp] = $dateMonth->format('F');
             }
+            if(!in_array($dateYear->format('Y'), $annees, true)){
+                $annees[$anneeTemp] = $dateYear->format('Y');
+            }
+
+
+            var_dump($annees);
 
         }
 
@@ -126,6 +138,9 @@ class StatsController extends Controller
         $hue =array();
         $form = $this->createFormBuilder($hue)
             ->add('Annees', 'choice', array(
+                'choices' => $annees
+                ))
+            ->add('Mois', 'choice', array(
                 'choices' => $mois
                 ))
             ->add('Envoyer', 'submit')
@@ -134,12 +149,20 @@ class StatsController extends Controller
 
         if ($form->handleRequest($request)->isValid()) {
 
-            var_dump($form->getData());
+            
+            $temp = $form->getData();
+            var_dump($temp);
+
+            $mois = \DateTime::createFromFormat('m', $temp['Annees']) ;
+            $moisPlusUn = \DateTime::createFromFormat('!m', $temp['Annees'] + 1) ;
+            var_dump($mois);
+            var_dump($moisPlusUn);
 
             $listeNatureContrats = array();
 
-            $contratsMois = $em->getRepository('SUHContratBundle:Contrat')->findAll();
+            $contratsMois = $em->getRepository('SUHContratBundle:Contrat')->findByDateDebutContrat($mois);
 
+            var_dump($contratsMois);
             foreach($contratsMois as $contrat){
             
                 foreach($contrat->getNatureContrat() as $nature){
@@ -156,7 +179,6 @@ class StatsController extends Controller
             foreach($rawData as $key => $raw){
                 $table['rows'][] = array('c' => array( array('v'=>$key), array('v'=>$raw)) );
             }
-            var_dump($form->getData());
             $data = json_encode($table);
 
 
@@ -215,51 +237,93 @@ class StatsController extends Controller
         $normalizers = array(new GetSetMethodNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
 
-        $heures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy([], ['natureMission' => 'ASC']);
+        $heures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy([], ['dateAndTime' => 'ASC']);
         $parameters = $em->getRepository('SUHContratBundle:Parameters')->find(1);
         $coefTutorat = $parameters->getCoefTutorat();
         $coefPriseDeNote = $parameters->getCoefPriseDeNote();
         $coefAssistance = $parameters->getCoefAssistance();
+        $coutHoraire = $parameters->getPrixHoraire();
+        
+        //jalons limites
+        $jourLimite = intval(substr($parameters->getDateMoisLimite(),0,2), 10);
+        $moisLimite = intval(substr($parameters->getDateMoisLimite(),3,2), 10);
 
-        var_dump($coefAssistance);
+        //Init var
         $listeCoutContrats = array();
+        $listeCoutContratsss = array();
+        $tempHours = 0;
         $heureTemp = 0;
-
-        foreach($heures as $heure){
-            
-            if(!in_array($heure->getNatureMission(), $listeCoutContrats, true)){
-                // array_push($listeCoutContrats, $heure->getNatureMission());
-                
-                $listeCoutContrats[$heureTemp] = $heure->getNatureMission();
-                $heureTemp = 0;
-             }
-            if(in_array($heure->getNatureMission(), $listeCoutContrats, true)){
-                $heureTemp += $heure->getNbHeure();
-                
-            }
-             
-            
-
-             
-        }
-        var_dump($listeCoutContrats);
-
-        $rawData = array_count_values ($listeCoutContrats);
-
+        $tempNature = null;
+        $tempYear = 0;
+        $arrayTemp = array('assistancePédagogique' => 0, 'tutorat' => 0, 'priseNote' => 0);
+        
+        //Header du chart
         $table['cols'] = array(
-            array('type' => 'string', 'label' => 'Nature'),
-            array('type' => 'number', 'label' => 'Nombre')
-            );
-        foreach($rawData as $key => $raw){
-            if($key == 'assistancePédagogique'){
-                $coef = $raw * $coefAssistance;
-                $table['rows'][] = array('c' => array( array('v'=>$key), array('v'=>$coef)) );
-                var_dump($coef);
+            array('type' => 'string', 'label' => 'Année'),
+            array('type' => 'number', 'label' => 'Assistance'),
+            array('type' => 'number', 'label' => 'Tutorat'),
+            array('type' => 'number', 'label' => 'Prise de note')
+        );
+
+        //Extrait les donnees des contrats
+        foreach($heures as $heure){
+            $day = intval(substr($heure->getDateAndTime(),0,2), 10);
+            $month = intval(substr($heure->getDateAndTime(),3,2), 10);
+
+            //Si le jour du contrat est superieur a la date limite, annee = annee + 1
+            if($month > $moisLimite || ($day > $jourLimite && $month == $moisLimite)){
+                $annee = intval(substr($heure->getDateAndTime(),6,4), 10) + 1;
             } else {
-                 $table['rows'][] = array('c' => array( array('v'=>$key), array('v'=>$raw)) );
+                $annee = intval(substr($heure->getDateAndTime(),6,4), 10);
             }
+
+            //Nouvelle annee ?
+            if($tempYear != $annee){
+                $arrayTemp = array('assistancePédagogique' => 0, 'tutorat' => 0, 'priseNote' => 0);
+                $tempHours = 0;
+            }
+
+            //Nouvelle nature ?
+            if($tempNature != $heure->getNatureMission()){
+                $tempHours = 0;
+                $tempNature = null;
+            }
+            //Coef Horaire + Coef Nature
+            if($heure->getNatureMission() == "tutorat"){
+                $arrayTemp[$heure->getNatureMission()] = (($heure->getNbHeure() * $coefTutorat) * $coutHoraire) + (($tempHours * $coefTutorat) * $coutHoraire);
+            } elseif($heure->getNatureMission() == "assistancePédagogique") {
+                $arrayTemp[$heure->getNatureMission()] = (($heure->getNbHeure() * $coefAssistance) * $coutHoraire) + (($tempHours * $coefAssistance) * $coutHoraire);
+            } else {
+                $arrayTemp[$heure->getNatureMission()] = (($heure->getNbHeure() * $coefPriseDeNote) * $coutHoraire) + (($tempHours * $coefPriseDeNote) * $coutHoraire);
+            }
+            
+
+            $listeCoutContrats[$annee] = $arrayTemp;
+
+            $tempYear = $annee;
+            $tempHours += $heure->getNbHeure();
+            $tempNature = $heure->getNatureMission();
+
         }
 
+        //Fabrique un array au format json pour le google chart
+        foreach($listeCoutContrats as $key => $cout){
+
+            $arrayTempTotal = array();
+            $arrayTempKey = array();
+
+            array_push($arrayTempKey, array('v'=>$key) );
+
+            foreach($cout as $keyCout => $total){
+                array_push($arrayTempTotal, array('v'=>$total) );
+            }
+            $result = array_merge($arrayTempKey, $arrayTempTotal);
+
+            $table['rows'][] = array('c' => $result );
+
+        }
+
+        //Encodage
         $data = json_encode($table);
 
 
