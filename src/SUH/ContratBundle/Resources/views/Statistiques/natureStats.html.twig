@@ -1,0 +1,44 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
+
+    {% block menuright %}
+        {% include "SUHContratBundle:Statistiques:menuStatistiques.html.twig" %}
+    {% endblock %}
+
+    {% block titleright %}
+    <p>Statistiques</p>
+    {% endblock %}
+    {% block bodyright %}
+    <div class="container-stats col-md-12">
+      {{ form_start(form) }}
+      {{ form_widget(form) }}
+      {{ form_end(form) }}
+      <div id="helper">
+
+      </div>
+    	<div  id='chart_div'></div>
+
+    </div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() 
+  {
+    var dataRaw = {{ listeNatureContrats|json_encode|raw }};
+
+    
+    var data = new google.visualization.DataTable(dataRaw);
+    
+     var options = {'title':'Contrats par',
+                       'width':900,
+                       'height':300};
+
+      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+
+  }
+</script>
+{% endblock %}

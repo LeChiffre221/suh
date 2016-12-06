@@ -126,9 +126,9 @@
 
         {% for avenant in contrat.listeAvenant %}
         <hr>
-        <div class="col-lg-12">
+        <div class="col-lg-12 bloc-avenant">
 
-            <h4>Nature de l'avenant :
+            <h3>Nature de l'avenant :
                 {% set natureAvenantString = "" %}
                 {% for nature in avenant.natureAvenant %}
                     {% if nature == "tutorat"  %}
@@ -142,11 +142,11 @@
 
 
                 {{ natureAvenantString|slice(0, natureAvenantString|length-2)}}
-            </h4>
-            <h4>Nombre d'heure : {{ avenant.nbHeure }}</h4>
-            <h4>Date : du {{ avenant.dateDebutAvenant }} au {{ avenant.dateFinAvenant }}</h4>
+            </h3>
+            <h3>Nombre d'heure : {{ avenant.nbHeure }}</h3>
+            <h3>Date : du {{ avenant.dateDebutAvenant }} au {{ avenant.dateFinAvenant }}</h3>
             <div class="col-lg-12">
-                <h4>Date d'envoi de l'avenant :</h4>
+                <h3>Date d'envoi de l'avenant :</h3>
                 <div class="col-lg-6">
 
                     {% if  (avenant.dateEnvoiDRH is null) %}
@@ -196,6 +196,14 @@
                     {% endif %}
                 </div>
 
+            </div>
+            <div class="col-lg-2 ">
+                <a href="{{ path('suh_contrat_editerAvenant', {'idAvenant': avenant.id}) }}">
+                    <button type="button" class="btn btn-info">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        <span>Editer</span>
+                    </button>
+                </a>
             </div>
             <div class="col-lg-2 ">
                 <a href="{{ path('suh_contrat_deleteAvenant', {'idAvenant': avenant.id}) }}">

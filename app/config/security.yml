@@ -48,8 +48,10 @@ security:
             logout:
                 path: logout
                 target: /login
-        
-
+            remember_me:
+                key: "%secret%"
+                lifetime: 604800 # 1 semaine
+                path:     /
     # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods
     # http://symfony.com/doc/current/cookbook/security/access_control.html

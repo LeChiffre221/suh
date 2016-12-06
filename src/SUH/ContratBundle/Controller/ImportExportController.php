@@ -15,6 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ImportExportController extends Controller
 {
+
+    public function exportFichePaiePDFAction(Request $request, $monthAndYears){
+
+    }
+
     public function exportContratPDFAction(Request $request, $idContrat){
 
         $em = $this->getDoctrine()->getManager();
@@ -97,15 +102,42 @@ class ImportExportController extends Controller
                 }
                 $natureContrat  = substr($natureContrat , 0, -2) . ")";
 
-                $pdf->Text(22, 165, (utf8_decode($natureContrat)));
+                $pdf->Text(22, 170.3, (utf8_decode($natureContrat)));
 
-                $pdf->Text(66 ,143,(utf8_decode($diplome. ' '. $composante. ' '. $etablissement)));
+                $pieces = explode(" ", utf8_decode($diplome. ' '. $composante. ' '. $etablissement));
+
+                $diplomeCompoEtab1 = "";
+                $diplomeCompoEtab2 = "";
+
+                foreach ($pieces as $piece){
+
+                    if(strlen($diplomeCompoEtab1) <= 65){
+                        $diplomeCompoEtab1 .= " ".$piece;
+                    }
+                    else{
+                        if(strlen($diplomeCompoEtab2) <= 95){
+                            $diplomeCompoEtab2 .= " ".$piece;
+
+                            if(strlen($diplomeCompoEtab2) > 95){
+                                $diplomeCompoEtab2 .= " ...";
+
+                            }
+                        }
+
+                    }
+
+                }
 
 
-                $pdf->Text(21,227.1,(utf8_decode($dateDebutContrat)));
-                $pdf->Text(48,227.1,(utf8_decode($dateFinContrat)));
 
-                $pdf->Text(114.5,227.1,(utf8_decode($nbHeuresPrevisionnelles. ' heures.')));
+                $pdf->Text(66 ,143,($diplomeCompoEtab1));
+                $pdf->Text(14 ,148.3,($diplomeCompoEtab2));
+
+
+                $pdf->Text(21,232.4,(utf8_decode($dateDebutContrat)));
+                $pdf->Text(48,232.4,(utf8_decode($dateFinContrat)));
+
+                $pdf->Text(114.5,232.4,(utf8_decode($nbHeuresPrevisionnelles. ' heures.')));
 
 
             }

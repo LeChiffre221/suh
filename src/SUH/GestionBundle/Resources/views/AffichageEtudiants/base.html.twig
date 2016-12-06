@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/bootstrap.min.css')}}" type="text/css"/>
     
     <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/accueil.css')}}" type="text/css"/>
@@ -38,12 +38,30 @@
       <div class="container-fluid">
         
           <div class="row">
-              <div class="col-md-3">
-                <a href="{{path('suh_choix_homepage')}}">
-                    <img id="logo" alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
-                </a>
+              <div id="logo-head" class="col-md-2">
+              {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-md-12">
+                  <a id="logo" href="{{path('suh_choix_homepage')}}">
+                      <img  alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
+                  </a>
+                </div>
+                <div class="col-md-6">
+                  <a href="{{path('suh_contrat_homepage')}}">
+                      <span class="btn btn-primary">
+                          Contrat
+                      </span>
+                  </a>
+                </div>
+                <div class="col-md-6">
+                  <a href="{{path('suh_gestion_homepage')}}">
+                      <span class="btn btn-success" >
+                          Gestion
+                      </span>
+                  </a>
+                </div>
+                {% endif %}
               </div>
-              <div class="col-md-9">
+              <div class="col-md-10">
                   <nav class="navbar navbar-default">
                     <div class="container-fluid">
                         <ul class="nav navbar-nav">
@@ -51,7 +69,7 @@
                             <li id="rechercheAvancee" class="liensNavbar"><a href="{{path('suh_gestion_rechercheAvancee')}}">Recherche avancée</a></li>
                             <li class="liensNavbar"><a href="{{path('suh_import_export_page')}}">Import/Export Excel</a></li>
                             <li class="liensNavbar"><a href="{{path('suh_stats')}}">Statistiques</a></li>
-                            <li class="liensNavbar"><a href="{{path('suh_gestion_utilisateur_page')}}">Gestion des utilisateurs</a></li>
+                            {# <li class="liensNavbar"><a href="{{path('suh_gestion_utilisateur_page')}}">Gestion des utilisateurs</a></li> #}
                             <li>
                                 {{ render(controller("SUHGestionBundle:Affichage:afficherListeAnnee")) }}
                             </li>
