@@ -63,7 +63,7 @@
                             </h3>
                         </div>
                         <div class="col-lg-12" style="font-size: larger">
-                            <a href="{{ path("suh_contrat_exportationFichePaie", {'monthAndYear' :  heure.dateAndTime|slice(3, 7)}) }}">
+                            <a href="{{ path("suh_contrat_exportationFichePaie", {'month' :  heure.dateAndTime|slice(3, 2), 'year' : heure.dateAndTime|slice(6, 4)}) }}">
                                 <button class="btn btn-primary">
                                     Generer fiche de paie
                                 </button>

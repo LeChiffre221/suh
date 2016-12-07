@@ -12,12 +12,13 @@ namespace SUH\ContratBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ImportExportController extends Controller
 {
 
-    public function exportFichePaiePDFAction(Request $request, $monthAndYears){
-
+    public function exportFichePaiePDFAction(Request $request, $month, $year){
+        return new Response($month.'-'.$year);
     }
 
     public function exportContratPDFAction(Request $request, $idContrat){
@@ -25,11 +26,21 @@ class ImportExportController extends Controller
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
 
+        $nom = $contrat->getEtudiantAidant()->getEtudiantInformations()->getNom();
+        $prenom = $contrat->getEtudiantAidant()->getEtudiantInformations()->getPrenom();
+
+        $natureContrat = '';
+        foreach($contrat->getNatureContrat() as $nature){
+            $natureContrat .= $nature."/";
+        }
+        $natureContrat = substr($natureContrat,0, -1);
+
+
         $pdf = new \FPDI();
         //Methode pour importer toutes les pages sur un template
         $pdf = $this->importTemplate($pdf, $contrat);
 
-        return new Response($pdf->Output('D','ContratEtudiant.pdf'));
+        return new Response($pdf->Output('D','Contrat_'.$nom.'_'.$prenom.'_'.$natureContrat.'.pdf'));
     }
 
 
@@ -86,8 +97,6 @@ class ImportExportController extends Controller
 
                 $pdf->SetFont('Arial','',11);
 
-
-
                 $natureContrat = '(';
                 foreach ($contrat->getNatureContrat() as $nature) {
                     if ($nature == "tutorat") {
@@ -128,8 +137,6 @@ class ImportExportController extends Controller
 
                 }
 
-
-
                 $pdf->Text(66 ,143,($diplomeCompoEtab1));
                 $pdf->Text(14 ,148.3,($diplomeCompoEtab2));
 
@@ -138,15 +145,84 @@ class ImportExportController extends Controller
                 $pdf->Text(48,232.4,(utf8_decode($dateFinContrat)));
 
                 $pdf->Text(114.5,232.4,(utf8_decode($nbHeuresPrevisionnelles. ' heures.')));
-
-
             }
-
-
-
-
         }
 
         return $pdf;
     }
+
+
+
+    public function importExcelAction(Request $request){
+
+        $uploadedFile = $request->files->get('fichierExcel');
+        $sizeMax = 1048576;
+        $extension_upload = null;
+        $extensions_valides = array('xls', 'xlsx');
+
+        //Si l'utilisateur est bien connecté
+        if (!empty($uploadedFile) && !empty($sizeMax)) {
+
+            //Si la taille du fichier est inférieur à 1Mo
+            if ($uploadedFile->getClientSize() < $sizeMax){
+                //Si l'extension du fichier est bien valide
+                $extension_upload = explode(".", $uploadedFile->getClientOriginalName());
+                //$uploadedFile->guessExtension();
+                if (in_array($extension_upload[1], $extensions_valides)) {
+                    //Génération d'un nom aléatoire et on déplace le fichier dans
+                    //le répertoire local excel
+                    $nom = md5(uniqid(rand(), true));
+                    $dest = "./Excel/" . $nom . '.' . $extension_upload[1];
+                    $resultat = move_uploaded_file($uploadedFile, $dest);
+
+                    if ($resultat) {
+                        $content = $this->lireDonneesExcel($dest,$nbLignes);
+                        unlink($dest);
+                        return $content;
+                    } else {
+                        return new Response('Erreur chargement fichier');
+                    }
+                }
+                else {
+                    return new Response('Fichier d\'extension .xls ou .xlsx nécessaire');
+                }
+            }
+            else {
+                return new Response('Taille maximale du fichier à 1Mo');
+            }
+        }
+        return new Response('Le fichier ou le nombre de ligne n\'a pas été renseigné');
+    }
+
+
+    //get la liste des éutudiants
+    public function getListeEtudiants($chaine)
+    {
+        $etudiantRepository = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('SUHContratBundle:EtudiantAidant');
+
+
+        if(empty($chaine))
+        {
+
+            $listEtudiant = $etudiantRepository->findAll();
+            $em = $this->getDoctrine()->getManager();
+
+            foreach ($listEtudiant as $etudiant){
+
+                $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
+                $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+
+
+            }
+            return $etudiantRepository->findAll();
+
+        } else {
+
+            return $etudiantRepository->getListeEtudiantsRecherche($chaine);
+        }
+    }
+
 }

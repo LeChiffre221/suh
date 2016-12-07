@@ -35,12 +35,12 @@ class AffichageController extends Controller
 
     //get la liste des éutudiants
     public function getListeEtudiants($chaine)
-    {      
+    {
         $etudiantRepository = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SUHContratBundle:EtudiantAidant');
 
-        
+
         if(empty($chaine))
         {
 
@@ -58,9 +58,21 @@ class AffichageController extends Controller
             return $etudiantRepository->findAll();
 
         } else {
-            
+
             return $etudiantRepository->getListeEtudiantsRecherche($chaine);
         }
+    }
+
+    public function importExportAction(){
+
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+
+        return $this->render('SUHContratBundle:AffichageContrats:importExport.html.twig', array(
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine'))
+        ));
     }
 
     //get nombre de contrats (pour pagination)
@@ -326,6 +338,7 @@ class AffichageController extends Controller
             ));
 
     }
+
 
     public function getUser(){
         $security = $this->container->get('security.context');

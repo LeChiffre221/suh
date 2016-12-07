@@ -149,6 +149,14 @@ suh_contrat_resetPassword:
 #=========Exportation Importation=========
 #=========================================
 
+suh_contrat_importExport:
+    path: /importExport
+    defaults: { _controller: SUHContratBundle:Affichage:importExport}
+
+suh_contrat_importationExcel:
+    path: /importExcel
+    defaults: { _controller: SUHContratBundle:ImportExport:importExcel }
+
 suh_contrat_exportationContrat:
     path: /exporterContratPDF/{idContrat}
     defaults: { _controller: SUHContratBundle:ImportExport:exportContratPDF }
@@ -156,8 +164,11 @@ suh_contrat_exportationContrat:
         idContrat:   "^[0-9]+$"
 
 suh_contrat_exportationFichePaie:
-    path: /exporterFichePaiePDF/{monthAndYear}
+    path: /exporterFichePaiePDF/{month}/{year}
     defaults: { _controller: SUHContratBundle:ImportExport:exportFichePaiePDF }
+    requirements:
+        month:   "^[0-9]+$"
+        year:   "^[0-9]+$"
 
 
 

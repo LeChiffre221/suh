@@ -1,0 +1,38 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
+
+{% block titleright %}
+    <p class="">Import-Export</p>
+{% endblock %}
+
+{% block bodyright %}
+    <div class="col-md-12 container-contrat">
+
+
+        <div class="bloc-contrat panel panel-primary">
+            <div class="col-md-12 container-contrat">
+
+                <h2>Importer des étudiants aidants depuis un classeur Excel</h2>
+
+                <form method="POST" action="{{path('suh_import_page')}}" enctype="multipart/form-data">
+                    <div class="form-group">
+
+                    <input class="col-md-4" type="file" name="fichierExcel" required="required"/><br/>
+                    <button  type="submit" class=" col-md-2 btn btn-warning">Importer</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="bloc-contrat panel panel-primary">
+            <div class="col-md-12 container-contrat">
+
+                <h2>Exporter des étudiants aidants vers un classeur Excel</h2>
+
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    </body>
+
+{% endblock %}
