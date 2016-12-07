@@ -1,0 +1,51 @@
+{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
+
+{% block title %} {{parent()}} - Accueil {% endblock %}
+
+{% block body %}
+        <div class="container ">
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+
+                <h2 style="text-align: center">Heures en attentes de validation </h2>
+                {% if listeHeureNonValide == null %}
+                    <h3 style="color: red">Aucune heure en attente de validation</h3>
+                {% else %}
+                <div class="panel-body">
+                    {% for heureNonValide in listeHeureNonValide %}
+                        <div class="col-lg-5 {% if loop.index is even %} col-lg-push-2 {% endif %}">
+                            <div class="bloc-heure panel panel-primary ">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title roboto"> Le : {{ heureNonValide.dateAndTime | striptags | slice(0, 10) }} à {{ heureNonValide.dateAndTime | striptags | slice(11, 15) }}</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <h4> Nature de la mission : {{ heureNonValide.natureMission }} </h4>
+                                    <h4> Description de la mission : {{ heureNonValide.descriptionMission }} </h4>
+                                    <h4> Nombre d'heures effectuées: {{ heureNonValide.nbHeure }} </h4>
+                                    <hr>
+                                    <div class="col-lg-6 button-align">
+                                        <a href="{{ path("suh_etudiant_heuresNonValidesEtudiant_editer", {'idHeure': heureNonValide.id}) }}">
+                                            <button class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-pencil"></span> Editer
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-6 button-align">
+                                        <a href="{{ path("suh_etudiant_heuresNonValidesEtudiant_delete", {'idHeure': heureNonValide.id}) }}">
+                                            <button class="btn btn-danger">
+                                                <span class="glyphicon glyphicon-trash"></span> Supprimer
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            </div>
+        </div>
+
+{% endblock %}

@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 use SUH\ContratBundle\Entity\Parameters;
 use SUH\ContratBundle\Form\ParametersType;
+use SUH\ContratBundle\Form\EtudiantAidantType;
 
 class AffichageController extends Controller
 {
@@ -143,7 +144,7 @@ class AffichageController extends Controller
     //Afficher accueil compte etudiant
     public function AfficherAccueilEtudiantAction(){
 
-        return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig');
+        return $this->render('SUHContratBundle:ZoneEtudiante:accueilEtudiant.html.twig');
     }
 
     //Afficher page parametre
@@ -267,12 +268,6 @@ class AffichageController extends Controller
                                                                                 'etudiantAidant' => $etudiantAidant
                                                                         ));
 
-        $listeHeureNonValide =  $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
-                                                                                'contrat' => $listeContrat,
-                                                                                'verification' => false
-                                                                        ),
-                                                                        array('dateAndTime' => 'desc'));
-
         $listeHeureValide=  $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
                                                                             'contrat' => $listeContrat,
                                                                             'verification' => true
@@ -281,10 +276,38 @@ class AffichageController extends Controller
 
 
 
-        return $this->render('SUHContratBundle:AffichageContrats:listeHeureEtudiant.html.twig', array(
+        return $this->render('SUHContratBundle:ZoneEtudiante:heureValidesEtudiant.html.twig', array(
             'etudiant' => $etudiantAidant,
-            'listeHeureNonValide' => $listeHeureNonValide,
             'listeHeureValide' => $listeHeureValide
+        ));
+
+    }
+
+    public function AfficherHeureNonValidesEspaceEtudiantAction (Request $request){
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session)
+            $session = new Session(); // if there is no session, start it
+
+        $em = $this->getDoctrine()->getManager();
+        $etudiantAidant = $em->getRepository('SUHContratBundle:EtudiantAidant')->findOneBy(array(
+                                                                                'user' => $this->getUser()
+                                                                        ));
+
+        $listeContrat = $em->getRepository('SUHContratBundle:Contrat')->findBy(array(
+                                                                                'etudiantAidant' => $etudiantAidant
+                                                                        ));
+
+        $listeHeureNonValide =  $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
+                                                                                'contrat' => $listeContrat,
+                                                                                'verification' => false
+                                                                        ),
+                                                                        array('dateAndTime' => 'desc'));
+
+
+
+        return $this->render('SUHContratBundle:ZoneEtudiante:heureNonValidesEtudiant.html.twig', array(
+            'etudiant' => $etudiantAidant,
+            'listeHeureNonValide' => $listeHeureNonValide
         ));
 
     }
@@ -354,10 +377,44 @@ class AffichageController extends Controller
      * récupère les données d'un contrat 
      * @return type
      */
-    public function AfficherCompteEtudiantAction(Request $request)
+    public function AfficherCompteEspaceEtudiantAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
 
-        return $this->render('SUHContratBundle:AffichageContrats:compteEtudiant.html.twig');
+        $etudiantAidantRepo = $em->getRepository('SUHContratBundle:EtudiantAidant');
+        $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->findOneBy(array('user' => $this->getUser()));
+
+        $form = $this->get('form.factory')->create(new EtudiantAidantType, $etudiant)
+                ->remove('etudiant')
+                ->remove('prenom')
+                ->remove('etudiantFormation')
+                ->remove('certificatMedical')
+        ;
+        $formInformations = $form->get('etudiantInformations');
+        $formInformations
+                        ->remove('prenom')
+                        ->remove('nom')
+                        ->remove('mailParents')
+                        ->remove('adresseFamiliale')
+                        ->remove('telephoneParents')
+                        ->remove('mailInstitutionnel')
+                        ->remove('parite')
+        ;
+        
+
+        if ($form->handleRequest($request)->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($etudiant);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('suh_etudiant_compteEtudiant'));
+        }
+
+        return $this->render('SUHContratBundle:ZoneEtudiante:compteEtudiant.html.twig',array(
+            'form' => $form->createView()
+            )); 
+
     }
 
 }
