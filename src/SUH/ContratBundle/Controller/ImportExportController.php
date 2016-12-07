@@ -9,6 +9,7 @@
 namespace SUH\ContratBundle\Controller;
 
 
+use SUH\GestionBundle\Entity\Etudiant;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -167,7 +168,7 @@ class ImportExportController extends Controller
             if ($uploadedFile->getClientSize() < $sizeMax){
                 //Si l'extension du fichier est bien valide
                 $extension_upload = explode(".", $uploadedFile->getClientOriginalName());
-                //$uploadedFile->guessExtension();
+
                 if (in_array($extension_upload[1], $extensions_valides)) {
                     //Génération d'un nom aléatoire et on déplace le fichier dans
                     //le répertoire local excel
@@ -176,24 +177,98 @@ class ImportExportController extends Controller
                     $resultat = move_uploaded_file($uploadedFile, $dest);
 
                     if ($resultat) {
-                        $content = $this->lireDonneesExcel($dest,$nbLignes);
+                        $this->lireDonneesExcel($dest, $request);
                         unlink($dest);
-                        return $content;
+                        $request->getSession()->getFlashBag()->add('notice', 'Importation effectuée');
                     } else {
-                        return new Response('Erreur chargement fichier');
+                        $request->getSession()->getFlashBag()->add('error', 'Erreur lors de l\'importation');
                     }
                 }
                 else {
-                    return new Response('Fichier d\'extension .xls ou .xlsx nécessaire');
+                    $request->getSession()->getFlashBag()->add('error', 'Le fichier doit avoir l\'extension .xls ou .xlsx');
                 }
             }
             else {
-                return new Response('Taille maximale du fichier à 1Mo');
+                $request->getSession()->getFlashBag()->add('error', 'Le fichier ne peut dépasser 1Mo');
             }
         }
-        return new Response('Le fichier ou le nombre de ligne n\'a pas été renseigné');
+        else{
+            $request->getSession()->getFlashBag()->add('error', 'Erreur lors de l\'importation');
+        }
+
+        return $this->redirectToRoute('suh_contrat_importExport');
+
     }
 
+    private function lireDonneesExcel($fichier, $request){
+        $objPHPExcel = \PHPExcel_IOFactory::load($fichier);
+
+        //On récupère les dimensions du fichier excel
+        $sheet = $objPHPExcel->getSheet(0);
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+
+        //nombre de colonnes réellement présentes
+        $nbColonnesReelles= "Z";
+
+        $tabExcel = array();
+
+        //On vérifie si les données sont possibles (pas trop de lignes / colonnes)
+        if ($nbColonnesReelles != $highestColumn) {
+            //Lecture de la feuille excel
+            for ($row = 2; $row <= $highestRow; $row++) {
+                $rowData = $sheet->rangeToArray('A' . $row . ':' . $nbColonnesReelles . $row, NULL, TRUE, FALSE);
+                $this->ajouterLigne($rowData);
+            }
+        } else {
+            $request->getSession()->getFlashBag()->add('error', 'Erreur lors de l\'importation');
+        }
+
+    }
+
+    private function ajouterLigne($datas){
+        $em = $this->getDoctrine()->getManager();
+
+
+        $nom = $datas[0][0];
+        $prenom = $datas[0][1];
+        $dateNaissance = $datas[0][2];
+        $parite = $datas[0][3];
+        $numEtudiant = $datas[0][4];
+        $adresseEtudiante = $datas[0][5];
+        $adresseFamilialle = $datas[0][6];
+        $telephone = $datas[0][7];
+        $mail = $datas[0][8];
+        $diplome = $datas[0][9];
+        $composante = $datas[0][10];
+        $etablissement = $datas[0][11];
+        $dateDebutContrat = $datas[0][12];
+        $dateFinContrat = $datas[0][13];
+        $nbHeure = $datas[0][14];
+        $etudiantHandicapé = $datas[0][15];
+        $natureDuContrat = $datas[0][16];
+        $semestre = $datas[0][17];
+        $anneeExercice = $datas[0][18];
+        $certiMedical = $datas[0][19];
+        $dateEnvoiContratDRH = $datas[0][20];
+        $dateEnvoiContratEtu = $datas[0][21];
+        $avenant = $datas[0][22];
+        $nbHeureAvenant = $datas[0][23];
+        $dateEnvoieAvenantDRH = $datas[0][24];
+        $dateEnvoieAvenantEtu = $datas[0][25];
+
+        $etudiant = new Etudiant();
+
+        $etudiant = $em->getRepository('SUHGestionBundle:Etudiant')->findOneBy(array("numeroEtudiant" => $numEtudiant));
+
+        if($numEtudiant != null){
+            $etudiant->setNumeroEtudiant($numEtudiant);
+        }
+
+        if($dateNaissance != null){
+            $etudiant->setDateNaissance($dateNaissance);
+        }
+    }
 
     //get la liste des éutudiants
     public function getListeEtudiants($chaine)

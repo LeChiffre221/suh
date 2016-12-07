@@ -10,10 +10,20 @@
 
         <div class="bloc-contrat panel panel-primary">
             <div class="col-md-12 container-contrat">
+                <!-- Flashbags d'events -->
+                {% for message in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <strong>Erreur ! </strong>{{ message }}
+
+                    </div>
+
+                {% endfor %}
+                <!-- -- -->
 
                 <h2>Importer des étudiants aidants depuis un classeur Excel</h2>
 
-                <form method="POST" action="{{path('suh_import_page')}}" enctype="multipart/form-data">
+                <form method="POST" action="{{path('suh_contrat_importationExcel')}}" enctype="multipart/form-data">
                     <div class="form-group">
 
                     <input class="col-md-4" type="file" name="fichierExcel" required="required"/><br/>
