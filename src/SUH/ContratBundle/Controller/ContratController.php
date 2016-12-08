@@ -37,6 +37,7 @@ class ContratController extends Controller
             $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
 
             $contrat->setActive(true);
+            $contrat->setMiseEnPaiement(false);
             $contrat->setEtudiantAidant($etudiant);
 
             $dateDebut = date("Y-m-d", strtotime(strtr($contrat->getDateDebutContrat(), '/', '-')));
@@ -68,7 +69,8 @@ class ContratController extends Controller
             'form' => $form->createView(),
             'id' => $id,
             'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
-            'nbContrats'=>$this->getNbContrats($id),
+            'nbContrats'=>$this->getNbContrats($id, false),
+            'nbContratsPaiement'=>$this->getNbContrats($id, true),
         ));
     }
 
@@ -129,7 +131,8 @@ class ContratController extends Controller
             'form' => $form->createView(),
             'id' => $contrat->getEtudiantAidant()->getId(),
             'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
-            'nbContrats'=>$this->getNbContrats($contrat->getEtudiantAidant()->getId()),
+            'nbContrats'=>$this->getNbContrats($contrat->getEtudiantAidant()->getId(), false),
+            'nbContratsPaiement'=>$this->getNbContrats($contrat->getEtudiantAidant()->getId(), true),
         ));
 
     }
@@ -206,18 +209,30 @@ class ContratController extends Controller
         }
     }
 
-    public function getNbContrats($id)
+    //get nombre de contrats (pour pagination et compteur)
+    public function getNbContrats($id, $paiement)
     {     
         $em = $this->getDoctrine()->getManager();
         $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
-        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
-            array(
-            'etudiantAidant' => $etudiant,
-            'active' => 1),
-            array(
-            'dateDebutContrat' => 'desc'
-            )
-       );
+        if($paiement){
+            $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+                array(
+                'etudiantAidant' => $etudiant,
+                'miseEnPaiement' => 1),
+                array(
+                'dateDebutContrat' => 'desc'
+                )
+           );
+        } else {
+            $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+                array(
+                'etudiantAidant' => $etudiant,
+                'active' => 1),
+                array(
+                'dateDebutContrat' => 'desc'
+                )
+           );
+        }
         if(!empty($listeContrats))
         {
            return count($listeContrats);
@@ -229,6 +244,7 @@ class ContratController extends Controller
         }
         
     }
+
     public function desarchiverContratAction($idContrat, Request $request){
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
@@ -251,13 +267,34 @@ class ContratController extends Controller
 
         $id = $contrat->getEtudiantAidant()->getId();
 
-        $contrat->setActive(false);
+        $listeHeures = array();
+        $nonConforme = false;
+        $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
+            array(
+                'contrat' => $contrat,
+            )
+        );
+
+        foreach ($listeHeures as $heure){
+            if(!$heure->getHeurePayee()){
+                $nonConforme = true;
+            }
+        }
+
+        if($nonConforme){
+
+            $request->getSession()->getFlashBag()->add('error', 'Une heure n\'est pas payée !');
+        } else {
+
+        $contrat->setActive(false)
+                ->setMiseEnPaiement(false)
+        ;
         $em->persist($contrat);
         $em->flush();
-
         $request->getSession()->getFlashBag()->add('notice', 'Contrat archivé !');
+        }
 
-        return $this->redirectToRoute('suh_contrat_afficherContrat', array('id' => $id));
+        return $this->redirectToRoute('suh_contrat_showPaiementContrat', array('id' => $id));
     }
 
     public function mettreEnPaiementAction($idContrat, Request $request){
@@ -266,14 +303,40 @@ class ContratController extends Controller
 
         $id = $contrat->getEtudiantAidant()->getId();
 
-        $contrat->setMiseEnPaiement(true);
-        $contrat->setActive(false);
-        $em->persist($contrat);
-        $em->flush();
+        $listeHeures = array();
+        $nonConforme = false;
+        $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
+            array(
+                'contrat' => $contrat,
+            )
+        );
 
-        $request->getSession()->getFlashBag()->add('notice', 'Contrat mis en paiement !');
+        foreach ($listeHeures as $heure){
+            if(!$heure->getVerification()){
+                $nonConforme = true;
+            }
+        }
 
-        return $this->redirectToRoute('suh_contrat_showPaiementContrat', array('id' => $id));
+        if($nonConforme){
+
+            $request->getSession()->getFlashBag()->add('error', 'Une heure du contrat n\'est pas validée !');
+            return $this->redirectToRoute('suh_contrat_afficherContrat', array('id' => $id));
+
+        } else {
+
+            $contrat->setMiseEnPaiement(true);
+            $contrat->setActive(false);
+            $em->persist($contrat);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('notice', 'Contrat mis en paiement !');
+
+            return $this->redirectToRoute('suh_contrat_showPaiementContrat', array('id' => $id));
+        }
+
+        
+
+        
     }
 
 

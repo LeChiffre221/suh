@@ -134,6 +134,9 @@ a {
 .message-fixed:hover{
     background-color:#bed1b6;
 }
+.message-fixed.error:hover{
+    background-color:#e6c7c7;
+}
 
 #logo > img
 {

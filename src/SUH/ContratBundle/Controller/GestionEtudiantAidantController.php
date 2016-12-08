@@ -45,18 +45,30 @@ class GestionEtudiantAidantController extends Controller
         }
     }
 
-    public function getNbContrats($id)
+    //get nombre de contrats (pour pagination et compteur)
+    public function getNbContrats($id, $paiement)
     {     
         $em = $this->getDoctrine()->getManager();
         $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
-        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
-            array(
-            'etudiantAidant' => $etudiant,
-            'active' => 1),
-            array(
-            'dateDebutContrat' => 'desc'
-            )
-       );
+        if($paiement){
+            $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+                array(
+                'etudiantAidant' => $etudiant,
+                'miseEnPaiement' => 1),
+                array(
+                'dateDebutContrat' => 'desc'
+                )
+           );
+        } else {
+            $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+                array(
+                'etudiantAidant' => $etudiant,
+                'active' => 1),
+                array(
+                'dateDebutContrat' => 'desc'
+                )
+           );
+        }
         if(!empty($listeContrats))
         {
            return count($listeContrats);
@@ -263,7 +275,8 @@ class GestionEtudiantAidantController extends Controller
             'informationsEtudiantAidant' => $etudiant,
             'form' => $form->createView(),
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
-            'nbContrats'=>$this->getNbContrats($id),
+            'nbContrats'=>$this->getNbContrats($id, false),
+            'nbContratsPaiement'=>$this->getNbContrats($id, true),
             'id' => $id
             )); 
 

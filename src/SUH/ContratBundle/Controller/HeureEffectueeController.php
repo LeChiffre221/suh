@@ -47,6 +47,7 @@ class HeureEffectueeController extends Controller
             $em = $this->getDoctrine()->getManager();
             $contratChoisi = $heureEffectuee->getContrat();
 
+
             //Variables intermédiaires pour comparé par la suite les dates
             $dateEtudiant = date("Y-m-d", strtotime(strtr($heureEffectuee->getDateAndTime(), '/', '-')));
             $dateDebut = date("Y-m-d", strtotime(strtr($contratChoisi->getDateDebutContrat(), '/', '-')));
@@ -161,6 +162,7 @@ class HeureEffectueeController extends Controller
 
 
             $heureEffectuee->setVerification(false);
+            $heureEffectuee->setHeurePayee(false);
 
             $em->persist($heureEffectuee);
             $em->flush();
@@ -389,7 +391,8 @@ class HeureEffectueeController extends Controller
         $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
             array(
                 'etudiantAidant' => $etudiant,
-                'active' => 1),
+                'active' => 0,
+                'miseEnPaiement' => 1),
             array(
                 'dateDebutContrat' => 'desc'
             )
@@ -405,7 +408,6 @@ class HeureEffectueeController extends Controller
                 'dateAndTime' => 'desc'
             )
         );
-
 
 
         if ($request->isMethod('POST')){
@@ -425,8 +427,8 @@ class HeureEffectueeController extends Controller
            // return new Response($request->request->get('heure3'));
         }
 
-        return $this->redirectToRoute("suh_contrat_miseEnPaiementContrat", array(
-            "idContrat" => $id)
+        return $this->redirectToRoute("suh_contrat_showPaiementContrat", array(
+            "id" => $id)
         );
     }
 

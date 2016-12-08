@@ -36,6 +36,12 @@
                         <span class="glyphicon glyphicon-remove"></span>
                     </div>
                 {% endfor %}
+                {% for message in app.session.flashbag.get('error') %}
+                    <div class="alert alert-danger message-fixed error">
+                        <strong>Le SUH a mis la gomme.</strong> {{message}}
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </div>
+                {% endfor %}
                 <!-- -- -->
 
                 <!-- Template liste etudiants -->

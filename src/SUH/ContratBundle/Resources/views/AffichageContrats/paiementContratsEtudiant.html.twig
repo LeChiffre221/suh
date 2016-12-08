@@ -68,53 +68,12 @@
             <h3>Date d'envoi du contrat :</h3>
             <div class="col-lg-6">
             
-                {% if  (contrat.dateEnvoiDRH is null) %}
-
-
-                    <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
-                        <div class="col-lg-4">
-                            <label for="">DRH :</label><br>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiDRH"}}" name="dateEnvoiDRH" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
-                        </div>
-
-                        <div class="col-lg-2">
-                            <button type="submit" value="" class="btn btn-success">
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </button>
-                        </div>
-
-                    </form>
-                {% else %}
                     DRH : {{ contrat.dateEnvoiDRH }}
-                {% endif %}
 
             </div>
             <div class="col-lg-6">
 
-                {% if  (contrat.dateEnvoiEtudiant is null) %}
-                    <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
-                        <div class="col-lg-4">
-                            <label for="">Etudiant :</label><br>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiEtudiant"}}" name="dateEnvoiEtudiant" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
-                        </div>
-
-                        <div class="col-lg-2">
-                            <button type="submit" value="" class="btn btn-success">
-                                <span class="glyphicon glyphicon-ok"></span>
-                            </button>
-                        </div>
-
-                    </form>
-
-                {% else %}
                     Etudiant : {{ contrat.dateEnvoiEtudiant }}
-                {% endif %}
 
             </div>
 
@@ -182,7 +141,7 @@
                                                 {% endif %}
                                                 <th>{{ heure.descriptionMission }}</th>
                                                 <th>{{ heure.nbHeure}} heure(s)</th>
-                                                {% if heure.verification %}
+                                                {% if heure.heurePayee %}
                                                     <th><span class="glyphicon glyphicon-ok" style="color: green"></span></th>
                                                 {% else %}
                                                     <th><span class="glyphicon glyphicon-remove" style="color:red;"></span></th>
@@ -190,7 +149,7 @@
                                                 <th>
                                                     <div class="checkbox">
                                                         <label>
-                                                            {% if heure.verification %}
+                                                            {% if heure.heurePayee %}
                                                                 <input type="checkbox" name="heure{{ heure.id }}" checked>
                                                             {% else %}
                                                                 <input type="checkbox" name="heure{{ heure.id }}" >
@@ -215,6 +174,20 @@
                     {% endif %}
                 {% endfor %}
             </form>
+        </div>
+        <div class="col-lg-2 ">
+            <a href="{{ path('suh_contrat_archiverContrat', {'idContrat': contrat.id}) }}">
+                <button type="button" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-briefcase"></span>
+                    <span>Archiver</span>
+                </button>
+            </a>
+            <a href="#">
+                <button type="button" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-briefcase"></span>
+                    <span>Dé-mise en paiement</span>
+                </button>
+            </a>
         </div>
     </div>
     {% endfor %}

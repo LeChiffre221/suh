@@ -76,19 +76,30 @@ class AffichageController extends Controller
         ));
     }
 
-    //get nombre de contrats (pour pagination)
-    public function getNbContrats($id)
+    //get nombre de contrats (pour pagination et compteur)
+    public function getNbContrats($id, $paiement)
     {     
         $em = $this->getDoctrine()->getManager();
         $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
-        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
-            array(
-            'etudiantAidant' => $etudiant,
-            'active' => 1),
-            array(
-            'dateDebutContrat' => 'desc'
-            )
-       );
+        if($paiement){
+            $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+                array(
+                'etudiantAidant' => $etudiant,
+                'miseEnPaiement' => 1),
+                array(
+                'dateDebutContrat' => 'desc'
+                )
+           );
+        } else {
+            $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+                array(
+                'etudiantAidant' => $etudiant,
+                'active' => 1),
+                array(
+                'dateDebutContrat' => 'desc'
+                )
+           );
+        }
         if(!empty($listeContrats))
         {
            return count($listeContrats);
@@ -133,7 +144,8 @@ class AffichageController extends Controller
 
         return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
-            'nbContrats'=>$this->getNbContrats($id),
+            'nbContrats'=>$this->getNbContrats($id, false),
+            'nbContratsPaiement'=>$this->getNbContrats($id, true),
             'listeContrats' => $listeContrats,
             'nbPages' => $nbPages,
             'page' => $page,
@@ -212,7 +224,8 @@ class AffichageController extends Controller
             'informationsEtudiantAidant' => $etudiant,
             'id' => $id,
             'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
-            'nbContrats'=>$this->getNbContrats($id),
+            'nbContrats'=>$this->getNbContrats($id, false),
+            'nbContratsPaiement'=>$this->getNbContrats($id, true),
             )); 
         
     }
@@ -250,7 +263,8 @@ class AffichageController extends Controller
             'listeContrats' => $listeContrats,
             'nbPages' => $nbPages,
             'page' => $page,
-            'nbContrats'=>$this->getNbContrats($id),
+            'nbContrats'=>$this->getNbContrats($id, false),
+            'nbContratsPaiement'=>$this->getNbContrats($id, true),
             'id' => $id
         ));
     }
@@ -267,6 +281,7 @@ class AffichageController extends Controller
 
         // On récupère la liste des contrats pour un étudiant donné
         $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPageMiseEnPaiement($id);
+        $listeHeures = array();
 
         //On recupère la liste des avenants pour chaque contrat
         foreach ($listeContrats as $contrat){
@@ -275,7 +290,7 @@ class AffichageController extends Controller
 
         }
 
-        $listeHeures = array();
+        
 
         $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
             array(
@@ -286,13 +301,14 @@ class AffichageController extends Controller
             )
         );
 
-        $tabMois = array(   '01' => "Janvier", '02' => "Fevrier", '03' => "Mars", '04' => "Avril", '05' => "Mai", '06' => "Juin",
-                    '07' => "Juillet", '08' => "Aout", '09'  => "Septembre", '10' => "Octobre", '11' => "Novembre", '12' => "Decembre");
+        $tabMois = array(   '01' => "Janvier", '02' => "Février", '03' => "Mars", '04' => "Avril", '05' => "Mai", '06' => "Juin",
+                    '07' => "Juillet", '08' => "Aout", '09'  => "Septembre", '10' => "Octobre", '11' => "Novembre", '12' => "Décembre");
 
         return $this->render('SUHContratBundle:AffichageContrats:paiementContratsEtudiant.html.twig',array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
             'listeContrats' => $listeContrats,
-            'nbContrats'=>$this->getNbContrats($id),
+            'nbContrats'=>$this->getNbContrats($id, false),
+            'nbContratsPaiement'=>$this->getNbContrats($id, true),
             'id' => $id,
             'listeHeures' => $listeHeures,
             'tabMois' => $tabMois
@@ -398,7 +414,8 @@ class AffichageController extends Controller
 
         return $this->render('SUHContratBundle:AffichageContrats:gestionHeures.html.twig', array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
-            'nbContrats'=>$this->getNbContrats($id),
+            'nbContrats'=>$this->getNbContrats($id, false),
+            'nbContratsPaiement'=>$this->getNbContrats($id, true),
             'listeContrats' => $listeContrats,
             'listeHeures' => $listeHeures,
             'id' => $id,
