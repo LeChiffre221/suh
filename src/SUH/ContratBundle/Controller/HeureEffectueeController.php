@@ -381,6 +381,55 @@ class HeureEffectueeController extends Controller
         );
     }
 
+    public function paiementValidationHeuresAction(Request $request, $id){
+
+        $em = $this->getDoctrine()->getManager();
+        $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
+
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+            array(
+                'etudiantAidant' => $etudiant,
+                'active' => 1),
+            array(
+                'dateDebutContrat' => 'desc'
+            )
+        );
+
+        $listeHeures = array();
+
+        $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
+            array(
+                'contrat' => $listeContrats,
+            ),
+            array(
+                'dateAndTime' => 'desc'
+            )
+        );
+
+
+
+        if ($request->isMethod('POST')){
+            foreach($listeHeures as $heure){
+                $validation = $request->request->get('heure'.$heure->getId());
+                if($validation == "on"){
+                    $heure->setHeurePayee(true);
+                }
+                else{
+                    $heure->setHeurePayee(false);
+                }
+
+                $em->persist($heure);
+            }
+
+            $em->flush();
+           // return new Response($request->request->get('heure3'));
+        }
+
+        return $this->redirectToRoute("suh_contrat_miseEnPaiementContrat", array(
+            "idContrat" => $id)
+        );
+    }
+
 
     public function deleteHeureEffectueeAction($idHeure, Request $request){
         $em = $this->getDoctrine()->getManager();

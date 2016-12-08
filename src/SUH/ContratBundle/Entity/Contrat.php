@@ -101,6 +101,14 @@ class Contrat
     private $active;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="miseEnPaiement", type="boolean")
+     * @Assert\Type(type="boolean")
+     */
+    private $miseEnPaiement;
+
+    /**
      * @ORM\ManyToOne(targetEntity="SUH\ContratBundle\Entity\EtudiantAidant")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Valid()
@@ -383,6 +391,32 @@ class Contrat
     {
         return $this->active;
     }
+
+
+    /**
+     * Set miseEnPaiement
+     *
+     * @param boolean $miseEnPaiement
+     *
+     * @return Contrat
+     */
+    public function setMiseEnPaiement($miseEnPaiement)
+    {
+        $this->miseEnPaiement = $miseEnPaiement;
+
+        return $this;
+    }
+
+    /**
+     * Get miseEnPaiement
+     *
+     * @return boolean
+     */
+    public function getMiseEnPaiement()
+    {
+        return $this->miseEnPaiement;
+    }
+
 
     public function getToStringContrat(){
         $natures = "";

@@ -40,20 +40,33 @@ class ContratRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
-public function getPageArchive($page, $maxpage, $id){
+    public function getPageArchive($page, $maxpage, $id){
 
-	    $a = $this->createQueryBuilder('a')
-	    ->where('a.etudiantAidant = :id')
-        ->andWhere('a.active = 0')
-	    ->setParameter('id', $id)
-        ->orderBy('a.dateDebutContrat', 'DESC')
- 		->getQuery();
+    	    $a = $this->createQueryBuilder('a')
+    	    ->where('a.etudiantAidant = :id')
+            ->andWhere('a.active = 0')
+            ->andWhere('a.miseEnPaiement = 0')
+    	    ->setParameter('id', $id)
+            ->orderBy('a.dateDebutContrat', 'DESC')
+     		->getQuery();
 
-        $a->setFirstResult(($page-1) * $maxpage)
-            ->setMaxResults($maxpage);
- 
-        return new Paginator($a);
+            $a->setFirstResult(($page-1) * $maxpage)
+                ->setMaxResults($maxpage);
+     
+            return new Paginator($a);
 
-}
+    }
+
+    public function getPageMiseEnPaiement($id){
+
+            return $this->createQueryBuilder('a')
+            ->where('a.etudiantAidant = :id')
+            ->andWhere('a.miseEnPaiement = 1')
+            ->setParameter('id', $id)
+            ->orderBy('a.dateDebutContrat', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
 
 }

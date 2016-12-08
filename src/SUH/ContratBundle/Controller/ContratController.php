@@ -260,6 +260,22 @@ class ContratController extends Controller
         return $this->redirectToRoute('suh_contrat_afficherContrat', array('id' => $id));
     }
 
+    public function mettreEnPaiementAction($idContrat, Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
+
+        $id = $contrat->getEtudiantAidant()->getId();
+
+        $contrat->setMiseEnPaiement(true);
+        $contrat->setActive(false);
+        $em->persist($contrat);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('notice', 'Contrat mis en paiement !');
+
+        return $this->redirectToRoute('suh_contrat_showPaiementContrat', array('id' => $id));
+    }
+
 
     /**
      * @param Request $request

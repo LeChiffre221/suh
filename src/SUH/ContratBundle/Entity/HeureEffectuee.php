@@ -59,6 +59,13 @@ class HeureEffectuee
     private $verification;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="heurePayee", type="boolean")
+     */
+    private $heurePayee;
+
+    /**
      * @var integer
      * @ORM\ManyToOne(targetEntity="SUH\ContratBundle\Entity\Contrat", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
@@ -202,6 +209,30 @@ class HeureEffectuee
     public function getVerification()
     {
         return $this->verification;
+    }
+
+    /**
+     * Set heurePayee
+     *
+     * @param boolean $verification
+     *
+     * @return HeureEffectuee
+     */
+    public function setHeurePayee($heurePayee)
+    {
+        $this->heurePayee = $heurePayee;
+    
+        return $this;
+    }
+
+    /**
+     * Get heurePayee
+     *
+     * @return boolean
+     */
+    public function getHeurePayee()
+    {
+        return $this->heurePayee;
     }
 
     /**

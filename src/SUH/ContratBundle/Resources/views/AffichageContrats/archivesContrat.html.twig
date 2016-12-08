@@ -155,20 +155,5 @@
 
     </div>
 
-    {% if page != -1 %}
-        <ul class="pagination">
 
-
-          {% for p in range(1, nbPages) %}
-
-            <li{% if p == page %} class="active "{% endif %}>
-
-              <a href="{{ path('suh_contrat_afficherContrat', {'idEtudiant': id , 'page': p}) }}">{{ p }}</a>
-
-            </li>
-
-          {% endfor %}
-
-        </ul>
-    {% endif %}
 {% endblock %}

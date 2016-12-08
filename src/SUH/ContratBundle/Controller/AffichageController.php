@@ -112,6 +112,7 @@ class AffichageController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
+
         // $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
 
         // On récupère la liste des contrats pour un étudiant donné
@@ -251,6 +252,50 @@ class AffichageController extends Controller
             'page' => $page,
             'nbContrats'=>$this->getNbContrats($id),
             'id' => $id
+        ));
+    }
+
+    public function AfficherPaiementContratAction(Request $request, $id){
+
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        // On récupère la liste des contrats pour un étudiant donné
+        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->getPageMiseEnPaiement($id);
+
+        //On recupère la liste des avenants pour chaque contrat
+        foreach ($listeContrats as $contrat){
+            $listeAvenants = $em->getRepository('SUHContratBundle:Avenant')->getAvenantsPourUnContrat($contrat);
+            $contrat->setListeAvenant($listeAvenants);
+
+        }
+
+        $listeHeures = array();
+
+        $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
+            array(
+                'contrat' => $listeContrats,
+            ),
+            array(
+                'dateAndTime' => 'desc'
+            )
+        );
+
+        $tabMois = array(   '01' => "Janvier", '02' => "Fevrier", '03' => "Mars", '04' => "Avril", '05' => "Mai", '06' => "Juin",
+                    '07' => "Juillet", '08' => "Aout", '09'  => "Septembre", '10' => "Octobre", '11' => "Novembre", '12' => "Decembre");
+
+        return $this->render('SUHContratBundle:AffichageContrats:paiementContratsEtudiant.html.twig',array(
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
+            'listeContrats' => $listeContrats,
+            'nbContrats'=>$this->getNbContrats($id),
+            'id' => $id,
+            'listeHeures' => $listeHeures,
+            'tabMois' => $tabMois
         ));
     }
 

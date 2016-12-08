@@ -15,6 +15,9 @@ suh_contrat_showArchive:
     defaults: { _controller: SUHContratBundle:Affichage:AfficherArchiveContrat, page:1}
     requirements:
            id: "^[0-9]+$"
+           page: "^[0-9]+$"
+
+
 
 #Afficher les contrats pour un étudiant
 suh_contrat_afficherContrat:
@@ -22,6 +25,7 @@ suh_contrat_afficherContrat:
     defaults: { _controller: SUHContratBundle:Affichage:AfficherContratsPourUnEtudiant, page:1}
     requirements:
            id: "^[0-9]+$"
+           page: "^[0-9]+$"
 
 #ajouter un contrat étudiant
 suh_contrat_addContrat:
@@ -62,8 +66,27 @@ suh_contrat_addDateContrat:
     defaults: {_controller: SUHContratBundle:Contrat:addDateContrat}
     requirements:
        idContrat: "^[0-9]+$"
-       
+  
 
+#afficher paiement       
+suh_contrat_showPaiementContrat:
+    path: /{id}/contrats/paiement
+    defaults: {_controller: SUHContratBundle:Affichage:AfficherPaiementContrat}
+    requirements:
+        id: "^[0-9]+$" 
+
+#mise en paiement
+suh_contrat_miseEnPaiementContrat:
+    path: /miseEnPaiement/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:mettreEnPaiement}
+    requirements:
+        idContrat: "^[0-9]+$"
+
+suh_contrat_miseEnPaiementValidation:
+    path: /miseEnPaiementValidationHeures/{id}
+    defaults: { _controller: SUHContratBundle:HeureEffectuee:paiementValidationHeures }
+    requirements:
+        id:   "^[0-9]+$"
 #=========================================
 #=============Gestion Avenant=============
 #=========================================
