@@ -26,7 +26,48 @@ a {
     height:14px;
 }
 
+.scroll-top{
+    position:fixed;
+    right:50px;
+    bottom:50px;
 
+    width:50px;
+    height:50px;
+
+    background-color:white;
+    border:1px solid #337ab7;
+    box-sizing: initial;
+    color:#337ab7;
+    display:block;
+
+    content:'';
+    text-align:center;
+    border-radius:50%;
+
+
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -moz-transition: all 0.3s ease-in-out 0s;
+    -ms-transition: all 0.3s ease-in-out 0s;
+    -o-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
+.scroll-top:hover{
+    background-color:#337ab7;
+    border:2px solid #fff;
+    color:#fff;
+}
+
+.scroll-top span {
+    width: 100%;
+    height: 100%;
+    display:inline-block;
+
+}
+.scroll-top span::before{
+    display: inline-block;
+    font-size: 30px;
+    line-height: 50px;
+}
 /* surcharge */
 
 .glyphicon-remove{
@@ -783,6 +824,19 @@ span.dot-arrow{
     display:inline-block;
 }
 
+/* Compte etudiant */
+
+.bloc-etudiant {
+    padding:20px;
+}
+
+.button-align{
+    text-align:left;
+}
+
+.bloc-heure h3{
+    text-transform:uppercase;
+}
 /*
 .checkbox label:after,
 .radio label:after {

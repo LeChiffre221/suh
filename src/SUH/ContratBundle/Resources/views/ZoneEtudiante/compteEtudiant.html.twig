@@ -1,0 +1,53 @@
+{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
+
+{% block title %} {{parent()}} - Accueil {% endblock %}
+
+{% block body %}
+    <body>
+        <div class="container">
+            {{ form_start(form) }}
+        {{ form_errors(form) }}
+        
+        <div class="col-md-12">
+            <div class="bloc-profil panel panel-primary">
+            <section class="col-md-6">
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.mailPerso) }}
+                    <div class="input-group">
+                        <span class="input-group-addon glyphicon glyphicon-envelope"></span> 
+                        {{ form_widget(form.etudiantInformations.mailPerso) }}
+                        {{ form_errors(form.etudiantInformations.mailPerso) }}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.adresseEtudiante) }}
+                    {{ form_widget(form.etudiantInformations.adresseEtudiante) }}
+                    {{ form_errors(form.etudiantInformations.adresseEtudiante) }}
+                </div>
+
+                <div class="col-md-6">
+                    {{ form_label(form.etudiantInformations.telephonePerso) }}
+                    <div class="input-group">
+                        <span class="input-group-addon glyphicon glyphicon-phone"></span> 
+                        {{ form_widget(form.etudiantInformations.telephonePerso) }}
+                        {{ form_errors(form.etudiantInformations.telephonePerso) }}
+                    </div>
+                </div>
+            </section>
+
+            <section class="col-md-12">
+
+                {{ form_widget(form.Envoyer) }}
+            </section>
+            </div>
+            
+        </div>
+        {{ form_end(form) }}
+        </div>
+
+    </body>
+<script type="text/javascript">
+
+</script>
+{% endblock %}

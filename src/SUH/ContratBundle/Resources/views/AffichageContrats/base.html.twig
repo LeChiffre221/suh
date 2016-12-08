@@ -71,8 +71,9 @@
 
                         {% if is_granted('ROLE_USER') %}
                             <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_homepageEtudiant' %} active {% endif %}"><a id="accueil" href="{{path('suh_etudiant_homepageEtudiant')}}">Accueil</a></li>
-                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_heuresEtudiant' %} active {% endif %}"><a id="heures" href="{{path('suh_etudiant_heuresEtudiant')}}">Mes heures</a></li>
-                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_homepageEtudiant' %} active {% endif %}"><a id="compte" href="#">Mon Compte</a></li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_heuresNonValidesEtudiant' %} active {% endif %}"><a id="heures" href="{{path('suh_etudiant_heuresNonValidesEtudiant')}}">Heures non valides</a></li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_heuresValidesEtudiant' %} active {% endif %}"><a id="heures" href="{{path('suh_etudiant_heuresValidesEtudiant')}}">Heures valides</a></li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_compteEtudiant' %} active {% endif %}"><a id="compte" href="{{path('suh_etudiant_compteEtudiant')}}">Mon Compte</a></li>
                         {% endif %}
 
                         <li id="help"><a href="#" data-toggle="tooltip"> ? </a></li>
@@ -92,6 +93,9 @@
       
   {% endblock %}
   
+  <a href="#logo-head" class="scroll-top">
+    <span class="glyphicon glyphicon-arrow-up"></span>
+  </a>
   </body>
 
 </html>

@@ -144,7 +144,7 @@ class HeureEffectueeController extends Controller
             if(!$validateDate || !$natureMissionValide) {
 
 
-                return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig', array(
+                return $this->render('SUHContratBundle:ZoneEtudiante:accueilEtudiant.html.twig', array(
                     'form' => $form->createView(),
                     'etudiant' => $etudiant,
 
@@ -175,7 +175,7 @@ class HeureEffectueeController extends Controller
 
 
 
-        return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig', array(
+        return $this->render('SUHContratBundle:ZoneEtudiante:accueilEtudiant.html.twig', array(
             'form' => $form->createView(),
             'etudiant' => $etudiant
 
@@ -298,7 +298,7 @@ class HeureEffectueeController extends Controller
             if(!$validateDate || !$natureMissionValide) {
 
 
-                return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig', array(
+                return $this->render('SUHContratBundle:ZoneEtudiante:accueilEtudiant.html.twig', array(
                     'form' => $form->createView(),
                     'etudiant' => $etudiant,
                     'modeEdition' => true
@@ -324,7 +324,7 @@ class HeureEffectueeController extends Controller
 
 
         }
-        return $this->render('SUHContratBundle:AffichageContrats:accueilEtudiant.html.twig', array(
+        return $this->render('SUHContratBundle:ZoneEtudiante:accueilEtudiant.html.twig', array(
             'form' => $form->createView(),
             'etudiant' => $etudiant,
             'modeEdition' => true
@@ -389,7 +389,7 @@ class HeureEffectueeController extends Controller
         $em->remove($heure);
         $em->flush();
 
-        return $this->redirectToRoute("suh_etudiant_heuresEtudiant");
+        return $this->redirectToRoute("suh_etudiant_heuresNonValidesEtudiant");
     }
 
     public function getUser(){
