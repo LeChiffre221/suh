@@ -205,6 +205,7 @@ class GestionEtudiantAidantController extends Controller
 
         //On recupere les entites correspondantes a $id
         $idEtudiantAidant = $etudiantAidant->find($id);
+        $etudiant = $idEtudiantAidant->getEtudiant();
         $idEtudiantInformations = $etudiantInformations->find($idEtudiantAidant->getEtudiantInformations());
         $idFormation = $formation->find($idEtudiantAidant->getEtudiantFormation());
         $idContrat = $contrat->findByEtudiantAidant($idEtudiantAidant);
@@ -212,12 +213,18 @@ class GestionEtudiantAidantController extends Controller
 
         foreach($idContrat as $contrat)
         {
+            $listeAvenants = $em->getRepository('SUHContratBundle:Avenant')->findBy(array("contrat" => $contrat));
+            foreach ($listeAvenants as $avenant){
+                $em->remove($avenant);
+            }
             $em->remove($contrat);
         }
         //On supprime les entites
+        $em->remove($etudiant);
         $em->remove($idEtudiantAidant);
         $em->remove($idEtudiantInformations);
         $em->remove($idFormation);
+
 
         
         $em->flush();

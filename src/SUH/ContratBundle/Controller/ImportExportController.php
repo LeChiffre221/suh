@@ -9,7 +9,13 @@
 namespace SUH\ContratBundle\Controller;
 
 
+use DateTime;
+use SUH\ContratBundle\Entity\Avenant;
+use SUH\ContratBundle\Entity\Contrat;
+use SUH\ContratBundle\Entity\EtudiantAidant;
 use SUH\GestionBundle\Entity\Etudiant;
+use SUH\GestionBundle\Entity\EtudiantInformations;
+use SUH\GestionBundle\Entity\Formation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -216,7 +222,8 @@ class ImportExportController extends Controller
         //On vérifie si les données sont possibles (pas trop de lignes / colonnes)
         if ($nbColonnesReelles != $highestColumn) {
             //Lecture de la feuille excel
-            for ($row = 2; $row <= $highestRow; $row++) {
+            var_dump("Hightest Row :".$highestRow);
+            for ($row = 2; $row <= 2; $row++) {
                 $rowData = $sheet->rangeToArray('A' . $row . ':' . $nbColonnesReelles . $row, NULL, TRUE, FALSE);
                 $this->ajouterLigne($rowData);
             }
@@ -232,42 +239,178 @@ class ImportExportController extends Controller
 
         $nom = $datas[0][0];
         $prenom = $datas[0][1];
-        $dateNaissance = $datas[0][2];
+        $dateNaissance = \PHPExcel_Style_NumberFormat::toFormattedString($datas[0][2], "DD/MM/YYYY");
+        $dateNaissance = date("Y-m-d", strtotime(strtr($dateNaissance, '/', '-') ));
+        $dateNaissance =  new DateTime($dateNaissance);
+
         $parite = $datas[0][3];
         $numEtudiant = $datas[0][4];
         $adresseEtudiante = $datas[0][5];
-        $adresseFamilialle = $datas[0][6];
+        $adresseFamiliale = $datas[0][6];
         $telephone = $datas[0][7];
         $mail = $datas[0][8];
         $diplome = $datas[0][9];
         $composante = $datas[0][10];
         $etablissement = $datas[0][11];
-        $dateDebutContrat = $datas[0][12];
-        $dateFinContrat = $datas[0][13];
+        $dateDebutContrat = \PHPExcel_Style_NumberFormat::toFormattedString($datas[0][12], "DD/MM/YYYY");
+        $dateFinContrat = \PHPExcel_Style_NumberFormat::toFormattedString($datas[0][13], "DD/MM/YYYY");
         $nbHeure = $datas[0][14];
-        $etudiantHandicapé = $datas[0][15];
+        $etudiantHandicape = $datas[0][15];
         $natureDuContrat = $datas[0][16];
         $semestre = $datas[0][17];
         $anneeExercice = $datas[0][18];
         $certiMedical = $datas[0][19];
-        $dateEnvoiContratDRH = $datas[0][20];
-        $dateEnvoiContratEtu = $datas[0][21];
-        $avenant = $datas[0][22];
+        $dateEnvoiContratDRH = \PHPExcel_Style_NumberFormat::toFormattedString($datas[0][20], "DD/MM/YYYY");
+        $dateEnvoiContratEtu = \PHPExcel_Style_NumberFormat::toFormattedString($datas[0][21], "DD/MM/YYYY");
+        $etablissementAvenant = $datas[0][22];
         $nbHeureAvenant = $datas[0][23];
-        $dateEnvoieAvenantDRH = $datas[0][24];
-        $dateEnvoieAvenantEtu = $datas[0][25];
+        $dateEnvoieAvenantDRH = \PHPExcel_Style_NumberFormat::toFormattedString($datas[0][24], "DD/MM/YYYY");
+        $dateEnvoieAvenantEtu = \PHPExcel_Style_NumberFormat::toFormattedString($datas[0][25], "DD/MM/YYYY");
 
-        $etudiant = new Etudiant();
 
         $etudiant = $em->getRepository('SUHGestionBundle:Etudiant')->findOneBy(array("numeroEtudiant" => $numEtudiant));
 
+        if($etudiant == null){
+            var_dump("KO : ".$numEtudiant);
+            $etudiantAidant = new EtudiantAidant();
+            $etudiantAidant->setEtudiant(new Etudiant());
+            $etudiantAidant->setEtudiantFormation(new Formation());
+            $etudiantAidant->setEtudiantInformations(new EtudiantInformations());
+        }else{
+            var_dump("OK : ".$numEtudiant);
+            $etudiantAidant = $em->getRepository('SUHContratBundle:EtudiantAidant')->findOneBy(array("etudiant" => $etudiant));
+        }
+
+        //ETUDIANT
         if($numEtudiant != null){
-            $etudiant->setNumeroEtudiant($numEtudiant);
+            $etudiantAidant->getEtudiant()->setNumeroEtudiant($numEtudiant);
         }
 
         if($dateNaissance != null){
-            $etudiant->setDateNaissance($dateNaissance);
+            $etudiantAidant->getEtudiant()->setDateNaissance($dateNaissance);
         }
+
+        //ETUDIANT AIDANT
+        if($certiMedical != null){
+
+            if(strtolower($certiMedical) == "ok"){
+                $etudiantAidant->setCertificatMedical(1);
+            }
+            else{
+                $etudiantAidant->setCertificatMedical(0);
+
+            }
+        }
+
+        //INFORMATIONS
+        if($nom != null){
+            $etudiantAidant->getEtudiantInformations()->setNom($nom);
+        }
+
+        if($prenom != null){
+            $etudiantAidant->getEtudiantInformations()->setPrenom($prenom);
+        }
+
+        if($parite != null){
+            $etudiantAidant->getEtudiantInformations()->setParite($parite);
+        }
+
+        if($adresseEtudiante != null){
+            $etudiantAidant->getEtudiantInformations()->setAdresseEtudiante($adresseEtudiante);
+        }
+
+        if($adresseFamiliale != null){
+            $etudiantAidant->getEtudiantInformations()->setAdresseFamiliale($adresseFamiliale);
+        }
+
+        if($mail != null){
+            $etudiantAidant->getEtudiantInformations()->setMailPerso($mail);
+        }
+
+        if($telephone != null){
+            $etudiantAidant->getEtudiantInformations()->setTelephonePerso($telephone);
+        }
+
+        //FORMATION
+        if($diplome != null){
+            $etudiantAidant->getFormation()->setDiplome($diplome);
+        }
+
+        if($composante != null){
+            $etudiantAidant->getFormation()->setComposante($composante);
+        }
+
+        if($etablissement != null){
+            $etudiantAidant->getFormation()->setEtablissement($etablissement);
+        }
+
+
+        //Préparation de l'étudiant aidant
+        $em->persist($etudiantAidant);
+
+        //Si les informations d'un contrat sont présente alors on crée un contrat
+        //CONTRAT
+        if($dateDebutContrat != null && $dateFinContrat != null && $nbHeure != null && $semestre != null){
+            $contrat = new Contrat();
+            $contrat->setNatureContrat(explode("/", $natureDuContrat));
+            $contrat->setDateDebutContrat($dateDebutContrat);
+            $contrat->setDateFinContrat($dateFinContrat);
+            $contrat->setNbHeureInitiales($nbHeure);
+            $contrat->setSemestreConcerne($semestre);
+            $contrat->setNomEtudiant($etudiantHandicape);
+            $contrat->setActive(1);
+
+            if(strtolower($etablissementAvenant) == "oui"){
+                $contrat->setEtablissementAvenant(1);
+            }
+            else{
+                $contrat->setEtablissementAvenant(0);
+            }
+
+
+            if($dateEnvoiContratDRH != null){
+                $contrat->setDateEnvoiDRH($dateEnvoiContratDRH);
+            }
+            if($dateEnvoiContratEtu != null){
+                $contrat->setDateEnvoiEtudiant($dateEnvoiContratEtu);
+            }
+        }
+
+
+
+        if(isset($contrat)){
+            $contrat->setEtudiantAidant($etudiantAidant);
+
+            if($contrat->getEtablissementAvenant()){
+                $avenant = new Avenant();
+                $avenant->setNatureAvenant(explode("/", $natureDuContrat));
+
+
+                $avenant->setNbHeure($nbHeureAvenant-$nbHeure);
+
+                if($dateEnvoieAvenantDRH != null){
+                    $avenant->setDateEnvoiDRH($dateEnvoieAvenantDRH);
+                }
+
+                if($dateEnvoieAvenantEtu != null){
+                    $avenant->setDateEnvoiEtudiant($dateEnvoieAvenantEtu);
+                }
+
+                $avenant->setContrat($contrat);
+
+                $em->persist($avenant);
+            }
+
+            $em->persist($contrat);
+
+
+
+        }
+
+        $em->flush();
+
+
+
     }
 
     //get la liste des éutudiants
