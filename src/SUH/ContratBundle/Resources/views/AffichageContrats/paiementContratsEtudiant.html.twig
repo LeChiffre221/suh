@@ -80,102 +80,117 @@
 
 
         </div>
+        {% if listeHeures is not empty %}
         <div class="heure">
 
             {% set  previousM = false %}
+            
 
             <form action="{{ path('suh_contrat_miseEnPaiementValidation', {'id' : id}) }}" method="post">
 
-                <button class="btn btn-warning col-lg-offset-10 col-lg-2" type="submit">Appliquer</button>
-                <br>
-                <br>
+                
 
                 {% for heure in listeHeures %}
 
+                    
+
                     {% if previousM !=  heure.dateAndTime|slice(3, 7) %}
+
+                    {% set  unchecked = true %}
+
+                    {% for heure in listeHeures %}
+                        {% if heure.heurePayee == false %}
+                            {% set unchecked = false %}
+                        {% endif %}
+                    {% endfor %}
+
                     <div class="bloc-contrat panel panel-primary">
                         <div class="col-lg-12 panel-heading">
                             <span class="arrow-panel-heading glyphicon glyphicon-menu-down dot-arrow"></span>
 
                             <h3 class="panel-title titre-contrat">{{ tabMois[heure.dateAndTime|slice(3, 2)]}} {{ heure.dateAndTime|slice(6, 4)  }}</h3>
 
-
-                            <span class="ok-panel-heading glyphicon glyphicon-ok"></span>
-
-                            <h3 class="panel-title titre-contrat titre-contrat-heures">
-                                <span>
-                                70
-                                </span>
-                                heure(s)
-                            </h3>
-                            <h3 class="panel-title titre-contrat titre-contrat-heures heures-valides">
-                                <span>10 </span>
-                                heure(s) validées
-                            </h3>
+                            {% if unchecked == true %}
+                                <span class="ok-panel-heading glyphicon glyphicon-ok"></span>
+                            {% else %}
+                                <span class="ok-panel-heading glyphicon glyphicon-remove"></span>
+                            {% endif %}
                         </div>
                         <div class="col-lg-12" style="font-size: larger">
-                            <table class="table  table-striped">
-                                <thead>
-                                <tr style="font-size: x-large; font-weight: bold">
-                                    <th>Date et Heure</th>
-                                    <th>Nature de la mission</th>
-                                    <th>Description</th>
-                                    <th>Durée</th>
-                                    <th>Payée</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    {% set previousM =  heure.dateAndTime|slice(3, 7) %}
-                                    {% for heure in listeHeures %}
-                                        {% if previousM ==  heure.dateAndTime|slice(3, 7) %}
 
-                                            <tr>
-                                                <th>{{ heure.dateAndTime }}</th>
-                                                {% if  heure.natureMission == "tutorat" %}
-                                                    <th>Tutorat</th>
-                                                {% elseif   heure.natureMission == "priseNote"%}
-                                                    <th>Prise de note</th>
-                                                {% else %}
-                                                    <th>Assistance pédagogique</th>
-                                                {% endif %}
-                                                <th>{{ heure.descriptionMission }}</th>
-                                                <th>{{ heure.nbHeure}} heure(s)</th>
-                                                {% if heure.heurePayee %}
-                                                    <th><span class="glyphicon glyphicon-ok" style="color: green"></span></th>
-                                                {% else %}
-                                                    <th><span class="glyphicon glyphicon-remove" style="color:red;"></span></th>
-                                                {% endif %}
-                                                <th>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            {% if heure.heurePayee %}
-                                                                <input type="checkbox" name="heure{{ heure.id }}" checked>
-                                                            {% else %}
-                                                                <input type="checkbox" name="heure{{ heure.id }}" >
-                                                            {% endif %}
+                            <div class="col-lg-12">
+                                <button class="btn btn-warning col-lg-offset-8 col-lg-2" type="submit">Appliquer</button>
+                                <span class="col-lg-offset-1 col-lg-1">
+                                    <input class="multiple-paiement" type="checkbox" 
+                                    {% if unchecked == false %}
+                                        checked
+                                    {% endif %}
+                                    />
+                                </span>
+                            </div>
 
+                            <div class="col-lg-12" style="font-size: larger">
+                                <table class="table  table-striped">
+                                    <thead>
+                                        <tr style="font-size: x-large; font-weight: bold">
+                                            <th>Date et Heure</th>
+                                            <th>Nature de la mission</th>
+                                            <th>Description</th>
+                                            <th>Durée</th>
+                                            <th>Payée</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set previousM =  heure.dateAndTime|slice(3, 7) %}
+                                        {% for heure in listeHeures %}
+                                            {% if previousM ==  heure.dateAndTime|slice(3, 7) %}
 
-                                                        </label>
+                                                <tr>
+                                                    <td>{{ heure.dateAndTime }}</td>
+                                                    {% if  heure.natureMission == "tutorat" %}
+                                                        <td>Tutorat</td>
+                                                    {% elseif   heure.natureMission == "priseNote"%}
+                                                        <td>Prise de note</td>
+                                                    {% else %}
+                                                        <td>Assistance pédagogique</td>
+                                                    {% endif %}
+                                                    <td>{{ heure.descriptionMission }}</td>
+                                                    <td>{{ heure.nbHeure}} heure(s)</td>
+                                                    <td>
+                                                    {% if heure.heurePayee %}
+                                                        <span class="glyphicon glyphicon-ok" style="color: green"></span>
+                                                    {% else %}
+                                                        <span class="glyphicon glyphicon-remove" style="color:red;"></span>
+                                                    {% endif %}
+                                                    </td>
+                                                    <td class="hidden-input">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                {% if heure.heurePayee %}
+                                                                    <input type="checkbox" name="heure{{ heure.id }}" checked>
+                                                                {% else %}
+                                                                    <input type="checkbox" name="heure{{ heure.id }}" >
+                                                                {% endif %}
+                                                            </label>
 
-                                                    </div>
-                                                </th>
+                                                        </div>
+                                                    </td>
+                                                </tr>
 
+                                            {% endif %}
 
-                                            </tr>
-
-                                        {% endif %}
-
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     {% endif %}
                 {% endfor %}
             </form>
         </div>
-        <div class="col-lg-2 ">
+        {% endif %}
+        <div class="col-lg-6 ">
             <a href="{{ path('suh_contrat_archiverContrat', {'idContrat': contrat.id}) }}">
                 <button type="button" class="btn btn-warning">
                     <span class="glyphicon glyphicon-briefcase"></span>

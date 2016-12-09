@@ -35,7 +35,7 @@ a {
     height:50px;
 
     background-color:white;
-    border:1px solid #337ab7;
+    border:2px solid #337ab7;
     box-sizing: initial;
     color:#337ab7;
     display:block;
@@ -75,7 +75,7 @@ a {
 }
 
 .glyphicon-ok{
-    color:green;
+    color:#74FF5C;
 }
 
 
@@ -582,11 +582,12 @@ ul.navbar-nav{
     float:left;
 }
 .titre-contrat span {
-    position:relative;
-    text-align:center;
-    width:30px;
-    height:30px;
-    display:inline-block;
+    position: relative;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    line-height: 40px;
 }
 
 .titre-contrat span::before {
@@ -690,6 +691,12 @@ span.dot-arrow{
     -o-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
 }
+
+.generate_fiche{
+    display:inline-block;
+    margin:15px 0;
+}
+
 /* Profil */
 .bloc-profil{
     width:100%;
@@ -743,7 +750,7 @@ span.dot-arrow{
 
 .bloc-contrat .panel-heading .ok-panel-heading{
     float: right;
-    line-height: 30px;
+    line-height: 40px;
     margin-left: 70px;
     font-size: 25px;
     position:relative;
@@ -839,6 +846,18 @@ span.dot-arrow{
 
 .bloc-heure h3{
     text-transform:uppercase;
+}
+
+
+.checkbox{
+    text-align:center;
+}
+.marks-heures{
+    text-align:center;
+}
+
+.hidden-input{
+    display:none;
 }
 /*
 .checkbox label:after,

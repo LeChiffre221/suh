@@ -65,4 +65,20 @@ $(function() {
       return false;
     });
 
+
+    $('.multiple-paiement').change(function(){
+
+        if( this.checked ){
+            
+            $(this).parent().parent().nextAll().find('.hidden-input input').prop('checked', true);
+
+        } else {
+
+            $(this).parent().parent().nextAll().find('.hidden-input input').prop('checked', false);
+
+        }
+    });
+
+    
+
 });  

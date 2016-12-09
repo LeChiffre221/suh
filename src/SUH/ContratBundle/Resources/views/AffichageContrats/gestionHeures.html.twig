@@ -32,6 +32,8 @@
         <div class="heure">
 
             {% set  previousM = false %}
+            {% set  actualM = false %}
+            
 
             <form action="{{ path("suh_contrat_validationHeures", {'id' : id}) }}" method="post">
 
@@ -41,29 +43,49 @@
 
                 {% for heure in listeHeures %}
 
+                {% set  actualM = heure.dateAndTime|slice(3, 7) %}
+
                     {% if previousM !=  heure.dateAndTime|slice(3, 7) %}
+
+                    {% set  heuresValides = 0 %}
+                    {% set  heuresTotales = 0 %}
+
+                    {% for heure in listeHeures %}
+                        {% if actualM == heure.dateAndTime|slice(3, 7) %}
+                            {% if heure.verification %}
+                                {% set  heuresValides = heuresValides + heure.nbHeure %}
+                            {% endif %}
+                            {% set  heuresTotales = heuresTotales + heure.nbHeure %}
+                        {% endif %}
+                    {% endfor %}
+
                     <div class="bloc-contrat panel panel-primary">
                         <div class="col-lg-12 panel-heading">
                             <span class="arrow-panel-heading glyphicon glyphicon-menu-down dot-arrow"></span>
 
                             <h3 class="panel-title titre-contrat">{{ tabMois[heure.dateAndTime|slice(3, 2)]}} {{ heure.dateAndTime|slice(6, 4)  }}</h3>
 
-
+                            {% if heuresTotales == heuresValides %}
                             <span class="ok-panel-heading glyphicon glyphicon-ok"></span>
+                            {% endif %}
+                            {% if heuresTotales != heuresValides %}
+                            <span class="ok-panel-heading glyphicon glyphicon-remove"></span>
+                            {% endif %}
 
                             <h3 class="panel-title titre-contrat titre-contrat-heures">
                                 <span>
-                                70
+                                {{heuresTotales}}
                                 </span>
                                 heure(s)
                             </h3>
+
                             <h3 class="panel-title titre-contrat titre-contrat-heures heures-valides">
-                                <span>10 </span>
+                                <span>{{heuresValides}} </span>
                                 heure(s) validées
                             </h3>
                         </div>
                         <div class="col-lg-12" style="font-size: larger">
-                            <a href="{{ path("suh_contrat_exportationFichePaie", {'month' :  heure.dateAndTime|slice(3, 2), 'year' : heure.dateAndTime|slice(6, 4)}) }}">
+                            <a class="generate_fiche" href="{{ path("suh_contrat_exportationFichePaie", {'month' :  heure.dateAndTime|slice(3, 2), 'year' : heure.dateAndTime|slice(6, 4)}) }}">
                                 <button class="btn btn-primary">
                                     Generer fiche de paie
                                 </button>
@@ -75,32 +97,35 @@
                                     <th>Nature de la mission</th>
                                     <th>Description</th>
                                     <th>Durée</th>
-                                    <th>Validation</th>
+                                    <th class="marks-heures">Validation</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     {% set previousM =  heure.dateAndTime|slice(3, 7) %}
+
                                     {% for heure in listeHeures %}
                                         {% if previousM ==  heure.dateAndTime|slice(3, 7) %}
 
                                             <tr>
-                                                <th>{{ heure.dateAndTime }}</th>
+                                                <td>{{ heure.dateAndTime }}</td>
                                                 {% if  heure.natureMission == "tutorat" %}
-                                                    <th>Tutorat</th>
+                                                    <td>Tutorat</td>
                                                 {% elseif   heure.natureMission == "priseNote"%}
-                                                    <th>Prise de note</th>
+                                                    <td>Prise de note</td>
                                                 {% else %}
-                                                    <th>Assistance pédagogique</th>
+                                                    <td>Assistance pédagogique</td>
                                                 {% endif %}
-                                                <th>{{ heure.descriptionMission }}</th>
-                                                <th>{{ heure.nbHeure}} heure(s)</th>
-                                                {% if heure.verification %}
-                                                    <th><span class="glyphicon glyphicon-ok" style="color: green"></span></th>
-                                                {% else %}
-                                                    <th><span class="glyphicon glyphicon-remove" style="color:red;"></span></th>
-                                                {% endif %}
-                                                <th>
+                                                <td>{{ heure.descriptionMission }}</td>
+                                                <td>{{ heure.nbHeure}} heure(s)</td>
+                                                <td class="marks-heures">
+                                                    {% if heure.verification %}
+                                                        <span class="glyphicon glyphicon-ok" style="color: green"></span>
+                                                    {% else %}
+                                                        <span class="glyphicon glyphicon-remove" style="color:red;"></span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
                                                     <div class="checkbox">
                                                         <label>
                                                             {% if heure.verification %}
@@ -108,12 +133,10 @@
                                                             {% else %}
                                                                 <input type="checkbox" name="heure{{ heure.id }}" >
                                                             {% endif %}
-
-
                                                         </label>
 
                                                     </div>
-                                                </th>
+                                                </td>
 
 
                                             </tr>

@@ -129,7 +129,7 @@ class StatsController extends Controller
             }
 
 
-            var_dump($annees);
+   
 
         }
 
@@ -151,18 +151,16 @@ class StatsController extends Controller
 
             
             $temp = $form->getData();
-            var_dump($temp);
+
 
             $mois = \DateTime::createFromFormat('m', $temp['Annees']) ;
             $moisPlusUn = \DateTime::createFromFormat('!m', $temp['Annees'] + 1) ;
-            var_dump($mois);
-            var_dump($moisPlusUn);
+
 
             $listeNatureContrats = array();
 
             $contratsMois = $em->getRepository('SUHContratBundle:Contrat')->findByDateDebutContrat($mois);
 
-            var_dump($contratsMois);
             foreach($contratsMois as $contrat){
             
                 foreach($contrat->getNatureContrat() as $nature){
@@ -195,7 +193,6 @@ class StatsController extends Controller
         //Datas
         
 
-        var_dump($mois);
         $rawData = array_count_values ($listeNatureContrats);
 
         $table['cols'] = array(
@@ -237,7 +234,7 @@ class StatsController extends Controller
         $normalizers = array(new GetSetMethodNormalizer());
         $serializer = new Serializer($normalizers, $encoders);
 
-        $heures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy([], ['dateAndTime' => 'ASC']);
+        $heures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array('heurePayee' => 1), ['dateAndTime' => 'ASC']);
         $parameters = $em->getRepository('SUHContratBundle:Parameters')->find(1);
         $coefTutorat = $parameters->getCoefTutorat();
         $coefPriseDeNote = $parameters->getCoefPriseDeNote();

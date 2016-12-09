@@ -283,7 +283,7 @@ class ContratController extends Controller
 
         if($nonConforme){
 
-            $request->getSession()->getFlashBag()->add('error', 'Une heure n\'est pas payée !');
+            $request->getSession()->getFlashBag()->add('error', 'Le contrat n\'est pas totalement payé !');
         } else {
 
         $contrat->setActive(false)

@@ -1,13 +1,7 @@
 {% extends "SUHConnexionBundle:Connexion:base.html.twig" %}
 {% block body %}
-    {% for message in app.session.flashbag.get('notice') %}
-        <div class="alert alert-success message-fixed">
-            <strong>Le SUH a mis la gomme.</strong> {{message}}
-            <span class="glyphicon glyphicon-remove"></span>
-        </div>
-    {% endfor %}
-    <div class="container" style="background-color: whitesmoke">
-        <div class="row">
+    <div class="container panel" style="background-color: whitesmoke">
+        <div class="">
             <h1>
                 Ajouter un administrateur :
             </h1>
@@ -39,7 +33,7 @@
 
             </div>
 
-            <button type="submit" class="btn btn-success ">Ajouter l'admnistrateur</button>
+            <button type="submit" class="btn btn-success ">Ajouter l'administrateur</button>
             <br>
             <br>
 
@@ -53,7 +47,7 @@
             {{ form_end(form) }}
         </div>
 
-        <div class="row">
+        <div class="">
 
             <h1>
                 Liste des administrateurs :
@@ -63,9 +57,11 @@
                 <thead  style="text-align: center">
                     <tr>
                         <th style="text-align: center">Identifiant</th>
+
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <th style="text-align: center">Supprimer</th>
                         {% endif %}
+                        
                     </tr>
                 </thead>
                 <tbody>
