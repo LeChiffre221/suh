@@ -36,33 +36,44 @@ class ContratController extends Controller
             $em = $this->getDoctrine()->getManager();
             $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
 
-            $contrat->setActive(true);
-            $contrat->setMiseEnPaiement(false);
-            $contrat->setEtudiantAidant($etudiant);
+            $listeContrat = $em->getRepository('SUHContratBundle:Contrat')->findBy(array("etudiantAidant" => $etudiant));
 
-            $dateDebut = date("Y-m-d", strtotime(strtr($contrat->getDateDebutContrat(), '/', '-')));
-            $dateFin = date("Y-m-d", strtotime(strtr($contrat->getDateFinContrat(), '/', '-')));
-            if($dateDebut > $dateFin){
-                $contrat->setDateDebutContrat(null);
-                $contrat->setDateFinContrat(null);
-
-                $request->getSession()->getFlashBag()->add('warning', 'La date de début ne peut être supèrieure à la date de fin');
-
-
+            $nbContratEnCours = 0;
+            foreach($listeContrat as $contrat){
+                if($contrat->getActive()){
+                    $nbContratEnCours++;
+                }
             }
-            else{
-                $em->persist($contrat);
-                $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Contrat ajouté !');
+            if($nbContratEnCours == 0){
+                $contrat->setActive(true);
+                $contrat->setMiseEnPaiement(false);
+                $contrat->setEtudiantAidant($etudiant);
 
+                $dateDebut = date("Y-m-d", strtotime(strtr($contrat->getDateDebutContrat(), '/', '-')));
+                $dateFin = date("Y-m-d", strtotime(strtr($contrat->getDateFinContrat(), '/', '-')));
+                if($dateDebut > $dateFin){
+                    $contrat->setDateDebutContrat(null);
+                    $contrat->setDateFinContrat(null);
+
+                    $request->getSession()->getFlashBag()->add('warning', 'La date de début ne peut être supèrieure à la date de fin');
+
+
+                }
+                else{
+                    $em->persist($contrat);
+                    $em->flush();
+
+                    $request->getSession()->getFlashBag()->add('notice', 'Contrat ajouté !');
+
+                }
                 return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
                     'id' => $id,
                 )));
             }
-
-
-
+            else{
+                $request->getSession()->getFlashBag()->add('error', 'Un contrat actif existe déjà pour cet étudiant !');
+            }
 
         }
         return $this->render('SUHContratBundle:AffichageContrats:addContrat.html.twig', array(

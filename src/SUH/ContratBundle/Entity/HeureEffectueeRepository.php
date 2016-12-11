@@ -11,6 +11,31 @@ namespace SUH\ContratBundle\Entity;
 class HeureEffectueeRepository extends \Doctrine\ORM\EntityRepository
 {
 
+    public function getHeureEffectuee($contrat){
+        $q = $this->createQueryBuilder('c')
+            ->where('c.contrat = :contrat')
+            ->setParameter('contrat', $contrat);
+
+
+
+        return $q;
+    }
+
+    public function selectNbHeurePourUnEtudiantPourUnContrat($etudiant, $contrat){
+        $query = $this->_em->createQuery('SELECT h
+                                          FROM SUHContratBundle:HeureEffectuee h
+                                          JOIN h.contrat c JOIN c.etudiantAidant e 
+                                          WHERE e.id = :idEtudiant
+                                          AND c.id = :idContrat');
+        $query->setParameter('idEtudiant', $etudiant->getId());
+        $query->setParameter('idContrat', $contrat->getId());
+
+        $results = $query->getSingleResult();
+
+        return $results;
+
+    }
+
     public function selectNbHeurePourUnEtudiant($etudiant){
         $query = $this->_em->createQuery('SELECT SUM(h.nbHeure) 
                                           FROM SUHContratBundle:HeureEffectuee h

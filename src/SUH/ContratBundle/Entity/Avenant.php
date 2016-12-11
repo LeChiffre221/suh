@@ -22,12 +22,7 @@ class Avenant
      */
     private $id;
 
-    /**
-     * @var array
-     *
-     * @ORM\Column(name="natureAvenant", type="array")
-     */
-    private $natureAvenant;
+
 
     /**
      * @var integer
@@ -36,19 +31,6 @@ class Avenant
      */
     private $nbHeure;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateDebutAvenant", type="date")
-     */
-    private $dateDebutAvenant;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="dateFinAvenant", type="date")
-     */
-    private $dateFinAvenant;
 
     /**
      * @var \DateTime
@@ -82,29 +64,6 @@ class Avenant
         return $this->id;
     }
 
-    /**
-     * Set natureAvenant
-     *
-     * @param array $natureAvenant
-     *
-     * @return Avenant
-     */
-    public function setNatureAvenant($natureAvenant)
-    {
-        $this->natureAvenant = $natureAvenant;
-    
-        return $this;
-    }
-
-    /**
-     * Get natureAvenant
-     *
-     * @return array
-     */
-    public function getNatureAvenant()
-    {
-        return $this->natureAvenant;
-    }
 
     /**
      * Set nbHeure
@@ -130,68 +89,6 @@ class Avenant
         return $this->nbHeure;
     }
 
-    /**
-     * Set dateDebutAvenant
-     *
-     * @param \DateTime $dateDebutAvenant
-     *
-     * @return Avenant
-     */
-    public function setDateDebutAvenant($dateDebutAvenant)
-    {
-
-        $dateDebutAvenant = date("Y-m-d", strtotime(strtr($dateDebutAvenant, '/', '-') ));
-        $this->dateDebutAvenant =  new DateTime($dateDebutAvenant);
-
-
-    
-        return $this;
-    }
-
-    /**
-     * Get dateDebutAvenant
-     *
-     * @return \DateTime
-     */
-    public function getDateDebutAvenant()
-    {
-        if($this->dateDebutAvenant instanceof \DateTime){
-            return $this->dateDebutAvenant->format('d/m/Y');
-        }
-
-        return $this->dateDebutAvenant;
-    }
-
-    /**
-     * Set dateFinAvenant
-     *
-     * @param \DateTime $dateFinAvenant
-     *
-     * @return Avenant
-     */
-    public function setDateFinAvenant($dateFinAvenant)
-    {
-
-        $dateFinAvenant = date("Y-m-d", strtotime(strtr($dateFinAvenant, '/', '-') ));
-
-        $this->dateFinAvenant = new DateTime($dateFinAvenant);
-
-        return $this;
-    }
-
-    /**
-     * Get dateFinAvenant
-     *
-     * @return \DateTime
-     */
-    public function getDateFinAvenant()
-    {
-
-        if($this->dateFinAvenant instanceof \DateTime){
-            return $this->dateFinAvenant->format('d/m/Y');
-        }
-        return $this->dateFinAvenant;
-    }
 
     /**
      * Set dateEnvoiDRH

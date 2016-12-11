@@ -15,15 +15,6 @@ class HeureEffectueeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('natureMission', 'choice', array(
-                'choices' => array(
-                    'tutorat' => 'Tutorat',
-                    'priseNote' => 'Prise de note',
-                    'assistancePédagogique' => 'Assistance Pédagogique'
-                ),
-                'multiple' => false,
-                'expanded' => true,
-            ))
             ->add('descriptionMission', 'textarea', array('required' => false))
             ->add('dateAndTime', 'text')
             ->add('nbHeure', 'number', array('pattern' => '[0-9]+'))

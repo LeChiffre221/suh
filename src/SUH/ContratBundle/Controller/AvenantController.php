@@ -91,7 +91,7 @@ class AvenantController extends Controller
 
 
     }
-
+    /*
     public function deleteAvenantAction(Request $request, $idAvenant){
         $em = $this->getDoctrine()->getManager();
 
@@ -106,7 +106,7 @@ class AvenantController extends Controller
         )));
 
     }
-
+*/
     public function editAvenantAction(Request $request, $idAvenant){
         $em = $this->getDoctrine()->getManager();
         $avenant = $em->getRepository("SUHContratBundle:Avenant")->find($idAvenant);

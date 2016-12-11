@@ -19,22 +19,7 @@
                 {# Les erreurs générales du formulaire. #}
                 {{ form_errors(form) }}
 
-                <div class="form-group">
-                    {{ form_label(form.natureAvenant, "Nature de l'avenant : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-                    {{ form_errors(form.natureAvenant) }}
-                    <div class="col-sm-3 checkbox">
-                        {{ form_widget(form.natureAvenant, {'attr': {'class': 'col-md-8'}}) }}
-                    </div>
-                </div>
 
-                {# Idem pour un autre champ. #}
-                <div class="form-group">
-                    {{ form_label(form.nbHeure, "Nombre d'heures initiales : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
-                    {{ form_errors(form.nbHeure) }}
-                    <div class="col-sm-1">
-                        {{ form_widget(form.nbHeure, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                </div>
 
                 <div class="form-group">
                     {{ form_label(form.dateDebutAvenant, "Date de début de l'avenant : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}

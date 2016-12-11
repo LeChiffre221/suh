@@ -326,8 +326,9 @@ class AffichageController extends Controller
                                                                         ));
 
         $listeContrat = $em->getRepository('SUHContratBundle:Contrat')->findBy(array(
-                                                                                'etudiantAidant' => $etudiantAidant
-                                                                        ));
+                                                                                'etudiantAidant' => $etudiantAidant,
+                                                                                'active' => true,
+                                                                            ));
 
         $listeHeureValide=  $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
                                                                             'contrat' => $listeContrat,
@@ -355,7 +356,8 @@ class AffichageController extends Controller
                                                                         ));
 
         $listeContrat = $em->getRepository('SUHContratBundle:Contrat')->findBy(array(
-                                                                                'etudiantAidant' => $etudiantAidant
+                                                                                'etudiantAidant' => $etudiantAidant,
+                                                                                'active' => true,
                                                                         ));
 
         $listeHeureNonValide =  $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
