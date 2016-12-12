@@ -221,11 +221,10 @@ suh_contrat_validationHeures:
 #=========================================
 #=======   Variables globales  ===========
 #=========================================
-suh_contrat_parameters:
-    path: /parameters
-    defaults: { _controller: SUHContratBundle:Affichage:AfficherParameters }
 
-
+suh_contrat_refresh_list:
+    path: /refresh_list
+    defaults: { _controller: SUHContratBundle:AjaxRequest:refreshList }
 #=========================================
 #=============Statistiques ===============
 #=========================================

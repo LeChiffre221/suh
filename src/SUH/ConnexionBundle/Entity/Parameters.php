@@ -1,6 +1,6 @@
 <?php
 
-namespace SUH\ContratBundle\Entity;
+namespace SUH\ConnexionBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -365,9 +365,10 @@ class Parameters
     public function setDateMoisLimite($dateMoisLimite)
     {
 
-        $dateMoisLimite = date("m-d", strtotime(strtr($dateMoisLimite, '/', '-') ));
-        $this->dateMoisLimite = new DateTime($dateMoisLimite);
+        $dateMoisLimite = date("Y-m-d", strtotime(strtr($dateMoisLimite.'/1970', '/', '-') ));
 
+        $this->dateMoisLimite = new DateTime($dateMoisLimite);
+    
         return $this;
     }
 
@@ -380,9 +381,8 @@ class Parameters
     {
 
         if($this->dateMoisLimite instanceof \DateTime){
-            return $this->dateMoisLimite->format('d/m');
+            return $this->dateMoisLimite->format('d/m/Y');
         }
-
         return $this->dateMoisLimite;
     }
 

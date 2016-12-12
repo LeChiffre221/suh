@@ -1,0 +1,94 @@
+{% extends "SUHConnexionBundle:Connexion:base.html.twig" %}
+{% block body %}
+    <div class="container panel" style="background-color: whitesmoke">
+        <div class="editAnnees">
+    <div class="container">
+        <h1>Edition des années</h1>
+        <hr>
+        <div class="row">
+            <div class="col-lg-5 col-lg-push-2">
+                {% for message in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-success" role="alert"> {{ message }} </div>
+                {% endfor %}
+
+                {% for message in app.session.flashbag.get('error') %}
+                    <div class="alert alert-danger" role="alert"> {{ message }} </div>
+                {% endfor %}
+            </div>
+
+            <div class="col-lg-8 col-lg-push-2">
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                {# Les erreurs générales du formulaire. #}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {# Génération du label. #}
+                    {{ form_label(form.annee, "Année : ", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+
+                    {# Affichage des erreurs pour ce champ précis. #}
+                    {{ form_errors(form.annee) }}
+
+                    <div class="col-lg-2">
+                        {# Génération de l'input. #}
+                        {{ form_widget(form.annee, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+                    {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+                    {{ form_widget(form.Ajouter, {'attr': {'class': 'col-lg-2 btn btn-primary'}}) }}
+                </div>
+
+
+
+
+
+
+
+                {# Fermeture de la balise form du formulaire HTML #}
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default col-lg-5 col-lg-push-2">
+                <!-- Default panel contents -->
+
+                <table class="table">
+
+                    <tr>
+                        <th>Année</th>
+                        <th>Supprimer</th>
+                    </tr>
+
+                    {% for y in listYears %}
+                        <tr>
+                            <td>{{ y.anneeUniversitaire }}</td>
+
+                            <td>
+                                <a href="{{ path('suh_gestion_annee_delete', {'id': y.id}) }}">
+                                    <button type="button" class="btn btn-danger">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </a>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+    </div>
+
+    {% if (js is defined) %}{{ js|raw }}{% endif %}
+{% endblock %}
+
+
+
+
+
+
