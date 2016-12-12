@@ -28,6 +28,143 @@ class ImportExportController extends Controller
         return new Response($month.'-'.$year);
     }
 
+
+
+    public function exportAvenantPDFAction(Request $request, $idContrat){
+        $em = $this->getDoctrine()->getManager();
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
+
+        $em = $this->getDoctrine()->getManager();
+        $avenant = $em->getRepository('SUHContratBundle:Avenant')->findOneBy(array('contrat' => $contrat));
+
+
+
+        $nom = $contrat->getEtudiantAidant()->getEtudiantInformations()->getNom();
+        $prenom = $contrat->getEtudiantAidant()->getEtudiantInformations()->getPrenom();
+
+        $natureContrat = '';
+        foreach($contrat->getNatureContrat() as $nature){
+            $natureContrat .= $nature."/";
+        }
+        $natureContrat = substr($natureContrat,0, -1);
+
+        $pdf = new \FPDI();
+        //Methode pour importer toutes les pages sur un template
+        $pdf = $this->importAvenantTemplate($pdf, $avenant, $contrat);
+
+        return new Response($pdf->Output('D','Avenant_'.$nom.'_'.$prenom.'_'.$natureContrat.'.pdf'));
+    }
+
+    public function importAvenantTemplate($pdf, $avenant, $contrat){
+
+        $pageCount =  $pdf->setSourceFile('../AvenantEtudiant.pdf');
+
+        for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+            // import a page
+            $templateId = $pdf->importPage($pageNo);
+            // get the size of the imported page
+            $size = $pdf->getTemplateSize($templateId);
+
+            $pdf->AddPage('P', array($size['w'], $size['h']));
+
+            // use the imported page
+            $pdf->useTemplate($templateId);
+
+            if($pageNo == 1){
+
+                $nom = $contrat->getEtudiantAidant()->getEtudiantInformations()->getNom();
+                $prenom = $contrat->getEtudiantAidant()->getEtudiantInformations()->getPrenom();
+
+                if( $contrat->getEtudiantAidant()->getEtudiantInformations()->getParite() == "F"){
+                    $parite = "Mme.";
+                }
+                else{
+                    $parite = "M.";
+                }
+
+                $dateNaissance = $contrat->getEtudiantAidant()->getEtudiant()->getDateNaissance()->format('d-m-Y');
+
+                $pdf->SetFont('Arial','B',10);
+
+                $etudiantInfo = "Et ".$parite." ".$nom." ".$prenom."                             né(e) le ".$dateNaissance;
+                $pdf->Text(15,136,(utf8_decode($etudiantInfo)));
+
+                $pdf->SetFont('Arial','',11);
+
+                $diplome = $contrat->getEtudiantAidant()->getFormation()->getDiplome();
+                $composante = $contrat->getEtudiantAidant()->getFormation()->getComposante();
+                $etablissement = $contrat->getEtudiantAidant()->getFormation()->getEtablissement();
+
+                if((!empty($composante) || !empty($etablissement)) && !empty($diplome)){
+                    $diplome.= ",";
+                }
+                if(!empty($composante) && !empty($etablissement)){
+                    $composante .= ',';
+                }
+                $status = $diplome. ' '. $composante. ' '. $etablissement;
+
+                $pieces = explode(" ", $status);
+
+                $statusCourt = "";
+
+
+                foreach ($pieces as $piece){
+                    if(strlen($statusCourt) < 190){
+                        $statusCourt .= " ".$piece;
+                    }
+                }
+                if(strlen($statusCourt) > 190){
+                    $statusCourt .= " ...";
+                }
+
+                $text = $parite." ".$nom." ".$prenom.", étudiant(e) inscrit(e) en ".$statusCourt.", est engagé(e) en qualité d'étudiant(e) pour assurer des travaux liés à l'assistance et à l'accompagnement des étudiant(e)s  en situation de handicap.";
+
+                $diplomeCompoEtab1 = "";
+                $diplomeCompoEtab2 = "";
+                $diplomeCompoEtab3 = "";
+                $diplomeCompoEtab4 = "";
+
+                $pieces = explode(" ", $text);
+
+                foreach ($pieces as $piece){
+
+                    if(strlen($diplomeCompoEtab1) <= 100){
+                        $diplomeCompoEtab1 .= " ".$piece;
+                    }
+                    else if(strlen($diplomeCompoEtab2) <= 100){
+                        $diplomeCompoEtab2 .= " ".$piece;
+                    }
+                    else if(strlen($diplomeCompoEtab3) <= 100){
+                        $diplomeCompoEtab3 .= " ".$piece;
+                    }
+                    else{
+                        $diplomeCompoEtab4 .= " ".$piece;
+                    }
+
+                }
+
+                $pdf->Text(15,175, utf8_decode($diplomeCompoEtab1));
+                $pdf->Text(15,180, utf8_decode($diplomeCompoEtab2));
+                $pdf->Text(15,185, utf8_decode($diplomeCompoEtab3));
+                $pdf->Text(15,190, utf8_decode($diplomeCompoEtab4));
+
+
+
+                 $dateDebutContrat = $contrat->getDateDebutContrat();
+                $dateFinContrat = $contrat->getDateFinContrat();
+                $nbHeures = $contrat->getNbHeureInitiales() + $avenant->getNbHeure();
+
+                $pdf->Text(23,210,(utf8_decode($dateDebutContrat)));
+                $pdf->Text(55,210,(utf8_decode($dateFinContrat)));
+
+                $pdf->SetFont('Arial','',11);
+                $pdf->Text(140,210,(utf8_decode($nbHeures. ' heures.')));
+            }
+        }
+
+        return $pdf;
+    }
+
     public function exportContratPDFAction(Request $request, $idContrat){
 
         $em = $this->getDoctrine()->getManager();
@@ -42,16 +179,14 @@ class ImportExportController extends Controller
         }
         $natureContrat = substr($natureContrat,0, -1);
 
-
         $pdf = new \FPDI();
         //Methode pour importer toutes les pages sur un template
-        $pdf = $this->importTemplate($pdf, $contrat);
+        $pdf = $this->importContratTemplate($pdf, $contrat);
 
         return new Response($pdf->Output('D','Contrat_'.$nom.'_'.$prenom.'_'.$natureContrat.'.pdf'));
     }
 
-
-    public function importTemplate($pdf, $contrat){
+    public function importContratTemplate($pdf, $contrat){
 
         $pageCount =  $pdf->setSourceFile('../ContratEtudiant.pdf');
 
@@ -83,7 +218,7 @@ class ImportExportController extends Controller
 
                 //diplome composante etablissement
 
-                $diplome = $contrat->getEtudiantAidant()->getFormation()->getDiplome()." (".$contrat->getEtudiantAidant()->getFormation()->getAnneeEtude()."eme Année)";
+                $diplome = $contrat->getEtudiantAidant()->getFormation()->getDiplome();
                 $composante = $contrat->getEtudiantAidant()->getFormation()->getComposante();
                 $etablissement = $contrat->getEtudiantAidant()->getFormation()->getEtablissement();
 

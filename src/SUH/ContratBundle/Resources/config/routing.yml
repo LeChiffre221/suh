@@ -186,6 +186,12 @@ suh_contrat_exportationContrat:
     requirements:
         idContrat:   "^[0-9]+$"
 
+suh_contrat_exportationAvenant:
+    path: /exporterAvenantPDF/{idContrat}
+    defaults: { _controller: SUHContratBundle:ImportExport:exportAvenantPDF }
+    requirements:
+        idContrat:   "^[0-9]+$"
+
 suh_contrat_exportationFichePaie:
     path: /exporterFichePaiePDF/{month}/{year}
     defaults: { _controller: SUHContratBundle:ImportExport:exportFichePaiePDF }
