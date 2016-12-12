@@ -35,7 +35,7 @@
                 <div class="col-md-6">
                   <a href="{{path('suh_gestion_homepage')}}">
                       <span class="btn btn-success" >
-                          Gestion
+                          Etudiant
                       </span>
                   </a>
                 </div>
@@ -47,7 +47,21 @@
                       <ul class="nav navbar-nav">
 
                         {% if is_granted('ROLE_ADMIN') %}
-                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_user_homepage' %} active {% endif %}"><a id="accueil" href="{{path('suh_user_homepage')}}">Accueil</a></li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_user_homepage' %} active {% endif %}">
+                              <a id="accueil" href="{{path('suh_user_homepage')}}">
+                                Utilisateurs
+                              </a>
+                            </li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_user_annees' %} active {% endif %}">
+                              <a id="accueil" href="{{path('suh_user_annees')}}">
+                                Années
+                              </a>
+                            </li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_user_parameters' %} active {% endif %}">
+                              <a id="accueil" href="{{path('suh_user_parameters')}}">
+                                Variables
+                              </a>
+                            </li>
 
                         {% endif %}
 

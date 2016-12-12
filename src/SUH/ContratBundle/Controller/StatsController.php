@@ -244,7 +244,6 @@ class StatsController extends Controller
         //jalons limites
         $jourLimite = intval(substr($parameters->getDateMoisLimite(),0,2), 10);
         $moisLimite = intval(substr($parameters->getDateMoisLimite(),3,2), 10);
-
         //Init var
         $listeCoutContrats = array();
         $listeCoutContratsss = array();

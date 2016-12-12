@@ -11,3 +11,11 @@ suh_user_delete:
     defaults: { _controller: SUHConnexionBundle:User:deleteUser }
     requirements:
         idUser: "^[0-9]+$"
+
+suh_user_parameters:
+    path: /parameters
+    defaults: { _controller: SUHConnexionBundle:Parameters:AfficherParameters }
+
+suh_user_annees:
+    path: /annees
+    defaults: { _controller: SUHConnexionBundle:Annees:AfficherGestionAnnees }
