@@ -60,6 +60,12 @@ class EtudiantAidant
 
     private $heureNonValide;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="SUH\GestionBundle\Entity\Annee", cascade={"persist"})
+     */
+
+    private $annees;
+
 
     public function getId(){
         return $this->id;
@@ -165,5 +171,46 @@ class EtudiantAidant
     }
     public function setHeureNonValide($heureNonValide){
         return $this->heureNonValide = $heureNonValide;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->annees = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add annee
+     *
+     * @param \SUH\GestionBundle\Entity\Annee $annee
+     *
+     * @return EtudiantAidant
+     */
+    public function addAnnee(\SUH\GestionBundle\Entity\Annee $annee)
+    {
+        $this->annees[] = $annee;
+
+        return $this;
+    }
+
+    /**
+     * Remove annee
+     *
+     * @param \SUH\GestionBundle\Entity\Annee $annee
+     */
+    public function removeAnnee(\SUH\GestionBundle\Entity\Annee $annee)
+    {
+        $this->annees->removeElement($annee);
+    }
+
+    /**
+     * Get annees
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAnnees()
+    {
+        return $this->annees;
     }
 }

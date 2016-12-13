@@ -25,6 +25,6 @@ class AjaxRequestController extends Controller
             'year' => $year,
         ));
 
-        return $this->redirectToRoute('suh_contrat_homepage');
+        // return $this->redirectToRoute('suh_contrat_homepage');
     }
 }

@@ -91,6 +91,7 @@ class GestionEtudiantAidantController extends Controller
         $controllerAffichage = $this->forward('controller_affichage:getListeEtudiants', array());
 
 
+
         //ENVOI EMAIL
 
         /*
@@ -104,14 +105,20 @@ class GestionEtudiantAidantController extends Controller
 
         $this->get('mailer')->send($message);
 
-       /* $parameters = $em->getRepository('SUHConnexionBundle:Parameters');
+       */ $parameters = $em->getRepository('SUHConnexionBundle:Parameters');
+
+        $annee = $this->get('session')->get('filter');    
+
+        $parameters = $em->getRepository('SUHConnexionBundle:Parameters');
+        $listannees = $em->getRepository('SUHGestionBundle:Annee')->findByAnneeUniversitaire($annee['year']);
+
+
         $emailAdmin = $parameters->find(1)->getAdminMail();
         $hostDb = $parameters->find(1)->getHostMail();
         $portDb = $parameters->find(1)->getPortMail();
         $userDb = $parameters->find(1)->getUsernameMail();
         $passwordDb = $parameters->find(1)->getPasswordMail();
 
-        var_dump($emailAdmin);
         /* formulaire */
 
         $form = $this->get('form.factory')->create(new EtudiantAidantType(), $etudiantAidant);
@@ -164,32 +171,40 @@ class GestionEtudiantAidantController extends Controller
             $user->setRoles(array('ROLE_USER'));
 
             $etudiantAidant->setUser($user);
+            
+            foreach($listannees as $annee){
+                $etudiantAidant->addAnnee($annee);
+            }
+            
 
 
             /*
             $emailEtu = $request->request->get('mailPerso');
 
-            // surcharge du parameters.yml
-            $transport = \Swift_SmtpTransport::newInstance($hostDb,$portDb)
-                ->setUsername($userDb)
-                ->setPassword($passwordDb)
-            ;
+
+            // // surcharge du parameters.yml
+            // $transport = \Swift_SmtpTransport::newInstance($hostDb,$portDb)
+            //     ->setUsername($userDb)
+            //     ->setPassword($passwordDb)
+            // ;
 
             
-            $mailer = \Swift_Mailer::newInstance($transport);
+            // $mailer = \Swift_Mailer::newInstance($transport);
 
-            $message = \Swift_Message::newInstance()
-            ->setSubject('SUH - Vos identifiants de connexion')
-            ->setFrom($emailAdmin)
-            ->setTo($emailEtu)
-            ->setBody(
-                $this->renderView(
-                    'SUHContratBundle:Emails:registration.html.twig'
-                ),
-                'text/html'
-            );
+            // $message = \Swift_Message::newInstance()
+            // ->setSubject('SUH - Vos identifiants de connexion')
+            // ->setFrom($emailAdmin)
+            // ->setTo($emailEtu)
+            // ->setBody(
+            //     $this->renderView(
+            //         'SUHContratBundle:Emails:registration.html.twig'
+            //     ),
+            //     'text/html'
 
             $mailer->send($message);*/
+
+            // $mailer->send($message);
+
 
             //Persist en base  
             $em->persist($user);
@@ -249,6 +264,10 @@ class GestionEtudiantAidantController extends Controller
         $em->remove($idEtudiantAidant);
         $em->remove($idEtudiantInformations);
         $em->remove($idFormation);
+        foreach($idHeures as $heure){
+            $em->remove($heure);
+        }
+        
 
 
         

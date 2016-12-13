@@ -4,7 +4,7 @@ namespace SUH\ConnexionBundle\Controller;
 
 
 use SUH\GestionBundle\Entity\Annee;
-use SUH\ConnexionBundle\Form\GestionAnneesType;
+use SUH\ConnexionBundle\Form\AnneeType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -27,7 +27,9 @@ class AnneesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $annee = new Annee();
 
-        $form = $this->get('form.factory')->create(new GestionAnneesType, $annee);
+
+        $form = $this->get('form.factory')->create(new AnneeType, $annee);
+
 
         if($request->isMethod("POST")) {
 
@@ -35,10 +37,7 @@ class AnneesController extends Controller
 
             if ($form->isValid()) {
 
-                $array = $form->getData();
 
-                $anneeUniversitaire =  $array['annee']."-".($array['annee']+1);
-                $annee->setAnneeUniversitaire($anneeUniversitaire);
                 $em->persist($annee);
 
                 try{
@@ -59,8 +58,17 @@ class AnneesController extends Controller
             }
         }
 
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('SUHGestionBundle:Annee')
+        ;
+
+        $listYears = $repository->myFindAll();
+
         return $this->render('SUHConnexionBundle:Connexion:gestionYear.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'listYears' => $listYears
             ));
 
     }
