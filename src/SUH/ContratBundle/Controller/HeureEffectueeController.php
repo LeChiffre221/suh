@@ -14,6 +14,7 @@ use SUH\ContratBundle\Entity\Contrat;
 use SUH\ContratBundle\Entity\ContratRepository;
 use SUH\ContratBundle\Entity\EtudiantAidant;
 use SUH\ContratBundle\Entity\HeureEffectuee;
+use SUH\ConnexionBundle\Entity\Parameters;
 use SUH\ContratBundle\Form\ContratType;
 use SUH\ContratBundle\Form\HeureEffectueeType;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,16 +78,47 @@ class HeureEffectueeController extends Controller
             //Compare si les date de l'heure sont cohérente avec les dates du contrat
             if(($dateEtudiant >= $dateDebut) && ($dateEtudiant <= $dateFin)) {
 
+                //Nombre disponible pour le contrat
+                $nbHeureDisponible = $contrat->getNbHeureInitiales();
+                $nbHeureRealise = 0;
 
-                $heureEffectuee->setContrat($contrat);
-                $heureEffectuee->setVerification(false);
-                $heureEffectuee->setHeurePayee(false);
+                $avenant = $em->getRepository('SUHContratBundle:Avenant')->findOneBy(array(
+                    'contrat' => $contrat
+                ));
+                $listeHeureRealise =  $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
+                    'contrat' => $contrat
+                ));
 
-                $em->persist($heureEffectuee);
+                //Si un avenant existe on ajoute les heures de l"avenant au nombre d'heure dispo
+                if($avenant != null){
+                    $nbHeureDisponible += $avenant->getNbHeure();
+                }
 
-                $em->flush();
+                foreach ($listeHeureRealise as $heureRealise){
+                    $nbHeureRealise += $heureRealise->getNbHeure();
+                }
 
-                $request->getSession()->getFlashBag()->add('notice', 'Heure ajouté !');
+
+                if($nbHeureDisponible >= ( $nbHeureRealise + $heureEffectuee->getNbHeure() )){
+
+                    $heureEffectuee->setContrat($contrat);
+                    $heureEffectuee->setVerification(false);
+                    $heureEffectuee->setHeurePayee(false);
+
+                    $em->persist($heureEffectuee);
+
+                    $em->flush();
+
+                    $request->getSession()->getFlashBag()->add('notice', 'Heure ajouté !');
+                }
+                else{
+
+                    $parameters = $em->getRepository('SUHConnexionBundle:Parameters')->find(1);
+                    $request->getSession()->getFlashBag()->add('error', 'Vous avez dépassé le nombre d\'heures réalisables par votre contrat.
+                                                                          Vous devez contacter le SUH ('.$parameters->getAdminMail().') pour réaliser d\'avantage d\'heures
+                                                                          ');
+                }
+
 
                 //Test si la nature de la mision correspond à la nature d'un contrat
 
@@ -115,140 +147,99 @@ class HeureEffectueeController extends Controller
 
         $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->findOneBy(array('user' => $this->getUser()));
 
+
+        $contrat = $heureEffectuee->getContrat();
+
+        if($contrat != null){
+            foreach ($contrat->getNatureContrat() as $natureContrat){
+                if($natureContrat == 'tutorat'){
+                    $natureMission['tutorat'] = "Tutorat";
+                }
+                elseif ($natureContrat == 'priseNote'){
+                    $natureMission['priseNote'] = "Prise de note";
+                }
+                else{
+                    $natureMission['assistancePédagogique'] = "Assistance Pédagogique";
+                }
+            }
+        }
+
+
         $form = $this->get('form.factory')->create(new HeureEffectueeType, $heureEffectuee);
+        $form->add('natureMission', 'choice', array(
+            'choices' => $natureMission,
+            'multiple' => false,
+            'expanded' => true,
 
-        $contratChoisi = $heureEffectuee->getContrat();
+        ));
 
 
-        if($form->handleRequest($request)->isValid()){
-            $em = $this->getDoctrine()->getManager();
-
+        if($form->handleRequest($request)->isValid()) {
 
             //Variables intermédiaires pour comparé par la suite les dates
             $dateEtudiant = date("Y-m-d", strtotime(strtr($heureEffectuee->getDateAndTime(), '/', '-')));
-            $dateDebut = date("Y-m-d", strtotime(strtr($contratChoisi->getDateDebutContrat(), '/', '-')));
-            $dateFin = date("Y-m-d", strtotime(strtr($contratChoisi->getDateFinContrat(), '/', '-')));
+            $dateDebut = date("Y-m-d", strtotime(strtr($contrat->getDateDebutContrat(), '/', '-')));
+            $dateFin = date("Y-m-d", strtotime(strtr($contrat->getDateFinContrat(), '/', '-')));
 
-            $natureMissionValide = false;
             $validateDate = false;
             //Compare si les date de l'heure sont cohérente avec les dates du contrat
-            if(($dateEtudiant >= $dateDebut) && ($dateEtudiant <= $dateFin)) {
+            if (($dateEtudiant >= $dateDebut) && ($dateEtudiant <= $dateFin)) {
 
-                //Date Valide
-                $validateDate = true;
+                //Nombre disponible pour le contrat
+                $nbHeureDisponible = $contrat->getNbHeureInitiales();
+                $nbHeureRealise = 0;
+
+                $avenant = $em->getRepository('SUHContratBundle:Avenant')->findOneBy(array(
+                    'contrat' => $contrat
+                ));
+                $listeHeureRealise = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
+                    'contrat' => $contrat
+                ));
+
+                //Si un avenant existe on ajoute les heures de l"avenant au nombre d'heure dispo
+                if ($avenant != null) {
+                    $nbHeureDisponible += $avenant->getNbHeure();
+                }
+
+                foreach ($listeHeureRealise as $heureRealise) {
+                    $nbHeureRealise += $heureRealise->getNbHeure();
+                }
+
+
+                if ($nbHeureDisponible >= ($nbHeureRealise + $heureEffectuee->getNbHeure())) {
+
+                    $heureEffectuee->setContrat($contrat);
+                    $heureEffectuee->setVerification(false);
+                    $heureEffectuee->setHeurePayee(false);
+
+                    $em->persist($heureEffectuee);
+
+                    $em->flush();
+
+                    $request->getSession()->getFlashBag()->add('notice', 'Heure edité !');
+                } else {
+
+                    $parameters = $em->getRepository('SUHConnexionBundle:Parameters')->find(1);
+                    $request->getSession()->getFlashBag()->add('error', 'Vous avez dépassé le nombre d\'heures réalisables par votre contrat.
+                                                                      Vous devez contacter le SUH (' . $parameters->getAdminMail() . ') pour réaliser d\'avantage d\'heures
+                                                                      ');
+                }
+
 
                 //Test si la nature de la mision correspond à la nature d'un contrat
-                if (!in_array($heureEffectuee->getNatureMission(), $contratChoisi->getNatureContrat())) {
 
-                    $lesMission = '[';
-                    foreach ($contratChoisi->getNatureContrat() as $nature) {
-                        if ($nature == "tutorat") {
-                            $nature = "Tutorat";
-                        } elseif ($nature == "assistancePédagogique") {
-                            $nature = "Assistance Pédagogique";
-                        } else {
-                            $nature = "Prise de note";
-                        }
 
-                        $lesMission .= $nature . "/";
-                    }
-                    $lesMission = substr($lesMission, 0, -1) . "]";
-
-                    $dateContratDebut = date("d-m-Y", strtotime($dateDebut));
-                    $dateContratFin = date("d-m-Y", strtotime($dateFin));
-                    $request->getSession()->getFlashBag()->add('warning', 'La nature de votre mission n\'est pas pris en charge par ce contrat.
-                                                                           Les Mission disponible du ' . $dateContratDebut . ' au ' . $dateContratFin . ' sont  : ' . $lesMission . '.');
-
-                }
-                else {
-                    $natureMissionValide = true;
-                }
+            } else {
+                $request->getSession()->getFlashBag()->add('warning', 'La date de vos heures n\'est pas pris en charge par ce contrat !');
             }
-
-            if(!$natureMissionValide || !$validateDate){
-                $natureMissionValide = false;
-                $validateDate = false;
-
-                $listeAvenants = $em->getRepository('SUHContratBundle:Avenant')->getAvenantsPourUnContrat($contratChoisi);
-
-                //On compare également si elel sont cohérente avec les date de l'avenant
-                foreach ($listeAvenants as $avenant) {
-                    $dateDebut = date("Y-m-d", strtotime(strtr($avenant->getDateDebutAvenant(), '/', '-')));
-                    $dateFin = date("Y-m-d", strtotime(strtr($avenant->getDateFinAvenant(), '/', '-')));
-
-                    if(($dateEtudiant >= $dateDebut) && ($dateEtudiant <= $dateFin)){
-                        $validateDate = true;
-
-                        //Test si la nature de la mision correspond à la nature d'un avenant
-                        if(!in_array($heureEffectuee->getNatureMission(), $avenant->getNatureAvenant())){
-                            $lesMission = '[';
-                            foreach ($avenant->getNatureAvenant() as $nature) {
-                                if($nature == "tutorat"){
-                                    $nature = "Tutorat";
-                                }
-                                elseif($nature == "assistancePédagogique"){
-                                    $nature = "Assistance Pédagogique";
-                                }
-                                else{
-                                    $nature = "Prise de note";
-                                }
-
-                                $lesMission.=$nature."/";
-                            }
-                            $lesMission = substr($lesMission,0,-1)."]";
-
-                            $dateAvenantDebut = date("d-m-Y", strtotime($dateDebut ));
-                            $dateAvenantFin = date("d-m-Y", strtotime($dateFin ));
-                            $request->getSession()->getFlashBag()->add('warning', 'La nature de votre mission n\'est pas pris en charge par ce contrat.
-                                                                           Les Mission disponible du '.$dateAvenantDebut.' au '.$dateAvenantFin.' sont : '.$lesMission.'.');
-
-                            $natureMissionValide = false;
-                        }
-                        else{
-                            $natureMissionValide = true;
-                        }
-                    }
-
-                }
-                if(!$validateDate){
-                    $request->getSession()->getFlashBag()->add('warning', 'La date de vos heures n\'est pas pris en charge par ce contrat !');
-                }
-            }
-
-            if(!$validateDate || !$natureMissionValide) {
-
-
-                return $this->render('SUHContratBundle:ZoneEtudiante:accueilEtudiant.html.twig', array(
-                    'form' => $form->createView(),
-                    'etudiant' => $etudiant,
-                    'modeEdition' => true
-                ));
-            }
-            else{
-                $flashBag = $this->get('session')->getFlashBag();
-                foreach ($flashBag->keys() as $type) {
-                    $flashBag->set($type, array());
-                }
-            }
-
-
-            $heureEffectuee->setVerification(false);
-
-            $em->persist($heureEffectuee);
-            $em->flush();
-
-            $request->getSession()->getFlashBag()->add('notice', 'Heure edité!');
-
-            return $this->redirect($this->generateUrl('suh_etudiant_homepageEtudiant'));
-
-
 
         }
+
         return $this->render('SUHContratBundle:ZoneEtudiante:accueilEtudiant.html.twig', array(
             'form' => $form->createView(),
             'etudiant' => $etudiant,
             'modeEdition' => true,
-            'contrat' => $contratChoisi
+            'contrat' => $contrat
 
 
         ));
@@ -298,36 +289,6 @@ class HeureEffectueeController extends Controller
 
                 $em->persist($heure);
             }
-
-            $nbHeureMaitenantValide = 0;
-            foreach ($listeHeures as $heure){
-
-                if($heure->getVerification()){
-                    $nbHeureMaitenantValide+= $heure->getNbHeure();
-                }
-            }
-
-            //Si un avenant existe deja
-            if($avenant != null){
-
-                //Si les heure maintenant valide dépasse le contrat et l'avenant, on met a jour l'avenant
-                if(( $nbHeureMaitenantValide) > $contrat->getNbHeureInitiales() ){
-                    $avenant->setNbHeure($nbHeureMaitenantValide - $contrat->getNbHeureInitiales());
-                    $em->persist($avenant);
-                }
-                else{
-                    $em->remove($avenant);
-                }
-            }
-            elseif ($nbHeureMaitenantValide > $contrat->getNbHeureInitiales()){
-                $avenant = new Avenant();
-                $avenant->setContrat($contrat);
-                $avenant->setNbHeure($nbHeureMaitenantValide - $contrat->getNbHeureInitiales());
-
-                $em->persist($avenant);
-            }
-
-
 
             foreach($listeHeures as $heure){
                 $suppression = $request->request->get('heureToDelete'.$heure->getId());

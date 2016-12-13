@@ -11,6 +11,11 @@
                     <strong>Attention !</strong> {{message}}
                 </div>
             {% endfor %}
+            {% for message in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger">
+                    <strong>Attention !</strong> {{message}}
+                </div>
+            {% endfor %}
 
             {% if contrat is null %}
                 <div class="alert alert-danger">
@@ -60,7 +65,7 @@
                         </div>
                     </div>
 
-                    {% if modeEdition is defined %}
+                    {% if modeEdition == true %}
                         <button type="submit" class="btn btn-success col-sm-offset-3">Editer les heures</button>
                     {% else %}
                         <button type="submit" class="btn btn-success col-sm-offset-3">Ajouter les heures</button>

@@ -216,6 +216,19 @@
                     </a>
                 </div>
 
+
+
+                <div class="col-lg-2 ">
+                    <a href="{{ path('suh_contrat_addAvenant', {'idContrat': contrat.id}) }}">
+                        <button type="button" class="btn btn-default">
+                            <span class="pdf-icon"></span>
+
+                            <span> Ajouter un l'avenant</span>
+                        </button>
+                    </a>
+                </div>
+
+
                 {% if contrat.listeAvenant is not empty%}
                 <div class="col-lg-2 ">
                     <a href="{{ path('suh_contrat_exportationAvenant', {'idContrat': contrat.id}) }}">

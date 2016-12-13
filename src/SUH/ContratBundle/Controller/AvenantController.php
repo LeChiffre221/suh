@@ -29,20 +29,7 @@ class AvenantController extends Controller
 
         if ($form->handleRequest($request)->isValid()) {
 
-            $avenant->setContrat($contrat);
-
-            $dateDebut = date("Y-m-d", strtotime(strtr($avenant->getDateDebutAvenant(), '/', '-')));
-            $dateFin = date("Y-m-d", strtotime(strtr($avenant->getDateFinAvenant(), '/', '-')));
-            if($dateDebut > $dateFin){
-                $avenant->setDateDebutAvenant(null);
-                $avenant->setDateFinAvenant(null);
-
-                $request->getSession()->getFlashBag()->add('warning', 'La date de début ne peut être supèrieure à la date de fin');
-
-
-            }
-            else {
-
+                $avenant->setContrat($contrat);
                 $em->persist($avenant);
                 $em->flush();
 
@@ -51,7 +38,7 @@ class AvenantController extends Controller
                 return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
                     'id' => $idEtudiant,
                 )));
-            }
+
         }
         return $this->render('SUHContratBundle:AffichageContrats:addAvenant.html.twig', array(
             'form' => $form->createView(),
@@ -59,6 +46,7 @@ class AvenantController extends Controller
             'contrat' => $contrat,
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
             'nbContrats'=>$this->getNbContrats($idEtudiant),
+            'nbContratsPaiement' => $this->getNbContrats($idEtudiant),
         ));
     }
 
@@ -71,13 +59,13 @@ class AvenantController extends Controller
 
             if(!empty($request->request->get("dateEnvoiAvenantDRH"))){
                 $dateEnvoiAvenantDRH = $request->request->get("dateEnvoiAvenantDRH");
-               // $dateEnvoiAvenantDRH  = date("Y-m-d", strtotime(strtr($dateEnvoiAvenantDRH, '/', '-') ));
+                //$dateEnvoiAvenantDRH  = date("Y-m-d", strtotime(strtr($dateEnvoiAvenantDRH, '/', '-') ));
                 $avenant-> setDateEnvoiDRH($dateEnvoiAvenantDRH );
             }
 
             if(!empty($request->request->get("dateEnvoiAvenantEtudiant"))){
                 $dateEnvoiAvenantEtudiant = $request->request->get("dateEnvoiAvenantEtudiant");
-                $dateEnvoiAvenantEtudiant= date("Y-m-d", strtotime(strtr($dateEnvoiAvenantEtudiant, '/', '-')));
+                //$dateEnvoiAvenantEtudiant= date("Y-m-d", strtotime(strtr($dateEnvoiAvenantEtudiant, '/', '-')));
                 $avenant-> setDateEnvoiEtudiant($dateEnvoiAvenantEtudiant);
             }
 
@@ -115,39 +103,36 @@ class AvenantController extends Controller
         $contrat = $avenant->getContrat();
         $idEtudiant = $contrat->getEtudiantAidant()->getId();
 
+        if($avenant->getDateEnvoiDRH() == null){
+            $form->remove('dateEnvoiDRH');
+        }
+        if($avenant->getDateEnvoiEtudiant() == null){
+            $form->remove('dateEnvoiEtudiant');
+        }
+
         if ($form->handleRequest($request)->isValid()) {
 
             $avenant->setContrat($contrat);
 
-            $dateDebut = date("Y-m-d", strtotime(strtr($avenant->getDateDebutAvenant(), '/', '-')));
-            $dateFin = date("Y-m-d", strtotime(strtr($avenant->getDateFinAvenant(), '/', '-')));
-            if($dateDebut > $dateFin){
-                $avenant->setDateDebutAvenant(null);
-                $avenant->setDateFinAvenant(null);
-
-                $request->getSession()->getFlashBag()->add('warning', 'La date de début ne peut être supèrieure à la date de fin');
-
-
-            }
-            else {
 
                 $em->persist($avenant);
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Avenant ajouté !');
+                $request->getSession()->getFlashBag()->add('notice', 'Avenant edité !');
 
                 return $this->redirect($this->generateUrl('suh_contrat_afficherContrat', array(
                     'id' => $idEtudiant,
                 )));
-            }
+
         }
 
-        return $this->render('SUHContratBundle:AffichageContrats:addAvenant.html.twig', array(
+        return $this->render('SUHContratBundle:AffichageContrats:editAvenant.html.twig', array(
             'form' => $form->createView(),
             'id' => $idEtudiant,
             'contrat' => $contrat,
             'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
             'nbContrats'=>$this->getNbContrats($idEtudiant),
+            'nbContratsPaiement' => $this->getNbContrats($idEtudiant),
         ));
 
     }
