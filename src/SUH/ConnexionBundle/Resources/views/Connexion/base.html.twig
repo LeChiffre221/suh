@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8"/>
+    {% block head %}
+    <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/bootstrap.min.css')}}" type="text/css"/>
+    <link rel="stylesheet" href="{{asset('bundles/suhContrat/css/contrat.css')}}" type="text/css"/>
+      
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.min.js')}}"></script> 
+
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/bootstrap.min.js')}}"></script>
+    {% endblock %}
+    <title>{% block title %} Header {% endblock %}</title>
+  </head>
+  <!-- HEADER : logo SUH + navbar (accueil, statistiques, deconnexion -->
+  <body>
+  <header>
+      <div class="container-fluid">
+        
+          <div class="row">
+              <div id="logo-head" class="col-md-2">
+              {% if is_granted('ROLE_ADMIN') %}
+                <div class="col-md-12">
+                  <a id="logo" href="{{path('suh_choix_homepage')}}">
+                      <img  alt="SUH" src="{{asset('bundles/suhGestion/images/logo_suh.png')}}">
+                  </a>
+                </div>
+                <div class="col-md-6">
+                  <a href="{{path('suh_contrat_homepage')}}">
+                      <span class="btn btn-primary">
+                          Contrat
+                      </span>
+                  </a>
+                </div>
+                <div class="col-md-6">
+                  <a href="{{path('suh_gestion_homepage')}}">
+                      <span class="btn btn-success" >
+                          Etudiant
+                      </span>
+                  </a>
+                </div>
+                {% endif %}
+              </div>
+              <div class="col-md-10">
+                  <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                      <ul class="nav navbar-nav">
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_user_homepage' %} active {% endif %}">
+                              <a id="accueil" href="{{path('suh_user_homepage')}}">
+                                Utilisateurs
+                              </a>
+                            </li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_user_annees' %} active {% endif %}">
+                              <a id="accueil" href="{{path('suh_user_annees')}}">
+                                Années
+                              </a>
+                            </li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_user_parameters' %} active {% endif %}">
+                              <a id="accueil" href="{{path('suh_user_parameters')}}">
+                                Variables
+                              </a>
+                            </li>
+
+                        {% endif %}
+
+                        {% if is_granted('ROLE_USER') %}
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_homepageEtudiant' %} active {% endif %}"><a id="accueil" href="{{path('suh_etudiant_homepageEtudiant')}}">Accueil</a></li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_heuresNonValidesEtudiant' %} active {% endif %}"><a id="heures" href="{{path('suh_etudiant_heuresNonValidesEtudiant')}}">Heures non valides</a></li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_heuresValidesEtudiant' %} active {% endif %}"><a id="heures" href="{{path('suh_etudiant_heuresValidesEtudiant')}}">Heures valides</a></li>
+                            <li class="liensNavbar {% if app.request.get('_route') == 'suh_etudiant_compteEtudiant' %} active {% endif %}"><a id="compte" href="{{path('suh_etudiant_compteEtudiant')}}">Mon Compte</a></li>
+                        {% endif %}
+
+                          <li id="help"><a href="#" data-toggle="tooltip"> ? </a></li>
+                          <li id="deconnexion"><a class="label-danger" href="{{path('logout')}}">Deconnexion</a></li>
+                        </ul>
+
+                    </div>
+                </nav>
+              </div>
+          </div>
+      </div>      
+    </header>
+  
+  <!-- FIN HEADER -->
+    {% for message in app.session.flashbag.get('notice') %}
+      <div class="alert alert-success message-fixed">
+          <strong>Le SUH a mis la gomme.</strong> {{message}}
+          <span class="glyphicon glyphicon-remove"></span>
+      </div>
+    {% endfor %}
+  
+  {% block body %}
+      
+  {% endblock %}
+  </body>
+</html>
+

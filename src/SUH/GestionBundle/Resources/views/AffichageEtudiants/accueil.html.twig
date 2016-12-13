@@ -1,0 +1,114 @@
+{% extends "SUHGestionBundle:AffichageEtudiants:base.html.twig" %}
+
+{% block title %} {{parent()}} - Accueil {% endblock %}
+{% block menu %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="liensNavbar"><a id="accueil" href="{{path('suh_gestion_homepage')}}">Accueil</a></li>
+            <li id="rechercheAvancee" class="liensNavbar"><a href="{{path('suh_gestion_rechercheAvancee')}}">Recherche avancée</a></li>
+            <li class="liensNavbar"><a href="{{path('suh_import_export_page')}}">Import/Export Excel</a></li>
+            <li class="liensNavbar"><a href="{{path('suh_stats')}}">Statistiques</a></li>
+            <li class="liensNavbar"><a href="{{path('suh_gestion_utilisateur_page')}}">Gestion des utilisateurs</a></li>
+            <li>
+                {{ render(controller("SUHGestionBundle:Affichage:afficherListeAnnee")) }}
+            </li>
+            <li>
+                <a href="{{path('suh_gestion_annee')}}">
+                    <span class="glyphicon glyphicon-cog"/>
+                </a>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li id="deconnexion"><a href="{{path('logout')}}">Deconnexion</a></li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+{% block body %}
+    <body>
+        <section id="containerFluidBody" class="container-fluid">
+            <div class="row">
+                <div id="divListe" class="col-md-2">
+                    <div id="recherche" class="row">
+                        <div class="form-group">
+                            <form class="input-group" action="{{ path('suh_get_etudiant_nomEtPrenom') }}" method="GET">
+                                <input name="chaine" class="form-control" type="text" placeholder="Rechercher...">
+                                <span class="input-group-btn">
+                                    <button type="submit" href="#" class="btn btn-md btn-primary"> <span class="glyphicon glyphicon-zoom-in"></span></button>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                           
+                {% if listeEtudiantsHandicapes is defined and listeEtudiantsHandicapes is not empty %}
+                    {% include 'SUHGestionBundle:AffichageEtudiants:liste.html.twig' with {'listeEtudiantsHandicapes': listeEtudiantsHandicapes} %}
+                {% endif %}
+                    <div id="gestionEtudiants" class="row">
+                        <a id="ajout" href="{{path('suh_gestion_beforeAddEtudiant')}}" class="btn btn-md btn-primary col-md-4" > <span class="glyphicon glyphicon-plus"></span></a>
+                        <a id="modification" class="btn btn-md btn-primary col-md-4"> <span class="glyphicon glyphicon-pencil"></span></a>
+                        <a id="suppression" class="btn btn-md btn-primary col-md-4" onclick="return ConfirmationSuppression();"> <span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </div>  
+                   
+                <div id="affichage" class="col-md-10">
+                    <!-- On affiche la vue excel si on a demandé la page avec afficheExcelVue == true -->
+                {% if afficheExcelVue is defined and afficheExcelVue == true %}
+                    {% include 'SUHGestionBundle:Excel:ExcelVue.html.twig' %}
+                {% endif %}
+                
+                <!-- On affiche la vue des utilisateurs si on a demandé la page avec userVue == true -->
+                {% if userVue is defined and userVue == true %}
+                    {% include 'SUHGestionBundle:AffichageEtudiants:userVue.html.twig' %}
+                {% endif %}
+                
+                <!-- On affiche la vue de la recherche avancée si on a demandé la page avec rechercheAvancee == true -->
+                {% if rechercheAvancee is defined and rechercheAvancee == true %}
+                    {% include 'SUHGestionBundle:AffichageEtudiants:rechercheAvancee.html.twig' %}
+                {% endif %}
+
+                {% if stats is defined and stats == true %}
+                    {% include 'SUHGestionBundle:Stats:statsVue.html.twig' %}
+                {% endif %}
+
+                {% if statsResults is defined and statsResults == true %}
+                    {% include 'SUHGestionBundle:Stats:resultatsStatsVue.html.twig' %}
+                {% endif %}
+
+                {% if  editAnnees is defined and editAnnees == true %}
+                    {% include 'SUHGestionBundle:AffichageEtudiants:editAnnees.html.twig' %}
+                {% endif %}
+
+
+                </div>
+                
+            </div>
+        </section>      
+        <br/><br/>
+    </body>
+    <script>
+
+    $('#selectYear').change(function()
+    {
+        var year = this.value;     
+
+        $.ajax({
+          type: "POST",
+          url: "{{ path('refresh_list') }}",
+          data: {
+           year: year
+          },
+          success: function(data, dataType)
+          {
+               location.href = '{{ path("suh_gestion_homepage") }}';             
+          },
+
+          error: function(XMLHttpRequest, textStatus, errorThrown)
+          {
+              alert('Error : ' + errorThrown);
+          }
+        });
+    });
+
+</script>
+{% endblock %}

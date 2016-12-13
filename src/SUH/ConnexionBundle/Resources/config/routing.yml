@@ -1,0 +1,21 @@
+suh_choix_homepage:
+    path:     /
+    defaults: { _controller: SUHConnexionBundle:Connexion:index }
+
+suh_user_homepage:
+    path:     /user
+    defaults: { _controller: SUHConnexionBundle:User:afficherListeUtilisateur }
+
+suh_user_delete:
+    path:     /user/delete/{idUser}
+    defaults: { _controller: SUHConnexionBundle:User:deleteUser }
+    requirements:
+        idUser: "^[0-9]+$"
+
+suh_user_parameters:
+    path: /parameters
+    defaults: { _controller: SUHConnexionBundle:Parameters:AfficherParameters }
+
+suh_user_annees:
+    path: /annees
+    defaults: { _controller: SUHConnexionBundle:Annees:AfficherGestionAnnees }

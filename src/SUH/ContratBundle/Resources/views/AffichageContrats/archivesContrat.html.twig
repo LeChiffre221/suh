@@ -1,0 +1,166 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
+
+
+
+
+    {% block menuright %}
+        {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
+    {% endblock %}
+
+    {% block titleright %}
+    <p class="">Liste des contrats archivés</p>
+    {% endblock %}
+    {% block bodyright %}
+    <div class="container-contrat col-md-12">
+
+    {% if listeContrats is empty %}
+        <h2 class="col-lg-offset-1">
+            <strong>Aucune archive pour cet étudiant.</strong>
+        </h2>
+    {% endif %}
+    {% for contrat in listeContrats %}
+
+    <div class="bloc-contrat panel panel-primary">
+        <div class="col-lg-12 panel-heading">
+            <h3 class="panel-title titre-contrat"> 
+            Du : {{ contrat.dateDebutContrat }} au {{ contrat.dateFinContrat}}
+            </h3>
+            <h3 class="panel-title titre-contrat titre-contrat-heures">
+                <span>{{ contrat.nbHeureInitiales }} </span>
+                heure(s)
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            <h3>Nature du contrat :
+                {% set natureContratString = "" %}
+                {% for nature in contrat.natureContrat %}
+                    {% if nature == "tutorat"  %}
+                        {% set natureContratString = natureContratString ~ "Tutorat, "%}
+                    {% elseif nature == "priseNote" %}
+                        {% set natureContratString = natureContratString ~ "Prise de note, "%}
+                    {% else %}
+                        {% set natureContratString = natureContratString ~ "Assistance pédagogique, "%}
+                    {% endif %}
+                {% endfor %}
+
+
+                {{ natureContratString|slice(0, natureContratString|length-2)}}
+            </h3>
+            
+            <h3>Semestre concerné : n°{{ contrat.semestreConcerne}}</h3>
+
+            <h3>Etablissement avenant :
+                {% if contrat.listeAvenant is null %}
+                    <span class="glyphicon glyphicon-remove"></span>
+                {% else %}
+                    <span class="glyphicon glyphicon-ok"></span>
+                {% endif %}
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            <h3>Date d'envoi du contrat :</h3>
+            <div class="col-lg-6">
+            
+                {% if  (contrat.dateEnvoiDRH is null) %}
+                    DRH : Non renseigné
+                {% else %}
+                    DRH : {{ contrat.dateEnvoiDRH }}
+                {% endif %}
+
+            </div>
+            <div class="col-lg-6">
+
+                {% if  (contrat.dateEnvoiEtudiant is null) %}
+                    Etudiant : Non renseigné
+
+                {% else %}
+                    Etudiant : {{ contrat.dateEnvoiEtudiant }}
+                {% endif %}
+
+            </div>
+        </div>
+        <br>
+        {% for avenant in contrat.listeAvenant %}
+        <hr>
+        <div class="col-lg-12">
+
+            <h4>Nombre d'heure : {{ avenant.nbHeure }}</h4>
+
+            <div class="col-lg-12">
+                <h4>Date d'envoi de l'avenant :</h4>
+                <div class="col-lg-6">
+
+                    {% if  (avenant.dateEnvoiDRH is null) %}
+                        DRH : Non renseigné
+                    {% else %}
+                        DRH : {{ avenant.dateEnvoiDRH }}
+                    {% endif %}
+
+                </div>
+                <div class="col-lg-6">
+
+                    {% if  (avenant.dateEnvoiEtudiant is null) %}
+                        Etudiant : Non renseigné
+
+                    {% else %}
+                        Etudiant : {{ avenant.dateEnvoiEtudiant }}
+                    {% endif %}
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+        {% endfor %}
+        <br>
+        <div class="col-lg-12 contrat-actions">
+
+            <a href="{{ path('suh_contrat_deleteContrat', {'idContrat': contrat.id}) }}">
+                <button type="button" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    Supprimer
+                </button>
+            </a>
+
+            <a href="{{ path('suh_contrat_desarchiverContrat', {'idContrat': contrat.id}) }}">
+                <button type="button" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-level-up"></span>
+                    Désarchiver
+                </button>
+            </a>
+
+
+            <a href="{{ path('suh_contrat_exportationContrat', {'idContrat': contrat.id}) }}">
+                <button type="button" class="btn btn-default">
+                    <span class="pdf-icon"></span>
+
+                    <span> Exporter le contrat</span>
+                </button>
+            </a>
+
+
+            {% if contrat.listeAvenant is not empty%}
+
+            <a href="{{ path('suh_contrat_exportationAvenant', {'idContrat': contrat.id}) }}">
+                <button type="button" class="btn btn-default">
+                    <span class="pdf-icon"></span>
+
+                    <span> Exporter l'avenant</span>
+                </button>
+            </a>
+
+            {% endif %}
+
+
+
+        </div>
+    </div>
+    {% endfor %}
+
+    </div>
+
+
+{% endblock %}

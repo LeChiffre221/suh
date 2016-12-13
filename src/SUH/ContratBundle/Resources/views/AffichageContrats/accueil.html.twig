@@ -1,0 +1,79 @@
+{% extends "SUHContratBundle:AffichageContrats:base.html.twig" %}
+
+{% block title %} {{parent()}} - Accueil {% endblock %}
+
+{% block body %}
+        <section id="containerFluidBody" class="container-fluid panel panel-default">
+            <div id="divListe" class="col-md-2">
+                <!-- Search input -->
+                <div id="recherche" class="">
+                    <div class="form-group">
+                        <form class="input-group" action="{{ path('suh_contrat_searchEtudiantAidant') }}" method="GET">
+                            <input name="chaine" class="form-control" type="text" placeholder="Rechercher... " value="{{ app.session.get('chaine') }}">
+                            <span class="input-group-btn">
+                                <button type="submit" href="#" class="btn btn-md btn-primary"> <span class="glyphicon glyphicon-zoom-in"></span></button>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+                <!-- -- -->
+                <!-- Label de recherche -->
+                {% if app.session.get('chaine') is not empty %}
+                <div id="search-label">
+                    <div class="label label-primary label-box roboto">
+                        <a href="{{path('suh_contrat_homepage')}}">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            {{app.session.get('chaine')}}
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+                <!-- -- -->
+                <!-- Flashbags d'events -->
+                {% for message in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-success message-fixed">
+                        <strong>Le SUH a mis la gomme.</strong> {{message}}
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </div>
+                {% endfor %}
+                {% for message in app.session.flashbag.get('error') %}
+                    <div class="alert alert-danger message-fixed error">
+                        <strong>Le SUH a mis la gomme.</strong> {{message}}
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </div>
+                {% endfor %}
+                <!-- -- -->
+
+                <!-- Template liste etudiants -->
+                {% include 'SUHContratBundle:AffichageContrats:liste.html.twig' with {'listeEtudiantsAidants': listeEtudiantsAidants} %}
+                <!-- -- -->
+                
+                <!-- Boutons gestion etudiants -->
+                <div id="gestionEtudiants" class="">
+                    <a id="ajout" href="{{path('suh_contrat_addEtudiantAidant')}}" class="btn btn-md btn-primary" > <span class="glyphicon glyphicon-plus"></span></a>
+                    <a id="suppression" {% if id is defined %} href="{{path('suh_contrat_delEtudiantAidant', {'id': id})}}" {% endif %} class="btn btn-md btn-primary"> <span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+                <!-- -- -->
+            </div>  
+            
+            <!-- Bloc droit d'informations -->
+            <div id="affichage" class="col-md-10">
+                
+                {% block menuright %}
+
+                {% endblock %}
+                <div class="container-right col-md-12">
+                    <div class="container-right-title">
+                        {% block titleright %}
+                        {% endblock %}
+                    </div>
+                    {% block bodyright %}
+                    {% endblock %}
+                </div>
+            </div>
+            <!-- -- -->
+        </section>      
+        <br/><br/>
+    
+    {% if (js is defined) %}{{ js|raw }}{% endif %}
+{% endblock %}

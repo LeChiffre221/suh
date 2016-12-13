@@ -1,0 +1,25 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
+{% block body %}
+<body>
+          <div class="col-md-2">
+          </div>
+          <div class="col-md-8 index-admin">
+            <a href="{{path('suh_contrat_homepage')}}" class="col-md-4">
+                <span style="padding:40px;"  class="btn btn-primary">
+                    Contrats étudiants
+                </span>
+            </a>
+            <a href="{{path('suh_gestion_homepage')}}" class="col-md-4">
+                <span class="btn btn-success" style="padding:40px;">
+                    Gestion des étudiants
+                </span>
+            </a>
+            <a href="{{ path('suh_user_homepage') }}" class="col-md-4">
+                <span class="btn btn-warning" style="padding:40px;">
+                    Gestion globale
+                </span>
+            </a>
+          </div>
+      
+  </body>
+{% endblock %}

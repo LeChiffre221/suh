@@ -1,0 +1,223 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
+
+
+
+
+    {% block menuright %}
+        {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
+    {% endblock %}
+
+    {% block titleright %}
+    <p>Liste des contrats</p>
+    {% endblock %}
+    {% block bodyright %}
+    <div class="container-contrat col-md-12">
+
+    {% if listeContrats is empty %}
+        <br>
+        <h2 class="col-lg-offset-1">
+            <strong>Aucun contrat pour cet étudiant.
+            <br>
+            Vous pouvez consulter les
+            </strong>
+            <a href="{{ path('suh_contrat_showArchive', {'id' : id}) }}">contrats archivés.</a>
+
+        </h2>
+    {% endif %}
+    {% for contrat in listeContrats %}
+
+    <div class="bloc-contrat panel panel-primary">
+        <div class="col-lg-12 panel-heading">
+            <span class="arrow-panel-heading glyphicon glyphicon-menu-down dot-arrow"></span>
+            <h3 class="panel-title titre-contrat"> 
+            Du : {{ contrat.dateDebutContrat }} au {{ contrat.dateFinContrat}}
+            </h3>
+            <h3 class="panel-title titre-contrat titre-contrat-heures">
+                <span>{{ contrat.nbHeureInitiales }} </span>
+                heure(s)
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            <h3>Nature du contrat :
+                {% set natureContratString = "" %}
+                    {% for nature in contrat.natureContrat %}
+                        {% if nature == "tutorat"  %}
+                            {% set natureContratString = natureContratString ~ "Tutorat, "%}
+                        {% elseif nature == "priseNote" %}
+                            {% set natureContratString = natureContratString ~ "Prise de note, "%}
+                        {% else %}
+                            {% set natureContratString = natureContratString ~ "Assistance pédagogique, "%}
+                        {% endif %}
+                    {% endfor %}
+
+
+                {{ natureContratString|slice(0, natureContratString|length-2)}}
+            </h3>
+            <h3>Etudiant suivi : {{ contrat.nomEtudiant}}</h3>
+            <h3>Semestre concerné : n°{{ contrat.semestreConcerne}}</h3>
+
+            <h3>Etablissement avenant :
+                {% if contrat.listeAvenant is empty %}
+                    <span class="glyphicon glyphicon-remove"></span>
+                {% else %}
+                    <span class="glyphicon glyphicon-ok"></span>
+                {% endif %}
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            <h3>Date d'envoi du contrat :</h3>
+            <div class="col-lg-6">
+            
+                    DRH : {{ contrat.dateEnvoiDRH }}
+
+            </div>
+            <div class="col-lg-6">
+
+                    Etudiant : {{ contrat.dateEnvoiEtudiant }}
+
+            </div>
+
+
+
+        </div>
+        {% if listeHeures is not empty %}
+        <div class="heure">
+
+            {% set  previousM = false %}
+            
+
+            <form action="{{ path('suh_contrat_miseEnPaiementValidation', {'id' : id}) }}" method="post">
+
+                
+
+                {% for heure in listeHeures %}
+
+                    
+
+                    {% if previousM !=  heure.dateAndTime|slice(3, 7) %}
+
+                    {% set  unchecked = true %}
+
+                    {% for heure in listeHeures %}
+                        {% if heure.heurePayee == false %}
+                            {% set unchecked = false %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="bloc-contrat panel panel-primary">
+                        <div class="col-lg-12 panel-heading">
+                            <span class="arrow-panel-heading glyphicon glyphicon-menu-down dot-arrow"></span>
+
+                            <h3 class="panel-title titre-contrat">{{ tabMois[heure.dateAndTime|slice(3, 2)]}} {{ heure.dateAndTime|slice(6, 4)  }}</h3>
+
+                            {% if unchecked == true %}
+                                <span class="ok-panel-heading glyphicon glyphicon-ok"></span>
+                            {% else %}
+                                <span class="ok-panel-heading glyphicon glyphicon-remove"></span>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-12" style="font-size: larger">
+
+                            <div class="col-lg-12">
+                                <button class="btn btn-warning col-lg-offset-8 col-lg-2" type="submit">Appliquer</button>
+                                <span class="col-lg-offset-1 col-lg-1">
+                                    <input class="multiple-paiement" type="checkbox" 
+                                    {% if unchecked == false %}
+                                        checked
+                                    {% endif %}
+                                    />
+                                </span>
+                            </div>
+
+                            <div class="col-lg-12" style="font-size: larger">
+                                <table class="table  table-striped">
+                                    <thead>
+                                        <tr style="font-size: x-large; font-weight: bold">
+                                            <th>Date et Heure</th>
+                                            <th>Nature de la mission</th>
+                                            <th>Description</th>
+                                            <th>Durée</th>
+                                            <th>Payée</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% set previousM =  heure.dateAndTime|slice(3, 7) %}
+                                        {% for heure in listeHeures %}
+                                            {% if previousM ==  heure.dateAndTime|slice(3, 7) %}
+
+                                                <tr>
+                                                    <td>{{ heure.dateAndTime }}</td>
+                                                    {% if  heure.natureMission == "tutorat" %}
+                                                        <td>Tutorat</td>
+                                                    {% elseif   heure.natureMission == "priseNote"%}
+                                                        <td>Prise de note</td>
+                                                    {% else %}
+                                                        <td>Assistance pédagogique</td>
+                                                    {% endif %}
+                                                    <td>{{ heure.descriptionMission }}</td>
+                                                    <td>{{ heure.nbHeure}} heure(s)</td>
+                                                    <td>
+                                                    {% if heure.heurePayee %}
+                                                        <span class="glyphicon glyphicon-ok" style="color: green"></span>
+                                                    {% else %}
+                                                        <span class="glyphicon glyphicon-remove" style="color:red;"></span>
+                                                    {% endif %}
+                                                    </td>
+                                                    <td class="hidden-input">
+                                                        <div class="checkbox">
+                                                            <label>
+                                                                {% if heure.heurePayee %}
+                                                                    <input type="checkbox" name="heure{{ heure.id }}" checked>
+                                                                {% else %}
+                                                                    <input type="checkbox" name="heure{{ heure.id }}" >
+                                                                {% endif %}
+                                                            </label>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            {% endif %}
+
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </form>
+        </div>
+        {% endif %}
+        <div class="col-lg-6 ">
+            <a href="{{ path('suh_contrat_archiverContrat', {'idContrat': contrat.id}) }}">
+                <button type="button" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-briefcase"></span>
+                    <span>Archiver</span>
+                </button>
+            </a>
+            <a href="#">
+                <button type="button" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-briefcase"></span>
+                    <span>Dé-mise en paiement</span>
+                </button>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+<script type="text/javascript">
+    $(function() {
+
+        $('input[id^="dateEnvoiAvenantEtudiant"]').each(function(){
+        $(this).datetimepicker({
+            format: 'DD/MM/YYYY',
+            defaultDate: new Date(),
+        });
+
+        });
+
+    });
+</script>
+{% endblock %}

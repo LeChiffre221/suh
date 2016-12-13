@@ -1,0 +1,62 @@
+<div class="spoiler"> 
+    
+     <!--  ================== AJOUTER COMPTE UTILISATEUR ================== -->
+     
+     
+    <button class="btn btn-warning form-control" title="ajouter compte utilisateur" type="button" 
+            onclick="
+                    if (document.getElementById('ajoutUtilisateur').style.display === 'none')
+                    {
+                        document.getElementById('ajoutUtilisateur').style.display = ''
+                    }
+                    else
+                    {
+                        document.getElementById('ajoutUtilisateur').style.display = 'none'
+                    }">
+        Ajouter compte utilisateur
+    </button>    
+    <div id="ajoutUtilisateur" class="spoiler" style="display:none"> 
+        <br/>
+        Vous pouvez ajouter un compte utilisateur
+        <br/>
+        <form method="POST" action="{{path('suh_ajouter_utilisateur')}}"
+              onsubmit="return ConfirmationAjoutCompteUtilisateur();">
+            <label for="username">Identifiant :</label>
+            <input id="username" name="username" type="text" required="required"/><br/>  
+            <label for="pass">Mot de passe :</label>
+            <input id="pass" name="pass" type="password" required="required"/><br/>  
+            <button type="submit" class="btn btn-danger">Ajouter utilisateur</button>
+        </form>
+    </div>     
+              
+            
+            <!--  ================== SUPPRIMER COMPTE UTILISATEUR ================== -->
+            
+            
+            
+    <button class="btn btn-warning form-control" title="Supprimer compte utilisateur" type="button" 
+            onclick="
+                    if (document.getElementById('supprimerUtilisateur').style.display === 'none')
+                    {
+                        document.getElementById('supprimerUtilisateur').style.display = ''
+                    }
+                    else
+                    {
+                        document.getElementById('supprimerUtilisateur').style.display = 'none'
+                    }">
+        Supprimer compte utilisateur
+    </button>
+                
+    <div id="supprimerUtilisateur" class="spoiler" style="display:none"> 
+        <br/>Vous pouvez supprimer un compte utilisateur <br/>
+        <form method="POST" action="{{path('suh_supprimer_utilisateur')}}"
+              onsubmit="return ConfirmationSuppressionCompteUtilisateur();">
+            <label for="username">Identifiant :</label>
+            <input id="username" name="username" type="text" required="required"/><br/>  
+            <label for="pass">Mot de passe :</label>
+            <input id="pass" name="pass" type="password" required="required"/><br/>  
+            <button type="submit" class="btn btn-danger">Supprimer utilisateur</button>
+        </form>
+       
+    </div> 
+</div>

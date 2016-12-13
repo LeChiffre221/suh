@@ -1,0 +1,284 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
+
+
+
+
+    {% block menuright %}
+        {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
+    {% endblock %}
+
+    {% block titleright %}
+    <p>Liste des contrats</p>
+    {% endblock %}
+    {% block bodyright %}
+    <div class="container-contrat col-md-12">
+
+    {% if listeContrats is empty %}
+        <br>
+        <h2 class="col-lg-offset-1">
+            <strong>Aucun contrat pour cet étudiant.
+            <br>
+            Vous pouvez consulter les
+            </strong>
+            <a href="{{ path("suh_contrat_showArchive", {'id' : id}) }}">contrats archivés.</a>
+
+        </h2>
+    {% endif %}
+    {% for contrat in listeContrats %}
+
+    <div class="bloc-contrat panel panel-primary">
+        <div class="col-lg-12 panel-heading">
+            <span class="arrow-panel-heading glyphicon glyphicon-menu-down dot-arrow"></span>
+            <h3 class="panel-title titre-contrat"> 
+            Du : {{ contrat.dateDebutContrat }} au {{ contrat.dateFinContrat}}
+            </h3>
+            <h3 class="panel-title titre-contrat titre-contrat-heures">
+                <span>{{ contrat.nbHeureInitiales }} </span>
+                heure(s)
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            <h3>Nature du contrat :
+                {% set natureContratString = "" %}
+                    {% for nature in contrat.natureContrat %}
+                        {% if nature == "tutorat"  %}
+                            {% set natureContratString = natureContratString ~ "Tutorat, "%}
+                        {% elseif nature == "priseNote" %}
+                            {% set natureContratString = natureContratString ~ "Prise de note, "%}
+                        {% else %}
+                            {% set natureContratString = natureContratString ~ "Assistance pédagogique, "%}
+                        {% endif %}
+                    {% endfor %}
+
+
+                {{ natureContratString|slice(0, natureContratString|length-2)}}
+            </h3>
+            <h3>Etudiant suivi : {{ contrat.nomEtudiant}}</h3>
+            <h3>Semestre concerné : n°{{ contrat.semestreConcerne}}</h3>
+
+            <h3>Etablissement avenant :
+                {% if contrat.listeAvenant is empty %}
+                    <span class="glyphicon glyphicon-remove"></span>
+                {% else %}
+                    <span class="glyphicon glyphicon-ok"></span>
+                {% endif %}
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            <h3>Date d'envoi du contrat :</h3>
+            <div class="col-lg-6">
+            
+                {% if  (contrat.dateEnvoiDRH is null) %}
+
+
+                    <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
+                        <div class="col-lg-4">
+                            <label for="">DRH :</label><br>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiDRH"}}" name="dateEnvoiDRH" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                        </div>
+
+                        <div class="col-lg-2">
+                            <button type="submit" value="" class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                        </div>
+
+                    </form>
+                {% else %}
+                    DRH : {{ contrat.dateEnvoiDRH }}
+                {% endif %}
+
+            </div>
+            <div class="col-lg-6">
+
+                {% if  (contrat.dateEnvoiEtudiant is null) %}
+                    <form action="{{ path('suh_contrat_addDateContrat', {'idContrat': contrat.id}) }}" method="post" class="form-horizontal">
+                        <div class="col-lg-4">
+                            <label for="">Etudiant :</label><br>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiEtudiant"}}" name="dateEnvoiEtudiant" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                        </div>
+
+                        <div class="col-lg-2">
+                            <button type="submit" value="" class="btn btn-success">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                        </div>
+
+                    </form>
+
+                {% else %}
+                    Etudiant : {{ contrat.dateEnvoiEtudiant }}
+                {% endif %}
+
+            </div>
+
+
+
+        </div>
+
+        <br>
+
+        {% for avenant in contrat.listeAvenant %}
+        <hr>
+        <div class="col-lg-12 bloc-avenant">
+
+
+            <h3>Nombre d'heure : {{ avenant.nbHeure }}</h3>
+            <div class="col-lg-12">
+                <h3>Date d'envoi de l'avenant :</h3>
+                <div class="col-lg-6">
+
+                    {% if  (avenant.dateEnvoiDRH is null) %}
+                        <form action="{{ path('suh_contrat_addDateAvenant', {'idAvenant': avenant.id}) }}" method="post" class="form-horizontal">
+                            <div class="col-lg-4">
+                                <label for="">DRH :</label><br>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ avenant.id ~ "-dateEnvoiAvenantDRH"}}" name="dateEnvoiAvenantDRH" class="form-control"  pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                            </div>
+
+                            <div class="col-lg-2">
+                                <button type="submit" value="" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                            </div>
+
+                        </form>
+                    {% else %}
+                        DRH : {{ avenant.dateEnvoiDRH}}
+                    {% endif %}
+
+                </div>
+                <div class="col-lg-6">
+
+                    {% if  (avenant.dateEnvoiEtudiant is null) %}
+                        <form action="{{ path('suh_contrat_addDateAvenant', {'idAvenant': avenant.id}   ) }}" method="post" class="form-horizontal">
+
+                            <div class="col-lg-4">
+                                <label >Etudiant :</label><br>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <input id="{{ 'dateEnvoiAvenantEtudiant-' ~ contrat.id ~ "-dateEnvoiAvenantEtudiant"}}" class="form-control" name="dateEnvoiAvenantEtudiant"   pattern="^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$" title="Veuillez saisir une date de naissance valide au format JJ/MM/AAAA." placeholder="JJ/MM/AAAA">
+                            </div>
+
+                            <div class="col-lg-2">
+                                <button type="submit" value="" class="btn btn-success">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </button>
+                            </div>
+
+                        </form>
+                    {% else %}
+                        Etudiant : {{ avenant.dateEnvoiEtudiant }}
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="col-lg-2 ">
+                <a href="{{ path('suh_contrat_editerAvenant', {'idAvenant': avenant.id}) }}">
+                    <button type="button" class="btn btn-info">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        <span>Editer</span>
+                    </button>
+                </a>
+            </div>
+
+        </div>
+        {% endfor %}
+        <div>
+            
+            <div class="col-lg-12 contrat-actions">
+
+
+                <div class="col-lg-1 ">
+                    <a href="{{ path('suh_contrat_editerContrat', {'idContrat': contrat.id}) }}">
+                        <button type="button" class="btn btn-info">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            <span>Editer</span>
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-2 ">
+                    <a href="{{ path('suh_contrat_exportationContrat', {'idContrat': contrat.id}) }}">
+                        <button type="button" class="btn btn-default">
+                            <span class="pdf-icon"></span>
+                            
+                            <span> Exporter le contrat</span>
+                        </button>
+                    </a>
+                </div>
+
+                {% if contrat.listeAvenant is not empty%}
+                <div class="col-lg-2 ">
+                    <a href="{{ path('suh_contrat_exportationAvenant', {'idContrat': contrat.id}) }}">
+                        <button type="button" class="btn btn-default">
+                            <span class="pdf-icon"></span>
+
+                            <span> Exporter l'avenant</span>
+                        </button>
+                    </a>
+                </div>
+                {% endif %}
+
+                <div class="col-lg-2 ">
+                    <a href="{{ path('suh_contrat_miseEnPaiementContrat', {'idContrat': contrat.id}) }}">
+                        <button type="button" class="btn btn-warning">
+                            <span class="glyphicon glyphicon-briefcase"></span>
+                            <span>Mettre en paiement</span>
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-2 ">
+                    <a href="{{ path('suh_contrat_deleteContrat', {'idContrat': contrat.id}) }}">
+                        <button type="button" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            <span>Supprimer</span>
+                        </button>
+                    </a>
+                </div>
+
+
+            </div>
+            
+        </div>
+    </div>
+    {% endfor %}
+    {% if page != -1 %}
+        <ul class="pagination">
+
+
+          {% for p in range(1, nbPages) %}
+
+            <li {% if p == page %} class="active "{% endif %} >
+
+              <a href="{{ path('suh_contrat_afficherContrat', {'id': id , 'page': p}) }}">{{ p }}</a>
+
+            </li>
+
+          {% endfor %}
+
+        </ul>
+    {% endif %}
+    </div>
+<script type="text/javascript">
+    $(function() {
+
+        $('input[id^="dateEnvoiAvenantEtudiant"]').each(function(){
+        $(this).datetimepicker({
+            format: 'DD/MM/YYYY',
+            defaultDate: new Date(),
+        });
+
+        });
+
+    });
+</script>
+{% endblock %}

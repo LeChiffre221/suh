@@ -1,0 +1,54 @@
+suh_connexion:
+    resource: "@SUHConnexionBundle/Resources/config/routing.yml"
+    prefix:   /
+
+suh_gestion:
+    resource: "@SUHGestionBundle/Resources/config/routing.yml"
+    prefix:   /gestion
+
+suh_contrat:
+    resource: "@SUHContratBundle/Resources/config/routing.yml"
+    prefix:   /contrat
+
+#login
+login:
+    pattern: /login
+    defaults: { _controller: SUHConnexionBundle:Connexion:login }
+
+login_check:
+    pattern: /login_check
+
+logout:
+    pattern: /logout
+
+
+
+#accueil étudiant
+suh_etudiant_homepageEtudiant:
+    path:       /etudiant
+    defaults: { _controller: SUHContratBundle:HeureEffectuee:addHeureEffectuee }
+
+suh_etudiant_heuresValidesEtudiant:
+    path:    /etudiant/heuresValides
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherHeureEspaceEtudiant}
+
+suh_etudiant_heuresNonValidesEtudiant:
+    path:    /etudiant/heuresNonValides
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherHeureNonValidesEspaceEtudiant}
+
+suh_etudiant_compteEtudiant:
+    path:    /etudiant/monCompte
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherCompteEspaceEtudiant}
+
+suh_etudiant_heuresNonValidesEtudiant_editer:
+    path:    /etudiant/heuresValides/edit/{idHeure}
+    defaults: { _controller: SUHContratBundle:HeureEffectuee:editHeureEffectuee}
+    requirements:
+        idHeure: "^[0-9]+$"
+
+suh_etudiant_heuresNonValidesEtudiant_delete:
+    path:    /etudiant/heuresValides/delete/{idHeure}
+    defaults: { _controller: SUHContratBundle:HeureEffectuee:deleteHeureEffectuee}
+    requirements:
+        idHeure: "^[0-9]+$"
+

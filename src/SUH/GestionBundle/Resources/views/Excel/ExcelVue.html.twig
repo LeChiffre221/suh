@@ -1,0 +1,121 @@
+<div class="spoiler"> 
+    
+     <!--  ================== IMPORTATION EXCEL ================== -->
+     
+     
+    <button class="btn btn-warning form-control" title="Importation excel" type="button" 
+            onclick="
+                    if (document.getElementById('importExcel').style.display === 'none')
+                    {
+                        document.getElementById('importExcel').style.display = ''
+                    }
+                    else
+                    {
+                        document.getElementById('importExcel').style.display = 'none'
+                    }">
+        Importation Excel
+    </button>    
+    <div id="importExcel" class="spoiler" style="display:none"> 
+        Vous pouvez importer un fichier excel de 1Mo maximum<br/>
+        Dans le champs "nombre de ligne" doit être indiqué le nombre de lignes à insérer(ex: 300 étudiants = 300 lignes)<br/>
+        <p class="alert-danger">
+             <i class="fa fa-exclamation-triangle"></i> Attention <i class="fa fa-exclamation-triangle"></i><br/>
+                Le fichier excel doit comporter les colonnes suivantes dans l'ordre :
+        <p>
+            <br/>
+                <table>
+                    <tr>
+                        <td>1-Date 1er inscription</td>
+                        <td>2-Nom</td>
+                        <td>3-Prenom</td>
+                        <td>4-Parite</td>
+                        <td>5-Date de naissance</td>
+                        <td>6-n° etudiant</td>
+                        <td>7-Qhandi</td>
+                        <td>8-Handicap</td>
+                    </tr>
+                    <tr>
+                        <td>9-Mail insitutionnel</td>
+                        <td>10-Mail personnel</td>
+                        <td>11-Mail parent</td>
+                        <td>12-Adresse etudiant</td>
+                        <td>13-Adresse familiale</td>
+                        <td>14-Téléphone perso</td>
+                        <td>15-Téléphone parent</td>
+                        <td>16-12-Etablissement</td>
+
+                    </tr>
+                    <tr>
+                        <td>17-UFR/Ecole</td>
+                        <td>18-Diplôme</td>
+                        <td>19-Filière</td>
+                        <td>20-Cycle</td>
+                        <td>21-Annee</td>
+                        <td>22-Aménagement exam</td>
+                        <td>23-Temps majoré</td>
+                        <td>24-Secretaire Exam</td>
+
+                    </tr>
+                    <tr>
+                        <td>25-Ordinateur</td>
+                        <td>26-Matèriel SUH</td>
+                        <td>27-Adaptation Document</td>
+                        <td>28-Délocalisation</td>
+                        <td>29-Avis Médical</td>
+                        <td>30-Date validité</td>
+                        <td>31-Durée avis médical</td>
+                        <td>32-Aménagement étude</td>
+                    </tr>
+                    <tr>
+                        <td>33-Suivi</td>
+                        <td>34-Descriptif complémentaire</td>
+                        <td>35-MDPH</td>
+                        <td>36-Departement MDPH</td>
+                        <td>37-Taux invalidité</td>
+                        <td>38-Type d'allocation</td>
+                        <td>39-RQTH</td>
+                        <td>40-SAVS</td>
+                    </tr>
+                </table>
+                <br/>
+                <p class="alert-danger">
+                    Par ailleurs les dates doivent être dans des champs "date" d'Excel, et au format jj/mm/aaaa ou jj-mm-aaaa
+                <p>
+            <br/>
+        </p>
+        <form method="POST" action="{{path('suh_import_page')}}" enctype="multipart/form-data" 
+              onsubmit="return confirmationImport();">
+            <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
+            <input type="file" name="fichierExcel" required="required"/><br/>
+            <input id="nbLignes" name="nbLignes" type="number" placeholder="Nombre de ligne" required="required"/><br/>   
+            <button type="submit" class="btn btn-danger">Importer</button>
+        </form>
+    </div>     
+              
+              
+              <!--  ================== EXPORTATION EXCEL ================== -->
+              
+              
+    <button class="btn btn-warning form-control" title="Exportation excel" type="button" 
+            onclick="
+                    if (document.getElementById('exportExcel').style.display === 'none')
+                    {
+                        document.getElementById('exportExcel').style.display = ''
+                    }
+                    else
+                    {
+                        document.getElementById('exportExcel').style.display = 'none'
+                    }">
+        Exportation Excel
+    </button>
+                
+                
+    <div id="exportExcel" class="spoiler" style="display:none"> 
+        <br/>Vous pouvez exporter un fichier excel <br/>
+        <form method="POST" action="{{path('suh_export_page')}}" enctype="multipart/form-data" 
+              onsubmit="return confirmationExport();">
+            <button class="btn btn-danger" type="submit">Exporter la base de données</button>
+        </form>
+       
+    </div> 
+</div>

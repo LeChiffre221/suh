@@ -1,0 +1,168 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
+
+
+
+
+    {% block menuright %}
+        {% include "SUHContratBundle:AffichageContrats:menuEtudiantAidant.html.twig" %}
+    {% endblock %}
+
+    {% block titleright %}
+    <p class="">Gestion heures</p>
+    {% endblock %}
+    {% block bodyright %}
+    <div class="container-contrat col-md-12">
+
+
+    {% if listeHeures is empty %}
+        <br>
+        <h2 class="col-lg-offset-1">
+            <strong>Aucune heure pour cet étudiant.
+            <br>
+            Vous pouvez consulter
+            <a href="{{ path("suh_contrat_afficherContrat", {'id' : id}) }}" style="color: #1f7e9a">
+                les contrats disponibles
+            </a>
+            ou
+            <a href="{{ path("suh_contrat_showArchive", {'id' : id}) }}" style="color: #1f7e9a">les contrats archivés.</a>
+            </strong>
+
+        </h2>
+    {% else %}
+        <div class="heure">
+
+            {% set  previousM = false %}
+            {% set  actualM = false %}
+            
+
+            <form action="{{ path("suh_contrat_validationHeures", {'id' : id}) }}" method="post">
+
+                <button class="btn btn-warning col-lg-offset-10 col-lg-2" type="submit">Appliquer</button>
+                <br>
+                <br>
+
+                {% for heure in listeHeures %}
+
+                {% set  actualM = heure.dateAndTime|slice(3, 7) %}
+
+                    {% if previousM !=  heure.dateAndTime|slice(3, 7) %}
+
+                    {% set  heuresValides = 0 %}
+                    {% set  heuresTotales = 0 %}
+
+                    {% for heure in listeHeures %}
+                        {% if actualM == heure.dateAndTime|slice(3, 7) %}
+                            {% if heure.verification %}
+                                {% set  heuresValides = heuresValides + heure.nbHeure %}
+                            {% endif %}
+                            {% set  heuresTotales = heuresTotales + heure.nbHeure %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="bloc-contrat panel panel-primary">
+                        <div class="col-lg-12 panel-heading">
+                            <span class="arrow-panel-heading glyphicon glyphicon-menu-down dot-arrow"></span>
+
+                            <h3 class="panel-title titre-contrat">{{ tabMois[heure.dateAndTime|slice(3, 2)]}} {{ heure.dateAndTime|slice(6, 4)  }}</h3>
+
+                            {% if heuresTotales == heuresValides %}
+                            <span class="ok-panel-heading glyphicon glyphicon-ok"></span>
+                            {% endif %}
+                            {% if heuresTotales != heuresValides %}
+                            <span class="ok-panel-heading glyphicon glyphicon-remove"></span>
+                            {% endif %}
+
+                            <h3 class="panel-title titre-contrat titre-contrat-heures">
+                                <span>
+                                {{heuresTotales}}
+                                </span>
+                                heure(s)
+                            </h3>
+
+                            <h3 class="panel-title titre-contrat titre-contrat-heures heures-valides">
+                                <span>{{heuresValides}} </span>
+                                heure(s) validées
+                            </h3>
+                        </div>
+                        <div class="col-lg-12" style="font-size: larger">
+                            <a class="generate_fiche" href="{{ path("suh_contrat_exportationFichePaie", {'month' :  heure.dateAndTime|slice(3, 2), 'year' : heure.dateAndTime|slice(6, 4)}) }}">
+                                <button class="btn btn-primary">
+                                    Generer fiche de paie
+                                </button>
+                            </a>
+                            <table class="table  table-striped">
+                                <thead>
+                                <tr style="font-size: x-large; font-weight: bold">
+                                    <th>Date et Heure</th>
+                                    <th>Nature de la mission</th>
+                                    <th>Description</th>
+                                    <th>Durée</th>
+                                    <th class="marks-heures">Validé</th>
+                                    <th>Validation</th>
+                                    <th>Suppression</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% set previousM =  heure.dateAndTime|slice(3, 7) %}
+
+                                    {% for heure in listeHeures %}
+                                        {% if previousM ==  heure.dateAndTime|slice(3, 7) %}
+
+                                            <tr>
+                                                <td>{{ heure.dateAndTime }}</td>
+                                                {% if  heure.natureMission == "tutorat" %}
+                                                    <td>Tutorat</td>
+                                                {% elseif   heure.natureMission == "priseNote"%}
+                                                    <td>Prise de note</td>
+                                                {% else %}
+                                                    <td>Assistance pédagogique</td>
+                                                {% endif %}
+                                                <td>{{ heure.descriptionMission }}</td>
+                                                <td>{{ heure.nbHeure}} heure(s)</td>
+                                                <td class="marks-heures">
+                                                    {% if heure.verification %}
+                                                        <span class="glyphicon glyphicon-ok" style="color: green"></span>
+                                                    {% else %}
+                                                        <span class="glyphicon glyphicon-remove" style="color:red;"></span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            {% if heure.verification %}
+                                                                <input type="checkbox" name="heure{{ heure.id }}" checked>
+                                                            {% else %}
+                                                                <input type="checkbox" name="heure{{ heure.id }}" >
+                                                            {% endif %}
+                                                        </label>
+
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                                <input type="checkbox" name="heureToDelete{{ heure.id }}" >
+                                                        </label>
+
+                                                    </div>
+                                                </td>
+
+
+
+                                            </tr>
+
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </form>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

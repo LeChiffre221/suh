@@ -1,0 +1,449 @@
+<style>
+
+.wizard > .steps .done a, .wizard > .steps .done a:hover, .wizard > .steps .done a:active
+{
+    background-color: #20D6C7;
+    color:black;
+}
+
+
+.wizard > .steps a
+{
+     background-color: #20D6C7;
+     color: black;
+}
+
+
+</style>
+
+<div class="spoiler">
+
+    <p id="etudiantNomPrenom">
+
+    {{informationsEtudiant[0].etudiantInformations.nom}}
+    {{informationsEtudiant[0].etudiantInformations.prenom}}
+    <hr/>
+    </p>
+    <script type="text/javascript">
+    </script>
+        <div id="formulaire" >
+
+
+            <!-- Première étape : -->
+
+            <h3>Identité de l'étudiant</h3>
+            <section>
+                <div class="col-md-12">
+                    <div class="col-md-3 form-group"   >
+                        <label for="nom">Nom :</label></br>
+                        {{informationsEtudiant[0].etudiantInformations.nom}}
+                    </div>
+                
+                    <div class="col-md-3 form-group"  >
+                        <label for="prenom">Prénom :</label></br>
+                        {{informationsEtudiant[0].etudiantInformations.prenom}}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3 form-group"  >
+                        <label>Parite :</label></br>
+                        {% if informationsEtudiant[0].etudiantInformations.parite == 'M' %}
+                          masculin
+                        {% endif %}
+                        {% if informationsEtudiant[0].etudiantInformations.parite == 'F' %}
+                          feminin
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3 form-group"  >
+                        <label for="dateNaissance">Date de naissance :</label></br>
+                        {% if informationsEtudiant[0].etudiant.dateNaissance %}
+                            {{ informationsEtudiant[0].etudiant.dateNaissance|date("d/m/Y") }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3 form-group"  >
+                        <label for="premiereInscription">Première inscription:</label></br>
+                        {% if informationsEtudiant[0].etudiant.premiereInscription %}
+                            {{ informationsEtudiant[0].etudiant.premiereInscription }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3 form-group"  >
+                        <label for="numeroEtudiant">Numero étudiant :</label></br>
+                        {{ informationsEtudiant[0].etudiant.numeroEtudiant }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3 form-group"  >
+                        <label>Qhandi :</label></br>
+                         {{ informationsEtudiant[1].etudiantHandicape.qhandi }}
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div id="tousLesHandicap" class="col-md-9 form-group"  >
+
+                     
+                        <label>Handicap(s) :</label></br>
+
+                        {% for handi in informationsEtudiant[1].etudiantHandicape.handicap %}
+                            {{ handi.nomHandicap }} -
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+           
+                <!-- Deuxième étape : -->
+
+            <h3>Coordonnées de l'étudiant</h3>
+            <section>
+                
+                
+                <div class="col-md-12">
+                    <div class="col-md-3 form-group"  >
+                        <label for="mailInstitutionnel">Email institutionnel :</label></br>
+                        {{ informationsEtudiant[0].etudiantInformations.mailInstitutionnel }}
+                    </div>
+               
+                    <div class="col-md-3 form-group"  >
+                        <label for="mailPerso">Email Personnel :</label></br>
+                        {{ informationsEtudiant[0].etudiantInformations.mailPerso }}
+                    </div>
+                
+                    <div class="col-md-3 form-group"  >
+                        <label for="mailParents">Email Parents :</label></br>
+                        {{ informationsEtudiant[0].etudiantInformations.mailParents }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3 form-group"  >
+                        <label for="adresseEtudiante">Adresse étudiante :</label></br>
+                        {{ informationsEtudiant[0].etudiantInformations.adresseEtudiante }}
+                    </div>
+                
+                    <div class="col-md-3 form-group"  >
+                        <label for="adresseFamiliale">Adresse familiale :</label></br>
+                        {{ informationsEtudiant[0].etudiantInformations.adresseFamiliale }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3 form-group"  >
+                        <label for="telephonePerso">Téléphone Personnel :</label></br>
+                        {{ informationsEtudiant[0].etudiantInformations.telephonePerso }}
+                    </div>
+                
+                    <div class="col-md-3 form-group"  >
+                        <label for="telephoneParents">Téléphone Parents :</label></br>
+                        {{ informationsEtudiant[0].etudiantInformations.telephoneParents }}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Troisième étape : -->
+
+            <h3>Formation</h3>
+            <section>
+                <div class="col-md-12">
+                
+                {% for formations in informationsEtudiant[1].etudiant.listEtudiantFormation %}
+                  {% if formations.anneeScolaire == app.session.get('filter')['year'] %}
+                    
+
+                        <div class="col-md-5 form-group"  >
+
+                        <fieldset style="border: dashed; border-width: 1px; padding: 20px;">
+
+                            <legend align="center" style="border: solid; border-width: 1px;">
+                              <i class="fa fa-book"></i> Formation n° {{ loop.index }}
+                              <a href="{{path('suh_suppression_etudiantFormation',{'idEtudiant' : formations.etudiant.id, 'idFormation' : formations.formation.id })}}"> <i class="glyphicon glyphicon-remove-circle" onclick="return confirmationSuuppressionFormation();" style="color:red;float:right;"></i></a>
+                            </legend>
+                            <label>Etablissement :</label>   
+                            {{ formations.formation.etablissement }}</br></br>
+
+                            <label for="composante">Composante :</label>   
+                            {{ formations.formation.composante }}</br></br>
+
+                            <label>Diplome :</label>   
+                            {{ formations.formation.diplome }}</br></br>
+
+                            <label for="filière">Filière :</label>  
+                            {{ formations.formation.filiere }}</br></br>
+                            
+                            <label for="cycle_A">Cycle :</label>  
+                            {{ formations.formation.cycle }}</br></br>
+
+                            <label for="anneeEtude_A">Année étude :</label>  
+                            {{ formations.formation.anneeEtude }}
+                            
+
+                          </fieldset>
+
+                        </div>                    
+                  {% endif %}
+                {% endfor %}
+                </div>
+            </section>
+
+            <!-- Quatrième étape : -->
+
+            <h3>Aménagement des examens</h3>
+
+            <section>
+                {% if informationsEtudiant[1].etudiantHandicape.aideExamen %}
+
+                <div id="amenagementExamenOptions">
+                    <div class="col-md-12">
+                      <div class="col-md-5 form-group"  >
+                            <label>Temps majoré :</label>
+                            {% if informationsEtudiant[1].etudiantHandicape.aideExamen.tempsMajore %}
+                                <i style="color:green;" class="glyphicon glyphicon-ok"></i>
+                            {% else %}
+                                <i style="color:red;" class="glyphicon glyphicon-remove"></i>
+                            {% endif %}
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-5 form-group"  >
+                            
+
+                            <label>Secrétaire d'examens :</label>
+
+                            {% if informationsEtudiant[1].etudiantHandicape.aideExamen.secretaireExamen %}
+                                <i style="color:green;" class="glyphicon glyphicon-ok"></i></br>{{ informationsEtudiant[1].etudiantHandicape.aideExamen.secretaireExamen.fonction }}
+                            {% else %}
+                                <i style="color:red;" class="glyphicon glyphicon-remove"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-5 form-group"  >
+                            <label>Ordinateurs : </label>
+                            {% if informationsEtudiant[1].etudiantHandicape.aideExamen.ordinateur|length != 0 %} 
+                                <i style="color:green;" class="glyphicon glyphicon-ok"></i></br>
+                                {% for ordinateur in informationsEtudiant[1].etudiantHandicape.aideExamen.ordinateur %}
+                                    {{ ordinateur.type }} -
+                                {% endfor %}
+                            {% else %}
+                                <i style="color:red;" class="glyphicon glyphicon-remove"></i>
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-5 form-group"  >
+                            <label>Matériel : </label>
+                            {% if informationsEtudiant[1].etudiantHandicape.aideExamen.materiel %}
+                                <i style="color:green;" class="glyphicon glyphicon-ok"></i></br>
+                                {{ informationsEtudiant[1].etudiantHandicape.aideExamen.materiel.nom }} 
+                            {% else %}
+                                <i style="color:red;" class="glyphicon glyphicon-remove"></i>
+                            {% endif %}
+                        </div>
+                    </div> 
+                    <div class="col-md-12">
+                        <div class="col-md-5 form-group"  >
+                            <label>Adaptation de documents :</label>
+                            {% if informationsEtudiant[1].etudiantHandicape.aideExamen.adaptationDocuments|length != 0 %} 
+                                <i style="color:green;" class="glyphicon glyphicon-ok"></i></br>
+                                {% for adapt in informationsEtudiant[1].etudiantHandicape.aideExamen.adaptationDocuments %} 
+                                    {{ adapt.detail }} - 
+                                {% endfor %}
+                            {% else %}
+                                <i style="color:red;" class="glyphicon glyphicon-remove"></i>
+                            {% endif %}
+                                
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-5 form-group" style="border: solid; border-width: 1px; padding: 10px; border-radius: 10px;"  >
+                            <label>Délocalisation des examens :</label>
+                            
+                            {% if informationsEtudiant[1].etudiantHandicape.aideExamen.delocalisationExamen %}
+                                <i style="color:green;" class="glyphicon glyphicon-ok"></i></br>
+                                <label>Lieu :</label> {{ informationsEtudiant[1].etudiantHandicape.aideExamen.delocalisationExamen.lieu }}
+                                </br><label>Détail :</label> {{ informationsEtudiant[1].etudiantHandicape.aideExamen.delocalisationExamen.detail }}
+                            {% else %}
+                                <i style="color:red;" class="glyphicon glyphicon-remove"></i>
+                            {% endif %}
+                        
+                                
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-5 form-group"  >
+                            <label for="composante">Avis médical : </label></br>
+                            {{ informationsEtudiant[1].etudiantHandicape.aideExamen.avisMedical }}
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-5 form-group"  >
+                            <label>Date de validité :</label></br>
+                            {% if informationsEtudiant[1].etudiantHandicape.aideExamen.dateValidite %}
+                                {{ informationsEtudiant[1].etudiantHandicape.aideExamen.dateValidite|date("d/m/Y") }}
+                            {% endif %}
+                      </div>
+                    </div>
+                      <div class="col-md-12">
+                        <div class="col-md-5 form-group"  >
+                            <label>Durée de validité :</label></br>
+                            {{ informationsEtudiant[1].etudiantHandicape.aideExamen.dureeAvisMedical }}
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                    Aucun aménagement des examens.
+                {% endif %}
+
+            </section>
+
+            <!-- Cinquième étape : -->
+            <h3>Aménagement d'études</h3>
+            <section>
+              <div class="col-md-12">
+
+                <fieldset style="border: solid; border-width: 1px; padding: 5px;">
+
+                    <legend align="center" style="border: solid; border-width: 1px;">
+                                <i class="glyphicon glyphicon-list-alt"></i>  Aménagements d'études :
+                    </legend>
+
+                 {% for amenagement in informationsEtudiant[1].etudiantHandicape.amenagementEtude %}
+                  
+                    <div class="col-md-3 form-group" style="border:solid; border-width:1px; border-color: grey; border-radius: 10px; padding: 10px; margin-right:10px;">
+
+                      <label>Nom :</label> {{ amenagement.nom }}</br>
+                      {% if amenagement.informationComplementaire %}
+                        {{ amenagement.informationComplementaire }}
+                      {% endif %}
+                      </br><label>Détail :</label> {{ amenagement.detail }}
+
+                    </div>
+                {% endfor %}
+
+                </fieldset>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-5 form-group"  >
+                          </br></br><label>Suivi :</label></br>
+                          {{ informationsEtudiant[1].etudiantHandicape.suivi }}
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="col-md-5 form-group"  >
+                          <label>Descriptif complémentaire :</label></br>
+                          {{ informationsEtudiant[1].etudiantHandicape.descriptifComplementaire }}
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Sixième étape : -->
+
+            <h3>Mdph</h3>
+            <section>
+                <div class="col-md-12">
+                    <div class="col-md-5 form-group"  >
+                        <label>MDPH :</label>
+                        {% if informationsEtudiant[1].etudiantHandicape.mdph %}
+                            {% if informationsEtudiant[1].etudiantHandicape.demandeMdphEnCours %}
+                            En cours
+
+                            {% else %}
+                            <i style="color:green;" class="glyphicon glyphicon-ok"></i>
+
+                            {% endif %}
+
+                          {% else %}
+                          <i style="color:red;" class="glyphicon glyphicon-remove"></i>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if informationsEtudiant[1].etudiantHandicape.mdph %}
+                  <div class="col-md-12">
+                      <div class="col-md-5 form-group"  >
+                      <label>Numero département mdph :</label></br>
+                      {{ informationsEtudiant[1].etudiantHandicape.mdph.departementMdph }}
+                      </div>
+                  </div>
+                
+
+                <div class="col-md-12">
+                    <div class="col-md-5 form-group"  >
+                        <label>Taux d'invalidité :</label></br>
+                        {{ informationsEtudiant[1].etudiantHandicape.tauxInvalidite }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-5 form-group"  >
+                        <label>Type d'allocation(s)/prestation(s) :</label></br>
+                        {{ informationsEtudiant[1].etudiantHandicape.typeAllocations }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-5 form-group"  >
+                        <label>RQTH :</label>
+                            {% if informationsEtudiant[1].etudiantHandicape.demandeRqthEnCours %}
+                            En cours
+
+                            {% else %}
+                                {% if informationsEtudiant[1].etudiantHandicape.rqth == 'Oui' %}
+                                    <i style="color:green;" class="glyphicon glyphicon-ok"></i>
+                                {% else %}
+                          <i style="color:red;" class="glyphicon glyphicon-remove"></i>
+                                {% endif %}
+                            {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-5 form-group">
+                    
+                        <label>Notifications SAVS :</label>
+
+                            {% if informationsEtudiant[1].etudiantHandicape.demandeNotificationSavsEnCours %}
+                            En cours </br>
+                                {% if (informationsEtudiant[1].etudiantHandicape.notificationSavs.notificationText|length!=0) %}
+                                    {{ informationsEtudiant[1].etudiantHandicape.notificationSavs.notificationText }}
+                                {% endif %}
+                                
+                            {% else %}
+                                {% if informationsEtudiant[1].etudiantHandicape.notificationSavs %}
+                                    <i style="color:green;" class="glyphicon glyphicon-ok"></i></br>
+                                        {% if (informationsEtudiant[1].etudiantHandicape.notificationSavs.notificationText|length!=0) %}
+                                            {{ informationsEtudiant[1].etudiantHandicape.notificationSavs.notificationText }}
+                                        {% endif %}
+                            
+
+                                {% else %}
+                                    <i style="color:red;" class="glyphicon glyphicon-remove"></i>
+                                {% endif %}
+                            {% endif %}
+                    
+
+                    </div>
+                  
+                
+                </div>
+                {% endif %}
+            </section>
+        </div>     
+</div>
+
+<script type="text/javascript">
+
+$("#formulaire").steps({
+            headerTag: "h3",
+            bodyTag: "section",
+            transitionEffect: "slideLeft",
+            enableAllSteps: true,
+            enablePagination: false
+            });
+</script>

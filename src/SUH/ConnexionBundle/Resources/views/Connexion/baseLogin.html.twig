@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    {% block head %}
+    <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/bootstrap.min.css')}}" type="text/css"/>
+
+    <link rel="stylesheet" href="{{asset('bundles/suhGestion/css/accueil.css')}}" type="text/css"/>
+
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/jquery.min.js')}}"/></script>
+    <script type="text/javascript" src="{{asset('bundles/suhGestion/js/bootstrap.min.js')}}"/></script>
+    
+    {% endblock %}
+    <title>{% block title %} Header {% endblock %}</title>
+    </head>
+    <!-- HEADER : logo SUH + navbar (accueil, statistiques, deconnexion -->
+
+    <header>
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+            </div>
+        </div>
+    </header>
+
+            <!-- FIN HEADER -->
+
+            {% block body %}
+
+            {% endblock %}
+            </html>
+

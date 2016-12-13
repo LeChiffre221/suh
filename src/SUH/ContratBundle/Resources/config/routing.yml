@@ -1,0 +1,246 @@
+
+#accueil
+suh_contrat_homepage:
+    path:     /
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherAccueilContrat }
+
+
+#=========================================
+#============Gestion Contrats=============
+#=========================================
+
+#affichage archives
+suh_contrat_showArchive:
+    path: /{id}/contrats/archives/{page}
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherArchiveContrat, page:1}
+    requirements:
+           id: "^[0-9]+$"
+           page: "^[0-9]+$"
+
+
+
+#Afficher les contrats pour un étudiant
+suh_contrat_afficherContrat:
+    path: /{id}/contrats/{page}
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherContratsPourUnEtudiant, page:1}
+    requirements:
+           id: "^[0-9]+$"
+           page: "^[0-9]+$"
+
+#ajouter un contrat étudiant
+suh_contrat_addContrat:
+    path: /{id}/addContrat
+    defaults: {_controller: SUHContratBundle:Contrat:addContrat}
+    requirements:
+       id: "^[0-9]+$"
+
+suh_contrat_archiverContrat:
+    path: /archiver/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:archiverContrat}
+    requirements:
+        idContrat: "^[0-9]+$"
+
+suh_contrat_desarchiverContrat:
+    path: /desarchiver/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:desarchiverContrat}
+    requirements:
+        idContrat: "^[0-9]+$"
+
+#edit un contrat étudiant
+suh_contrat_editerContrat:
+    path: /editContrat/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:editContrat }
+    requirements:
+           idContrat: "^[0-9]+$"
+
+#supprimer un contrat étudiant
+suh_contrat_deleteContrat:
+    path: /deleteContrat/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:deleteContrat}
+    requirements:
+       idContrat: "^[0-9]+$"
+
+#add date envoi contrat étudiant
+suh_contrat_addDateContrat:
+    path: /addDateContrat/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:addDateContrat}
+    requirements:
+       idContrat: "^[0-9]+$"
+  
+
+#afficher paiement       
+suh_contrat_showPaiementContrat:
+    path: /{id}/contrats/paiement
+    defaults: {_controller: SUHContratBundle:Affichage:AfficherPaiementContrat}
+    requirements:
+        id: "^[0-9]+$" 
+
+#mise en paiement
+suh_contrat_miseEnPaiementContrat:
+    path: /miseEnPaiement/{idContrat}
+    defaults: {_controller: SUHContratBundle:Contrat:mettreEnPaiement}
+    requirements:
+        idContrat: "^[0-9]+$"
+
+suh_contrat_miseEnPaiementValidation:
+    path: /miseEnPaiementValidationHeures/{id}
+    defaults: { _controller: SUHContratBundle:HeureEffectuee:paiementValidationHeures }
+    requirements:
+        id:   "^[0-9]+$"
+#=========================================
+#=============Gestion Avenant=============
+#=========================================
+
+suh_contrat_addAvenant:
+    path: /addAvenant/{idContrat}
+    defaults: {_controller: SUHContratBundle:Avenant:addAvenant}
+    requirements:
+        idContrat: "^[0-9]+$"
+
+#add date envoi contrat étudiant
+suh_contrat_addDateAvenant:
+    path: /addDateAvenant/{idAvenant}
+    defaults: {_controller: SUHContratBundle:Avenant:addDateAvenant}
+    requirements:
+       idAvenant: "^[0-9]+$"
+
+suh_contrat_deleteAvenant:
+  path: /deleteAvenant/{idAvenant}
+  defaults: {_controller: SUHContratBundle:Avenant:deleteAvenant}
+  requirements:
+       idAvenant: "^[0-9]+$"
+
+
+suh_contrat_editerAvenant:
+  path: /editAvenant/{idAvenant}
+  defaults: {_controller: SUHContratBundle:Avenant:editAvenant}
+  requirements:
+       idAvenant: "^[0-9]+$"
+
+
+#=========================================
+#============Gestion Etudiants============
+#=========================================
+#gestion ajout
+suh_contrat_addEtudiantAidant:
+    path: /addEtudiant
+    defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:addEtudiantAidant }
+
+
+#gestion get
+suh_contrat_getEtudiantAidant:
+    path: /getEtudiant/{id}
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherGetEtudiantAidant }
+    requirements:
+        id:   "^[0-9]+$"
+
+#gestion show
+suh_contrat_showEtudiantAidant:
+    path: /showEtudiant/{id}
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherShowEtudiantAidant }
+    requirements:
+        id:   "^[0-9]+$"
+
+#gestion edit
+suh_contrat_editEtudiantAidant:
+    path: /editEtudiant/{id}
+    defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:editEtudiantAidant }
+    requirements:
+        id:   "^[0-9]+$"
+
+#gestion suppr
+suh_contrat_delEtudiantAidant:
+    path: /supprimer/{id}
+    defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:delEtudiantAidant }
+    requirements:
+        id:   "^[0-9]+$"
+
+#gestion recherche
+suh_contrat_searchEtudiantAidant:
+    path: /by
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherSearchEtudiantAidant }
+
+#Reset password
+suh_contrat_resetPassword:
+    path: /resetPassword/{id}
+    defaults: {_controller: SUHContratBundle:GestionEtudiantAidant:resetPasswordEtudiantAidant}
+    requirements:
+       idContrat: "^[0-9]+$"
+
+
+#=========================================
+#=========Exportation Importation=========
+#=========================================
+
+suh_contrat_importExport:
+    path: /importExport
+    defaults: { _controller: SUHContratBundle:Affichage:importExport}
+
+suh_contrat_importationExcel:
+    path: /importExcel
+    defaults: { _controller: SUHContratBundle:ImportExport:importExcel }
+
+suh_contrat_exportationContrat:
+    path: /exporterContratPDF/{idContrat}
+    defaults: { _controller: SUHContratBundle:ImportExport:exportContratPDF }
+    requirements:
+        idContrat:   "^[0-9]+$"
+
+suh_contrat_exportationAvenant:
+    path: /exporterAvenantPDF/{idContrat}
+    defaults: { _controller: SUHContratBundle:ImportExport:exportAvenantPDF }
+    requirements:
+        idContrat:   "^[0-9]+$"
+
+suh_contrat_exportationFichePaie:
+    path: /exporterFichePaiePDF/{month}/{year}
+    defaults: { _controller: SUHContratBundle:ImportExport:exportFichePaiePDF }
+    requirements:
+        month:   "^[0-9]+$"
+        year:   "^[0-9]+$"
+
+
+
+#=========================================
+#=========   Gestion Heures  =============
+#=========================================
+
+suh_contrat_gestionHeures:
+    path: /heures/{id}
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherGestionHeures }
+    requirements:
+        id:   "^[0-9]+$"
+
+suh_contrat_validationHeures:
+    path: /validationHeures/{id}
+    defaults: { _controller: SUHContratBundle:HeureEffectuee:validationHeures }
+    requirements:
+        id:   "^[0-9]+$"
+
+
+#=========================================
+#=======   Variables globales  ===========
+#=========================================
+
+suh_contrat_refresh_list:
+    path: /refresh_list
+    defaults: { _controller: SUHContratBundle:AjaxRequest:refreshList }
+#=========================================
+#=============Statistiques ===============
+#=========================================
+
+suh_contrat_statistiques_avancees:
+    path: /statistiques/avancees
+    defaults: { _controller: SUHContratBundle:Stats:TraitementStatsAvancees }
+
+suh_contrat_statistiques_heures:
+    path: /statistiques/heures
+    defaults: { _controller: SUHContratBundle:Stats:TraitementStatsHeures }
+
+suh_contrat_statistiques_nature:
+    path: /statistiques/nature
+    defaults: { _controller: SUHContratBundle:Stats:TraitementStatsNature }
+
+suh_contrat_statistiques_cout:
+    path: /statistiques/cout
+    defaults: { _controller: SUHContratBundle:Stats:TraitementStatsCout }

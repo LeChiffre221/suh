@@ -1,0 +1,94 @@
+{% extends "SUHConnexionBundle:Connexion:base.html.twig" %}
+{% block body %}
+    <div class="container panel" style="background-color: whitesmoke">
+        <div class="">
+            <h1>
+                Ajouter un administrateur :
+            </h1>
+            {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+            {# Les erreurs générales du formulaire. #}
+            {{ form_errors(form) }}
+
+            <div class="form-group col-lg-4">
+                <div class=" col-lg-4">
+                    {{ form_label(form.username, "Identifiant  : ", {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_errors(form.username) }}
+                </div>
+                <div class=" col-lg-6">
+                    {{ form_widget(form.username, {'attr': {'class': ''}}) }}
+                </div>
+            </div>
+
+            {# Idem pour un autre champ. #}
+            <div class="form-group col-lg-4">
+
+                <div class="col-lg-5">
+                    {{ form_label(form.password, "Mot de passe : ", {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_errors(form.password) }}
+                </div>
+                <div class="col-lg-6 ">
+                    {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn btn-success ">Ajouter l'administrateur</button>
+            <br>
+            <br>
+
+
+            {# Génération automatique des champs pas encore écrits.
+               Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+               et tous les champs cachés (type « hidden »). #}
+            {{ form_rest(form) }}
+
+            {# Fermeture de la balise form du formulaire HTML #}
+            {{ form_end(form) }}
+        </div>
+
+        <div class="">
+
+            <h1>
+                Liste des administrateurs :
+            </h1>
+
+            <table class="table table-striped" style="text-align: center">
+                <thead  style="text-align: center">
+                    <tr>
+                        <th style="text-align: center">Identifiant</th>
+
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <th style="text-align: center">Supprimer</th>
+                        {% endif %}
+                        
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for user in listeUsers %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <td>
+                            <a href="{{ path("suh_user_delete", {'idUser': user.id}) }}">
+                                <button class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                            </a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% if (js is defined) %}{{ js|raw }}{% endif %}
+{% endblock %}
+
+
+
+
+
+

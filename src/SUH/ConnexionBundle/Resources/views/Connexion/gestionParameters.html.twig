@@ -1,0 +1,138 @@
+{% extends "SUHConnexionBundle:Connexion:base.html.twig" %}
+{% block body %}
+    <div class="container panel" style="background-color: whitesmoke">
+        <div class="col-md-12 container-contrat">
+        {% for message in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                <strong>Succès !</strong> Le contrat a été créé.
+            </div>
+        {% endfor %}
+
+        <div class="bloc-contrat panel panel-primary">
+            <div class="col-md-12 container-contrat">
+
+                {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                {# Les erreurs générales du formulaire. #}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.adminMail, "Email administrateur : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.adminMail) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.adminMail, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.portMail, "Port mailer : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.portMail) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.portMail, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.hostMail, "Hôte mailer : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.hostMail) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.hostMail, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.usernameMail, "Utilisateur mailer : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.usernameMail) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.usernameMail, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.passwordMail, "Mot de passe mailer : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.passwordMail) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.passwordMail, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bloc-contrat panel panel-primary">
+            <div class="col-md-12 container-contrat">
+                <div class="form-group">
+                    {{ form_label(form.prixHoraire, "Taux rémunération horaire : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.prixHoraire) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.prixHoraire, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.coefTutorat, "Coefficient horaire d'1H de tutorat : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.coefTutorat) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.coefTutorat, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.coefPriseDeNote, "Coefficient horaire d'1H de prise de note : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.coefPriseDeNote) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.coefPriseDeNote, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.coefAssistance, "Coefficient horaire d'1H d'assistance : ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.coefAssistance) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.coefAssistance, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.delaiMois, "Délai: ", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+                    {{ form_errors(form.delaiMois) }}
+                    <div class="col-sm-3 ">
+                        {{ form_widget(form.delaiMois, {'attr': {'class': 'col-md-8'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.dateMoisLimite, "Délai maximum de réalisation des heures : ", {'label_attr': {'class': 'col-sm-3 control-label '}}) }}
+                    {{ form_errors(form.dateMoisLimite) }}
+                    <div class="col-sm-4">
+                        {{ form_widget(form.dateMoisLimite, {'attr': {'class': 'form-control date'}}) }}
+                    </div>
+                </div>
+
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+
+             </div>
+        </div>
+    </div>
+</div>
+        <br/><br/>
+    <script type="text/javascript">
+    $(function() {
+
+
+        $('.date').datetimepicker({
+            format: 'DD/MM',
+            dayViewHeaderFormat: 'MMMM',
+            defaultDate: new Date(),
+            locale: moment.locale('fr')
+
+        })
+
+    });
+</script>
+{% endblock %}
+
+
+
+
+
+

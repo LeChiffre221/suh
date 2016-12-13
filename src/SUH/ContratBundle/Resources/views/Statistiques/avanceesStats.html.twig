@@ -1,0 +1,51 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
+
+    {% block menuright %}
+        {% include "SUHContratBundle:Statistiques:menuStatistiques.html.twig" %}
+    {% endblock %}
+
+    {% block titleright %}
+    <p>Statistiques</p>
+    {% endblock %}
+    {% block bodyright %}
+    <div class="container-stats col-md-12">
+
+    	<div  id='chart_div' style=" margin: 0 auto; margin-top:10px; width: 900px; height: 300px"></div>
+
+    </div>
+
+<script type="text/javascript"
+          src="https://www.google.com/jsapi?autoload={
+            'modules':[{
+              'name':'visualization',
+              'version':'1',
+              'packages':['corechart']
+            }]
+          }">
+</script>
+
+<script type="text/javascript">
+  google.setOnLoadCallback(drawChart);
+  
+  var datas = [['Année scolaire','Nombre étudiants']];
+
+  function drawChart() 
+  {
+    var data = google.visualization.arrayToDataTable(datas);
+    var options = {
+      title: '',
+      legend: { position: 'none' },
+      vAxis: {title: 'Heures', format: 'decimal', viewWindowMode: "explicit", viewWindow:{min: 0}},
+      hAxis : {title: 'Mois'},
+    };
+
+    var chart_div = document.getElementById('chart_div');
+    var chart = new google.visualization.LineChart(chart_div);
+
+    google.visualization.events.addListener(chart, 'ready', function () {
+    	$("#saveChart").attr("href", chart.getImageURI())
+    });
+    chart.draw(data, options);
+  }
+</script>
+{% endblock %}
