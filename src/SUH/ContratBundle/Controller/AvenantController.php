@@ -183,27 +183,80 @@ class AvenantController extends Controller
         }
     }
 
-    public function getNbContrats($id)
-    {
+    //get nombre de contrats (pour pagination et compteur)
+    public function getNbContrats($id, $paiement)
+    {     
         $em = $this->getDoctrine()->getManager();
         $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($id);
-        $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
-            array(
+        if($paiement){
+            $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+                array(
                 'etudiantAidant' => $etudiant,
                 'active' => 1),
-            array(
+                array(
                 'dateDebutContrat' => 'desc'
-            )
-        );
-        if(!empty($listeContrats))
-        {
-            return count($listeContrats);
+                )
+            );
+
+            $listeHeures = array();
+            $arrayMonth = array();
+
+            $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
+                array(
+                    'contrat' => $listeContrats,
+                ),
+                array(
+                    'dateAndTime' => 'desc'
+                )
+            );
+
+            foreach($listeHeures as $heure){
+                
+                if(!$heure->getHeurePayee()){
+                    $arrayMonth[intval(substr($heure->getDateAndTime(),3,2), 10)] = 1;
+                } else {
+                    $arrayMonth[intval(substr($heure->getDateAndTime(),3,2), 10)] = 0;
+                }
+            }
+            
+            $temp = array_count_values($arrayMonth);
+
+            if(array_key_exists ( 1 , $temp )){
+                $listeContrats = $temp[1];
+            } else {
+                $listeContrats = 0;
+            }
+            if($listeContrats)
+            {
+               return $listeContrats;
+
+            } else {
+
+                return 0;
+
+            }
+            
 
         } else {
+            $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
+                array(
+                'etudiantAidant' => $etudiant,
+                'active' => 1),
+                array(
+                'dateDebutContrat' => 'desc'
+                )
+           );
+           if($listeContrats)
+            {
+               return count($listeContrats);
 
-            return 0;
+            } else {
 
+                return 0;
+
+            }
         }
 
+        
     }
 }

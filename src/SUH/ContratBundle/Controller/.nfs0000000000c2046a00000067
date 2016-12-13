@@ -40,7 +40,7 @@ class AffichageController extends Controller
     }
 
     //get la liste des éutudiants
-    public function getListeEtudiants($chaine, $year = null)
+    public function getListeEtudiants($chaine, $year)
     {
         $em = $this->getDoctrine()->getManager();
         $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant');
@@ -114,51 +114,11 @@ class AffichageController extends Controller
             $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
                 array(
                 'etudiantAidant' => $etudiant,
-                'active' => 1),
+                'miseEnPaiement' => 1),
                 array(
                 'dateDebutContrat' => 'desc'
                 )
-            );
-
-            $listeHeures = array();
-            $arrayMonth = array();
-
-            $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
-                array(
-                    'contrat' => $listeContrats,
-                ),
-                array(
-                    'dateAndTime' => 'desc'
-                )
-            );
-
-            foreach($listeHeures as $heure){
-                
-                if(!$heure->getHeurePayee()){
-                    $arrayMonth[intval(substr($heure->getDateAndTime(),3,2), 10)] = 1;
-                } else {
-                    $arrayMonth[intval(substr($heure->getDateAndTime(),3,2), 10)] = 0;
-                }
-            }
-            
-            $temp = array_count_values($arrayMonth);
-
-            if(array_key_exists ( 1 , $temp )){
-                $listeContrats = $temp[1];
-            } else {
-                $listeContrats = 0;
-            }
-            if($listeContrats)
-            {
-               return $listeContrats;
-
-            } else {
-
-                return 0;
-
-            }
-            
-
+           );
         } else {
             $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
                 array(
@@ -168,17 +128,16 @@ class AffichageController extends Controller
                 'dateDebutContrat' => 'desc'
                 )
            );
-           if($listeContrats)
-            {
-               return count($listeContrats);
-
-            } else {
-
-                return 0;
-
-            }
         }
+        if(!empty($listeContrats))
+        {
+           return count($listeContrats);
 
+        } else {
+
+            return 0;
+
+        }
         
     }
 

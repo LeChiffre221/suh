@@ -229,13 +229,14 @@
                 {% endif %}
 
                 <div class="col-lg-2 ">
-                    <a href="{{ path('suh_contrat_miseEnPaiementContrat', {'idContrat': contrat.id}) }}">
+                    <a href="{{ path('suh_contrat_archiverContrat', {'idContrat': contrat.id}) }}">
                         <button type="button" class="btn btn-warning">
                             <span class="glyphicon glyphicon-briefcase"></span>
-                            <span>Mettre en paiement</span>
+                            <span>Archiver</span>
                         </button>
                     </a>
                 </div>
+                
                 <div class="col-lg-2 ">
                     <a href="{{ path('suh_contrat_deleteContrat', {'idContrat': contrat.id}) }}">
                         <button type="button" class="btn btn-danger">

@@ -356,8 +356,7 @@ class HeureEffectueeController extends Controller
         $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
             array(
                 'etudiantAidant' => $etudiant,
-                'active' => 0,
-                'miseEnPaiement' => 1),
+                'active' => 1),
             array(
                 'dateDebutContrat' => 'desc'
             )
