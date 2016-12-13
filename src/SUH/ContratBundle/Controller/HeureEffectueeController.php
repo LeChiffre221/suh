@@ -39,25 +39,31 @@ class HeureEffectueeController extends Controller
         $heureEffectuee = new HeureEffectuee();
         $heureEffectuee->setContrat($contrat);
 
+
         //Permet d'avoir dans le formulaire suelement le choix entre des nature proposé par le contrat
         $natureMission = array();
-        foreach ($contrat->getNatureContrat() as $natureContrat){
-            if($natureContrat == 'tutorat'){
-                $natureMission['tutorat'] = "Tutorat";
-            }
-            elseif ($natureContrat == 'priseNote'){
-                $natureMission['priseNote'] = "Prise de note";
-            }
-            else{
-                $natureMission['assistancePédagogique'] = "Assistance Pédagogique";
+
+        if($contrat != null){
+            foreach ($contrat->getNatureContrat() as $natureContrat){
+                if($natureContrat == 'tutorat'){
+                    $natureMission['tutorat'] = "Tutorat";
+                }
+                elseif ($natureContrat == 'priseNote'){
+                    $natureMission['priseNote'] = "Prise de note";
+                }
+                else{
+                    $natureMission['assistancePédagogique'] = "Assistance Pédagogique";
+                }
             }
         }
+
 
         $form = $this->get('form.factory')->create(new HeureEffectueeType, $heureEffectuee);
         $form->add('natureMission', 'choice', array(
             'choices' => $natureMission,
             'multiple' => false,
             'expanded' => true,
+
         ));
 
         if($form->handleRequest($request)->isValid()){
@@ -96,7 +102,8 @@ class HeureEffectueeController extends Controller
         return $this->render('SUHContratBundle:ZoneEtudiante:accueilEtudiant.html.twig', array(
             'form' => $form->createView(),
             'etudiant' => $etudiant,
-            'contrat' => $contrat
+            'contrat' => $contrat,
+            'modeEdition' => false
 
         ));
 

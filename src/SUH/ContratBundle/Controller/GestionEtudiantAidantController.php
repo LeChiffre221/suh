@@ -90,7 +90,21 @@ class GestionEtudiantAidantController extends Controller
         $etudiantAidant = new EtudiantAidant();
         $controllerAffichage = $this->forward('controller_affichage:getListeEtudiants', array());
 
-        $parameters = $em->getRepository('SUHContratBundle:Parameters');
+
+        //ENVOI EMAIL
+
+        /*
+        $message = \Swift_Message::newInstance()
+            ->setSubject("SUH - Identifiant de connexion")
+            ->setFrom(array("mthgaume@gmail.com" => "Webmaster"))
+            ->setTo("mthgaume@gmail.com")
+            ->setCharset("utf-8")
+            ->setContentType("text/html")
+            ->setBody($this->renderView('SUHContratBundle:Emails:registration.html.twig'));
+
+        $this->get('mailer')->send($message);
+
+       /* $parameters = $em->getRepository('SUHConnexionBundle:Parameters');
         $emailAdmin = $parameters->find(1)->getAdminMail();
         $hostDb = $parameters->find(1)->getHostMail();
         $portDb = $parameters->find(1)->getPortMail();
@@ -152,8 +166,7 @@ class GestionEtudiantAidantController extends Controller
             $etudiantAidant->setUser($user);
 
 
-            //ENVOI EMAIL
-
+            /*
             $emailEtu = $request->request->get('mailPerso');
 
             // surcharge du parameters.yml
@@ -176,7 +189,7 @@ class GestionEtudiantAidantController extends Controller
                 'text/html'
             );
 
-            $mailer->send($message);
+            $mailer->send($message);*/
 
             //Persist en base  
             $em->persist($user);

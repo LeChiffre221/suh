@@ -35,7 +35,7 @@ class AffichageController extends Controller
     }
 
     //get la liste des éutudiants
-    public function getListeEtudiants($chaine, $year)
+    public function getListeEtudiants($chaine, $year = null)
     {
         $etudiantRepository = $this->getDoctrine()
                 ->getManager()
