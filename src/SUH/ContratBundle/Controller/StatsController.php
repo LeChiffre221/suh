@@ -235,7 +235,7 @@ class StatsController extends Controller
         $serializer = new Serializer($normalizers, $encoders);
 
         $heures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array('heurePayee' => 1), ['dateAndTime' => 'ASC']);
-        $parameters = $em->getRepository('SUHContratBundle:Parameters')->find(1);
+        $parameters = $em->getRepository('SUHConnexionBundle:Parameters')->find(1);
         $coefTutorat = $parameters->getCoefTutorat();
         $coefPriseDeNote = $parameters->getCoefPriseDeNote();
         $coefAssistance = $parameters->getCoefAssistance();

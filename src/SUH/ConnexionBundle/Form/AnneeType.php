@@ -5,8 +5,12 @@ namespace SUH\ConnexionBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
-class GestionAnneesType extends AbstractType
+use SUH\GestionBundle\Entity\Annee;
+
+class AnneeType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,10 +19,15 @@ class GestionAnneesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
-            ->add('annee', 'integer')
+            ->add('anneeUniversitaire', 'integer')
             ->add('Ajouter',   'submit')
         ;
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
+            $form = $event->getForm();
+            $data = $event->getData();
+            $newData = $data['anneeUniversitaire'].'-'.($data['anneeUniversitaire'] + 1);
+            $form->get('anneeUniversitaire')->setData('55555');
+        });
     }
     
     /**
