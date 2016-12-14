@@ -65,6 +65,9 @@ class HeureEffectuee
      */
     private $heurePayee;
 
+
+
+
     /**
      * @var integer
      * @ORM\ManyToOne(targetEntity="SUH\ContratBundle\Entity\Contrat", cascade={"persist"})
@@ -260,4 +263,6 @@ class HeureEffectuee
     {
         return $this->contrat;
     }
+
+
 }

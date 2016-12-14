@@ -118,9 +118,6 @@ class GestionEtudiantAidantController extends Controller
 
         if ($form->handleRequest($request)->isValid()) {
 
-	       
-
-
             /*génération pass/user*/
 
             //Récupération données formulaire POST

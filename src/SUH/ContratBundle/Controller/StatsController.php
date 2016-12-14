@@ -235,7 +235,7 @@ class StatsController extends Controller
         $serializer = new Serializer($normalizers, $encoders);
 
         $heures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array('heurePayee' => 1), ['dateAndTime' => 'ASC']);
-        $parameters = $em->getRepository('SUHContratBundle:Parameters')->find(1);
+        $parameters = $em->getRepository('SUHConnexionBundle:Parameters')->find(1);
         $coefTutorat = $parameters->getCoefTutorat();
         $coefPriseDeNote = $parameters->getCoefPriseDeNote();
         $coefAssistance = $parameters->getCoefAssistance();
@@ -322,6 +322,8 @@ class StatsController extends Controller
         //Encodage
         $data = json_encode($table);
 
+        $this->calculeBudget($heures, $jourLimite, $moisLimite);
+
 
         return $this->render('SUHContratBundle:Statistiques:coutStats.html.twig', array(
 
@@ -329,6 +331,46 @@ class StatsController extends Controller
             'listeCoutContrats' => $data
 
         ));
+    }
+
+    public function calculeBudget($heurePaye, $jourLimite, $moisLimite, $coefTutorat, $coefPriseDeNote, $coefAssistance, $coutHoraire){
+
+        $arrayCout = null;
+
+        foreach ($heurePaye as $heure){
+            $annee = substr($heure->getDate(), 0, 4);
+            $mois = substr($heure->getDate(), 5, 7);
+            $jour = substr($heure->getDate(), 8, 10);
+
+            //Si la date jalon est dépasé
+            if( ( $mois > $moisLimite ) || ( ( $mois == $moisLimite ) && ( $jour >= $jourLimite ) ) ){
+                $annee++;
+            }
+
+            if( key(end($arrayCout)) != $annee){
+                $arrayCout[$annee]['nbHeure'] = 0;
+                $arrayCout[$annee]['cout'] = 0;
+            }
+
+            $arrayCout[$annee]['nbHeure'] += $heure->getNbHeure();
+
+            switch ($heure->getNatureMission()){
+                case 'tutorat':
+                    $arrayCout[$annee]['cout'] += $heure->getNbHeure()*$coutHoraire*$coefTutorat;
+                    break;
+
+                case 'priseNote':
+                    $arrayCout[$annee]['cout'] += $heure->getNbHeure()*$coutHoraire*$coefPriseDeNote;
+                    break;
+
+                case 'assistancePédagogique':
+                    $arrayCout[$annee]['cout'] += $heure->getNbHeure()*$coutHoraire*$coefAssistance;
+                    break;
+            }
+
+            return $arrayCout;
+
+        }
     }
 
 }
