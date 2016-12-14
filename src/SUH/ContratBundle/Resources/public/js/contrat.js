@@ -1,27 +1,42 @@
-
-//dernier etudiant selectionne dans la liste
-var last;
-//couleur de fond dans la liste de l'étudiant(permet de passer du rouge à la couleur d'avance)
-var lastColor;
 $(function() {
+
+    $('#autre-diplome').hide();
+    $('#autre-formation').hide();
+    
+    $('#suh_contratbundle_etudiantaidant_etudiantFormation_diplome').children('option:last-child').on('click', function(e){
+        e.preventDefault();
+        $('#autre-diplome').slideDown();
+    });
+    $('#autre-diplome').on('change', function(e){
+        var value = $(this).val();
+        $('#suh_contratbundle_etudiantaidant_etudiantFormation_diplome').children('option:last-child').attr('value',value);
+        console.log(value);
+    });
+
+    $('#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement').children('option:last-child').on('click', function(e){
+        e.preventDefault();
+        $('#autre-formation').slideDown();
+    });
+    $('#autre-formation').on('change', function(e){
+        var value = $(this).val();
+        $('#suh_contratbundle_etudiantaidant_etudiantFormation_etablissement').children('option:last-child').attr('value',value);
+        console.log(value);
+    });
+
 
 
     $('.bloc-contrat:first-child').children('.panel-heading').addClass('contrat-open').nextAll().show();
-    // $('.bloc-contrat:first-child').children('.panel-heading').children('.arrow-panel-heading').removeClass('glyphicon-menu-down').addClass('glyphicon-menu-up');
     $('.bloc-contrat:nth-child(n+2)').children('.panel-heading').nextAll().hide().parent().css('padding', '0');
 
-    $('.panel-heading').click(function(e){
+    $('.bloc-contrat .panel-heading').click(function(e){
         e.preventDefault();
-
             if($(this).hasClass('contrat-open')) {
                 $(this).nextAll().stop().slideUp(function(){
                     $(this).prev('.panel-heading').removeClass('contrat-open').parent().css('padding', '0');
-                    // $(this).prev('.panel-heading').children('.arrow-panel-heading').removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down');
                 });
             } else {
                  $(this).nextAll().stop().slideDown(function(){
                     $(this).prev('.panel-heading').addClass('contrat-open').parent().removeAttr('style');
-                    // $(this).prev('.panel-heading').children('.arrow-panel-heading').removeClass('glyphicon-menu-down').addClass('glyphicon-menu-up');
                 });
             }
     })
@@ -43,6 +58,25 @@ $(function() {
 
         $(this).slideUp();
 
+    });
+
+    $(".scroll-top").click(function() {
+      $("html, body").animate({ scrollTop: 0 }, "slow");
+      return false;
+    });
+
+
+    $('.multiple-paiement').change(function(){
+
+        if( this.checked ){
+            
+            $(this).parent().parent().nextAll().find('.hidden-input input').prop('checked', true);
+
+        } else {
+
+            $(this).parent().parent().nextAll().find('.hidden-input input').prop('checked', false);
+
+        }
     });
 
 });  

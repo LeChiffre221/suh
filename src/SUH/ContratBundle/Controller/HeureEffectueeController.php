@@ -14,7 +14,9 @@ use SUH\ContratBundle\Entity\Contrat;
 use SUH\ContratBundle\Entity\ContratRepository;
 use SUH\ContratBundle\Entity\EtudiantAidant;
 use SUH\ContratBundle\Entity\HeureEffectuee;
+
 use SUH\ConnexionBundle\Entity\Parameters;
+
 use SUH\ContratBundle\Form\ContratType;
 use SUH\ContratBundle\Form\HeureEffectueeType;
 use Symfony\Component\HttpFoundation\Request;
@@ -119,7 +121,6 @@ class HeureEffectueeController extends Controller
                                                                           ');
                 }
 
-
                 //Test si la nature de la mision correspond à la nature d'un contrat
 
 
@@ -146,7 +147,6 @@ class HeureEffectueeController extends Controller
         $heureEffectuee = $em->getRepository('SUHContratBundle:HeureEffectuee')->find($idHeure);
 
         $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->findOneBy(array('user' => $this->getUser()));
-
 
         $contrat = $heureEffectuee->getContrat();
 
@@ -239,6 +239,7 @@ class HeureEffectueeController extends Controller
             'form' => $form->createView(),
             'etudiant' => $etudiant,
             'modeEdition' => true,
+
             'contrat' => $contrat
 
 
@@ -317,8 +318,8 @@ class HeureEffectueeController extends Controller
         $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
             array(
                 'etudiantAidant' => $etudiant,
-                'active' => 0,
-                'miseEnPaiement' => 1),
+                'active' => 1),
+
             array(
                 'dateDebutContrat' => 'desc'
             )

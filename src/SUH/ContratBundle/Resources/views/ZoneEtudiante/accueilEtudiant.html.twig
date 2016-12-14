@@ -11,11 +11,13 @@
                     <strong>Attention !</strong> {{message}}
                 </div>
             {% endfor %}
+
             {% for message in app.session.flashbag.get('error') %}
                 <div class="alert alert-danger">
                     <strong>Attention !</strong> {{message}}
                 </div>
             {% endfor %}
+
 
             {% if contrat is null %}
                 <div class="alert alert-danger">

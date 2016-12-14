@@ -27,6 +27,49 @@ a {
 }
 
 
+.scroll-top{
+    position:fixed;
+    right:50px;
+    bottom:50px;
+
+    width:50px;
+    height:50px;
+
+    background-color:white;
+    border:2px solid #337ab7;
+    box-sizing: initial;
+    color:#337ab7;
+    display:block;
+
+    content:'';
+    text-align:center;
+    border-radius:50%;
+
+
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -moz-transition: all 0.3s ease-in-out 0s;
+    -ms-transition: all 0.3s ease-in-out 0s;
+    -o-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
+.scroll-top:hover{
+    background-color:#337ab7;
+    border:2px solid #fff;
+    color:#fff;
+}
+
+.scroll-top span {
+    width: 100%;
+    height: 100%;
+    display:inline-block;
+
+}
+.scroll-top span::before{
+    display: inline-block;
+    font-size: 30px;
+    line-height: 50px;
+}
+
 /* surcharge */
 
 .glyphicon-remove{
@@ -34,7 +77,7 @@ a {
 }
 
 .glyphicon-ok{
-    color:green;
+    color:#74FF5C;
 }
 
 
@@ -68,6 +111,10 @@ a {
     transition: all 0.3s ease-in-out 0s;
 }
 
+.index-admin > a > span {
+    width:100%;
+}
+
 /* HEADER */
 
 .message-fixed{
@@ -76,6 +123,9 @@ a {
     right: 0;
     z-index: 3;
     cursor:pointer;
+    padding: 30px;
+    font-size: 15px;
+
 
     -webkit-transition: all 0.3s ease-in-out 0s;
     -moz-transition: all 0.3s ease-in-out 0s;
@@ -87,6 +137,11 @@ a {
 .message-fixed:hover{
     background-color:#bed1b6;
 }
+
+.message-fixed.error:hover{
+    background-color:#e6c7c7;
+}
+
 
 #logo > img
 {
@@ -120,6 +175,11 @@ header .container-fluid{
 .liensNavbar a
 {
     font-size: 18px;
+    background-color:#e7e7e7;
+}
+
+.navbar-default .navbar-nav > .liensNavbar.active a {
+
     background-color:#CCCCCC;
 }
 .nav > li > a:focus, .nav > li > a:hover {
@@ -189,7 +249,7 @@ ul.navbar-nav{
 }
 #liste
 {
-    min-height:780px;
+    height:780px;
     overflow: auto;
     background-color: #e4e4e4;
 
@@ -203,7 +263,7 @@ ul.navbar-nav{
 }
 
 #liste li {
-    height:40px;
+
     box-shadow: 0 0 5px rgba(51, 51, 51, 0.7);
     margin: 0 0 5px 0;
 }
@@ -213,9 +273,11 @@ ul.navbar-nav{
     display: block;
     text-align: center;
     text-decoration: none;
-    line-height:40px;
-    font-size: 16px;
+    line-height: 40px;
     text-transform: uppercase;
+    height: 100%;
+    font-size: 0;
+
 }
 
 
@@ -414,17 +476,26 @@ ul.navbar-nav{
     height: 100%;
     left: 0;
 }
+
+.label-list{
+    word-wrap: break-word;
+    width: calc(100% - 45px);
+    display: inline-block;
+    border-right: 1px dotted black;
+    font-size: 12px;
+    vertical-align: middle;
+    padding: 10px;
+}
 .heures-non-validees{
-    float: right;
     padding: 0px 10px;
     color: rgb(255, 0, 0);
-    border-left: 1px dotted black;
     font-weight: 700;
-    min-width:40px;
-<<<<<<< HEAD
-=======
-
->>>>>>> 3beb241f9102b306b452e6819ff74ad8d28ca0d0
+    min-width: 40px;
+/*    height: 100%;*/
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    font-size: 12px;
 }
 
 .heures-non-validees span.heure-null {
@@ -449,6 +520,17 @@ ul.navbar-nav{
     width:100%;
 }
 
+
+.container-right-title{
+    padding:15px;
+}
+.container-right-title p {
+    display:inline-block;
+}
+.container-right-title a {
+    float:right;
+}
+
 .contrat-actions button span {
     display:inline-block;
     vertical-align: middle;
@@ -456,12 +538,53 @@ ul.navbar-nav{
 .bloc-contrat {
     display: inline-block;
     width: 100%;
-    padding-bottom: 20px;
+    padding: 0 0 20px 0;
+}
+.bloc-contrat-add{
+    padding: 20px 0;
+}
+
+.bloc-avenant{
+    position:relative;
+    margin-top:25px ;
+    padding:25px 15px;
+    border-left: 20px #245c8c solid;
+}
+.bloc-avenant::after{
+    position:absolute;
+    content:'';
+    top:0;
+    left:50%;
+    width:100%;
+    height:1px;
+    background-color: #e1e7ec;
+
+    transform:translateX(-50%);
+    -moz-transform:translateX(-50%);
+    -ms-transform:translateX(-50%);
+    -o-transform:translateX(-50%);
+    -webkit-transform:translateX(-50%);
+}
+
+.bloc-avenant::before{
+    position:absolute;
+    content:'';
+    bottom:0;
+    left:50%;
+    width:100%;
+    height:1px;
+    background-color: #e1e7ec;
+
+    transform:translateX(-50%);
+    -moz-transform:translateX(-50%);
+    -ms-transform:translateX(-50%);
+    -o-transform:translateX(-50%);
+    -webkit-transform:translateX(-50%);
+
 }
 
 .container-contrat{
     height: calc(100% - 31px);
-    overflow:auto;
     text-align:left;
 }
 
@@ -471,11 +594,12 @@ ul.navbar-nav{
     float:left;
 }
 .titre-contrat span {
-    position:relative;
-    text-align:center;
-    width:30px;
-    height:30px;
-    display:inline-block;
+    position: relative;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    line-height: 40px;
 }
 
 .titre-contrat span::before {
@@ -579,6 +703,12 @@ span.dot-arrow{
     -o-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
 }
+
+.generate_fiche{
+    display:inline-block;
+    margin:15px 0;
+}
+
 /* Profil */
 .bloc-profil{
     width:100%;
@@ -632,7 +762,7 @@ span.dot-arrow{
 
 .bloc-contrat .panel-heading .ok-panel-heading{
     float: right;
-    line-height: 30px;
+    line-height: 40px;
     margin-left: 70px;
     font-size: 25px;
     position:relative;
@@ -707,6 +837,41 @@ span.dot-arrow{
     font-weight: 700;
 }
 
+/* Statistiques */
+#chart_div{
+    text-align:center;
+}
+
+#chart_div > div > div {
+    display:inline-block;
+}
+
+/* Compte etudiant */
+
+.bloc-etudiant {
+    padding:20px;
+}
+
+.button-align{
+    text-align:left;
+}
+
+.bloc-heure h3{
+    text-transform:uppercase;
+}
+
+
+.checkbox{
+    text-align:center;
+}
+.marks-heures{
+    text-align:center;
+}
+
+.hidden-input{
+    display:none;
+}
+
 /*
 .checkbox label:after,
 .radio label:after {
@@ -768,3 +933,4 @@ span.dot-arrow{
 }
 
 */
+

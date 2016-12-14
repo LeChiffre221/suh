@@ -24,14 +24,15 @@
 
                 <div class="form-group">
                     {# Génération du label. #}
-                    {{ form_label(form.annee, "Année : ", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
+                    {{ form_label(form.anneeUniversitaire, "Année : ", {'label_attr': {'class': 'col-lg-2 control-label'}}) }}
 
                     {# Affichage des erreurs pour ce champ précis. #}
-                    {{ form_errors(form.annee) }}
+                    {{ form_errors(form.anneeUniversitaire) }}
 
                     <div class="col-lg-2">
                         {# Génération de l'input. #}
-                        {{ form_widget(form.annee, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(form.anneeUniversitaire, {'attr': {'class': 'form-control'}}) }}
+
                     </div>
 
                     {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
