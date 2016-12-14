@@ -342,5 +342,39 @@ class GestionEtudiantAidantController extends Controller
             ));
         
     }
+    
+
+    //Reinscrire des etudiants
+    public function reinscriptionEtudiantAidantAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $session = $this->getRequest()->getSession(); // Get started session
+
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+
+        $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant')->findAll();
+
+        if ($request->isMethod('POST')){
+
+            $selectEtuYear = $request->request->get('selectEtu');
+
+            foreach($etudiantRepository as $etudiant){
+
+                $etu = $request->request->get('etudiant-'.$etudiant->getId());
+
+
+                // $em->persist($etu);
+            }
+
+            $em->flush();
+           // return new Response($request->request->get('heure3'));
+        }
+       
+        return $this->redirectToRoute('suh_contrat_reinscription');
+        
+    }
 
 }

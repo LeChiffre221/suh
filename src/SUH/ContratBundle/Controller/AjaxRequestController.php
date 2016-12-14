@@ -25,7 +25,22 @@ class AjaxRequestController extends Controller
             'year' => $year,
         ));
 
-        // return $this->redirectToRoute('suh_contrat_homepage');
+        return $this->redirectToRoute('suh_contrat_homepage');
 
+    }
+
+    public function refreshListEtuAction(Request $request)
+    {
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+
+        $yearEtu = $request->request->get('yearEtu');  
+
+        $session->set('filterEtu', $yearEtu);
+        var_dump($yearEtu);
+
+        return $this->redirectToRoute('suh_contrat_reinscription');
     }
 }

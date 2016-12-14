@@ -1,0 +1,87 @@
+{% extends "SUHContratBundle:AffichageContrats:accueil.html.twig" %}
+
+
+    {% block titleright %}
+        <p>Réinscrire des étudiants</p>
+
+    {% endblock %}
+
+    {% block bodyright %}
+
+
+    <div class="col-md-12 container-contrat">
+        {% for message in app.session.flashbag.get('warning') %}
+            <div class="alert alert-danger">
+                <strong>Attention !</strong> {{message}}
+            </div>
+        {% endfor %}
+
+        <div class="bloc-contrat-add panel panel-primary">
+                <h2>Réinscrire des </h2>
+                <h3>Etudiants de l'année</h3>
+                <select id="selectYearEtudiant" class="form-control" style="margin-left:10px; margin-top:10px;">
+
+                {% if app.session.get('filterEtu') is defined %}
+                  {% set yearEtu = app.session.get('filterEtu') %}
+
+                {% else %}
+                  {% set yearEtu = 0 %}
+                {% endif %}
+                {% for y in listYears %}
+
+                    {% if y.anneeUniversitaire == yearEtu %}
+                        <option value="{{ y.anneeUniversitaire }}" selected>{{ y.anneeUniversitaire }}</option>
+
+                    {% else %}
+                        <option value="{{ y.anneeUniversitaire }}">{{ y.anneeUniversitaire }}</option>
+                    {% endif %}
+
+                {% endfor %}
+                </select>
+                <h3>Pour l'année </h3>
+            <form action="{{ path('suh_contrat_reinscription_action') }}" method="post">
+
+                <select class="form-control" style="margin-left:10px; margin-top:10px;" name="selectEtu">
+
+                {% for y in listYears %}
+
+                    <option value="{{ y.anneeUniversitaire }}" selected>{{ y.anneeUniversitaire }}</option>
+
+                {% endfor %}
+                </select>
+
+              {% for etu in listeEtudiantsAidants %}
+                <input type="checkbox" name="etudiant-{{ etu.id }}"> {{etu.etudiantInformations.nom}} {{etu.etudiantInformations.prenom}}
+                <br/>
+              {% endfor %}
+              <button type="submit">Appliquer </button>
+            </form>
+            
+
+        </div>
+    </div>
+
+    <script>
+
+    $('#selectYearEtudiant').change(function()
+    {
+        var yearEtu = this.value;     
+
+        $.ajax({
+          type: "POST",
+          url: "{{ path('suh_contrat_refresh_list_etu') }}",
+          data: {
+           yearEtu: yearEtu
+          },
+          success: function(data, dataType)
+          {
+               location.href = '{{ path("suh_contrat_reinscription") }}';             
+          },
+
+          error: function(ts) { alert(ts.responseText) }
+        });
+    });
+
+</script>
+
+{% endblock %}

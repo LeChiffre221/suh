@@ -132,6 +132,7 @@ class AffichageController extends Controller
             $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
                 array(
                     'contrat' => $listeContrats,
+                    'verification' => true
                 ),
                 array(
                     'dateAndTime' => 'desc'
@@ -349,6 +350,7 @@ class AffichageController extends Controller
         $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
             array(
                 'contrat' => $listeContrats,
+                'verification' => true
             ),
             array(
                 'dateAndTime' => 'desc'
@@ -561,6 +563,36 @@ class AffichageController extends Controller
         $listYears = $repository->myFindAll();
 
         return $this->render('SUHContratBundle:AffichageContrats:listeAnnee.html.twig',array(
+            'listYears'=> $listYears,
+        ));
+    }
+
+    public function AfficherReinscriptionEtudiantAidantAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+        $annee = $session->get('filter');
+
+        $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant');
+        $anneeRepository = $em->getRepository('SUHGestionBundle:Annee');
+
+        $listYears = $anneeRepository->myFindAll();
+
+        $listeEtudiantsReinscription = array();
+
+        //On genere une liste suivant l'annee selectionnee
+        if($session->get('filterEtu')){
+           $listeEtudiantsReinscription = $em->getRepository('SUHContratBundle:EtudiantAidant');
+        }
+
+
+        return $this->render('SUHContratBundle:AffichageContrats:reinscriptionEtudiant.html.twig',array(
+            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine'), $annee),
+            'listeEtudiantsReinscription' => $listeEtudiantsReinscription,
             'listYears'=> $listYears,
         ));
     }

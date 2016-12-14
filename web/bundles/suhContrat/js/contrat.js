@@ -65,12 +65,19 @@ $(function() {
       return false;
     });
 
+    if( $('.multiple-paiement').hasClass('valid') ){
+        $(this).prop('checked', true);        
+        console.log($(this));
+    } else {
+        $(this).prop('checked', false);
+    }
 
     $('.multiple-paiement').change(function(){
 
         if( this.checked ){
             
             $(this).parent().parent().nextAll().find('.hidden-input input').prop('checked', true);
+            $(this).addClass('valid');
 
         } else {
 
