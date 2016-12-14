@@ -229,11 +229,50 @@ class ContratController extends Controller
             $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
                 array(
                 'etudiantAidant' => $etudiant,
-                'miseEnPaiement' => 1),
+                'active' => 1),
                 array(
                 'dateDebutContrat' => 'desc'
                 )
-           );
+            );
+
+            $listeHeures = array();
+            $arrayMonth = array();
+
+            $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
+                array(
+                    'contrat' => $listeContrats,
+                ),
+                array(
+                    'dateAndTime' => 'desc'
+                )
+            );
+
+            foreach($listeHeures as $heure){
+                
+                if(!$heure->getHeurePayee()){
+                    $arrayMonth[intval(substr($heure->getDateAndTime(),3,2), 10)] = 1;
+                } else {
+                    $arrayMonth[intval(substr($heure->getDateAndTime(),3,2), 10)] = 0;
+                }
+            }
+            
+            $temp = array_count_values($arrayMonth);
+
+            if(array_key_exists ( 1 , $temp )){
+                $listeContrats = $temp[1];
+            } else {
+                $listeContrats = 0;
+            }
+            if($listeContrats)
+            {
+               return $listeContrats;
+
+            } else {
+
+                return 0;
+
+            }
+
         } else {
             $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
                 array(
@@ -243,15 +282,15 @@ class ContratController extends Controller
                 'dateDebutContrat' => 'desc'
                 )
            );
-        }
-        if(!empty($listeContrats))
-        {
-           return count($listeContrats);
+           if($listeContrats)
+            {
+               return count($listeContrats);
 
-        } else {
+            } else {
 
-            return 0;
+                return 0;
 
+            }
         }
         
     }

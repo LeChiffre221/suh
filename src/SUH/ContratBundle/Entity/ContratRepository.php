@@ -45,7 +45,6 @@ class ContratRepository extends \Doctrine\ORM\EntityRepository
     	    $a = $this->createQueryBuilder('a')
     	    ->where('a.etudiantAidant = :id')
             ->andWhere('a.active = 0')
-            ->andWhere('a.miseEnPaiement = 0')
     	    ->setParameter('id', $id)
             ->orderBy('a.dateDebutContrat', 'DESC')
      		->getQuery();
@@ -61,7 +60,7 @@ class ContratRepository extends \Doctrine\ORM\EntityRepository
 
             return $this->createQueryBuilder('a')
             ->where('a.etudiantAidant = :id')
-            ->andWhere('a.miseEnPaiement = 1')
+            ->andWhere('a.active = 1')
             ->setParameter('id', $id)
             ->orderBy('a.dateDebutContrat', 'DESC')
             ->getQuery()

@@ -9,7 +9,12 @@ use Doctrine\ORM\Mapping as ORM;
  * Annee
  *
  * @ORM\Table()
+<<<<<<< HEAD
+ * @ORM\Entity(repositoryClass="SUH\GestionBundle\Entity\AnneeRepository")
+ *
+=======
  * @ORM\Entity
+>>>>>>> 170332d5e6a3be57a118c71000ddedacf99c0bc6
  */
 class Annee
 {
@@ -25,7 +30,11 @@ class Annee
     /**
      * @var string
      *
+<<<<<<< HEAD
+     * @ORM\Column(name="anneeUniversitaire", type="string", length=9, unique=true)
+=======
      * @ORM\Column(name="anneeUniversitaire", type="string", length=9)
+>>>>>>> 170332d5e6a3be57a118c71000ddedacf99c0bc6
      */
     private $anneeUniversitaire;
 

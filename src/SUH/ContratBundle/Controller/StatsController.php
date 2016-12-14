@@ -231,6 +231,7 @@ class StatsController extends Controller
 
         $heures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array('heurePayee' => 1), ['dateAndTime' => 'ASC']);
         $parameters = $em->getRepository('SUHConnexionBundle:Parameters')->find(1);
+
         $coefTutorat = $parameters->getCoefTutorat();
         $coefPriseDeNote = $parameters->getCoefPriseDeNote();
         $coefAssistance = $parameters->getCoefAssistance();
@@ -317,7 +318,9 @@ class StatsController extends Controller
         //Encodage
         $data = json_encode($table);
 
+
         $arrayCout = $this->calculeBudget($heures, $jourLimite, $moisLimite, $coefTutorat, $coefPriseDeNote, $coefAssistance, $coutHoraire);
+
 
         return $this->render('SUHContratBundle:Statistiques:coutStats.html.twig', array(
 
@@ -327,6 +330,7 @@ class StatsController extends Controller
 
         ));
     }
+
 
     public function calculeBudget($heurePaye, $jourLimite, $moisLimite,  $coefTutorat, $coefPriseDeNote, $coefAssistance, $coutHoraire){
 
@@ -344,6 +348,7 @@ class StatsController extends Controller
             }
 
             if (array_search(end($arrayCout), $arrayCout) != $annee) {
+
                 $arrayCout[$annee]['nbHeure'] = 0;
                 $arrayCout[$annee]['cout'] = 0;
             }
@@ -370,6 +375,7 @@ class StatsController extends Controller
         }
 
         return $arrayCout;
+
     }
 
 }

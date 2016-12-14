@@ -167,7 +167,15 @@ suh_contrat_resetPassword:
     requirements:
        idContrat: "^[0-9]+$"
 
+#Reinscription vue
+suh_contrat_reinscription:
+    path: /reinscription
+    defaults: { _controller: SUHContratBundle:Affichage:AfficherReinscriptionEtudiantAidant }
 
+#Reinscription traitement
+suh_contrat_reinscription_action:
+    path: /reinscription
+    defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:reinscriptionEtudiantAidant }
 #=========================================
 #=========Exportation Importation=========
 #=========================================
@@ -222,9 +230,17 @@ suh_contrat_validationHeures:
 #=======   Variables globales  ===========
 #=========================================
 
+### AJAX ###
+#Ajax choix annee
 suh_contrat_refresh_list:
     path: /refresh_list
     defaults: { _controller: SUHContratBundle:AjaxRequest:refreshList }
+
+#Ajax reinscription
+suh_contrat_refresh_list_etu:
+    path: /refresh_list_etu
+    defaults: { _controller: SUHContratBundle:AjaxRequest:refreshListEtu }
+
 #=========================================
 #=============Statistiques ===============
 #=========================================

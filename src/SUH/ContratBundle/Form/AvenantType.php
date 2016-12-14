@@ -15,6 +15,7 @@ class AvenantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+
             ->add('nbHeure',                  'number', array('pattern' => '[0-9]+'))
             ->add('dateEnvoiDRH',           'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
             ->add('dateEnvoiEtudiant',      'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
