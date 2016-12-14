@@ -1,12 +1,12 @@
 <?php
 
-namespace SUH\ContratBundle\Form;
+namespace SUH\ConnexionBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AvenantType extends AbstractType
+class GestionAnneesType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -16,9 +16,8 @@ class AvenantType extends AbstractType
     {
         $builder
 
-            ->add('nbHeure',                  'number', array('pattern' => '[0-9]+'))
-            ->add('dateEnvoiDRH',           'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
-            ->add('dateEnvoiEtudiant',      'text', array('pattern' => '^[0-9]{2}[/]{1}[0-9]{2}[/]{1}[0-9]{4}$', ))
+            ->add('annee', 'integer')
+            ->add('Ajouter',   'submit')
         ;
     }
     
@@ -28,7 +27,7 @@ class AvenantType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SUH\ContratBundle\Entity\Avenant'
+            'data_class' => 'SUH\GestionBundle\Entity\Annee'
         ));
     }
 
@@ -37,6 +36,6 @@ class AvenantType extends AbstractType
      */
     public function getName()
     {
-        return 'suh_contratbundle_avenant';
+        return 'suh_gestionbundle_annee';
     }
 }

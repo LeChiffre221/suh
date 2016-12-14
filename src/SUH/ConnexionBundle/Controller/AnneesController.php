@@ -4,8 +4,8 @@ namespace SUH\ConnexionBundle\Controller;
 
 
 use SUH\GestionBundle\Entity\Annee;
-use SUH\ConnexionBundle\Form\AnneeType;
 
+use SUH\ConnexionBundle\Form\AnneeType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -27,16 +27,16 @@ class AnneesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $annee = new Annee();
 
-
         $form = $this->get('form.factory')->create(new AnneeType, $annee);
-
-
         if($request->isMethod("POST")) {
 
             $form->handleRequest($request);
 
             if ($form->isValid()) {
 
+                $array = $form->getData();
+
+                $anneeUniversitaire =  $array['annee']."-".($array['annee']+1);
 
                 $em->persist($annee);
 

@@ -60,12 +60,12 @@ class EtudiantAidant
 
     private $heureNonValide;
 
+
     /**
      * @ORM\ManyToMany(targetEntity="SUH\GestionBundle\Entity\Annee", cascade={"persist"})
      */
 
     private $annees;
-
 
     public function getId(){
         return $this->id;
@@ -172,6 +172,7 @@ class EtudiantAidant
     public function setHeureNonValide($heureNonValide){
         return $this->heureNonValide = $heureNonValide;
     }
+
     /**
      * Constructor
      */

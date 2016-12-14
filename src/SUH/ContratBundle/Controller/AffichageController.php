@@ -28,6 +28,7 @@ class AffichageController extends Controller
             $session = new Session(); // if there is no session, start it
         }
         $session->set('chaine', null);
+
         $annee = $session->get('filter');
 
         
@@ -36,17 +37,18 @@ class AffichageController extends Controller
 
         return $this->render('SUHContratBundle:AffichageContrats:accueil.html.twig',array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine'), $annee),
+
             ));
     }
 
     //get la liste des éutudiants
     public function getListeEtudiants($chaine, $year = null)
     {
+
         $em = $this->getDoctrine()->getManager();
         $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant');
         $annee = $em->getRepository('SUHGestionBundle:Annee')->findByAnneeUniversitaire($year['year']);
 
-    
 
         if(empty($year)){
 
@@ -72,8 +74,8 @@ class AffichageController extends Controller
 
             if(empty($chaine))
             {
+
                  $listEtudiant = $etudiantRepository->findAll();
-                
 
 
                 foreach ($listEtudiant as $etudiant){
@@ -82,7 +84,9 @@ class AffichageController extends Controller
                     $etudiant->setHeureNonValide($nbHeureNonValide[1]);
 
                 }
+
                 return $listEtudiant;
+
 
             } else {
 
@@ -98,10 +102,12 @@ class AffichageController extends Controller
         if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
         }
+
         $annee = $session->get('filter');
 
         return $this->render('SUHContratBundle:AffichageContrats:importExport.html.twig', array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine'),$annee)
+
         ));
     }
 
@@ -192,6 +198,7 @@ class AffichageController extends Controller
         $session->set('suppressionContratFromArchive', false);
 
         $em = $this->getDoctrine()->getManager();
+
         $annee = $session->get('filter');
 
         // $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
@@ -214,7 +221,6 @@ class AffichageController extends Controller
 
         return $this->render('SUHContratBundle:AffichageContrats:listeContratsEtudiant.html.twig',array(
             'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine'), $annee),
-
             'nbContrats'=>$this->getNbContrats($id, false),
             'nbContratsPaiement'=>$this->getNbContrats($id, true),
             'listeContrats' => $listeContrats,
@@ -258,8 +264,8 @@ class AffichageController extends Controller
         if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
         }
-        $annee = $session->get('filter');
 
+        $annee = $session->get('filter');
         $etudiantAidantRepo = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SUHContratBundle:EtudiantAidant');
@@ -286,6 +292,7 @@ class AffichageController extends Controller
 
         $session->set('suppressionContratFromArchive', true);
         $annee = $session->get('filter');
+
 
         $em = $this->getDoctrine()->getManager();
 
@@ -364,6 +371,7 @@ class AffichageController extends Controller
 
     public function AfficherHeureEspaceEtudiantAction (Request $request){
         $session = $this->getRequest()->getSession(); // Get started session
+
         if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
         }
@@ -396,6 +404,7 @@ class AffichageController extends Controller
 
     public function AfficherHeureNonValidesEspaceEtudiantAction (Request $request){
         $session = $this->getRequest()->getSession(); // Get started session
+
         if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
         }

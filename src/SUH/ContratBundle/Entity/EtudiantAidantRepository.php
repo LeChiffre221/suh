@@ -32,6 +32,7 @@ class EtudiantAidantRepository extends \Doctrine\ORM\EntityRepository
 
     } 
 
+<<<<<<< HEAD
     public function findByYears($years){
         return $this->createQueryBuilder('c')
             ->select('c')
@@ -41,4 +42,6 @@ class EtudiantAidantRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();   
     }
 
+=======
+>>>>>>> 170332d5e6a3be57a118c71000ddedacf99c0bc6
 }

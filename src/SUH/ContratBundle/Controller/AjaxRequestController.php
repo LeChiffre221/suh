@@ -26,5 +26,6 @@ class AjaxRequestController extends Controller
         ));
 
         // return $this->redirectToRoute('suh_contrat_homepage');
+
     }
 }

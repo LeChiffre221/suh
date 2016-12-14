@@ -221,7 +221,6 @@ class ContratController extends Controller
     }
 
     //get nombre de contrats (pour pagination et compteur)
-    //get nombre de contrats (pour pagination et compteur)
     public function getNbContrats($id, $paiement)
     {     
         $em = $this->getDoctrine()->getManager();
@@ -273,7 +272,6 @@ class ContratController extends Controller
                 return 0;
 
             }
-            
 
         } else {
             $listeContrats = $em->getRepository('SUHContratBundle:Contrat')->findBy(
@@ -294,7 +292,6 @@ class ContratController extends Controller
 
             }
         }
-
         
     }
 
@@ -365,11 +362,9 @@ class ContratController extends Controller
         );
 
         foreach ($listeHeures as $heure){
-
             if(!$heure->getVerification()){
                 $nonConforme = true;
             }
-
         }
 
         if($nonConforme){

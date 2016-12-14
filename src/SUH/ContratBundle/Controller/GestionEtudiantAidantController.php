@@ -90,8 +90,6 @@ class GestionEtudiantAidantController extends Controller
         $etudiantAidant = new EtudiantAidant();
         $controllerAffichage = $this->forward('controller_affichage:getListeEtudiants', array());
 
-
-
         //ENVOI EMAIL
 
         /*
@@ -105,14 +103,13 @@ class GestionEtudiantAidantController extends Controller
 
         $this->get('mailer')->send($message);
 
+
        */ $parameters = $em->getRepository('SUHConnexionBundle:Parameters');
 
         $annee = $this->get('session')->get('filter');    
 
         $parameters = $em->getRepository('SUHConnexionBundle:Parameters');
         $listannees = $em->getRepository('SUHGestionBundle:Annee')->findByAnneeUniversitaire($annee['year']);
-
-
         $emailAdmin = $parameters->find(1)->getAdminMail();
         $hostDb = $parameters->find(1)->getHostMail();
         $portDb = $parameters->find(1)->getPortMail();
@@ -171,7 +168,7 @@ class GestionEtudiantAidantController extends Controller
             $user->setRoles(array('ROLE_USER'));
 
             $etudiantAidant->setUser($user);
-            
+
             foreach($listannees as $annee){
                 $etudiantAidant->addAnnee($annee);
             }
@@ -180,7 +177,6 @@ class GestionEtudiantAidantController extends Controller
 
             /*
             $emailEtu = $request->request->get('mailPerso');
-
 
             // // surcharge du parameters.yml
             // $transport = \Swift_SmtpTransport::newInstance($hostDb,$portDb)
@@ -204,7 +200,6 @@ class GestionEtudiantAidantController extends Controller
             $mailer->send($message);*/
 
             // $mailer->send($message);
-
 
             //Persist en base  
             $em->persist($user);
@@ -267,7 +262,7 @@ class GestionEtudiantAidantController extends Controller
         foreach($idHeures as $heure){
             $em->remove($heure);
         }
-        
+
 
 
         
