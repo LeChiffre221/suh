@@ -152,7 +152,7 @@ class ImportExportController extends Controller
 
                  $dateDebutContrat = $contrat->getDateDebutContrat();
                 $dateFinContrat = $contrat->getDateFinContrat();
-                $nbHeures = $contrat->getNbHeureInitiales() + $avenant->getNbHeure();
+                $nbHeures = $avenant->getNbHeure();
 
                 $pdf->Text(23,210,(utf8_decode($dateDebutContrat)));
                 $pdf->Text(55,210,(utf8_decode($dateFinContrat)));

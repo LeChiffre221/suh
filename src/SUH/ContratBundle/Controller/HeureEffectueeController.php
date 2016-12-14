@@ -341,9 +341,12 @@ class HeureEffectueeController extends Controller
                 $validation = $request->request->get('heure'.$heure->getId());
                 if($validation == "on"){
                     $heure->setHeurePayee(true);
+
                 }
                 else{
                     $heure->setHeurePayee(false);
+
+
                 }
 
                 $em->persist($heure);
