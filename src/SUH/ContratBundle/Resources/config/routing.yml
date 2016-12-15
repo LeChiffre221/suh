@@ -174,8 +174,9 @@ suh_contrat_reinscription:
 
 #Reinscription traitement
 suh_contrat_reinscription_action:
-    path: /reinscription
+    path: /reinscriptionTraitement
     defaults: { _controller: SUHContratBundle:GestionEtudiantAidant:reinscriptionEtudiantAidant }
+
 #=========================================
 #=========Exportation Importation=========
 #=========================================

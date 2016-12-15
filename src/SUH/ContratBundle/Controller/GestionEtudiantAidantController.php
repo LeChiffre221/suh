@@ -15,33 +15,86 @@ use SUH\ContratBundle\Controller\AffichageController;
 
 class GestionEtudiantAidantController extends Controller
 {
-	//renvoi la liste des étudiants
-    public function getListeEtudiants($chaine)
-    {      
-        $etudiantRepository = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('SUHContratBundle:EtudiantAidant');
+    public function getListeEtudiants($chaine, $year = null)
+    {
 
-        
-        if(empty($chaine))
-        {
-
-            $listEtudiant = $etudiantRepository->findAll();
-            $em = $this->getDoctrine()->getManager();
-
-            foreach ($listEtudiant as $etudiant){
-
-                $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
-                $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+        $em = $this->getDoctrine()->getManager();
+        $annee = $em->getRepository('SUHGestionBundle:Annee')->findByAnneeUniversitaire($year['year']);
+        $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant');
 
 
+        if(empty($year)){
 
+            if(empty($chaine))
+            {
+                $listEtudiant = $etudiantRepository->findAll();
+
+
+                foreach ($listEtudiant as $etudiant){
+
+                    $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')->selectNbHeureNonValidePourUnEtudiant($etudiant);
+                    $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+                }
+                return $listEtudiant;
+
+            } else {
+
+                return $etudiantRepository->getListeEtudiantsRecherche($chaine);
             }
-            return $etudiantRepository->findAll();
 
         } else {
-            
-            return $etudiantRepository->getListeEtudiantsRecherche($chaine);
+
+            if(empty($chaine))
+            {
+                $listEtudiant = $etudiantRepository->findAll();
+
+                foreach($listEtudiant as $etudiantAidant){
+                    $valide = false;
+
+                    foreach($etudiantAidant->getAnnees() as $annee){
+                        if($annee->getAnneeUniversitaire() == $year['year']){
+                            $valide = true;
+                        }
+                    }
+
+                    if(!$valide){
+                        $key = array_search($etudiantAidant, $listEtudiant);
+                        unset($listEtudiant[$key]);
+                    }
+                }
+
+
+                foreach ($listEtudiant as $etudiant){
+
+                    $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
+                    $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+                }
+
+                return $listEtudiant;
+
+
+            } else {
+                $listeEtudiantAidant = $etudiantRepository->getListeEtudiantsRecherche($chaine);
+
+                foreach($listeEtudiantAidant as $etudiantAidant){
+                    $valide = false;
+
+                    foreach($etudiantAidant->getAnnees() as $annee){
+                        if($annee->getAnneeUniversitaire() == $year['year']){
+                            $valide = true;
+                        }
+                    }
+
+                    if(!$valide){
+                        $key = array_search($etudiantAidant, $listeEtudiantAidant);
+                        unset($listeEtudiantAidant[$key]);
+                    }
+                }
+                return $listeEtudiantAidant;
+            }
+
         }
     }
 
@@ -355,22 +408,39 @@ class GestionEtudiantAidantController extends Controller
             $session = new Session(); // if there is no session, start it
         }
 
-        $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant')->findAll();
+        $listeEtudiant = $this->getListeEtudiants($session->get('chaine'), $session->get('filterEtu'));
 
-        if ($request->isMethod('POST')){
+        if ($request->isMethod('post')){
 
             $selectEtuYear = $request->request->get('selectEtu');
 
-            foreach($etudiantRepository as $etudiant){
+
+            foreach($listeEtudiant as $etudiant){
 
                 $etu = $request->request->get('etudiant-'.$etudiant->getId());
 
+                if($etu == 'on'){
+                    $anneeSelectionne =$em->getRepository('SUHGestionBundle:Annee')->findOneBy(array(
+                        'anneeUniversitaire' => $selectEtuYear)
+                    );
 
-                // $em->persist($etu);
+                    $arrayAnneeEtudiant = array();
+                    foreach ($etudiant->getAnnees() as $uneAnnee){
+                        array_push($arrayAnneeEtudiant, $uneAnnee);
+                    }
+                    if(!in_array($anneeSelectionne, $arrayAnneeEtudiant)){
+
+                        $etudiant->addAnnee($anneeSelectionne);
+                        $em->persist($etudiant);
+                    }
+
+
+                }
+
             }
 
             $em->flush();
-           // return new Response($request->request->get('heure3'));
+
         }
        
         return $this->redirectToRoute('suh_contrat_reinscription');

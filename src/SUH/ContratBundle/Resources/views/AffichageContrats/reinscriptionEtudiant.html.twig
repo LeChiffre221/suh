@@ -29,12 +29,9 @@
                 {% endif %}
                 {% for y in listYears %}
 
-                    {% if y.anneeUniversitaire == yearEtu %}
-                        <option value="{{ y.anneeUniversitaire }}" selected>{{ y.anneeUniversitaire }}</option>
 
-                    {% else %}
-                        <option value="{{ y.anneeUniversitaire }}">{{ y.anneeUniversitaire }}</option>
-                    {% endif %}
+                    <option value="{{ y.anneeUniversitaire }}">{{ y.anneeUniversitaire }}</option>
+
 
                 {% endfor %}
                 </select>
@@ -50,7 +47,7 @@
                 {% endfor %}
                 </select>
 
-              {% for etu in listeEtudiantsAidants %}
+              {% for etu in listeEtudiantsReinscription %}
                 <input type="checkbox" name="etudiant-{{ etu.id }}"> {{etu.etudiantInformations.nom}} {{etu.etudiantInformations.prenom}}
                 <br/>
               {% endfor %}
