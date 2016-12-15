@@ -55,15 +55,17 @@ class ConnexionController extends Controller
             $em = $this->getDoctrine()->getManager();
             $annee = $em->getRepository('SUHGestionBundle:Annee')->findBy(array(), array('anneeUniversitaire' => 'desc'), 1);
 
+            $date = date('Y-m-d');
+            var_dump();
             if($annee == null){
                 $annee = new Annee();
 
-                $date = date('Y-m-d');
+
                 if(intval(substr($date, 5, 2)) > 8){
-                    $annee->setAnneeUniversitaire(substr($date, 0, 4)."-".intval(substr($date, 0, 4))+1);
+                    $annee->setAnneeUniversitaire((substr($date, 0, 4)).'-'.(intval(substr($date, 0, 4))+1));
                 }
                 else{
-                    $annee->setAnneeUniversitaire((intval(substr($date, 0, 4))-1)."-".substr($date, 0, 4));
+                    $annee->setAnneeUniversitaire((intval(substr($date, 0, 4))+1).'-'.(substr($date, 0, 4)));
                 }
 
                 $em->persist($annee);
