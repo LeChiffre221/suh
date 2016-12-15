@@ -46,8 +46,8 @@ class AffichageController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant');
         $annee = $em->getRepository('SUHGestionBundle:Annee')->findByAnneeUniversitaire($year['year']);
+        $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant');
 
 
         if(empty($year)){
@@ -74,8 +74,22 @@ class AffichageController extends Controller
 
             if(empty($chaine))
             {
+                $listEtudiant = $etudiantRepository->findAll();
 
-                 $listEtudiant = $etudiantRepository->findAll();
+                foreach($listEtudiant as $etudiantAidant){
+                    $valide = false;
+
+                    foreach($etudiantAidant->getAnnees() as $annee){
+                        if($annee->getAnneeUniversitaire() == $year['year']){
+                            $valide = true;
+                        }
+                    }
+
+                    if(!$valide){
+                        $key = array_search($etudiantAidant, $listEtudiant);
+                        unset($listEtudiant[$key]);
+                    }
+                }
 
 
                 foreach ($listEtudiant as $etudiant){
@@ -89,8 +103,23 @@ class AffichageController extends Controller
 
 
             } else {
+                $listeEtudiantAidant = $etudiantRepository->getListeEtudiantsRecherche($chaine);
 
-                return $etudiantRepository->getListeEtudiantsRecherche($chaine);
+                foreach($listeEtudiantAidant as $etudiantAidant){
+                    $valide = false;
+
+                    foreach($etudiantAidant->getAnnees() as $annee){
+                        if($annee->getAnneeUniversitaire() == $year['year']){
+                            $valide = true;
+                        }
+                    }
+
+                    if(!$valide){
+                        $key = array_search($etudiantAidant, $listeEtudiantAidant);
+                        unset($listeEtudiantAidant[$key]);
+                    }
+                }
+                return $listeEtudiantAidant;
             }
 
         }
@@ -586,9 +615,8 @@ class AffichageController extends Controller
 
         //On genere une liste suivant l'annee selectionnee
         if($session->get('filterEtu')){
-           $listeEtudiantsReinscription = $em->getRepository('SUHContratBundle:EtudiantAidant');
+           $listeEtudiantsReinscription = $this->getListeEtudiants($session->get('chaine'), $session->get('filterEtu'));
         }
-
 
         return $this->render('SUHContratBundle:AffichageContrats:reinscriptionEtudiant.html.twig',array(
             'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine'), $annee),

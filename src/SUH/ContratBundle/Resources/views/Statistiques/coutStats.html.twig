@@ -9,6 +9,23 @@
     {% endblock %}
     {% block bodyright %}
     <div class="container-stats col-md-12">
+
+        <table class="table">
+            <tr>
+                <th style="text-align: center">Année</th>
+                <th style="text-align: center">Nombre d'heure</th>
+                <th style="text-align: center">Coût (en €)</th>
+            </tr>
+            {% for key, cout in arrayCout %}
+                <tr>
+                    <td>{{ key }}</td>
+
+                    {% for value in cout %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
       <div id="helper">
 
       </div>

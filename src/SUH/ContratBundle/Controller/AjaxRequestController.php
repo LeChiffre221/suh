@@ -38,7 +38,7 @@ class AjaxRequestController extends Controller
 
         $yearEtu = $request->request->get('yearEtu');  
 
-        $session->set('filterEtu', $yearEtu);
+        $session->set('filterEtu', array('year' => $yearEtu));
 
         return $this->redirectToRoute('suh_contrat_reinscription');
     }

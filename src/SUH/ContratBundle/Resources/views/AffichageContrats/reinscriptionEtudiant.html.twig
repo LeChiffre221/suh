@@ -29,14 +29,12 @@
 
                 {% for y in listYears %}
 
-
-
                     {% if y.anneeUniversitaire == yearEtu %}
                     <input class="radioHead" name="etuYear" type="radio" value="{{ y.anneeUniversitaire }}" checked> {{ y.anneeUniversitaire }}
                     {% else %}
                     <input class="radioHead" name="etuYear" type="radio" value="{{ y.anneeUniversitaire }}"> {{ y.anneeUniversitaire }}
                     {% endif %}
-                    
+
 
                 {% endfor %}
 
@@ -52,7 +50,7 @@
                 {% endfor %}
                 </select>
 
-              {% for etu in listeEtudiantsAidants %}
+              {% for etu in listeEtudiantsReinscription %}
                 <input type="checkbox" name="etudiant-{{ etu.id }}"> {{etu.etudiantInformations.nom}} {{etu.etudiantInformations.prenom}}
                 <br/>
               {% endfor %}
