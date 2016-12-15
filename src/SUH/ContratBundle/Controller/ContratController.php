@@ -15,11 +15,11 @@ class ContratController extends Controller
 {
     public function addContratAction(Request $request, $id){
 
-        $session = $this->getRequest()->getSession(); // Get started session
-
+       $session = $this->getRequest()->getSession(); // Get started session
         if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
         }
+        $annee = $session->get('filter');
 
         $contrat = new Contrat();
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
@@ -79,7 +79,7 @@ class ContratController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:addContrat.html.twig', array(
             'form' => $form->createView(),
             'id' => $id,
-            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
+            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine'), $annee),
             'nbContrats'=>$this->getNbContrats($id, false),
             'nbContratsPaiement'=>$this->getNbContrats($id, true),
         ));
@@ -89,10 +89,10 @@ class ContratController extends Controller
   public function editContratAction($idContrat, Request $request){
 
         $session = $this->getRequest()->getSession(); // Get started session
-
         if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
         }
+        $annee = $session->get('filter');
 
         $em = $this->getDoctrine()->getManager();
         $contrat = $em->getRepository('SUHContratBundle:Contrat')->find($idContrat);
@@ -141,7 +141,7 @@ class ContratController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:editContrat.html.twig', array(
             'form' => $form->createView(),
             'id' => $contrat->getEtudiantAidant()->getId(),
-            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine')),
+            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine'), $annee),
             'nbContrats'=>$this->getNbContrats($contrat->getEtudiantAidant()->getId(), false),
             'nbContratsPaiement'=>$this->getNbContrats($contrat->getEtudiantAidant()->getId(), true),
         ));
@@ -191,32 +191,86 @@ class ContratController extends Controller
 
     }
 
-    public function getListeEtudiants($chaine)
-    {      
-        $etudiantRepository = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('SUHContratBundle:EtudiantAidant');
+    public function getListeEtudiants($chaine, $year = null)
+    {
 
-        
-        if(empty($chaine))
-        {
-
-            $listEtudiant = $etudiantRepository->findAll();
-            $em = $this->getDoctrine()->getManager();
-
-            foreach ($listEtudiant as $etudiant){
-
-                $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
-                $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+        $em = $this->getDoctrine()->getManager();
+        $annee = $em->getRepository('SUHGestionBundle:Annee')->findByAnneeUniversitaire($year['year']);
+        $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant');
 
 
+        if(empty($year)){
 
+            if(empty($chaine))
+            {
+                $listEtudiant = $etudiantRepository->findAll();
+                
+
+                foreach ($listEtudiant as $etudiant){
+
+                    $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')->selectNbHeureNonValidePourUnEtudiant($etudiant);
+                    $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+                }
+                return $listEtudiant;
+
+            } else {
+
+                return $etudiantRepository->getListeEtudiantsRecherche($chaine);
             }
-            return $etudiantRepository->findAll();
 
         } else {
-            
-            return $etudiantRepository->getListeEtudiantsRecherche($chaine);
+
+            if(empty($chaine))
+            {
+                $listEtudiant = $etudiantRepository->findAll();
+
+                foreach($listEtudiant as $etudiantAidant){
+                    $valide = false;
+
+                    foreach($etudiantAidant->getAnnees() as $annee){
+                        if($annee->getAnneeUniversitaire() == $year['year']){
+                            $valide = true;
+                        }
+                    }
+
+                    if(!$valide){
+                        $key = array_search($etudiantAidant, $listEtudiant);
+                        unset($listEtudiant[$key]);
+                    }
+                }
+
+
+                foreach ($listEtudiant as $etudiant){
+
+                    $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
+                    $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+                }
+
+                return $listEtudiant;
+
+
+            } else {
+                $listeEtudiantAidant = $etudiantRepository->getListeEtudiantsRecherche($chaine);
+
+                foreach($listeEtudiantAidant as $etudiantAidant){
+                    $valide = false;
+
+                    foreach($etudiantAidant->getAnnees() as $annee){
+                        if($annee->getAnneeUniversitaire() == $year['year']){
+                            $valide = true;
+                        }
+                    }
+
+                    if(!$valide){
+                        $key = array_search($etudiantAidant, $listeEtudiantAidant);
+                        unset($listeEtudiantAidant[$key]);
+                    }
+                }
+                return $listeEtudiantAidant;
+            }
+
         }
     }
 

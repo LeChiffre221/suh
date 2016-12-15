@@ -139,6 +139,11 @@ class GestionEtudiantAidantController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+
         $etudiantassiste = array();
         $etudiantAidant = new EtudiantAidant();
         $controllerAffichage = $this->forward('controller_affichage:getListeEtudiants', array());
@@ -219,14 +224,14 @@ class GestionEtudiantAidantController extends Controller
 
             $etudiantAidant->setUser($user);
 
-            foreach($listannees as $annee){
-                $etudiantAidant->addAnnee($annee);
+            foreach($listannees as $anneeListe){
+                $etudiantAidant->addAnnee($anneeListe);
             }
             
 
 
             /*
-            $emailEtu = $request->request->get('mailPerso');
+            $emailEtu = $request->request->get('mailInstitutionnel');
 
             // // surcharge du parameters.yml
             // $transport = \Swift_SmtpTransport::newInstance($hostDb,$portDb)
@@ -262,7 +267,7 @@ class GestionEtudiantAidantController extends Controller
             return $this->render('SUHContratBundle:AffichageContrats:addEtudiantAidant.html.twig', array(
             'info' => $etudiantassiste, 
             'form' => $form->createView(),
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine'), $annee),
         )); 
 
 	    }
@@ -271,7 +276,7 @@ class GestionEtudiantAidantController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:addEtudiantAidant.html.twig', array(
             'info' => $etudiantassiste, 
             'form' => $form->createView(),
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine'), $annee),
         )); 
     }
 
@@ -327,6 +332,12 @@ class GestionEtudiantAidantController extends Controller
     public function editEtudiantAidantAction($id, Request $request)
     {
 
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+        $annee = $session->get('filter');
+
         $etudiantAidantRepo = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('SUHContratBundle:EtudiantAidant');
@@ -351,7 +362,7 @@ class GestionEtudiantAidantController extends Controller
         return $this->render('SUHContratBundle:AffichageContrats:editEtudiantAidant.html.twig',array(
             'informationsEtudiantAidant' => $etudiant,
             'form' => $form->createView(),
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
+            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine'), $annee),
             'nbContrats'=>$this->getNbContrats($id, false),
             'nbContratsPaiement'=>$this->getNbContrats($id, true),
             'id' => $id

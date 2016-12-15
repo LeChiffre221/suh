@@ -239,7 +239,6 @@ class HeureEffectueeController extends Controller
             'form' => $form->createView(),
             'etudiant' => $etudiant,
             'modeEdition' => true,
-
             'contrat' => $contrat
 
 
