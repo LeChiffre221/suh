@@ -24,8 +24,105 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class ImportExportController extends Controller
 {
 
-    public function exportFichePaiePDFAction(Request $request, $month, $year){
-        return new Response($month.'-'.$year);
+    public function exportFichePaiePDFAction(Request $request, $idEtudiant, $month, $year){
+
+
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        $etudiant = $em->getRepository('SUHContratBundle:EtudiantAidant')->find($idEtudiant);
+        $contrat = $em->getRepository('SUHContratBundle:Contrat')->findOneBy(array(
+            'etudiantAidant' => $etudiant,
+            'active' => true
+        ));
+
+
+        $tabMois = array(   '01' => "Janvier", '02' => "Février", '03' => "Mars", '04' => "Avril", '05' => "Mai", '06' => "Juin",
+            '07' => "Juillet", '08' => "Aout", '09'  => "Septembre", '10' => "Octobre", '11' => "Novembre", '12' => "Décembre");
+
+
+        $nom = $contrat->getEtudiantAidant()->getEtudiantInformations()->getNom();
+        $prenom = $contrat->getEtudiantAidant()->getEtudiantInformations()->getPrenom();
+
+
+        $heureEffectuee = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(array(
+            'contrat' => $contrat,
+            'verification'  => true
+        ));
+
+        $nbHeure = 0;
+
+        foreach ($heureEffectuee as $heure){
+
+            $moisHeure = substr($heure->getDateAndTime(), 3, 2);
+            $anneeHeure = substr($heure->getDateAndTime(), 6, 4);
+
+            if($anneeHeure == $year && $month == $moisHeure){
+                $nbHeure += $heure->getNbHeure();
+            }
+        }
+
+        //return new Response($nbHeure);
+
+        $pdf = new \FPDI();
+        //Methode pour importer toutes les pages sur un template
+        $pdf = $this->importFichePaieTemplate($pdf, $contrat, $nbHeure, $tabMois[$month]);
+
+        return new Response($pdf->Output('D','Fiche de paie_'.$nom.'_'.$prenom.'.pdf'));
+    }
+
+    public function importFichePaieTemplate($pdf, $contrat, $nbHeure, $mois){
+
+        $pageCount =  $pdf->setSourceFile('../FicheDePaie.pdf');
+
+        for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+            // import a page
+            $templateId = $pdf->importPage($pageNo);
+            // get the size of the imported page
+            $size = $pdf->getTemplateSize($templateId);
+
+            $pdf->AddPage('P', array($size['w'], $size['h']));
+
+            // use the imported page
+            $pdf->useTemplate($templateId);
+
+            if ($pageNo == 1) {
+
+                $nom = $contrat->getEtudiantAidant()->getEtudiantInformations()->getNom();
+                $prenom = $contrat->getEtudiantAidant()->getEtudiantInformations()->getPrenom();
+                $numINSEE = $contrat->getEtudiantAidant()->getEtudiant()->getNumeroEtudiant();
+
+
+                $pdf->SetFont('Arial', 'B', 14);
+
+                $pdf->Text(82, 17.2, (utf8_decode($mois)));
+
+                $pdf->SetFont('Arial', '', 10);
+
+                $pdf->Text(44, 39.3, (utf8_decode($nom)));
+                $pdf->Text(118, 39.3, (utf8_decode($prenom)));
+                $pdf->Text(42, 47.3, (utf8_decode($numINSEE)));
+
+                $pdf->SetFont('Arial', '', 14);
+                $pdf->Text(95, 152, (utf8_decode($nbHeure." heure(s)")));
+
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->Text(72, 197.8, (utf8_decode($contrat->getDateDebutContrat())));
+                $pdf->Text(146, 197.8, (utf8_decode($contrat->getDateFinContrat())));
+
+
+
+
+
+
+
+
+
+            }
+        }
+
+        return $pdf;
     }
 
 
