@@ -17,8 +17,8 @@ class EtudiantInformationsType extends AbstractType
         $builder
             ->add('nom', 'text', array('required' => true))
             ->add('prenom', 'text', array('required' => true))
-            ->add('mailInstitutionnel')
-            ->add('mailPerso', 'text', array('required' => true))
+            ->add('mailInstitutionnel', 'email', array('required' => true))
+            ->add('mailPerso')
             ->add('mailParents')
             ->add('adresseEtudiante')
             ->add('adresseFamiliale')

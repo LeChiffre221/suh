@@ -25,8 +25,11 @@ class AnneeType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
             $form = $event->getForm();
             $data = $event->getData();
-            $newData = $data['anneeUniversitaire'].'-'.($data['anneeUniversitaire'] + 1);
-            $form->get('anneeUniversitaire')->setData('55555');
+            $data['anneeUniversitaire'] = $data['anneeUniversitaire'].'-'.($data['anneeUniversitaire'] + 1);
+            $form->remove('anneeUniversitaire');
+            $form->add('anneeUniversitaire', 'text');
+            $event->setData($data);
+            
         });
     }
     

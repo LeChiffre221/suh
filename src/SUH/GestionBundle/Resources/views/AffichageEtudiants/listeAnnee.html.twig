@@ -1,6 +1,5 @@
 <select id="selectYear" class="form-control" style="margin-left:10px; margin-top:10px;">
 
-    {% set tabYears = ['2015-2016', '2014-2015', '2013-2014', '2012-2013','2011-2012'] %}
 
     {% if app.session.get('filter')['year'] is defined %}
         {% set filter = app.session.get('filter') %}

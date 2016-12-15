@@ -21,30 +21,88 @@ class StatsController extends Controller
 {
 
     //get la liste des éutudiants
-    public function getListeEtudiants($chaine)
+    public function getListeEtudiants($chaine, $year = null)
     {
-        $etudiantRepository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('SUHContratBundle:EtudiantAidant');
+
+        $em = $this->getDoctrine()->getManager();
 
 
-        if (empty($chaine)) {
-
-            $listEtudiant = $etudiantRepository->findAll();
-            $em = $this->getDoctrine()->getManager();
-
-            foreach ($listEtudiant as $etudiant) {
-
-                $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')->selectNbHeureNonValidePourUnEtudiant($etudiant);
-                $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+        $annee = $em->getRepository('SUHGestionBundle:Annee')->findByAnneeUniversitaire($year['year']);
+        $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant');
 
 
+        if(empty($year)){
+
+            if(empty($chaine))
+            {
+                $listEtudiant = $etudiantRepository->findAll();
+                
+
+                foreach ($listEtudiant as $etudiant){
+
+                    $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')->selectNbHeureNonValidePourUnEtudiant($etudiant);
+                    $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+                }
+                return $listEtudiant;
+
+            } else {
+
+                return $etudiantRepository->getListeEtudiantsRecherche($chaine);
             }
-            return $etudiantRepository->findAll();
 
         } else {
 
-            return $etudiantRepository->getListeEtudiantsRecherche($chaine);
+            if(empty($chaine))
+            {
+                $listEtudiant = $etudiantRepository->findAll();
+
+                foreach($listEtudiant as $etudiantAidant){
+                    $valide = false;
+
+                    foreach($etudiantAidant->getAnnees() as $annee){
+                        if($annee->getAnneeUniversitaire() == $year['year']){
+                            $valide = true;
+                        }
+                    }
+
+                    if(!$valide){
+                        $key = array_search($etudiantAidant, $listEtudiant);
+                        unset($listEtudiant[$key]);
+                    }
+                }
+
+
+                foreach ($listEtudiant as $etudiant){
+
+                    $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
+                    $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+                }
+
+                return $listEtudiant;
+
+
+            } else {
+                $listeEtudiantAidant = $etudiantRepository->getListeEtudiantsRecherche($chaine);
+
+                foreach($listeEtudiantAidant as $etudiantAidant){
+                    $valide = false;
+
+                    foreach($etudiantAidant->getAnnees() as $annee){
+                        if($annee->getAnneeUniversitaire() == $year['year']){
+                            $valide = true;
+                        }
+                    }
+
+                    if(!$valide){
+                        $key = array_search($etudiantAidant, $listeEtudiantAidant);
+                        unset($listeEtudiantAidant[$key]);
+                    }
+                }
+                return $listeEtudiantAidant;
+            }
+
         }
     }
 
@@ -58,10 +116,12 @@ class StatsController extends Controller
         if (!$session instanceof Session) {
             $session = new Session(); // if there is no session, start it
         }
+        $session->set('chaine', $request->query->get('chaine'));
+        $anneeFilter = $session->get('filter');
 
         return $this->render('SUHContratBundle:Statistiques:avanceesStats.html.twig', array(
 
-            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine')),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine'), $anneeFilter),
         ));
     }
 
@@ -72,13 +132,16 @@ class StatsController extends Controller
     public function TraitementStatsHeuresAction(Request $request)
     {
         $session = $this->getRequest()->getSession(); // Get started session
-        if (!$session instanceof Session) {
+
+        if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
         }
+        $session->set('chaine', $request->query->get('chaine'));
+        $annee = $session->get('filter');
 
         return $this->render('SUHContratBundle:Statistiques:avanceesStats.html.twig', array(
 
-            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine')),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine'), $annee),
         ));
     }
 
@@ -89,9 +152,14 @@ class StatsController extends Controller
     public function TraitementStatsNatureAction(Request $request)
     {
         $session = $this->getRequest()->getSession(); // Get started session
-        if (!$session instanceof Session) {
+
+        if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
         }
+        $session->set('chaine', $request->query->get('chaine'));
+        $annee = $session->get('filter');
+
+
         $em = $this->getDoctrine()->getManager();
 
         //JSON
@@ -177,7 +245,7 @@ class StatsController extends Controller
 
             return $this->render('SUHContratBundle:Statistiques:natureStats.html.twig', array(
 
-                'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine')),
+                'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine'), $annee),
                 'listeNatureContrats' => $data,
                 'form' => $form->createView(),
                 'contenu' => $form->getData()
@@ -203,7 +271,7 @@ class StatsController extends Controller
 
         return $this->render('SUHContratBundle:Statistiques:natureStats.html.twig', array(
 
-            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine')),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine'), $annee),
             'listeNatureContrats' => $data,
             'form' => $form->createView()
         ));
@@ -220,6 +288,7 @@ class StatsController extends Controller
         if (!$session instanceof Session) {
             $session = new Session(); // if there is no session, start it
         }
+        $anneeFilter = $session->get('filter');
 
         $em = $this->getDoctrine()->getManager();
 
@@ -324,7 +393,7 @@ class StatsController extends Controller
 
         return $this->render('SUHContratBundle:Statistiques:coutStats.html.twig', array(
 
-            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine')),
+            'listeEtudiantsAidants'=>$this->getListeEtudiants($session->get('chaine'), $anneeFilter),
             'listeCoutContrats' => $data,
             'arrayCout' => $arrayCout
 

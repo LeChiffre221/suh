@@ -5,12 +5,14 @@ namespace SUH\GestionBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Etudiant
  *
  * @ORM\Table(name="etudiant")
  * @ORM\Entity(repositoryClass="SUH\GestionBundle\Entity\EtudiantRepository")
+ * @UniqueEntity("numeroEtudiant")
  */
 class Etudiant
 {

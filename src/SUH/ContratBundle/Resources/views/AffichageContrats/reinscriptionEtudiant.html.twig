@@ -19,7 +19,6 @@
         <div class="bloc-contrat-add panel panel-primary">
                 <h2>Réinscrire des </h2>
                 <h3>Etudiants de l'année</h3>
-                <select id="selectYearEtudiant" class="form-control" style="margin-left:10px; margin-top:10px;">
 
                 {% if app.session.get('filterEtu') is defined %}
                   {% set yearEtu = app.session.get('filterEtu') %}
@@ -27,14 +26,18 @@
                 {% else %}
                   {% set yearEtu = 0 %}
                 {% endif %}
+
                 {% for y in listYears %}
 
-
-                    <option value="{{ y.anneeUniversitaire }}">{{ y.anneeUniversitaire }}</option>
+                    {% if y.anneeUniversitaire == yearEtu %}
+                    <input class="radioHead" name="etuYear" type="radio" value="{{ y.anneeUniversitaire }}" checked> {{ y.anneeUniversitaire }}
+                    {% else %}
+                    <input class="radioHead" name="etuYear" type="radio" value="{{ y.anneeUniversitaire }}"> {{ y.anneeUniversitaire }}
+                    {% endif %}
 
 
                 {% endfor %}
-                </select>
+
                 <h3>Pour l'année </h3>
             <form action="{{ path('suh_contrat_reinscription_action') }}" method="post">
 
@@ -60,7 +63,7 @@
 
     <script>
 
-    $('#selectYearEtudiant').change(function()
+    $('.radioHead').change(function()
     {
         var yearEtu = this.value;     
 

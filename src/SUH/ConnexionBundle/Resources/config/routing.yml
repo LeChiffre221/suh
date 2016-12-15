@@ -19,3 +19,13 @@ suh_user_parameters:
 suh_user_annees:
     path: /annees
     defaults: { _controller: SUHConnexionBundle:Annees:AfficherGestionAnnees }
+
+suh_user_annees_edit:
+    path: /editAnnees
+    defaults: { _controller: SUHConnexionBundle:Annees:editAnnees }
+
+suh_user_annees_delete:
+    path: /deleteAnnee/{id}
+    defaults: { _controller: SUHConnexionBundle:Annees:deleteAnnee }
+    requirements:
+        id: \d+

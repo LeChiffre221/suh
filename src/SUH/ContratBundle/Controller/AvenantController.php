@@ -13,11 +13,20 @@ use SUH\ContratBundle\Entity\Avenant;
 use SUH\ContratBundle\Form\AvenantType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class AvenantController extends Controller
 {
     public function addAvenantAction(Request $request, $idContrat){
         $em = $this->getDoctrine()->getManager();
+
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+        $annee = $session->get('filter');
+
+
         $contrat = $em->getRepository("SUHContratBundle:Contrat")->find($idContrat);
 
         $avenant = new Avenant();
@@ -45,9 +54,9 @@ class AvenantController extends Controller
             'form' => $form->createView(),
             'id' => $idEtudiant,
             'contrat' => $contrat,
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
-            'nbContrats'=>$this->getNbContrats($idEtudiant),
-            'nbContratsPaiement' => $this->getNbContrats($idEtudiant),
+            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine'), $annee),
+            'nbContrats'=>$this->getNbContrats($idEtudiant, false),
+            'nbContratsPaiement'=>$this->getNbContrats($idEtudiant, true),
         ));
     }
 
@@ -100,6 +109,13 @@ class AvenantController extends Controller
 */
     public function editAvenantAction(Request $request, $idAvenant){
         $em = $this->getDoctrine()->getManager();
+
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+        $annee = $session->get('filter');
+
         $avenant = $em->getRepository("SUHContratBundle:Avenant")->find($idAvenant);
 
         $form = $this->get('form.factory')->create(new AvenantType, $avenant);
@@ -138,41 +154,95 @@ class AvenantController extends Controller
             'form' => $form->createView(),
             'id' => $idEtudiant,
             'contrat' => $contrat,
-            'listeEtudiantsAidants'=>$this->getListeEtudiants(null),
-            'nbContrats'=>$this->getNbContrats($idEtudiant),
-            'nbContratsPaiement' => $this->getNbContrats($idEtudiant),
+            'listeEtudiantsAidants' => $this->getListeEtudiants($session->get('chaine'), $annee),
+            'nbContrats'=>$this->getNbContrats($idEtudiant, false),
+            'nbContratsPaiement'=>$this->getNbContrats($idEtudiant, true),
         ));
 
     }
 
 
 
-    public function getListeEtudiants($chaine)
+    public function getListeEtudiants($chaine, $year = null)
     {
-        $etudiantRepository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('SUHContratBundle:EtudiantAidant');
+
+        $em = $this->getDoctrine()->getManager();
+        $annee = $em->getRepository('SUHGestionBundle:Annee')->findByAnneeUniversitaire($year['year']);
+        $etudiantRepository = $em->getRepository('SUHContratBundle:EtudiantAidant');
 
 
-        if(empty($chaine))
-        {
+        if(empty($year)){
 
-            $listEtudiant = $etudiantRepository->findAll();
-            $em = $this->getDoctrine()->getManager();
+            if(empty($chaine))
+            {
+                $listEtudiant = $etudiantRepository->findAll();
+                
 
-            foreach ($listEtudiant as $etudiant){
+                foreach ($listEtudiant as $etudiant){
 
-                $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
-                $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+                    $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')->selectNbHeureNonValidePourUnEtudiant($etudiant);
+                    $etudiant->setHeureNonValide($nbHeureNonValide[1]);
 
+                }
+                return $listEtudiant;
 
+            } else {
 
+                return $etudiantRepository->getListeEtudiantsRecherche($chaine);
             }
-            return $etudiantRepository->findAll();
 
         } else {
 
-            return $etudiantRepository->getListeEtudiantsRecherche($chaine);
+            if(empty($chaine))
+            {
+                $listEtudiant = $etudiantRepository->findAll();
+
+                foreach($listEtudiant as $etudiantAidant){
+                    $valide = false;
+
+                    foreach($etudiantAidant->getAnnees() as $annee){
+                        if($annee->getAnneeUniversitaire() == $year['year']){
+                            $valide = true;
+                        }
+                    }
+
+                    if(!$valide){
+                        $key = array_search($etudiantAidant, $listEtudiant);
+                        unset($listEtudiant[$key]);
+                    }
+                }
+
+
+                foreach ($listEtudiant as $etudiant){
+
+                    $nbHeureNonValide = $em->getRepository('SUHContratBundle:HeureEffectuee')-> selectNbHeureNonValidePourUnEtudiant($etudiant);
+                    $etudiant->setHeureNonValide($nbHeureNonValide[1]);
+
+                }
+
+                return $listEtudiant;
+
+
+            } else {
+                $listeEtudiantAidant = $etudiantRepository->getListeEtudiantsRecherche($chaine);
+
+                foreach($listeEtudiantAidant as $etudiantAidant){
+                    $valide = false;
+
+                    foreach($etudiantAidant->getAnnees() as $annee){
+                        if($annee->getAnneeUniversitaire() == $year['year']){
+                            $valide = true;
+                        }
+                    }
+
+                    if(!$valide){
+                        $key = array_search($etudiantAidant, $listeEtudiantAidant);
+                        unset($listeEtudiantAidant[$key]);
+                    }
+                }
+                return $listeEtudiantAidant;
+            }
+
         }
     }
 
@@ -197,6 +267,7 @@ class AvenantController extends Controller
             $listeHeures = $em->getRepository('SUHContratBundle:HeureEffectuee')->findBy(
                 array(
                     'contrat' => $listeContrats,
+                    'verification' => true
                 ),
                 array(
                     'dateAndTime' => 'desc'
@@ -250,5 +321,6 @@ class AvenantController extends Controller
             }
         }
 
+        
     }
 }
