@@ -52,11 +52,12 @@ class ConnexionController extends Controller
 
         if ($this->get('security.context')->isGranted('ROLE_ADMIN')){
 
+
+
             $em = $this->getDoctrine()->getManager();
             $annee = $em->getRepository('SUHGestionBundle:Annee')->findBy(array(), array('anneeUniversitaire' => 'desc'), 1);
 
             $date = date('Y-m-d');
-           
             if($annee == null){
                 $annee = new Annee();
 
@@ -71,6 +72,9 @@ class ConnexionController extends Controller
                 $em->persist($annee);
                 $em->flush();
             }
+
+            $annee = $em->getRepository('SUHGestionBundle:Annee')->findBy(array(), array('anneeUniversitaire' => 'desc'), 1);
+
             $session->set('filter', array(
                 'year' => $annee[0]->getAnneeUniversitaire()
             ));
