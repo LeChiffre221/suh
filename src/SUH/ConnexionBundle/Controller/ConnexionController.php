@@ -2,6 +2,7 @@
 
 namespace SUH\ConnexionBundle\Controller;
 
+use SUH\GestionBundle\Entity\Annee;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -54,10 +55,24 @@ class ConnexionController extends Controller
             $em = $this->getDoctrine()->getManager();
             $annee = $em->getRepository('SUHGestionBundle:Annee')->findBy(array(), array('anneeUniversitaire' => 'desc'), 1);
 
+            if($annee == null){
+                $annee = new Annee();
 
+                $date = date('Y-m-d');
+                if(intval(substr($date, 5, 2)) > 8){
+                    $annee->setAnneeUniversitaire(substr($date, 0, 4)."-".intval(substr($date, 0, 4))+1);
+                }
+                else{
+                    $annee->setAnneeUniversitaire((intval(substr($date, 0, 4))-1)."-".substr($date, 0, 4));
+                }
+
+                $em->persist($annee);
+                $em->flush();
+            }
             $session->set('filter', array(
                 'year' => $annee[0]->getAnneeUniversitaire()
             ));
+
             return $this->render('SUHConnexionBundle:Connexion:index.html.twig', array(
                 // last username entered by the user
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
