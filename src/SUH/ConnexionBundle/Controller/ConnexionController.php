@@ -56,7 +56,7 @@ class ConnexionController extends Controller
             $annee = $em->getRepository('SUHGestionBundle:Annee')->findBy(array(), array('anneeUniversitaire' => 'desc'), 1);
 
             $date = date('Y-m-d');
-            var_dump();
+           
             if($annee == null){
                 $annee = new Annee();
 
