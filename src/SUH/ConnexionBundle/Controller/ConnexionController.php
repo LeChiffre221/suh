@@ -50,6 +50,14 @@ class ConnexionController extends Controller
         }
 
         if ($this->get('security.context')->isGranted('ROLE_ADMIN')){
+
+            $em = $this->getDoctrine()->getManager();
+            $annee = $em->getRepository('SUHGestionBundle:Annee')->findBy(array(), array('anneeUniversitaire' => 'desc'), 1);
+
+
+            $session->set('filter', array(
+                'year' => $annee[0]->getAnneeUniversitaire()
+            ));
             return $this->render('SUHConnexionBundle:Connexion:index.html.twig', array(
                 // last username entered by the user
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),

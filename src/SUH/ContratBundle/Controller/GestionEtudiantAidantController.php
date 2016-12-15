@@ -293,33 +293,56 @@ class GestionEtudiantAidantController extends Controller
         $contrat = $em->getRepository('SUHContratBundle:Contrat');
         $heure = $em->getRepository('SUHContratBundle:HeureEffectuee');
 
-        //On recupere les entites correspondantes a $id
+
+
+
         $idEtudiantAidant = $etudiantAidant->find($id);
-        $etudiant = $idEtudiantAidant->getEtudiant();
-        $idEtudiantInformations = $etudiantInformations->find($idEtudiantAidant->getEtudiantInformations());
-        $idFormation = $formation->find($idEtudiantAidant->getEtudiantFormation());
-        $idContrat = $contrat->findByEtudiantAidant($idEtudiantAidant);
-        $idHeures = $heure->findByContrat($idContrat);
 
-        foreach($idContrat as $contrat)
-        {
-            $listeAvenants = $em->getRepository('SUHContratBundle:Avenant')->findBy(array("contrat" => $contrat));
-            foreach ($listeAvenants as $avenant){
-                $em->remove($avenant);
+        $arrayAnneeEtudiant = array();
+        foreach ($idEtudiantAidant->getAnnees() as $uneAnnee){
+            array_push($arrayAnneeEtudiant, $uneAnnee);
+        }
+
+
+        if(sizeof($arrayAnneeEtudiant) == 1){
+            //On recupere les entites correspondantes a $id
+
+            $etudiant = $em->getRepository('SUHGestionBundle:Etudiant')->find($idEtudiantAidant->getEtudiant()->getId());
+
+            $idEtudiantInformations = $etudiantInformations->find($idEtudiantAidant->getEtudiantInformations());
+            $idFormation = $formation->find($idEtudiantAidant->getEtudiantFormation());
+            $idContrat = $contrat->findByEtudiantAidant($idEtudiantAidant);
+            $idHeures = $heure->findByContrat($idContrat);
+
+            foreach($idContrat as $contrat)
+            {
+                $listeAvenants = $em->getRepository('SUHContratBundle:Avenant')->findBy(array("contrat" => $contrat));
+                foreach ($listeAvenants as $avenant){
+                    $em->remove($avenant);
+                }
+                $em->remove($contrat);
             }
-            $em->remove($contrat);
+            //On supprime les entites
+            $em->remove($etudiant);
+            $em->remove($idEtudiantAidant);
+            $em->remove($idEtudiantInformations);
+            $em->remove($idFormation);
+            foreach($idHeures as $heure){
+                $em->remove($heure);
+            }
+        }else{
+
+            $session = $this->getRequest()->getSession(); // Get started session
+            foreach ( $arrayAnneeEtudiant as $uneAnnee){
+                $year = $session->get('filter');
+
+                if($uneAnnee->getAnneeUniversitaire() == $year['year']){
+                    $idEtudiantAidant->removeAnnee($uneAnnee);
+                }
+            }
+
+            $em->persist($idEtudiantAidant);
         }
-        //On supprime les entites
-        $em->remove($etudiant);
-        $em->remove($idEtudiantAidant);
-        $em->remove($idEtudiantInformations);
-        $em->remove($idFormation);
-        foreach($idHeures as $heure){
-            $em->remove($heure);
-        }
-
-
-
         
         $em->flush();
 

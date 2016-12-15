@@ -13,6 +13,8 @@ class AjaxRequestController extends Controller
     
     public function refreshListAction(Request $request)
     {
+
+
         $session = $this->getRequest()->getSession(); // Get started session
         if(!$session instanceof Session){
             $session = new Session(); // if there is no session, start it
