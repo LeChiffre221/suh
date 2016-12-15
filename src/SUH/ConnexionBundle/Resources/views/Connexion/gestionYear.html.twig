@@ -66,7 +66,7 @@
                             <td>{{ y.anneeUniversitaire }}</td>
 
                             <td>
-                                <a href="{{ path('suh_gestion_annee_delete', {'id': y.id}) }}">
+                                <a href="{{ path('suh_user_annees_delete', {'id': y.id}) }}">
                                     <button type="button" class="btn btn-danger">
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </button>
@@ -85,7 +85,7 @@
 
     </div>
 
-    {% if (js is defined) %}{{ js|raw }}{% endif %}
+    
 {% endblock %}
 
 

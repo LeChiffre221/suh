@@ -69,14 +69,8 @@
                             <li id="rechercheAvancee" class="liensNavbar"><a href="{{path('suh_gestion_rechercheAvancee')}}">Recherche avancée</a></li>
                             <li class="liensNavbar"><a href="{{path('suh_import_export_page')}}">Import/Export Excel</a></li>
                             <li class="liensNavbar"><a href="{{path('suh_stats')}}">Statistiques</a></li>
-                            {# <li class="liensNavbar"><a href="{{path('suh_gestion_utilisateur_page')}}">Gestion des utilisateurs</a></li> #}
                             <li>
                                 {{ render(controller("SUHGestionBundle:Affichage:afficherListeAnnee")) }}
-                            </li>
-                            <li>
-                                <a href="{{path('suh_gestion_annee')}}">
-                                    <span class="glyphicon glyphicon-cog"/>
-                                </a>
                             </li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">

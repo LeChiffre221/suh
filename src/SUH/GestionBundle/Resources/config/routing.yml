@@ -6,16 +6,6 @@ suh_gestion_homepage:
     path:     /
     defaults: { _controller: SUHGestionBundle:Affichage:AfficherAccueil }
 
-suh_gestion_annee:
-    path: /editAnnees
-    defaults: { _controller: SUHGestionBundle:Affichage:editAnnees }
-
-suh_gestion_annee_delete:
-    path: /deleteAnnee/{id}
-    defaults: { _controller: SUHGestionBundle:Affichage:deleteAnnee }
-    requirements:
-        id: \d+
-
 suh_get_etudiant:
     path:   /get/{id}
     defaults: { _controller: SUHGestionBundle:Affichage:AfficherAccueilEtudiant }

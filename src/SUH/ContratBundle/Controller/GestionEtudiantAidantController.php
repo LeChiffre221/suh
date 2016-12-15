@@ -364,6 +364,7 @@ class GestionEtudiantAidantController extends Controller
             foreach($etudiantRepository as $etudiant){
 
                 $etu = $request->request->get('etudiant-'.$etudiant->getId());
+                var_dump($etu);
 
 
                 // $em->persist($etu);

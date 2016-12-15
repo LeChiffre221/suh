@@ -86,29 +86,4 @@
         </section>      
         <br/><br/>
     </body>
-    <script>
-
-    $('#selectYear').change(function()
-    {
-        var year = this.value;     
-
-        $.ajax({
-          type: "POST",
-          url: "{{ path('refresh_list') }}",
-          data: {
-           year: year
-          },
-          success: function(data, dataType)
-          {
-               location.href = '{{ path("suh_gestion_homepage") }}';             
-          },
-
-          error: function(XMLHttpRequest, textStatus, errorThrown)
-          {
-              alert('Error : ' + errorThrown);
-          }
-        });
-    });
-
-</script>
 {% endblock %}

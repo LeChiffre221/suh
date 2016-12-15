@@ -65,19 +65,12 @@ $(function() {
       return false;
     });
 
-    if( $('.multiple-paiement').hasClass('valid') ){
-        $(this).prop('checked', true);        
-        console.log($(this));
-    } else {
-        $(this).prop('checked', false);
-    }
 
     $('.multiple-paiement').change(function(){
 
         if( this.checked ){
             
             $(this).parent().parent().nextAll().find('.hidden-input input').prop('checked', true);
-            $(this).addClass('valid');
 
         } else {
 
@@ -89,3 +82,21 @@ $(function() {
     
 
 });  
+$( document ).ready(function() {
+
+    $('.multiple-paiement').each(function(){
+        console.log($(this).hasClass('validCheck'));
+        if( $(this).hasClass('validCheck') ){
+
+            $(this).prop('checked', true);
+            console.log('he');
+
+        } else {
+
+            $(this).prop('checked', false);
+
+        }
+
+    });
+
+});

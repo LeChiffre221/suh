@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 use SUH\GestionBundle\Entity\AmenagementEtude;
 use SUH\GestionBundle\Entity\Etudiant;
@@ -1010,9 +1011,14 @@ class AjaxRequestController extends ListeEtudiantController
 
     public function refreshListAction(Request $request)
     {
+        $session = $this->getRequest()->getSession(); // Get started session
+        if(!$session instanceof Session){
+            $session = new Session(); // if there is no session, start it
+        }
+        
         $year = $request->request->get('year');     
 
-        $session = $this->get('session');
+
         $session->set('filter', array(
             'year' => $year,
         ));
