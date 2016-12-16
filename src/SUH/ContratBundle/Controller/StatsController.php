@@ -108,6 +108,7 @@ class StatsController extends Controller
 
     /**
      * Traite les données des statistiques avancees
+     * A FAIRE
      * @return type
      */
     public function TraitementStatsAvanceesAction(Request $request)
@@ -127,6 +128,7 @@ class StatsController extends Controller
 
     /**
      * Traite les données des statistiques par heures
+     * A FAIRE
      * @return type
      */
     public function TraitementStatsHeuresAction(Request $request)
@@ -253,7 +255,7 @@ class StatsController extends Controller
 
         }
 
-        //Datas
+        //Datas sous le bon format pour le google chart
 
 
         $rawData = array_count_values($listeNatureContrats);
@@ -349,6 +351,7 @@ class StatsController extends Controller
                 $tempHours = 0;
                 $tempNature = null;
             }
+
             //Coef Horaire + Coef Nature
             if ($heure->getNatureMission() == "tutorat") {
                 $arrayTemp[$heure->getNatureMission()] = (($heure->getNbHeure() * $coefTutorat) * $coutHoraire) + (($tempHours * $coefTutorat) * $coutHoraire);
@@ -411,7 +414,7 @@ class StatsController extends Controller
             $mois = substr($heure->getDateAndTime(), 3, 2);
             $jour = substr($heure->getDateAndTime(), 0, 2);
 
-            //Si la date jalon est dépasé
+            //Si la date jalon est depassee
             if (($mois > $moisLimite) || (($mois == $moisLimite) && ($jour >= $jourLimite))) {
                 $annee++;
             }

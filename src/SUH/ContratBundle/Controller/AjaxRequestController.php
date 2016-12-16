@@ -10,7 +10,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class AjaxRequestController extends Controller
 {    
 
-    
+
+    //ajax pour la selection des annees globale    
     public function refreshListAction(Request $request)
     {
 
@@ -31,6 +32,7 @@ class AjaxRequestController extends Controller
 
     }
 
+    //ajax pour la gestion des annees de la reinscription
     public function refreshListEtuAction(Request $request)
     {
         $session = $this->getRequest()->getSession(); // Get started session

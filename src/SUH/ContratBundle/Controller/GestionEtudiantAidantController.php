@@ -15,6 +15,8 @@ use SUH\ContratBundle\Controller\AffichageController;
 
 class GestionEtudiantAidantController extends Controller
 {
+
+    //liste des etudiants
     public function getListeEtudiants($chaine, $year = null)
     {
 
@@ -148,21 +150,10 @@ class GestionEtudiantAidantController extends Controller
         $etudiantAidant = new EtudiantAidant();
         $controllerAffichage = $this->forward('controller_affichage:getListeEtudiants', array());
 
-        //ENVOI EMAIL
-
-        /*
-        $message = \Swift_Message::newInstance()
-            ->setSubject("SUH - Identifiant de connexion")
-            ->setFrom(array("mthgaume@gmail.com" => "Webmaster"))
-            ->setTo("mthgaume@gmail.com")
-            ->setCharset("utf-8")
-            ->setContentType("text/html")
-            ->setBody($this->renderView('SUHContratBundle:Emails:registration.html.twig'));
-
-        $this->get('mailer')->send($message);
+      
 
 
-       */ $parameters = $em->getRepository('SUHConnexionBundle:Parameters');
+        $parameters = $em->getRepository('SUHConnexionBundle:Parameters');
 
         $annee = $this->get('session')->get('filter');    
 
@@ -228,7 +219,10 @@ class GestionEtudiantAidantController extends Controller
                 $etudiantAidant->addAnnee($anneeListe);
             }
             
-
+            //ENVOI EMAIL A FINIR
+            //envoi le login + mdp de letudiant en clair a son compte mail
+            //sinon inaccessible vu que hash en bdd
+            //se referer au security.xml pour desactiver temporairement le hash
 
             /*
             $emailEtu = $request->request->get('mailInstitutionnel');
@@ -286,6 +280,7 @@ class GestionEtudiantAidantController extends Controller
     public function delEtudiantAidantAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+
         //On recupere les entites
         $etudiantAidant = $em->getRepository('SUHContratBundle:EtudiantAidant');
         $etudiantInformations = $em->getRepository('SUHGestionBundle:EtudiantInformations'); 
@@ -367,6 +362,7 @@ class GestionEtudiantAidantController extends Controller
         
         $etudiant = $etudiantAidantRepo->find($id);
 
+        //on pre-rempli le form avec les donnees de letudiant
         $form = $this->get('form.factory')->create(new EtudiantAidantType, $etudiant);
 
         
@@ -421,6 +417,8 @@ class GestionEtudiantAidantController extends Controller
 
         $user->setPassword($password);
 
+        // + rajouter un nouvel envoi de mail
+
         $em->persist($user);
         $em->flush();
         $request->getSession()->getFlashBag()->add('notice', $pass);
@@ -446,6 +444,7 @@ class GestionEtudiantAidantController extends Controller
 
         if ($request->isMethod('post')){
 
+            // on recuepere lannee selectionnee
             $selectEtuYear = $request->request->get('selectEtu');
 
 
@@ -460,9 +459,14 @@ class GestionEtudiantAidantController extends Controller
                     );
 
                     $arrayAnneeEtudiant = array();
+
+                    //pour tous les etudiants coches
                     foreach ($etudiant->getAnnees() as $uneAnnee){
                         array_push($arrayAnneeEtudiant, $uneAnnee);
                     }
+
+                    //on les enregistre pour lannee selectionnee
+                    //(meme entite, donc pas de duplication)
                     if(!in_array($anneeSelectionne, $arrayAnneeEtudiant)){
 
                         $etudiant->addAnnee($anneeSelectionne);

@@ -22,6 +22,7 @@ class AnneeType extends AbstractType
             ->add('anneeUniversitaire', 'integer')
             ->add('Ajouter',   'submit')
         ;
+        //avant lenvoi, on modifie les donnees pour lenregistrement en base
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function(FormEvent $event) {
             $form = $event->getForm();
             $data = $event->getData();

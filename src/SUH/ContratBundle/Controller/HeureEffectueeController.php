@@ -164,7 +164,7 @@ class HeureEffectueeController extends Controller
             }
         }
 
-
+        //formulaire pre-rempli
         $form = $this->get('form.factory')->create(new HeureEffectueeType, $heureEffectuee);
         $form->add('natureMission', 'choice', array(
             'choices' => $natureMission,

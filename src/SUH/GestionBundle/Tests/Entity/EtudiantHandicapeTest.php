@@ -44,7 +44,6 @@ class EtudiantHandicapeTest extends WebTestCase
         
 
         $this->assertNotNull($this->etudiantHandicape);
-
     }
 
     public function testGetId()
