@@ -104,11 +104,11 @@ class ContratController extends Controller
 
         $form = $this->get('form.factory')->create(new ContratType, $contrat);
 
-        if($contrat->getDateEnvoiDRH() == null){
-           $form->remove('dateEnvoiDRH');
+        if($contrat->getDateEnvoiDRH() != null){
+           $form->add('dateEnvoiDRH');
         }
-        if($contrat->getDateEnvoiEtudiant() == null){
-            $form->remove('dateEnvoiEtudiant');
+        if($contrat->getDateEnvoiEtudiant() != null){
+            $form->add('dateEnvoiEtudiant');
         }
 
 

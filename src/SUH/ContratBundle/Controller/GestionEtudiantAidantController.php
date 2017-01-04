@@ -287,6 +287,7 @@ class GestionEtudiantAidantController extends Controller
         $formation = $em->getRepository('SUHGestionBundle:Formation'); 
         $contrat = $em->getRepository('SUHContratBundle:Contrat');
         $heure = $em->getRepository('SUHContratBundle:HeureEffectuee');
+        $utilisateur = $em->getRepository('SUHConnexionBundle:User');
 
 
 
@@ -308,6 +309,7 @@ class GestionEtudiantAidantController extends Controller
             $idFormation = $formation->find($idEtudiantAidant->getEtudiantFormation());
             $idContrat = $contrat->findByEtudiantAidant($idEtudiantAidant);
             $idHeures = $heure->findByContrat($idContrat);
+            $user = $utilisateur->find($idEtudiantAidant->getUser()->getId());
 
             foreach($idContrat as $contrat)
             {
@@ -322,6 +324,8 @@ class GestionEtudiantAidantController extends Controller
             $em->remove($idEtudiantAidant);
             $em->remove($idEtudiantInformations);
             $em->remove($idFormation);
+            $em->remove($user);
+
             foreach($idHeures as $heure){
                 $em->remove($heure);
             }
