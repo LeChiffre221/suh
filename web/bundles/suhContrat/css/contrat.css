@@ -657,7 +657,6 @@ ul.navbar-nav{
 
 .form-group input:focus , .form-group input:focus::-moz-placeholder{
     border-color: #c9e3f8;
-    color:#fff;
 
     box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(198, 226, 249, 0.6);
     webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(198, 226, 249, 0.6);
